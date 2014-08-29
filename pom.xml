@@ -7,7 +7,7 @@
 
 	<properties>
 		<sourceTarget>1.6</sourceTarget>
-		<mainClass>br.com.sinc.Main</mainClass>
+		<mainClass>br.org.fgp.TelaInicial</mainClass>
 		<projectName>interdisciplinar</projectName>
 	</properties>
 
