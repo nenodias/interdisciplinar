@@ -11,6 +11,15 @@ import org.apache.log4j.Logger;
 import br.org.fgp.annotations.Permissao;
 import br.org.fgp.model.enums.TipoUsuario;
 
+/**
+ * @author nenodias
+ *
+ * Para utilizar o nível de acesso nos atributos que herdam dos JComponent
+ * Trocar os JFrames por FrameControlado
+ * E após o método construtor inicializar todos os componentes, deve se chamar o metodo pronto
+ *  passando o TipoUsuario que o Usuario logado possui 
+ * Os atributos da classe anotados com @Permissao deverão possuir o metodo getNomeDoCampo para retornar o componente
+ */
 public abstract class FrameControlado extends JFrame{
 
 	private static final String LITERAL_GET = "get";

@@ -12,7 +12,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import java.awt.Color;
 
-public class CFuncionario extends JPanel {
+public class CadastroFuncionario extends JPanel {
 	private JTextField txtNome;
 	private JTextField txtEndereco;
 	private JTextField txtCpf;
@@ -21,7 +21,7 @@ public class CFuncionario extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public CFuncionario() {
+	public CadastroFuncionario() {
 		
 		JLabel lblFuncionario = new JLabel("");
 		lblFuncionario.setFont(new Font("Tahoma", Font.PLAIN, 25));

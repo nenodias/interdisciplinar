@@ -1,25 +1,26 @@
 package br.org.fgp.view;
 
-import javax.swing.JPanel;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.JLabel;
 import java.awt.Color;
 import java.awt.Font;
+
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.JButton;
-import javax.swing.DefaultComboBoxModel;
 
-public class CUsuario extends JPanel {
+public class CadastroUsuario extends JPanel {
 	private JTextField txtLogin;
 	private JTextField txtSenha;
 
 	/**
 	 * Create the panel.
 	 */
-	public CUsuario() {
+	public CadastroUsuario() {
 		
 		JLabel lblUsuario = new JLabel("");
 		lblUsuario.setFont(new Font("Tahoma", Font.PLAIN, 25));
