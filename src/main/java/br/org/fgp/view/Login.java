@@ -1,26 +1,30 @@
 package br.org.fgp.view;
 
+import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Font;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JTextField;
-import javax.swing.JLabel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import java.awt.Font;
-import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JButton;
-import java.awt.Color;
-import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.border.EmptyBorder;
 
-public class Login extends JFrame {
+import br.org.fgp.annotations.Permissao;
+import br.org.fgp.model.enums.TipoUsuario;
+import br.org.fgp.view.core.FrameControlado;
 
-	private JPanel contentPane;
-	private JTextField txtUsuario;
-	private JTextField txtSenha;
+public class Login extends FrameControlado {
+
+	protected JPanel contentPane;
+	protected JTextField txtUsuario;
+	
+	@Permissao
+	protected JTextField txtSenha;
 
 	/**
 	 * Launch the application.
@@ -112,4 +116,14 @@ public class Login extends JFrame {
 		);
 		contentPane.setLayout(gl_contentPane);
 	}
+
+	public JTextField getTxtUsuario() {
+		return txtUsuario;
+	}
+
+	public JTextField getTxtSenha() {
+		return txtSenha;
+	}
+
+	
 }

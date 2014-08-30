@@ -1,11 +1,13 @@
 package br.org.fgp.model;
 
+import br.org.fgp.model.enums.TipoUsuario;
+
 public class Usuario {
 
 	public Integer id;
 	public String login;
 	public String senha;
-	public Integer tipo;
+	public TipoUsuario tipo;
 	public Integer idFuncionario;
 	public Funcionario funcionario;
 
@@ -33,11 +35,11 @@ public class Usuario {
 		this.senha = senha;
 	}
 
-	public Integer getTipo() {
+	public TipoUsuario getTipo() {
 		return tipo;
 	}
 
-	public void setTipo(Integer tipo) {
+	public void setTipo(TipoUsuario tipo) {
 		this.tipo = tipo;
 	}
 
