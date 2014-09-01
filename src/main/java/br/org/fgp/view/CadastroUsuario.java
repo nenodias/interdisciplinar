@@ -37,7 +37,7 @@ public class CadastroUsuario extends JPanel {
 		
 		JComboBox cbbTipo = new JComboBox();
 		cbbTipo.setToolTipText("");
-		cbbTipo.setModel(new DefaultComboBoxModel(new String[] {"Administrador", "Funcion\u00E1rio"}));
+		cbbTipo.setModel(new DefaultComboBoxModel(new String[] {"Administrador", "Balconista"}));
 		
 		JLabel lblFuncionrio = new JLabel("Funcion\u00E1rio:");
 		
@@ -51,9 +51,9 @@ public class CadastroUsuario extends JPanel {
 		
 		JButton btnCancelar = new JButton("Cancelar");
 		
-		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel.setForeground(Color.RED);
+		JLabel lblMsg = new JLabel("");
+		lblMsg.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblMsg.setForeground(Color.RED);
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -80,7 +80,7 @@ public class CadastroUsuario extends JPanel {
 											.addComponent(btnCancelar))))
 								.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
 									.addPreferredGap(ComponentPlacement.RELATED, 102, GroupLayout.PREFERRED_SIZE)
-									.addComponent(lblNewLabel)
+									.addComponent(lblMsg)
 									.addGap(46))))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addContainerGap(131, Short.MAX_VALUE)
@@ -115,7 +115,7 @@ public class CadastroUsuario extends JPanel {
 						.addComponent(btnSalvar)
 						.addComponent(btnCancelar))
 					.addGap(18)
-					.addComponent(lblNewLabel)
+					.addComponent(lblMsg)
 					.addContainerGap(17, Short.MAX_VALUE))
 		);
 		setLayout(groupLayout);

@@ -17,6 +17,7 @@ import javax.swing.border.EmptyBorder;
 import br.org.fgp.annotations.Permissao;
 import br.org.fgp.model.enums.TipoUsuario;
 import br.org.fgp.view.core.FrameControlado;
+import javax.swing.JTextPane;
 
 public class Login extends FrameControlado {
 
@@ -74,7 +75,7 @@ public class Login extends FrameControlado {
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addContainerGap(173, Short.MAX_VALUE)
+					.addContainerGap(141, Short.MAX_VALUE)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -112,7 +113,7 @@ public class Login extends FrameControlado {
 					.addComponent(btnLogar)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(lblNewLabel)
-					.addContainerGap(39, Short.MAX_VALUE))
+					.addContainerGap(49, Short.MAX_VALUE))
 		);
 		contentPane.setLayout(gl_contentPane);
 	}

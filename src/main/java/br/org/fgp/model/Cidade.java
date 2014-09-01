@@ -4,7 +4,6 @@ public class Cidade {
 
 	public Integer id;
 	public String descricao;
-	public Integer idEstado;
 	public Estado estado;
 
 	public Integer getId() {
@@ -21,14 +20,6 @@ public class Cidade {
 
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
-	}
-
-	public Integer getIdEstado() {
-		return idEstado;
-	}
-
-	public void setIdEstado(Integer idEstado) {
-		this.idEstado = idEstado;
 	}
 
 	public Estado getEstado() {
