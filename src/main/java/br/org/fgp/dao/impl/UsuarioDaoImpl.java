@@ -2,8 +2,12 @@ package br.org.fgp.dao.impl;
 
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import br.org.fgp.core.Banco;
 import br.org.fgp.dao.UsuarioDao;
 import br.org.fgp.model.Usuario;
 import br.org.fgp.model.enums.TipoUsuario;
@@ -11,6 +15,9 @@ import br.org.fgp.model.enums.TipoUsuario;
 @Repository
 public class UsuarioDaoImpl implements UsuarioDao{
 
+	@Autowired
+	private Banco banco;
+	
 	@Override
 	public Usuario buscarPorId(Integer id) {
 		Usuario usuario = new Usuario();

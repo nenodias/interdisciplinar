@@ -5,7 +5,6 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Locale;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -19,8 +18,6 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import br.org.fgp.annotations.Permissao;
 import br.org.fgp.dao.UsuarioDao;
@@ -34,7 +31,7 @@ public class Login extends FrameControlado {
 	protected JTextField txtUsuario;
 	
 	@Autowired
-	UsuarioDao usuarioDao;
+	private UsuarioDao usuarioDao;
 	
 	@Permissao
 	protected JTextField txtSenha;
