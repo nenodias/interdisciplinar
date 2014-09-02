@@ -5,12 +5,16 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 @Component
 public class Banco {
 
 	private static final String URL_CONNECTION = "jdbc:sqlserver://localhost;instanceName=MSSQLSERVER;databaseName=sistema;user=sa;password=sql";
+	
+	private static final Logger LOGGER = Logger.getLogger(Banco.class);
+	
 	private Statement statement;
 	private Connection connection;
 	private ResultSet resultSet;
@@ -54,17 +58,17 @@ public class Banco {
 						resultSet = statement.executeQuery(sql);
 					}
 				}catch(Exception e){
-					e.printStackTrace();
+					LOGGER.error(e.getMessage(), e);
 				}
 			}
 		}catch(Exception e){
-			e.printStackTrace();
+			LOGGER.error(e.getMessage(), e);
 		}finally{
 			try{
 				statement.close();
 				connection.close();
 			}catch(Exception ex){
-				ex.printStackTrace();
+				LOGGER.error(ex.getMessage(), ex);
 			}
 		}
 	}
