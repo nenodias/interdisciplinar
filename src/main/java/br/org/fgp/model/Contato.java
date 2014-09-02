@@ -5,9 +5,7 @@ public class Contato {
 	public Integer id;
 	public String email;
 	public String nome;
-	public Integer idSetor;
 	public Setor setor;
-	public Integer idFornecedor;
 	public Fornecedor fornecedor;
 
 	public Integer getId() {
@@ -33,29 +31,13 @@ public class Contato {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-
-	public Integer getIdSetor() {
-		return idSetor;
-	}
-
-	public void setIdSetor(Integer idSetor) {
-		this.idSetor = idSetor;
-	}
-
+	
 	public Setor getSetor() {
 		return setor;
 	}
 
 	public void setSetor(Setor setor) {
 		this.setor = setor;
-	}
-
-	public Integer getIdFornecedor() {
-		return idFornecedor;
-	}
-
-	public void setIdFornecedor(Integer idFornecedor) {
-		this.idFornecedor = idFornecedor;
 	}
 
 	public Fornecedor getFornecedor() {

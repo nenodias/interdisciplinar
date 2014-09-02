@@ -8,7 +8,6 @@ public class Fornecedor {
 	public String nomeFantasia;
 	public String razaoSocial;
 	public String enderecoComercial;
-	public Integer idCidade;
 	public Cidade cidade;
 
 	public Integer getId() {
@@ -57,14 +56,6 @@ public class Fornecedor {
 
 	public void setEnderecoComercial(String enderecoComercial) {
 		this.enderecoComercial = enderecoComercial;
-	}
-
-	public Integer getIdCidade() {
-		return idCidade;
-	}
-
-	public void setIdCidade(Integer idCidade) {
-		this.idCidade = idCidade;
 	}
 
 	public Cidade getCidade() {

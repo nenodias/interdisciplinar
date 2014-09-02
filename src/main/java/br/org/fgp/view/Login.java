@@ -24,6 +24,8 @@ import br.org.fgp.dao.UsuarioDao;
 import br.org.fgp.model.Usuario;
 import br.org.fgp.model.enums.TipoUsuario;
 import br.org.fgp.view.core.FrameControlado;
+import java.awt.TextField;
+import javax.swing.JFormattedTextField;
 
 public class Login extends FrameControlado {
 
@@ -94,9 +96,8 @@ public class Login extends FrameControlado {
 									.addComponent(txtSenha, Alignment.LEADING)
 									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 										.addComponent(lblSenha)
-										.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING, false)
-											.addComponent(txtUsuario, Alignment.LEADING)
-											.addComponent(lblBemVindo, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+										.addComponent(lblBemVindo)))
+								.addComponent(txtUsuario))
 							.addGap(130))
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -123,7 +124,7 @@ public class Login extends FrameControlado {
 					.addComponent(btnLogar)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(lblNewLabel)
-					.addContainerGap(49, Short.MAX_VALUE))
+					.addContainerGap(39, Short.MAX_VALUE))
 		);
 		contentPane.setLayout(gl_contentPane);
 		pronto(TipoUsuario.ADMINISTRADOR);
@@ -149,6 +150,4 @@ public class Login extends FrameControlado {
 	public void setUsuarioDao(UsuarioDao usuarioDao) {
 		this.usuarioDao = usuarioDao;
 	}
-
-	
 }
