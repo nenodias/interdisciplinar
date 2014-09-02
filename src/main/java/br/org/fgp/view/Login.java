@@ -3,26 +3,38 @@ package br.org.fgp.view;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Locale;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 import br.org.fgp.annotations.Permissao;
+import br.org.fgp.dao.UsuarioDao;
+import br.org.fgp.model.Usuario;
 import br.org.fgp.model.enums.TipoUsuario;
 import br.org.fgp.view.core.FrameControlado;
-import javax.swing.JTextPane;
 
 public class Login extends FrameControlado {
 
 	protected JPanel contentPane;
 	protected JTextField txtUsuario;
+	
+	@Autowired
+	UsuarioDao usuarioDao;
 	
 	@Permissao
 	protected JTextField txtSenha;
@@ -31,6 +43,7 @@ public class Login extends FrameControlado {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -116,6 +129,16 @@ public class Login extends FrameControlado {
 					.addContainerGap(49, Short.MAX_VALUE))
 		);
 		contentPane.setLayout(gl_contentPane);
+		pronto(TipoUsuario.ADMINISTRADOR);
+		
+		btnLogar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Usuario usuario = usuarioDao.buscarPorId(1);
+				JOptionPane.showMessageDialog(null, "Seja bem-vindo "+usuario.getLogin());
+			}
+		});
 	}
 
 	public JTextField getTxtUsuario() {
@@ -124,6 +147,10 @@ public class Login extends FrameControlado {
 
 	public JTextField getTxtSenha() {
 		return txtSenha;
+	}
+
+	public void setUsuarioDao(UsuarioDao usuarioDao) {
+		this.usuarioDao = usuarioDao;
 	}
 
 	

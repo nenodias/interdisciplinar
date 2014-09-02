@@ -7,8 +7,11 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 
 import br.org.fgp.annotations.Permissao;
+import br.org.fgp.core.ApplicationContextConfig;
 import br.org.fgp.model.enums.TipoUsuario;
 
 /**
@@ -23,6 +26,7 @@ import br.org.fgp.model.enums.TipoUsuario;
 public abstract class FrameControlado extends JFrame{
 
 	private static final String LITERAL_GET = "get";
+	private static final String LITERAL_SET = "set";
 
 	private static final long serialVersionUID = -1660186148473856758L;
 	
@@ -36,22 +40,46 @@ public abstract class FrameControlado extends JFrame{
 		Class<? extends FrameControlado> clazz = this.getClass();
 		Field[] camposDeclarados = clazz.getDeclaredFields();
 		for (Field campo : camposDeclarados) {
-			Permissao permissao = campo.getAnnotation(Permissao.class);
-			if(permissao != null && !permissao.tipo().equals(tipoUsuario)){
-				try {
-					String campoUpperFirstWord = upperFirstWord( campo.getName() );
-					String nomeMetodo = LITERAL_GET.concat(campoUpperFirstWord);
-					Method metodo = clazz.getMethod(nomeMetodo,null);
-					if(metodo != null){
-						Object objeto = metodo.invoke(frame, null);
-						if(objeto instanceof JComponent){
-							JComponent componente = (JComponent)objeto;
-							componente.setEnabled(false);
-						}
-					}
-				} catch (Exception e) {
-					LOGGER.error(e.getMessage(), e);
+			verificaPermissao(tipoUsuario, frame, clazz, campo);
+			verificaInjecao(frame, clazz, campo);
+		}
+	}
+
+	private void verificaInjecao(FrameControlado frame,
+			Class<? extends FrameControlado> clazz, Field campo) {
+		Autowired autowired = campo.getAnnotation(Autowired.class);
+		if(autowired != null){
+			try {
+				ApplicationContext context = ApplicationContextConfig.getContext();
+				String campoUpperFirstWord = upperFirstWord( campo.getName() );
+				String nomeMetodo = LITERAL_SET.concat(campoUpperFirstWord);
+				Method metodo = clazz.getMethod(nomeMetodo,campo.getType());
+				if(metodo != null){
+					Object objeto = metodo.invoke(frame, context.getBean(campo.getType()) );
 				}
+			} catch (Exception e) {
+				LOGGER.error(e.getMessage(), e);
+			}
+		}
+	}
+
+	private void verificaPermissao(TipoUsuario tipoUsuario, FrameControlado frame,
+			Class<? extends FrameControlado> clazz, Field campo) {
+		Permissao permissao = campo.getAnnotation(Permissao.class);
+		if(permissao != null && !permissao.tipo().equals(tipoUsuario)){
+			try {
+				String campoUpperFirstWord = upperFirstWord( campo.getName() );
+				String nomeMetodo = LITERAL_GET.concat(campoUpperFirstWord);
+				Method metodo = clazz.getMethod(nomeMetodo,null);
+				if(metodo != null){
+					Object objeto = metodo.invoke(frame, null);
+					if(objeto instanceof JComponent){
+						JComponent componente = (JComponent)objeto;
+						componente.setEnabled(false);
+					}
+				}
+			} catch (Exception e) {
+				LOGGER.error(e.getMessage(), e);
 			}
 		}
 	}

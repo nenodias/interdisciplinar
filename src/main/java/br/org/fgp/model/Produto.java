@@ -7,13 +7,11 @@ public class Produto {
 	public Integer id;
 	public String nome;
 	public String descricao;
-	public BigDecimal precoUnitario;
+	public BigDecimal precoUnitario; //preco de venda
 	public Integer estoqueMaximo;
 	public Integer estoqueMinimo;
 	public Integer estoqueAtual;
-	public Integer idCategoria;
 	public Categoria categoria;
-	public Integer idMarca;
 	public Marca marca;
 
 	public Integer getId() {
@@ -72,28 +70,12 @@ public class Produto {
 		this.estoqueAtual = estoqueAtual;
 	}
 
-	public Integer getIdCategoria() {
-		return idCategoria;
-	}
-
-	public void setIdCategoria(Integer idCategoria) {
-		this.idCategoria = idCategoria;
-	}
-
 	public Categoria getCategoria() {
 		return categoria;
 	}
 
 	public void setCategoria(Categoria categoria) {
 		this.categoria = categoria;
-	}
-
-	public Integer getIdMarca() {
-		return idMarca;
-	}
-
-	public void setIdMarca(Integer idMarca) {
-		this.idMarca = idMarca;
 	}
 
 	public Marca getMarca() {
