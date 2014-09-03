@@ -61,7 +61,7 @@ public class TelaPrincipal extends JFrame {
 				CadastroProduto cp = new CadastroProduto();
 				frame.getContentPane().setBounds(cp.getBounds());//, y, width, height);
 				frame.getContentPane().add(cp);//, BorderLayout.CENTER);
-				frame.getContentPane().repaint();
+				frame.getContentPane().revalidate();
 				cp.setVisible(true);
 			}
 		});
@@ -74,7 +74,7 @@ public class TelaPrincipal extends JFrame {
 				CadastroFornecedor cf = new CadastroFornecedor();
 				frame.getContentPane().setBounds(cf.getBounds());//, y, width, height);
 				frame.getContentPane().add(cf);//, BorderLayout.CENTER);
-				frame.getContentPane().repaint();
+				frame.getContentPane().revalidate();
 				cf.setVisible(true);
 			}
 		});

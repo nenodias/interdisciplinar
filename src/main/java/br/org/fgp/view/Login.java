@@ -130,9 +130,6 @@ public class Login extends FrameControlado {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
-			   System.out.println(txtSenha.getPassword());
-			    
 			   Usuario usuario = usuarioDao.buscarPorId(1);
 			   
 			    if(txtUsuario.getText().equals(usuario.getLogin()) && String.valueOf(txtSenha.getPassword()).equals(usuario.getSenha()))

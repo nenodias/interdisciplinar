@@ -22,7 +22,7 @@ public class UsuarioDaoImpl implements UsuarioDao{
 	public Usuario buscarPorId(Integer id) {
 		Usuario usuario = new Usuario();
 		usuario.setId(1);
-		usuario.setLogin("nenodias");
+		usuario.setLogin("itl");
 		usuario.setSenha("123");
 		usuario.setTipo(TipoUsuario.ADMINISTRADOR);
 		usuario.setFuncionario(null);

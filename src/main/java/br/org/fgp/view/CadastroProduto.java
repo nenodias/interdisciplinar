@@ -16,6 +16,8 @@ import javax.swing.JButton;
 
 import java.awt.Color;
 import javax.swing.UIManager;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class CadastroProduto extends JPanel {
 	private JTextField txtNome;
@@ -85,12 +87,24 @@ public class CadastroProduto extends JPanel {
 		txtCategoria.setColumns(10);
 		
 		JButton btnPesquisaCategoria = new JButton("...");
+		btnPesquisaCategoria.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				PesquisaCategoria pesquisaCategoria = new PesquisaCategoria();
+				pesquisaCategoria.setVisible(true);
+			}
+		});
 		
 		txtMarca = new JTextField();
 		txtMarca.setEnabled(false);
 		txtMarca.setColumns(10);
 		
 		JButton btnPesquisaMarca = new JButton("...");
+		btnPesquisaMarca.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				PesquisaMarca pesquisaMarca = new PesquisaMarca();
+				pesquisaMarca.setVisible(true);
+			}
+		});
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
