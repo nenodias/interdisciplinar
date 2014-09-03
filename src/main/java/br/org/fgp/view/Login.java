@@ -26,17 +26,18 @@ import br.org.fgp.model.enums.TipoUsuario;
 import br.org.fgp.view.core.FrameControlado;
 import java.awt.TextField;
 import javax.swing.JFormattedTextField;
+import javax.swing.JPasswordField;
 
 public class Login extends FrameControlado {
 
 	protected JPanel contentPane;
 	protected JTextField txtUsuario;
+	static Login frame = new Login();
+	JLabel lblMsg = new JLabel("");
 	
 	@Autowired
 	private UsuarioDao usuarioDao;
-	
-	@Permissao
-	protected JTextField txtSenha;
+	private JPasswordField txtSenha;
 
 	/**
 	 * Launch the application.
@@ -45,9 +46,8 @@ public class Login extends FrameControlado {
 		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				try {
-					Login frame = new Login();
-					frame.setVisible(true);
+				try {					
+					frame.setVisible(true);		
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -59,7 +59,7 @@ public class Login extends FrameControlado {
 	 * Create the frame.
 	 */
 	public Login() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -70,9 +70,8 @@ public class Login extends FrameControlado {
 		
 		txtUsuario = new JTextField();
 		txtUsuario.setColumns(10);
-		
-		txtSenha = new JTextField();
-		txtSenha.setColumns(10);
+		txtSenha = new JPasswordField();
+		txtSenha.setEchoChar('#');
 		
 		JLabel lblUsurio = new JLabel("Usu\u00E1rio:");
 		
@@ -80,9 +79,12 @@ public class Login extends FrameControlado {
 		
 		JButton btnLogar = new JButton("Logar");
 		
-		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel.setForeground(Color.RED);
+		
+		lblMsg.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblMsg.setForeground(Color.RED);
+		
+		
+		
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -90,20 +92,18 @@ public class Login extends FrameControlado {
 					.addContainerGap(141, Short.MAX_VALUE)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
 								.addComponent(lblUsurio)
-								.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING, false)
-									.addComponent(txtSenha, Alignment.LEADING)
-									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-										.addComponent(lblSenha)
-										.addComponent(lblBemVindo)))
+								.addComponent(lblSenha)
+								.addComponent(lblBemVindo, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(txtSenha)
 								.addComponent(txtUsuario))
 							.addGap(130))
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 								.addGroup(gl_contentPane.createSequentialGroup()
 									.addGap(10)
-									.addComponent(lblNewLabel))
+									.addComponent(lblMsg))
 								.addComponent(btnLogar, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE))
 							.addGap(161))))
 		);
@@ -123,7 +123,7 @@ public class Login extends FrameControlado {
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(btnLogar)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(lblNewLabel)
+					.addComponent(lblMsg)
 					.addContainerGap(39, Short.MAX_VALUE))
 		);
 		contentPane.setLayout(gl_contentPane);
@@ -133,8 +133,22 @@ public class Login extends FrameControlado {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Usuario usuario = usuarioDao.buscarPorId(1);
-				JOptionPane.showMessageDialog(null, "Seja bem-vindo "+usuario.getLogin());
+				
+			    TelaPrincipal tp= new TelaPrincipal();
+			   System.out.println(txtSenha.getPassword());
+			    
+			   Usuario usuario = usuarioDao.buscarPorId(1);
+			   
+			    if(txtUsuario.getText().equals(usuario.getLogin()) && String.valueOf(txtSenha.getPassword()).equals(usuario.getSenha()))
+			    {
+					JOptionPane.showMessageDialog(null, "Seja bem-vindo "+usuario.getLogin());
+			    	tp.setVisible(true);
+			    	frame.setVisible(false);
+			    }			
+			    else
+			    {
+			    	lblMsg.setText("falha");			    	
+			    }
 			}
 		});
 	}

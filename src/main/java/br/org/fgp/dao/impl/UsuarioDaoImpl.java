@@ -23,7 +23,7 @@ public class UsuarioDaoImpl implements UsuarioDao{
 		Usuario usuario = new Usuario();
 		usuario.setId(1);
 		usuario.setLogin("nenodias");
-		usuario.setSenha("******");
+		usuario.setSenha("123");
 		usuario.setTipo(TipoUsuario.ADMINISTRADOR);
 		usuario.setFuncionario(null);
 		return usuario;

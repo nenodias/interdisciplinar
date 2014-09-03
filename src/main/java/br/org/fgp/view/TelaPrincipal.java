@@ -13,10 +13,18 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JSeparator;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.GridLayout;
+import net.miginfocom.swing.MigLayout;
+
 public class TelaPrincipal extends JFrame {
 
 	private JPanel contentPane;
-
+	private JFrame frame;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -24,8 +32,8 @@ public class TelaPrincipal extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					TelaPrincipal frame = new TelaPrincipal();
-					frame.setVisible(true);
+					TelaPrincipal tp = new TelaPrincipal();
+					tp.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -37,11 +45,12 @@ public class TelaPrincipal extends JFrame {
 	 * Create the frame.
 	 */
 	public TelaPrincipal() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 758, 532);
+		frame = new JFrame();
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setBounds(100, 100, 756, 586);
 		
 		JMenuBar menuBar = new JMenuBar();
-		setJMenuBar(menuBar);
+		frame.setJMenuBar(menuBar);
 		
 		JMenu mnCadastrar = new JMenu("Consultar");
 		menuBar.add(mnCadastrar);
@@ -53,9 +62,29 @@ public class TelaPrincipal extends JFrame {
 		mnProdutos.add(mntmEstoque);
 		
 		JMenuItem mntmProdutos = new JMenuItem("Produtos");
+		mntmProdutos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				frame.getContentPane().removeAll();
+				CadastroProduto cp = new CadastroProduto();
+				frame.getContentPane().setBounds(cp.getBounds());//, y, width, height);
+				frame.getContentPane().add(cp);//, BorderLayout.CENTER);
+				frame.getContentPane().revalidate();
+				cp.setVisible(true);
+			}
+		});
 		mnCadastrar.add(mntmProdutos);
-		
+				
 		JMenuItem mntmFornecedor = new JMenuItem("Fornecedores");
+		mntmFornecedor.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				frame.getContentPane().removeAll();
+				CadastroFornecedor cf = new CadastroFornecedor();
+				frame.getContentPane().setBounds(cf.getBounds());//, y, width, height);
+				frame.getContentPane().add(cf);//, BorderLayout.CENTER);
+				frame.getContentPane().revalidate();
+				cf.setVisible(true);
+			}
+		});
 		mnCadastrar.add(mntmFornecedor);
 		
 		JMenuItem mntmMarca = new JMenuItem("Marcas");
