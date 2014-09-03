@@ -1,19 +1,17 @@
 package br.org.fgp.view;
 
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-import com.jgoodies.forms.factories.DefaultComponentFactory;
+import java.awt.Color;
+import java.awt.Font;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.SwingConstants;
-import javax.swing.JList;
-import javax.swing.JTable;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.JTextField;
-import javax.swing.JComboBox;
-import java.awt.Font;
 import javax.swing.JButton;
-import java.awt.Color;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.LayoutStyle.ComponentPlacement;
 
 public class CadastroFornecedor extends JPanel {
 	private JTable tbContato;

@@ -1,24 +1,17 @@
 package br.org.fgp.view;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import javax.swing.JSeparator;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.GridLayout;
-import net.miginfocom.swing.MigLayout;
+
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 
 public class TelaPrincipal extends JFrame {
 
@@ -68,7 +61,7 @@ public class TelaPrincipal extends JFrame {
 				CadastroProduto cp = new CadastroProduto();
 				frame.getContentPane().setBounds(cp.getBounds());//, y, width, height);
 				frame.getContentPane().add(cp);//, BorderLayout.CENTER);
-				frame.getContentPane().revalidate();
+				frame.getContentPane().repaint();
 				cp.setVisible(true);
 			}
 		});
@@ -81,7 +74,7 @@ public class TelaPrincipal extends JFrame {
 				CadastroFornecedor cf = new CadastroFornecedor();
 				frame.getContentPane().setBounds(cf.getBounds());//, y, width, height);
 				frame.getContentPane().add(cf);//, BorderLayout.CENTER);
-				frame.getContentPane().revalidate();
+				frame.getContentPane().repaint();
 				cf.setVisible(true);
 			}
 		});

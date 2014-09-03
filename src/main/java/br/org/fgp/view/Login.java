@@ -13,20 +13,17 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import br.org.fgp.annotations.Permissao;
 import br.org.fgp.dao.UsuarioDao;
 import br.org.fgp.model.Usuario;
 import br.org.fgp.model.enums.TipoUsuario;
 import br.org.fgp.view.core.FrameControlado;
-import java.awt.TextField;
-import javax.swing.JFormattedTextField;
-import javax.swing.JPasswordField;
 
 public class Login extends FrameControlado {
 
@@ -134,7 +131,6 @@ public class Login extends FrameControlado {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-			    TelaPrincipal tp= new TelaPrincipal();
 			   System.out.println(txtSenha.getPassword());
 			    
 			   Usuario usuario = usuarioDao.buscarPorId(1);
@@ -142,8 +138,8 @@ public class Login extends FrameControlado {
 			    if(txtUsuario.getText().equals(usuario.getLogin()) && String.valueOf(txtSenha.getPassword()).equals(usuario.getSenha()))
 			    {
 					JOptionPane.showMessageDialog(null, "Seja bem-vindo "+usuario.getLogin());
-			    	tp.setVisible(true);
-			    	frame.setVisible(false);
+					TelaPrincipal.main(null);
+					frame.dispose();
 			    }			
 			    else
 			    {
