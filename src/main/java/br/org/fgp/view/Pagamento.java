@@ -1,24 +1,22 @@
 package br.org.fgp.view;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
+import java.awt.FlowLayout;
 
-import javax.swing.JFrame;
+import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
 import java.awt.Font;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.JRadioButton;
-import javax.swing.JTextField;
-import javax.swing.JButton;
 import java.awt.Color;
+import javax.swing.JTextField;
 
-public class Pagamento extends JFrame {
+public class Pagamento extends JDialog {
 
-	private JPanel contentPane;
+	private final JPanel contentPanel = new JPanel();
 	private JTextField textField;
 	private JTextField textField_1;
 	private JTextField textField_2;
@@ -27,127 +25,133 @@ public class Pagamento extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Pagamento frame = new Pagamento();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+		try {
+			Pagamento dialog = new Pagamento();
+			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			dialog.setVisible(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
-	 * Create the frame.
+	 * Create the dialog.
 	 */
 	public Pagamento() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 451, 539);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
+		this.setModal(true);
+		setBounds(100, 100, 447, 535);
+		getContentPane().setLayout(new BorderLayout());
+		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		
-		JLabel lblPagamento = new JLabel("Pagamento");
-		lblPagamento.setFont(new Font("Dialog", Font.PLAIN, 30));
+		JLabel label = new JLabel("Total:");
+		label.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		
-		JLabel lblFormaDePagamento = new JLabel("Dinheiro:");
-		lblFormaDePagamento.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		JLabel label_1 = new JLabel("New label");
+		label_1.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		
+		JLabel label_2 = new JLabel("Pagamento");
+		label_2.setFont(new Font("Dialog", Font.PLAIN, 30));
+		
+		JButton button = new JButton("Cancelar");
+		button.setFont(new Font("Tahoma", Font.BOLD, 11));
+		button.setBackground(new Color(255, 69, 0));
+		
+		JButton button_1 = new JButton("Concluir Pagamento");
+		button_1.setFont(new Font("Tahoma", Font.BOLD, 12));
+		button_1.setBackground(Color.GREEN);
+		
+		JLabel label_3 = new JLabel("Troco:");
+		label_3.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		
+		JLabel label_4 = new JLabel("Dinheiro:");
+		label_4.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		
+		JLabel label_5 = new JLabel("Desconto:");
+		label_5.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		
 		textField = new JTextField();
+		textField.setFont(new Font("Tahoma", Font.BOLD, 15));
 		textField.setColumns(10);
 		
-		JLabel lblDesconto = new JLabel("Desconto:");
-		lblDesconto.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		
 		textField_1 = new JTextField();
+		textField_1.setFont(new Font("Tahoma", Font.BOLD, 15));
 		textField_1.setColumns(10);
 		
-		JLabel lblTroco = new JLabel("Troco:");
-		lblTroco.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		
 		textField_2 = new JTextField();
+		textField_2.setFont(new Font("Tahoma", Font.BOLD, 15));
 		textField_2.setColumns(10);
-		
-		JLabel lblTotal = new JLabel("Total:");
-		lblTotal.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		
-		JLabel lblNewLabel = new JLabel("New label");
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		
-		JButton btnConcluirPagamento = new JButton("Concluir Pagamento");
-		btnConcluirPagamento.setFont(new Font("Tahoma", Font.BOLD, 12));
-		btnConcluirPagamento.setBackground(Color.GREEN);
-		
-		JButton btnCancelar = new JButton("Cancelar");
-		btnCancelar.setFont(new Font("Tahoma", Font.BOLD, 11));
-		btnCancelar.setBackground(Color.RED);
-		GroupLayout gl_contentPane = new GroupLayout(contentPane);
-		gl_contentPane.setHorizontalGroup(
-			gl_contentPane.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(115)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(lblTotal)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(lblNewLabel))
-						.addComponent(lblPagamento))
-					.addContainerGap(159, Short.MAX_VALUE))
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(83)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-								.addComponent(lblFormaDePagamento)
-								.addComponent(lblDesconto))
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
-								.addGroup(gl_contentPane.createSequentialGroup()
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(textField, GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE))
-								.addGroup(gl_contentPane.createSequentialGroup()
-									.addGap(4)
-									.addComponent(textField_1))))
-						.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
-							.addComponent(btnCancelar)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(btnConcluirPagamento))
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGap(24)
-							.addComponent(lblTroco)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, 124, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)))
-					.addGap(128))
+		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
+		gl_contentPanel.setHorizontalGroup(
+			gl_contentPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(Alignment.TRAILING, gl_contentPanel.createSequentialGroup()
+					.addContainerGap(94, Short.MAX_VALUE)
+					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addGap(32)
+							.addComponent(label_2, GroupLayout.PREFERRED_SIZE, 151, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addGap(32)
+							.addComponent(label, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE)
+							.addGap(6)
+							.addComponent(label_1, GroupLayout.PREFERRED_SIZE, 88, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addGap(10)
+							.addComponent(label_4, GroupLayout.PREFERRED_SIZE, 56, GroupLayout.PREFERRED_SIZE)
+							.addGap(10)
+							.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, 166, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addComponent(label_5, GroupLayout.PREFERRED_SIZE, 66, GroupLayout.PREFERRED_SIZE)
+							.addGap(10)
+							.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, 166, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addGap(23)
+							.addComponent(label_3, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE)
+							.addGap(10)
+							.addComponent(textField, GroupLayout.PREFERRED_SIZE, 166, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addComponent(button, GroupLayout.PREFERRED_SIZE, 81, GroupLayout.PREFERRED_SIZE)
+							.addGap(6)
+							.addComponent(button_1, GroupLayout.PREFERRED_SIZE, 155, GroupLayout.PREFERRED_SIZE)))
+					.addGap(85))
 		);
-		gl_contentPane.setVerticalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(lblPagamento)
+		gl_contentPanel.setVerticalGroup(
+			gl_contentPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_contentPanel.createSequentialGroup()
+					.addGap(23)
+					.addComponent(label_2, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
 					.addGap(18)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblTotal)
-						.addComponent(lblNewLabel))
+					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addGap(5)
+							.addComponent(label, GroupLayout.PREFERRED_SIZE, 19, GroupLayout.PREFERRED_SIZE))
+						.addComponent(label_1, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
 					.addGap(18)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblFormaDePagamento)
-						.addComponent(textField, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
+					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addGap(5)
+							.addComponent(label_4, GroupLayout.PREFERRED_SIZE, 19, GroupLayout.PREFERRED_SIZE))
+						.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
 					.addGap(9)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblDesconto, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE))
-					.addGap(10)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblTroco)
+					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addGap(5)
+							.addComponent(label_5, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE))
 						.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnCancelar, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnConcluirPagamento, GroupLayout.DEFAULT_SIZE, 44, Short.MAX_VALUE))
-					.addContainerGap(212, Short.MAX_VALUE))
+					.addGap(10)
+					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addGap(6)
+							.addComponent(label_3, GroupLayout.PREFERRED_SIZE, 19, GroupLayout.PREFERRED_SIZE))
+						.addComponent(textField, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE))
+					.addGap(11)
+					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addGap(3)
+							.addComponent(button, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE))
+						.addComponent(button_1, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(196, Short.MAX_VALUE))
 		);
-		contentPane.setLayout(gl_contentPane);
+		contentPanel.setLayout(gl_contentPanel);
 	}
 }

@@ -1,5 +1,6 @@
 package br.org.fgp.view;
 
+
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,11 +13,12 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import java.awt.BorderLayout;
 
 public class TelaPrincipal extends JFrame {
 
 	private JPanel contentPane;
-	private JFrame frame;
+	private JFrame frmInterdisciplinar;
 	
 	/**
 	 * Launch the application.
@@ -26,7 +28,7 @@ public class TelaPrincipal extends JFrame {
 			public void run() {
 				try {
 					TelaPrincipal tp = new TelaPrincipal();
-					tp.frame.setVisible(true);
+					tp.frmInterdisciplinar.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -38,12 +40,14 @@ public class TelaPrincipal extends JFrame {
 	 * Create the frame.
 	 */
 	public TelaPrincipal() {
-		frame = new JFrame();
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setBounds(100, 100, 756, 586);
+		frmInterdisciplinar = new JFrame();
+		frmInterdisciplinar.setTitle("Interdisciplinar -");
+		frmInterdisciplinar.setLocationRelativeTo(null);
+		frmInterdisciplinar.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmInterdisciplinar.setBounds(100, 100, 800, 600);
 		
 		JMenuBar menuBar = new JMenuBar();
-		frame.setJMenuBar(menuBar);
+		frmInterdisciplinar.setJMenuBar(menuBar);
 		
 		JMenu mnCadastrar = new JMenu("Consultar");
 		menuBar.add(mnCadastrar);
@@ -57,11 +61,11 @@ public class TelaPrincipal extends JFrame {
 		JMenuItem mntmProdutos = new JMenuItem("Produtos");
 		mntmProdutos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				frame.getContentPane().removeAll();
+				frmInterdisciplinar.getContentPane().removeAll();
 				CadastroProduto cp = new CadastroProduto();
-				frame.getContentPane().setBounds(cp.getBounds());//, y, width, height);
-				frame.getContentPane().add(cp);//, BorderLayout.CENTER);
-				frame.getContentPane().revalidate();
+				frmInterdisciplinar.getContentPane().setBounds(cp.getBounds());//, y, width, height);
+				frmInterdisciplinar.getContentPane().add(cp);//, BorderLayout.CENTER);
+				frmInterdisciplinar.getContentPane().revalidate();
 				cp.setVisible(true);
 			}
 		});
@@ -70,11 +74,11 @@ public class TelaPrincipal extends JFrame {
 		JMenuItem mntmFornecedor = new JMenuItem("Fornecedores");
 		mntmFornecedor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				frame.getContentPane().removeAll();
+				frmInterdisciplinar.getContentPane().removeAll();
 				CadastroFornecedor cf = new CadastroFornecedor();
-				frame.getContentPane().setBounds(cf.getBounds());//, y, width, height);
-				frame.getContentPane().add(cf);//, BorderLayout.CENTER);
-				frame.getContentPane().revalidate();
+				frmInterdisciplinar.getContentPane().setBounds(cf.getBounds());//, y, width, height);
+				frmInterdisciplinar.getContentPane().add(cf);//, BorderLayout.CENTER);
+				frmInterdisciplinar.getContentPane().revalidate();
 				cf.setVisible(true);
 			}
 		});
@@ -88,6 +92,23 @@ public class TelaPrincipal extends JFrame {
 		
 		JMenuItem mntmUsurio = new JMenuItem("Usu\u00E1rios");
 		mnCadastrar.add(mntmUsurio);
+		
+		JMenu mnVenda = new JMenu("Venda");
+		menuBar.add(mnVenda);
+		
+		JMenuItem mntmRealizarVenda = new JMenuItem("Realizar Venda");
+		mntmRealizarVenda.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0){
+				frmInterdisciplinar.getContentPane().removeAll();
+				Venda venda = new Venda();
+				frmInterdisciplinar.getContentPane().setBounds(venda.getBounds());//, y, width, height);
+				frmInterdisciplinar.getContentPane().add(venda);//, BorderLayout.CENTER);
+				frmInterdisciplinar.getContentPane().revalidate();
+				venda.setVisible(true);
+			}			
+		});
+		mnVenda.add(mntmRealizarVenda);
+		frmInterdisciplinar.getContentPane().setLayout(new BorderLayout(0, 0));
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
