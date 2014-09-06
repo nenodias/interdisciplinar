@@ -6,7 +6,7 @@
 	<version>1.0.0</version>
 
 	<properties>
-		<sourceTarget>1.6</sourceTarget>
+		<sourceTarget>1.7<sourceTarget>
 		<mainClass>br.org.fgp.view.Login</mainClass>
 		<projectName>interdisciplinar</projectName>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

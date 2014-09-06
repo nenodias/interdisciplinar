@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -18,6 +19,8 @@ public class UsuarioDaoImpl implements UsuarioDao{
 	@Autowired
 	private Banco banco;
 	
+	private static final Logger LOGGER = Logger.getLogger(UsuarioDaoImpl.class);
+	
 	@Override
 	public Usuario buscarPorId(Integer id) {
 		Usuario usuario = new Usuario();
@@ -26,6 +29,7 @@ public class UsuarioDaoImpl implements UsuarioDao{
 		usuario.setSenha("123");
 		usuario.setTipo(TipoUsuario.ADMINISTRADOR);
 		usuario.setFuncionario(null);
+		LOGGER.info(" USUÀRIO DE DROGAS LOGADO");
 		return usuario;
 	}
 
