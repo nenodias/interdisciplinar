@@ -2,6 +2,7 @@ package br.org.fgp.view.core;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.List;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -12,6 +13,7 @@ import org.springframework.context.ApplicationContext;
 
 import br.org.fgp.annotations.Permissao;
 import br.org.fgp.core.ApplicationContextConfig;
+import br.org.fgp.core.InterdisciplinarReflectionUtil;
 import br.org.fgp.model.enums.TipoUsuario;
 
 /**
@@ -25,9 +27,6 @@ import br.org.fgp.model.enums.TipoUsuario;
  */
 public abstract class FrameControlado extends JFrame{
 
-	private static final String LITERAL_GET = "get";
-	private static final String LITERAL_SET = "set";
-
 	private static final long serialVersionUID = -1660186148473856758L;
 	
 	private static final Logger LOGGER = Logger.getLogger(FrameControlado.class); 
@@ -38,61 +37,46 @@ public abstract class FrameControlado extends JFrame{
 	
 	private void pronto(TipoUsuario tipoUsuario, FrameControlado frame){
 		Class<? extends FrameControlado> clazz = this.getClass();
-		Field[] camposDeclarados = clazz.getDeclaredFields();
-		for (Field campo : camposDeclarados) {
-			verificaPermissao(tipoUsuario, frame, clazz, campo);
-			verificaInjecao(frame, clazz, campo);
-		}
+		verificaPermissao(tipoUsuario, frame, clazz);
+		verificaInjecao(frame, clazz);
 	}
 
 	private void verificaInjecao(FrameControlado frame,
-			Class<? extends FrameControlado> clazz, Field campo) {
-		Autowired autowired = campo.getAnnotation(Autowired.class);
-		if(autowired != null){
-			try {
-				ApplicationContext context = ApplicationContextConfig.getContext();
-				String campoUpperFirstWord = upperFirstWord( campo.getName() );
-				String nomeMetodo = LITERAL_SET.concat(campoUpperFirstWord);
-				Method metodo = clazz.getMethod(nomeMetodo,campo.getType());
-				if(metodo != null){
-					Object objeto = metodo.invoke(frame, context.getBean(campo.getType()) );
+			Class<? extends FrameControlado> clazz) {
+		List<Field> atributoComAnotacao = InterdisciplinarReflectionUtil.getAtributoComAnotacao(clazz, Autowired.class);
+		for (Field campo : atributoComAnotacao) {
+			ApplicationContext context = ApplicationContextConfig.getContext();
+			Method metodoSetter = InterdisciplinarReflectionUtil.getMetodoSet(clazz, campo);
+			try{
+				if(metodoSetter != null){
+					metodoSetter.invoke(frame, context.getBean(campo.getType()) );
 				}
-			} catch (Exception e) {
+			}catch(Exception e){
 				LOGGER.error(e.getMessage(), e);
 			}
 		}
 	}
 
-	private void verificaPermissao(TipoUsuario tipoUsuario, FrameControlado frame,
-			Class<? extends FrameControlado> clazz, Field campo) {
-		Permissao permissao = campo.getAnnotation(Permissao.class);
-		if(permissao != null && !permissao.tipo().equals(tipoUsuario)){
-			try {
-				String campoUpperFirstWord = upperFirstWord( campo.getName() );
-				String nomeMetodo = LITERAL_GET.concat(campoUpperFirstWord);
-				Method metodo = clazz.getMethod(nomeMetodo,null);
-				if(metodo != null){
-					Object objeto = metodo.invoke(frame, null);
-					if(objeto instanceof JComponent){
-						JComponent componente = (JComponent)objeto;
-						componente.setEnabled(false);
+	private void verificaPermissao(TipoUsuario tipoUsuario,
+			FrameControlado frame, Class<? extends FrameControlado> clazz) {
+		 List<Field> atributoComAnotacao = InterdisciplinarReflectionUtil.getAtributoComAnotacao(clazz, Permissao.class);
+		for (Field campo : atributoComAnotacao) {
+			Permissao permissao = campo.getAnnotation(Permissao.class);
+			if(permissao != null && !permissao.tipo().equals(tipoUsuario)){
+				Method metodoGet = InterdisciplinarReflectionUtil.getMetodoGet(clazz, campo);
+				try{
+					if(metodoGet != null){
+						Object objeto = metodoGet.invoke(frame, null);
+						if(objeto != null && objeto instanceof JComponent){
+							JComponent componente = (JComponent)objeto;
+							componente.setEnabled(false);
+						}
 					}
+				}catch(Exception e){
+					LOGGER.error(e.getMessage(), e);
 				}
-			} catch (Exception e) {
-				LOGGER.error(e.getMessage(), e);
 			}
 		}
 	}
 	
-	private String upperFirstWord(String texto){
-		String retorno = null;
-		if(texto != null && texto.length() > 1){
-			String resto = texto.substring(1);
-			String first = texto.substring(0, 1);
-			retorno = first.toUpperCase().concat(resto);
-		}else if(texto != null && texto.length() == 1){
-			retorno = texto.toUpperCase();
-		}
-		return retorno;
-	}
 }

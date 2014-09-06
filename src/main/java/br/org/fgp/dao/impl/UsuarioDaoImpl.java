@@ -1,23 +1,15 @@
 package br.org.fgp.dao.impl;
 
-import java.util.List;
-
-import javax.swing.JOptionPane;
-
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import br.org.fgp.core.Banco;
+import br.org.fgp.core.dao.impl.GenericoDaoImpl;
 import br.org.fgp.dao.UsuarioDao;
 import br.org.fgp.model.Usuario;
 import br.org.fgp.model.enums.TipoUsuario;
 
 @Repository
-public class UsuarioDaoImpl implements UsuarioDao{
-
-	@Autowired
-	private Banco banco;
+public class UsuarioDaoImpl extends GenericoDaoImpl<Usuario, Integer> implements UsuarioDao{	
 	
 	private static final Logger LOGGER = Logger.getLogger(UsuarioDaoImpl.class);
 	
@@ -31,24 +23,6 @@ public class UsuarioDaoImpl implements UsuarioDao{
 		usuario.setFuncionario(null);
 		LOGGER.info(" USUÀRIO DE DROGAS LOGADO");
 		return usuario;
-	}
-
-	@Override
-	public List<Usuario> buscarTodos() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void deletar(Integer id) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void salvar(Usuario entidade) {
-		// TODO Auto-generated method stub
-		
 	}
 
 }
