@@ -90,7 +90,7 @@ CREATE TABLE [dbo].[PRODUTO](
 	[EstoqueMaximo] [int] NULL,
 	[EstoqueAtual] [int] NOT NULL,
 	[CodigoDeBarra] [nvarchar] (20) NOT NULL,
-	[Lucro] [double] (10,2) NOT NULL,
+	[Lucro] [decimal] (10,2) NOT NULL,
  CONSTRAINT [PK_PRODUTO] PRIMARY KEY CLUSTERED 
 (
 	[IdProduto] ASC
