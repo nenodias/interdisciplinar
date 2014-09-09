@@ -36,6 +36,7 @@ public class Login extends FrameControlado {
 	@Autowired
 	private UsuarioDao usuarioDao;
 	private JPasswordField txtSenha;
+	private JButton btnLogar;
 
 	/**
 	 * Launch the application.
@@ -75,7 +76,9 @@ public class Login extends FrameControlado {
 
 		JLabel lblSenha = new JLabel("Senha:");
 
-		JButton btnLogar = new JButton("Logar");
+		btnLogar = new JButton("Logar");
+		//Definindo o enter dispara o botão para Logar
+		rootPane.setDefaultButton(btnLogar);
 
 		lblMsg.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblMsg.setForeground(Color.RED);
