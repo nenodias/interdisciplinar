@@ -1,18 +1,23 @@
 package br.org.fgp.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "TELEFONE")
 public class Telefone {
 
-	public Integer Id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "IdTelefone")
 	public String Telefone;
+	
+	@Column(name = "Tipo")
 	public Integer Tipo;
-
-	public Integer getId() {
-		return Id;
-	}
-
-	public void setId(Integer id) {
-		Id = id;
-	}
 
 	public String getTelefone() {
 		return Telefone;

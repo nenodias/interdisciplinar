@@ -9,12 +9,15 @@ http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 	<context:annotation-config /> 
 	<context:component-scan base-package="br.org.fgp" />
 	
+	<context:property-placeholder location="classpath:hibernate.properties"/>
+
+	
 	 <!-- Bean com a configuração do Banco de Dados -->
     <bean id="dataSource" destroy-method="close" class="org.apache.commons.dbcp.BasicDataSource">
-        <property name="driverClassName" value="${jdbc.driverClassName}"/>
-        <property name="url" value="${jdbc.databaseurl}"/>
-        <property name="username" value="${jdbc.username}"/>
-        <property name="password" value="${jdbc.password}"/>
+        <property name="driverClassName" value="${hibernate.connection.driver_class}"/>
+        <property name="url" value="${hibernate.connection.url}"/>
+        <property name="username" value="${hibernate.connection.username}"/>
+        <property name="password" value="${hibernate.connection.password}"/>
     </bean>
 	
     <!-- Criando o SessionFactory a partir do dataSource -->
@@ -22,7 +25,7 @@ http://www.springframework.org/schema/context/spring-context-3.0.xsd">
         <property name="dataSource" ref="dataSource" />
         <property name="hibernateProperties">
             <props>
-                <prop key="hibernate.dialect">${jdbc.dialect}</prop>
+                <prop key="hibernate.dialect">${hibernate.connection.dialect}</prop>
                 <prop key="hibernate.show_sql">true</prop>
             </props>
         </property>
@@ -37,12 +40,4 @@ http://www.springframework.org/schema/context/spring-context-3.0.xsd">
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>	
 	
-    <!-- Bean para carregar as Propriedades para a aplicação -->
-    <bean id="properties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
-        <property name="locations">
-            <list>
-                <value>/properties/jdbc.properties</value>
-            </list>
-        </property>
-    </bean>
 </beans>

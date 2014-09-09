@@ -1,13 +1,40 @@
 package br.org.fgp.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "FORNECEDOR")
 public class Fornecedor {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "IdFornecedor")
 	public Integer id;
+	
+	@Column(name = "Cnpj")
 	public String cnpj;
+	
+	@Column(name = "IncricaoEstadual")
 	public String inscricaoEstadual;
+	
+	@Column(name = "NomeFantasia")
 	public String nomeFantasia;
+	
+	@Column(name = "RazaoSocial")
 	public String razaoSocial;
+	
+	@Column(name = "EnderecoComenrcial")
 	public String enderecoComercial;
+	
+	@ManyToOne
+	@JoinColumn(name = "IdCidade")
 	public Cidade cidade;
 
 	public Integer getId() {
