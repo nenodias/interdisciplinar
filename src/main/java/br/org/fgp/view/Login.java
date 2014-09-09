@@ -20,6 +20,7 @@ import javax.swing.border.EmptyBorder;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import br.org.fgp.core.SecurityUtils;
 import br.org.fgp.dao.UsuarioDao;
 import br.org.fgp.model.Usuario;
 import br.org.fgp.model.enums.TipoUsuario;
@@ -31,7 +32,7 @@ public class Login extends FrameControlado {
 	protected JTextField txtUsuario;
 	static Login frame = new Login();
 	JLabel lblMsg = new JLabel("");
-	
+
 	@Autowired
 	private UsuarioDao usuarioDao;
 	private JPasswordField txtSenha;
@@ -40,11 +41,11 @@ public class Login extends FrameControlado {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		
+
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				try {					
-					frame.setVisible(true);		
+				try {
+					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -61,87 +62,121 @@ public class Login extends FrameControlado {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		
+
 		JLabel lblBemVindo = new JLabel("Bem Vindo!");
 		lblBemVindo.setFont(new Font("Tahoma", Font.PLAIN, 30));
-		
+
 		txtUsuario = new JTextField();
 		txtUsuario.setColumns(10);
 		txtSenha = new JPasswordField();
 		txtSenha.setEchoChar('#');
-		
+
 		JLabel lblUsurio = new JLabel("Usu\u00E1rio:");
-		
+
 		JLabel lblSenha = new JLabel("Senha:");
-		
+
 		JButton btnLogar = new JButton("Logar");
-		
-		
+
 		lblMsg.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblMsg.setForeground(Color.RED);
-		
-		
-		
+
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
-		gl_contentPane.setHorizontalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addContainerGap(141, Short.MAX_VALUE)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
-								.addComponent(lblUsurio)
-								.addComponent(lblSenha)
-								.addComponent(lblBemVindo, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(txtSenha)
-								.addComponent(txtUsuario))
-							.addGap(130))
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_contentPane.createSequentialGroup()
-									.addGap(10)
-									.addComponent(lblMsg))
-								.addComponent(btnLogar, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE))
-							.addGap(161))))
-		);
-		gl_contentPane.setVerticalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(38)
-					.addComponent(lblBemVindo)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(lblUsurio)
-					.addGap(7)
-					.addComponent(txtUsuario, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(lblSenha)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(txtSenha, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(btnLogar)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(lblMsg)
-					.addContainerGap(39, Short.MAX_VALUE))
-		);
+		gl_contentPane
+				.setHorizontalGroup(gl_contentPane
+						.createParallelGroup(Alignment.LEADING)
+						.addGroup(
+								gl_contentPane
+										.createSequentialGroup()
+										.addContainerGap(141, Short.MAX_VALUE)
+										.addGroup(
+												gl_contentPane
+														.createParallelGroup(
+																Alignment.TRAILING)
+														.addGroup(
+																gl_contentPane
+																		.createSequentialGroup()
+																		.addGroup(
+																				gl_contentPane
+																						.createParallelGroup(
+																								Alignment.LEADING,
+																								false)
+																						.addComponent(
+																								lblUsurio)
+																						.addComponent(
+																								lblSenha)
+																						.addComponent(
+																								lblBemVindo,
+																								GroupLayout.DEFAULT_SIZE,
+																								GroupLayout.DEFAULT_SIZE,
+																								Short.MAX_VALUE)
+																						.addComponent(
+																								txtSenha)
+																						.addComponent(
+																								txtUsuario))
+																		.addGap(130))
+														.addGroup(
+																gl_contentPane
+																		.createSequentialGroup()
+																		.addGroup(
+																				gl_contentPane
+																						.createParallelGroup(
+																								Alignment.LEADING)
+																						.addGroup(
+																								gl_contentPane
+																										.createSequentialGroup()
+																										.addGap(10)
+																										.addComponent(
+																												lblMsg))
+																						.addComponent(
+																								btnLogar,
+																								GroupLayout.PREFERRED_SIZE,
+																								90,
+																								GroupLayout.PREFERRED_SIZE))
+																		.addGap(161)))));
+		gl_contentPane.setVerticalGroup(gl_contentPane.createParallelGroup(
+				Alignment.LEADING).addGroup(
+				gl_contentPane
+						.createSequentialGroup()
+						.addGap(38)
+						.addComponent(lblBemVindo)
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addComponent(lblUsurio)
+						.addGap(7)
+						.addComponent(txtUsuario, GroupLayout.PREFERRED_SIZE,
+								GroupLayout.DEFAULT_SIZE,
+								GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(ComponentPlacement.UNRELATED)
+						.addComponent(lblSenha)
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addComponent(txtSenha, GroupLayout.PREFERRED_SIZE,
+								GroupLayout.DEFAULT_SIZE,
+								GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addComponent(btnLogar)
+						.addPreferredGap(ComponentPlacement.UNRELATED)
+						.addComponent(lblMsg)
+						.addContainerGap(39, Short.MAX_VALUE)));
 		contentPane.setLayout(gl_contentPane);
 		pronto(TipoUsuario.ADMINISTRADOR);
-		
+
 		btnLogar.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-			   Usuario usuario = usuarioDao.buscarPorId(1);
-			   
-			    if(txtUsuario.getText().equals(usuario.getLogin()) && String.valueOf(txtSenha.getPassword()).equals(usuario.getSenha()))
-			    {
-					JOptionPane.showMessageDialog(null, "Seja bem-vindo "+usuario.getLogin());
+				logar();
+			}
+
+			private void logar() {
+				Usuario usuario = usuarioDao.buscarPorLogin(txtUsuario.getText());
+				String senhaCriptografada = SecurityUtils.encrypt( String.valueOf( txtSenha.getPassword() ) ) ;
+				if (usuario.getSenha().equals(senhaCriptografada ) ) {
+					JOptionPane.showMessageDialog(null, "Seja bem-vindo "
+							+ usuario.getLogin());
 					TelaPrincipal.main(null);
 					frame.dispose();
-			    }			
-			    else
-			    {
-			    	lblMsg.setText("falha");			    	
-			    }
+				} else {
+					lblMsg.setText("falha");
+				}
 			}
 		});
 	}
