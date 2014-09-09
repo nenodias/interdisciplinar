@@ -24,7 +24,7 @@ import br.org.fgp.core.dao.GenericoDao;
 public abstract class GenericoDaoImpl<T, PK> implements GenericoDao<T, PK> {
 
     @Autowired
-    SessionFactory sessionFactory;
+    private SessionFactory sessionFactory;
     
     @SuppressWarnings({ "unchecked", "rawtypes" })
 	private Class<T> clazz = (Class) ((java.lang.reflect.ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];

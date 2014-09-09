@@ -9,7 +9,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Type;
+
 import br.org.fgp.model.enums.TipoUsuario;
+import br.org.fgp.model.usertype.TipoUsuarioUserType;
 
 @Entity
 @Table(name = "USUARIO")
@@ -27,6 +30,7 @@ public class Usuario {
 	public String senha;
 	
 	@Column(name = "IdTipo")
+	@Type(type = TipoUsuarioUserType.USER_TYPE)
 	public TipoUsuario tipo;
 	
 	@ManyToOne
