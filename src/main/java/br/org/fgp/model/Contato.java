@@ -27,10 +27,6 @@ public class Contato {
 	@ManyToOne
 	@JoinColumn(name = "IdSetor")
 	public Setor setor;
-	
-	@ManyToOne
-	@JoinColumn(name = "IdFornecedor")
-	public Fornecedor fornecedor;
 
 	public Integer getId() {
 		return id;
@@ -62,14 +58,6 @@ public class Contato {
 
 	public void setSetor(Setor setor) {
 		this.setor = setor;
-	}
-
-	public Fornecedor getFornecedor() {
-		return fornecedor;
-	}
-
-	public void setFornecedor(Fornecedor fornecedor) {
-		this.fornecedor = fornecedor;
 	}
 
 }
