@@ -7,6 +7,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import br.org.fgp.view.annotations.Coluna;
+
 @Entity
 @Table(name = "MARCA")
 public class Marca {

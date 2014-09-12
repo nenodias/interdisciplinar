@@ -18,6 +18,8 @@ import br.org.fgp.view.annotations.DescricaoComponente;
 
 public class JBusca <T, PK> extends JPanel {
 	
+	private static final long serialVersionUID = -314039162074460134L;
+
 	private static final Logger LOGGER = Logger.getLogger(JBusca.class);
 	
 	private JTextField descricaoComponente;

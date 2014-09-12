@@ -93,13 +93,6 @@
 	    (object Class "Funcionário"
 		quid       	"538CF81A03B6"
 		stereotype 	"Actor")
-	    (object Class "NewClass2"
-		quid       	"54123C940232")
-	    (object Class "Fornecedor"
-		quid       	"54123C9C036D"
-		class_attributes 	(list class_attribute_list
-		    (object ClassAttribute "name"
-			quid       	"54123CA401F6")))
 	    (object UseCase "Cadastrar produto"
 		quid       	"538CF78501EB")
 	    (object UseCase "Realizar venda"
@@ -667,16 +660,7 @@
 				quidu      	"54123C6400F2"
 				client     	@25
 				supplier   	@13
-				line_style 	0)))))
-	    (object ClassDiagram "Class"
-		quid       	"54123C860148"
-		title      	"Class"
-		zoom       	100
-		max_height 	28350
-		max_width  	21600
-		origin_x   	0
-		origin_y   	0
-		items      	(list diagram_item_list))))
+				line_style 	0)))))))
     root_category 	(object Class_Category "Logical View"
 	quid       	"538CF70500F1"
 	exportControl 	"Public"
