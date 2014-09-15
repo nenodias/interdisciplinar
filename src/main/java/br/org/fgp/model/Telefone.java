@@ -14,6 +14,9 @@ public class Telefone {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "IdTelefone")
+	private Integer codigo;
+	
+	@Column(name = "Telefone")
 	public String Telefone;
 	
 	@Column(name = "Tipo")
