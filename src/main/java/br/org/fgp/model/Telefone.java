@@ -14,13 +14,21 @@ public class Telefone {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "IdTelefone")
-	private Integer codigo;
+	private Integer id;
 	
 	@Column(name = "Telefone")
 	public String Telefone;
 	
 	@Column(name = "Tipo")
 	public Integer Tipo;
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
 	public String getTelefone() {
 		return Telefone;
