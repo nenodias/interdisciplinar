@@ -100,7 +100,13 @@ public class JBusca <T, PK> extends JPanel {
 	public GenericoDao<T, PK> getDaoGenerico() {
 		return daoGenerico;
 	}
-
+	
+	@Override
+	public void setEnabled(boolean enabled) {
+		codigoComponente.setEnabled(enabled);
+		botao.setEnabled(enabled);
+	}
+	
 	public void setDaoGenerico(GenericoDao<T, PK> daoGenerico) {
 		this.daoGenerico = daoGenerico;
 	}
