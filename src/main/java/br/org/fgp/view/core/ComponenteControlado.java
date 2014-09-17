@@ -5,7 +5,6 @@ import java.lang.reflect.Method;
 import java.util.List;
 
 import javax.swing.JComponent;
-import javax.swing.JFrame;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,24 +24,27 @@ import br.org.fgp.model.enums.TipoUsuario;
  *  passando o TipoUsuario que o Usuario logado possui 
  * Os atributos da classe anotados com @Permissao deverão possuir o metodo getNomeDoCampo para retornar o componente
  */
-public abstract class FrameControlado extends JFrame{
+public class ComponenteControlado<T>{
 
 	private static final long serialVersionUID = -1660186148473856758L;
 	
-	private static final Logger LOGGER = Logger.getLogger(FrameControlado.class); 
+	private static final Logger LOGGER = Logger.getLogger(ComponenteControlado.class);
+	
+	private final Class clazz;
+	
+	private final T frame;
+	
+	public ComponenteControlado(final T objeto) {
+		clazz = objeto.getClass();
+		frame = objeto;
+	}
 	
 	public void pronto(TipoUsuario tipoUsuario){
-		pronto(tipoUsuario,this);
-	}
-	
-	private void pronto(TipoUsuario tipoUsuario, FrameControlado frame){
-		Class<? extends FrameControlado> clazz = this.getClass();
 		verificaPermissao(tipoUsuario, frame, clazz);
-		verificaInjecao(frame, clazz);
+		verificaInjecao(clazz);
 	}
 
-	private void verificaInjecao(FrameControlado frame,
-			Class<? extends FrameControlado> clazz) {
+	private void verificaInjecao(Class clazz) {
 		List<Field> atributoComAnotacao = InterdisciplinarReflectionUtil.getAtributoComAnotacao(clazz, Autowired.class);
 		for (Field campo : atributoComAnotacao) {
 			ApplicationContext context = ApplicationContextConfig.getContext();
@@ -58,7 +60,7 @@ public abstract class FrameControlado extends JFrame{
 	}
 
 	private void verificaPermissao(TipoUsuario tipoUsuario,
-			FrameControlado frame, Class<? extends FrameControlado> clazz) {
+			T frame, Class clazz) {
 		 List<Field> atributoComAnotacao = InterdisciplinarReflectionUtil.getAtributoComAnotacao(clazz, Permissao.class);
 		for (Field campo : atributoComAnotacao) {
 			Permissao permissao = campo.getAnnotation(Permissao.class);

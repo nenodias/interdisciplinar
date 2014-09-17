@@ -1,15 +1,15 @@
 package br.org.fgp.view;
 
-import javax.swing.JPanel;
+import java.awt.Color;
+import java.awt.Font;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.JLabel;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.JComboBox;
-import javax.swing.JTextField;
 import javax.swing.JButton;
-import java.awt.Font;
-import java.awt.Color;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.LayoutStyle.ComponentPlacement;
 
 public class CadastroEntradaProduto extends JPanel {
 	private JTextField txtFornecedor;

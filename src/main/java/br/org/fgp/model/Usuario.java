@@ -21,21 +21,21 @@ public class Usuario {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "IdUsuario")
-	public Integer id;
+	private Integer id;
 	
 	@Column(name = "Login")
-	public String login;
+	private String login;
 	
 	@Column(name = "Senha")
-	public String senha;
+	private String senha;
 	
 	@Column(name = "IdTipo")
 	@Type(type = TipoUsuarioUserType.USER_TYPE)
-	public TipoUsuario tipo;
+	private TipoUsuario tipo;
 	
 	@ManyToOne
 	@JoinColumn(name = "IdFuncionario")
-	public Funcionario funcionario;
+	private Funcionario funcionario;
 
 	public Integer getId() {
 		return id;

@@ -1,10 +1,12 @@
 package br.org.fgp.view;
 
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -24,9 +26,9 @@ import br.org.fgp.core.SecurityUtils;
 import br.org.fgp.dao.UsuarioDao;
 import br.org.fgp.model.Usuario;
 import br.org.fgp.model.enums.TipoUsuario;
-import br.org.fgp.view.core.FrameControlado;
+import br.org.fgp.view.core.ComponenteControlado;
 
-public class Login extends FrameControlado {
+public class Login extends JFrame {
 
 	protected JPanel contentPane;
 	protected JTextField txtUsuario;
@@ -35,15 +37,13 @@ public class Login extends FrameControlado {
 
 	@Autowired
 	private UsuarioDao usuarioDao;
+	
 	private JPasswordField txtSenha;
 	private JButton btnLogar;
+	private static Future<?> threadLogin;
 
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
-
-		EventQueue.invokeLater(new Runnable() {
+		Runnable run = new Runnable() {
 			public void run() {
 				try {
 					frame.setVisible(true);
@@ -51,12 +51,11 @@ public class Login extends FrameControlado {
 					e.printStackTrace();
 				}
 			}
-		});
+		};
+		ExecutorService executadorServico = Executors.newSingleThreadExecutor();
+		threadLogin = executadorServico.submit(run);
 	}
 
-	/**
-	 * Create the frame.
-	 */
 	public Login() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
@@ -160,7 +159,8 @@ public class Login extends FrameControlado {
 						.addComponent(lblMsg)
 						.addContainerGap(39, Short.MAX_VALUE)));
 		contentPane.setLayout(gl_contentPane);
-		pronto(TipoUsuario.ADMINISTRADOR);
+		ComponenteControlado<Login> controleAcesso = new ComponenteControlado<Login>(this); 
+		controleAcesso.pronto(TipoUsuario.ADMINISTRADOR);
 
 		btnLogar.addActionListener(new ActionListener() {
 
@@ -175,8 +175,9 @@ public class Login extends FrameControlado {
 				if (usuario.getSenha().equals(senhaCriptografada ) ) {
 					JOptionPane.showMessageDialog(null, "Seja bem-vindo "
 							+ usuario.getLogin());
-					TelaPrincipal.main(null);
+					TelaPrincipal.main(usuario);
 					frame.dispose();
+					threadLogin.cancel(true);
 				} else {
 					lblMsg.setText("falha");
 				}

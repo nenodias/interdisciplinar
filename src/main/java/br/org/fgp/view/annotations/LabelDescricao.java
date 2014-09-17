@@ -8,5 +8,5 @@ import java.lang.annotation.Target;
 
 @Target(FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface DescricaoComponente {
+public @interface LabelDescricao {
 }

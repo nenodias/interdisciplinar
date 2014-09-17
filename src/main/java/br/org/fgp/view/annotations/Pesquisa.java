@@ -7,7 +7,7 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Coluna {
+public @interface Pesquisa {
 	int posicao();
 
 	String nome();

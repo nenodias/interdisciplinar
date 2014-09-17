@@ -1,6 +1,7 @@
 package br.org.fgp.view;
 
 
+import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,21 +14,24 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import java.awt.BorderLayout;
+
+import br.org.fgp.model.Usuario;
 
 public class TelaPrincipal extends JFrame {
 
+	private Usuario usuarioLogado;
+	
 	private JPanel contentPane;
 	private JFrame frmInterdisciplinar;
 	
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	public static void main(final Usuario usuario) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					TelaPrincipal tp = new TelaPrincipal();
+					TelaPrincipal tp = new TelaPrincipal(usuario);
 					tp.frmInterdisciplinar.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -39,7 +43,8 @@ public class TelaPrincipal extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public TelaPrincipal() {
+	public TelaPrincipal(Usuario usuario) {
+		usuarioLogado = usuario;
 		frmInterdisciplinar = new JFrame();
 		frmInterdisciplinar.setTitle("Interdisciplinar -");
 		frmInterdisciplinar.setLocationRelativeTo(null);
@@ -59,29 +64,9 @@ public class TelaPrincipal extends JFrame {
 		mnProdutos.add(mntmEstoque);
 		
 		JMenuItem mntmProdutos = new JMenuItem("Produtos");
-		mntmProdutos.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				frmInterdisciplinar.getContentPane().removeAll();
-				CadastroProduto cp = new CadastroProduto();
-				frmInterdisciplinar.getContentPane().setBounds(cp.getBounds());//, y, width, height);
-				frmInterdisciplinar.getContentPane().add(cp);//, BorderLayout.CENTER);
-				frmInterdisciplinar.getContentPane().revalidate();
-				cp.setVisible(true);
-			}
-		});
 		mnCadastrar.add(mntmProdutos);
 				
 		JMenuItem mntmFornecedor = new JMenuItem("Fornecedores");
-		mntmFornecedor.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				frmInterdisciplinar.getContentPane().removeAll();
-				CadastroFornecedor cf = new CadastroFornecedor();
-				frmInterdisciplinar.getContentPane().setBounds(cf.getBounds());//, y, width, height);
-				frmInterdisciplinar.getContentPane().add(cf);//, BorderLayout.CENTER);
-				frmInterdisciplinar.getContentPane().revalidate();
-				cf.setVisible(true);
-			}
-		});
 		mnCadastrar.add(mntmFornecedor);
 		
 		JMenuItem mntmMarca = new JMenuItem("Marcas");
@@ -97,16 +82,6 @@ public class TelaPrincipal extends JFrame {
 		menuBar.add(mnVenda);
 		
 		JMenuItem mntmRealizarVenda = new JMenuItem("Realizar Venda");
-		mntmRealizarVenda.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent arg0){
-				frmInterdisciplinar.getContentPane().removeAll();
-				Venda venda = new Venda();
-				frmInterdisciplinar.getContentPane().setBounds(venda.getBounds());//, y, width, height);
-				frmInterdisciplinar.getContentPane().add(venda);//, BorderLayout.CENTER);
-				frmInterdisciplinar.getContentPane().revalidate();
-				venda.setVisible(true);
-			}			
-		});
 		mnVenda.add(mntmRealizarVenda);
 		frmInterdisciplinar.getContentPane().setLayout(new BorderLayout(0, 0));
 		contentPane = new JPanel();
@@ -122,5 +97,36 @@ public class TelaPrincipal extends JFrame {
 				.addGap(0, 484, Short.MAX_VALUE)
 		);
 		contentPane.setLayout(gl_contentPane);
+		
+		mntmProdutos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				CadastroProduto cp = new CadastroProduto(usuarioLogado.getTipo());
+				frmInterdisciplinar.getContentPane().removeAll();
+				frmInterdisciplinar.getContentPane().setBounds(cp.getBounds());//, y, width, height);
+				frmInterdisciplinar.getContentPane().add(cp);//, BorderLayout.CENTER);
+				frmInterdisciplinar.getContentPane().revalidate();
+				cp.setVisible(true);
+			}
+		});
+		mntmFornecedor.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				frmInterdisciplinar.getContentPane().removeAll();
+				CadastroFornecedor cf = new CadastroFornecedor();
+				frmInterdisciplinar.getContentPane().setBounds(cf.getBounds());//, y, width, height);
+				frmInterdisciplinar.getContentPane().add(cf);//, BorderLayout.CENTER);
+				frmInterdisciplinar.getContentPane().revalidate();
+				cf.setVisible(true);
+			}
+		});
+		mntmRealizarVenda.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0){
+				frmInterdisciplinar.getContentPane().removeAll();
+				Venda venda = new Venda();
+				frmInterdisciplinar.getContentPane().setBounds(venda.getBounds());//, y, width, height);
+				frmInterdisciplinar.getContentPane().add(venda);//, BorderLayout.CENTER);
+				frmInterdisciplinar.getContentPane().revalidate();
+				venda.setVisible(true);
+			}			
+		});
 	}
 }

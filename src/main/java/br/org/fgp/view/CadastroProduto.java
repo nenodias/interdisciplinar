@@ -1,32 +1,37 @@
 package br.org.fgp.view;
 
-import javax.swing.JPanel;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.JLabel;
-
+import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import javax.swing.JFrame;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
-import javax.swing.JComboBox;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.JButton;
-
-import java.awt.Color;
 import javax.swing.UIManager;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import br.org.fgp.dao.MarcaDao;
+import br.org.fgp.model.Marca;
+import br.org.fgp.model.enums.TipoUsuario;
+import br.org.fgp.view.core.ComponenteControlado;
+import br.org.fgp.view.core.JBusca;
 
 public class CadastroProduto extends JPanel {
+	
+	@Autowired
+	private MarcaDao marcaDao;
+	
 	private JTextField txtNome;
 	private JTextField txtPrecoVenda;
 	private JTextField txtEstoqueAtual;
 	private JTextField txtEstoqueMinimo;
 	private JTextField txtEstoqueMaximo;
 	private JTextField txtCategoria;
-	private JTextField txtMarca;
 	private JTextField txtPrecoCusto;
 	private JTextField txtLucro;
 	private JTextField textField;
@@ -34,7 +39,7 @@ public class CadastroProduto extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public CadastroProduto() {
+	public CadastroProduto(TipoUsuario tipoUsuario) {
 		setBackground(UIManager.getColor("Button.background"));
 		
 		JLabel lblProduto = new JLabel("Produto");
@@ -110,20 +115,6 @@ public class CadastroProduto extends JPanel {
 			}
 		});
 		
-		txtMarca = new JTextField();
-		txtMarca.setBounds(176, 285, 103, 20);
-		txtMarca.setEnabled(false);
-		txtMarca.setColumns(10);
-		
-		JButton btnPesquisaMarca = new JButton("...");
-		btnPesquisaMarca.setBounds(285, 284, 31, 23);
-		btnPesquisaMarca.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				PesquisaMarca pesquisaMarca = new PesquisaMarca();
-				pesquisaMarca.setVisible(true);
-			}
-		});
-		
 		JLabel lblPreoDeCusto = new JLabel("Preço de custo:");
 		lblPreoDeCusto.setBounds(298, 350, 92, 14);
 		
@@ -142,9 +133,7 @@ public class CadastroProduto extends JPanel {
 		add(lblMsg);
 		add(lblProduto);
 		add(lblMarca);
-		add(txtMarca);
 		add(txtCategoria);
-		add(btnPesquisaMarca);
 		add(btnPesquisaCategoria);
 		add(lblLucro);
 		add(txtLucro);
@@ -186,6 +175,19 @@ public class CadastroProduto extends JPanel {
 		textField.setBounds(394, 256, 199, 20);
 		add(textField);
 		textField.setColumns(10);
-
+		
+		JBusca busca = new JBusca<Marca, Integer>();
+		busca.setBounds(176, 282, 297, 35);
+		add(busca);
+		
+		ComponenteControlado<CadastroProduto> controleAcesso = new ComponenteControlado<CadastroProduto>(this); 
+		controleAcesso.pronto(tipoUsuario);
+		busca.setDaoGenerico(marcaDao);
 	}
+
+	public void setMarcaDao(MarcaDao marcaDao) {
+		this.marcaDao = marcaDao;
+	}
+	
+	
 }
