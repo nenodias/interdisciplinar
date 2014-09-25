@@ -1,22 +1,8 @@
 package br.org.fgp.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-@Entity
-@Table(name = "SETOR")
 public class Setor {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "IdSetor")
 	public Integer id;
-	
-	@Column(name = "Setor")
 	public String setor;
 
 	public Integer getId() {

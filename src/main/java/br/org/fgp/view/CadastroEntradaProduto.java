@@ -1,15 +1,15 @@
 package br.org.fgp.view;
 
-import java.awt.Color;
-import java.awt.Font;
-
+import javax.swing.JPanel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.JComboBox;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import java.awt.Font;
+import java.awt.Color;
 
 public class CadastroEntradaProduto extends JPanel {
 	private JTextField txtFornecedor;
@@ -66,8 +66,12 @@ public class CadastroEntradaProduto extends JPanel {
 		lblNewLabel.setForeground(Color.RED);
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
+			groupLayout.createParallelGroup(Alignment.TRAILING)
+				.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(lblEntradaDeProdutos)
+					.addContainerGap(21, Short.MAX_VALUE))
+				.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
 					.addGap(30)
 					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
 						.addComponent(lblPreo)
@@ -78,43 +82,39 @@ public class CadastroEntradaProduto extends JPanel {
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(lblEntradaDeProdutos)
+							.addComponent(lblNewLabel)
 							.addContainerGap())
 						.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 							.addGroup(groupLayout.createSequentialGroup()
-								.addComponent(lblNewLabel)
+								.addComponent(btnSalvar)
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addComponent(btnCancelar)
 								.addContainerGap())
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 								.addGroup(groupLayout.createSequentialGroup()
-									.addComponent(btnSalvar)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(btnCancelar)
-									.addContainerGap())
-								.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-									.addGroup(groupLayout.createSequentialGroup()
+									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 										.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-											.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-												.addGroup(groupLayout.createSequentialGroup()
-													.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-														.addGroup(groupLayout.createSequentialGroup()
-															.addComponent(lblFuncionario)
-															.addPreferredGap(ComponentPlacement.UNRELATED, 216, Short.MAX_VALUE))
-														.addComponent(txtProduto, GroupLayout.DEFAULT_SIZE, 271, Short.MAX_VALUE)
-														.addComponent(txtFornecedor, GroupLayout.DEFAULT_SIZE, 271, Short.MAX_VALUE))
-													.addGap(6)
-													.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-														.addComponent(btnPesquisaFornecedor, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 17, GroupLayout.PREFERRED_SIZE)
-														.addComponent(btnPesquisaProduto, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 17, GroupLayout.PREFERRED_SIZE)))
-												.addGroup(groupLayout.createSequentialGroup()
-													.addComponent(lblData)
-													.addPreferredGap(ComponentPlacement.RELATED, 246, GroupLayout.PREFERRED_SIZE)))
 											.addGroup(groupLayout.createSequentialGroup()
-												.addComponent(txtQuantidade, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-												.addPreferredGap(ComponentPlacement.RELATED, 208, GroupLayout.PREFERRED_SIZE)))
-										.addGap(60))
-									.addGroup(groupLayout.createSequentialGroup()
-										.addComponent(txtPreco, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-										.addContainerGap()))))))
+												.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+													.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
+														.addComponent(lblFuncionario)
+														.addPreferredGap(ComponentPlacement.UNRELATED, 69, Short.MAX_VALUE))
+													.addComponent(txtProduto, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)
+													.addComponent(txtFornecedor, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 124, GroupLayout.PREFERRED_SIZE))
+												.addGap(6)
+												.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+													.addComponent(btnPesquisaFornecedor, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 17, GroupLayout.PREFERRED_SIZE)
+													.addComponent(btnPesquisaProduto, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 17, GroupLayout.PREFERRED_SIZE)))
+											.addGroup(groupLayout.createSequentialGroup()
+												.addComponent(lblData)
+												.addPreferredGap(ComponentPlacement.RELATED, 99, GroupLayout.PREFERRED_SIZE)))
+										.addGroup(groupLayout.createSequentialGroup()
+											.addComponent(txtQuantidade, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+											.addPreferredGap(ComponentPlacement.RELATED, 61, GroupLayout.PREFERRED_SIZE)))
+									.addGap(60))
+								.addGroup(groupLayout.createSequentialGroup()
+									.addComponent(txtPreco, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+									.addContainerGap())))))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -151,7 +151,7 @@ public class CadastroEntradaProduto extends JPanel {
 						.addComponent(btnCancelar))
 					.addGap(18)
 					.addComponent(lblNewLabel)
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+					.addContainerGap(56, Short.MAX_VALUE))
 		);
 		setLayout(groupLayout);
 
