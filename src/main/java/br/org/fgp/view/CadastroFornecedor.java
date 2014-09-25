@@ -2,6 +2,8 @@ package br.org.fgp.view;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -13,6 +15,13 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import br.org.fgp.dao.FornecedorDao;
+import br.org.fgp.model.Fornecedor;
+import br.org.fgp.model.enums.TipoUsuario;
+import br.org.fgp.view.core.ComponenteControlado;
+
 public class CadastroFornecedor extends JPanel {
 	private JTable tbContato;
 	private JTextField txtNomeFantasia;
@@ -22,6 +31,9 @@ public class CadastroFornecedor extends JPanel {
 	private JTextField txtEndereco;
 	private JTextField txtNumero;
 
+	@Autowired
+	private FornecedorDao fornecedorDao;
+	
 	/**
 	 * Create the panel.
 	 */
@@ -73,6 +85,7 @@ public class CadastroFornecedor extends JPanel {
 		lblFornecedor.setFont(new Font("Tahoma", Font.PLAIN, 30));
 		
 		JButton btnSalvar = new JButton("Salvar");
+		
 		
 		JButton btnCancelar = new JButton("Cancelar");
 		
@@ -175,6 +188,24 @@ public class CadastroFornecedor extends JPanel {
 					.addContainerGap(49, Short.MAX_VALUE))
 		);
 		setLayout(groupLayout);
+		
+		ComponenteControlado<CadastroFornecedor> controleAcesso = new ComponenteControlado<CadastroFornecedor>(this); 
+		controleAcesso.pronto(TipoUsuario.ADMINISTRADOR);
+		
+		btnSalvar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//////////////////////////////////////s
+				Fornecedor fornecedor = new Fornecedor();
+				fornecedor.setCnpj(txtCnpj.getText());
+				fornecedor.setEnderecoComercial(txtEndereco.getText());
+				fornecedor.setInscricaoEstadual(txtInscricaoEstadual.getText());
+				fornecedor.setNomeFantasia(txtNomeFantasia.getText());
+				fornecedor.setRazaoSocial(txtRazaoSocial.getText());
+				//fornecedor.setCidade
+				fornecedorDao.salvar(fornecedor);
+				
+			}
+		});
 
 	}
 }

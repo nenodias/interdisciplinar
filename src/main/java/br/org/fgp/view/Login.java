@@ -179,7 +179,7 @@ public class Login extends JFrame {
 					frame.dispose();
 					threadLogin.cancel(true);
 				} else {
-					lblMsg.setText("falha");
+					lblMsg.setText("Usuário ou senha inválido.");
 				}
 			}
 		});

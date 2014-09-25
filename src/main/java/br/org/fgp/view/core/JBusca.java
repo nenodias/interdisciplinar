@@ -52,8 +52,11 @@ public class JBusca <T, PK> extends JPanel {
 					String codigoTxt = codigoComponente.getText();
 					if(StringUtils.isNotEmpty(codigoTxt)&& StringUtils.isNotBlank(codigoTxt)){
 						try{
-							PK codigoConvertido = (PK) daoGenerico.getPKClass().cast(codigoTxt);
-							T retorno = daoGenerico.buscarPorId( codigoConvertido );
+							T retorno = null;
+							if(Integer.class.equals( daoGenerico.getPKClass() ) ) {
+							PK codigoConvertido = (PK) ( daoGenerico.getPKClass().cast(Integer.parseInt(codigoTxt)));
+							retorno = daoGenerico.buscarPorId( codigoConvertido );
+							}
 							if(retorno != null){
 								Class classe = daoGenerico.getObjectClass();
 								List<Field> campos = InterdisciplinarReflectionUtil.getAtributoComAnotacao(classe, LabelDescricao.class);
