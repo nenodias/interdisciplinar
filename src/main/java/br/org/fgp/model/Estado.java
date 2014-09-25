@@ -1,10 +1,30 @@
 package br.org.fgp.model;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "ESTADO")
 public class Estado {
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "IdEstado")
 	public Integer id;
+	
+	@Column(name = "Estado")
 	public String estado;
-	public Integer idPais;
+	
+	@ManyToOne
+	@JoinColumn(name = "IdPais")
 	public Pais pais;
+	
 	public Integer getId() {
 		return id;
 	}
@@ -16,12 +36,6 @@ public class Estado {
 	}
 	public void setEstado(String estado) {
 		this.estado = estado;
-	}
-	public Integer getIdPais() {
-		return idPais;
-	}
-	public void setIdPais(Integer idPais) {
-		this.idPais = idPais;
 	}
 	public Pais getPais() {
 		return pais;

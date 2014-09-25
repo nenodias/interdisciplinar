@@ -1,14 +1,32 @@
 package br.org.fgp.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "CONTATO")
 public class Contato {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "IdContato")
 	public Integer id;
+	
+	@Column(name = "Email")
 	public String email;
+	
+	@Column(name = "Nome")
 	public String nome;
-	public Integer idSetor;
+	
+	@ManyToOne
+	@JoinColumn(name = "IdSetor")
 	public Setor setor;
-	public Integer idFornecedor;
-	public Fornecedor fornecedor;
 
 	public Integer getId() {
 		return id;
@@ -33,37 +51,13 @@ public class Contato {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-
-	public Integer getIdSetor() {
-		return idSetor;
-	}
-
-	public void setIdSetor(Integer idSetor) {
-		this.idSetor = idSetor;
-	}
-
+	
 	public Setor getSetor() {
 		return setor;
 	}
 
 	public void setSetor(Setor setor) {
 		this.setor = setor;
-	}
-
-	public Integer getIdFornecedor() {
-		return idFornecedor;
-	}
-
-	public void setIdFornecedor(Integer idFornecedor) {
-		this.idFornecedor = idFornecedor;
-	}
-
-	public Fornecedor getFornecedor() {
-		return fornecedor;
-	}
-
-	public void setFornecedor(Fornecedor fornecedor) {
-		this.fornecedor = fornecedor;
 	}
 
 }

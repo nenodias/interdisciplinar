@@ -2,16 +2,48 @@ package br.org.fgp.model;
 
 import java.math.BigDecimal;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "PRODUTO")
 public class Produto {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "IdProduto")
 	public Integer id;
+	
+	@Column(name = "Nome")
 	public String nome;
+	
+	@Column(name = "Descricao")
 	public String descricao;
+	
+	@Column(name = "PrecoUnitario")
 	public BigDecimal precoUnitario; //preco de venda
+	
+	@Column(name = "EstoqueMaximo")
 	public Integer estoqueMaximo;
+	
+	@Column(name = "EstoqueMinimo")
 	public Integer estoqueMinimo;
+	
+	@Column(name = "EstoqueAtual")
 	public Integer estoqueAtual;
+	
+	@ManyToOne
+	@JoinColumn(name = "IdCategoria")
 	public Categoria categoria;
+	
+	@ManyToOne
+	@JoinColumn(name = "IdMarca")
 	public Marca marca;
 
 	public Integer getId() {

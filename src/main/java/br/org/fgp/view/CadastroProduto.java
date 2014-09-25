@@ -1,191 +1,193 @@
 package br.org.fgp.view;
 
-import javax.swing.JPanel;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.JLabel;
+import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
-import javax.swing.JComboBox;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.JButton;
-import java.awt.Color;
+import javax.swing.UIManager;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import br.org.fgp.dao.MarcaDao;
+import br.org.fgp.model.Marca;
+import br.org.fgp.model.enums.TipoUsuario;
+import br.org.fgp.view.core.ComponenteControlado;
+import br.org.fgp.view.core.JBusca;
 
 public class CadastroProduto extends JPanel {
+	
+	@Autowired
+	private MarcaDao marcaDao;
+	
 	private JTextField txtNome;
 	private JTextField txtPrecoVenda;
 	private JTextField txtEstoqueAtual;
 	private JTextField txtEstoqueMinimo;
 	private JTextField txtEstoqueMaximo;
+	private JTextField txtCategoria;
+	private JTextField txtPrecoCusto;
+	private JTextField txtLucro;
+	private JTextField textField;
 
 	/**
 	 * Create the panel.
 	 */
-	public CadastroProduto() {
+	public CadastroProduto(TipoUsuario tipoUsuario) {
+		setBackground(UIManager.getColor("Button.background"));
 		
-		JLabel lblProduto = new JLabel("");
+		JLabel lblProduto = new JLabel("Produto");
+		lblProduto.setBounds(341, 76, 104, 39);
 		lblProduto.setFont(new Font("Dialog", Font.PLAIN, 30));
 		
 		txtNome = new JTextField();
+		txtNome.setBounds(175, 158, 501, 20);
 		txtNome.setColumns(10);
 		
 		JTextPane txtDescricao = new JTextPane();
-		
-		JLabel lblNome = new JLabel("Nome:");
-		
-		JLabel lblDescrio = new JLabel("Descri\u00E7\u00E3o:");
-		
-		JLabel lblCategoria = new JLabel("Categoria:");
-		
-		JComboBox cbbCategoria = new JComboBox();
+		txtDescricao.setBounds(175, 189, 501, 55);
 		
 		JLabel lblMarca = new JLabel("Marca:");
-		
-		JComboBox cbbMarca = new JComboBox();
+		lblMarca.setBounds(129, 288, 43, 14);
 		
 		JLabel lblPreoUnitrio = new JLabel("Pre\u00E7o de venda:");
+		lblPreoUnitrio.setBounds(80, 350, 92, 14);
 		
 		JLabel lblFornecedor = new JLabel("Fornecedor:");
+		lblFornecedor.setBounds(101, 319, 71, 14);
 		
 		JComboBox cbbFornecedor = new JComboBox();
+		cbbFornecedor.setBounds(174, 316, 502, 20);
 		
 		txtPrecoVenda = new JTextField();
+		txtPrecoVenda.setBounds(176, 344, 96, 20);
 		txtPrecoVenda.setColumns(10);
 		
 		JLabel lblEstoqueAtual = new JLabel("Estoque atual:");
+		lblEstoqueAtual.setBounds(90, 373, 82, 14);
 		
 		txtEstoqueAtual = new JTextField();
+		txtEstoqueAtual.setBounds(175, 370, 96, 20);
 		txtEstoqueAtual.setColumns(10);
 		
 		JLabel lblEstoqueMnimo = new JLabel("Estoque m\u00EDnimo:");
+		lblEstoqueMnimo.setBounds(292, 373, 98, 14);
 		
 		txtEstoqueMinimo = new JTextField();
+		txtEstoqueMinimo.setBounds(394, 370, 95, 20);
 		txtEstoqueMinimo.setColumns(10);
 		
 		JLabel lblEstoqueMximo = new JLabel("Estoque m\u00E1ximo:");
+		lblEstoqueMximo.setBounds(493, 375, 104, 14);
 		
 		txtEstoqueMaximo = new JTextField();
+		txtEstoqueMaximo.setBounds(594, 373, 82, 20);
 		txtEstoqueMaximo.setColumns(10);
 		
 		JButton btnSalvar = new JButton("Salvar");
+		btnSalvar.setBounds(284, 409, 96, 45);
 		
 		JButton btnCancelar = new JButton("Cancelar");
+		btnCancelar.setBounds(433, 409, 104, 45);
 		
 		JLabel lblMsg = new JLabel("");
+		lblMsg.setBounds(435, 523, 0, 0);
 		lblMsg.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblMsg.setForeground(Color.RED);
-		GroupLayout groupLayout = new GroupLayout(this);
-		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(29)
-					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-								.addComponent(lblDescrio)
-								.addComponent(lblNome)
-								.addComponent(lblFornecedor)
-								.addComponent(lblCategoria)
-								.addComponent(lblPreoUnitrio))
-							.addGap(4))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(lblEstoqueAtual)
-							.addPreferredGap(ComponentPlacement.UNRELATED)))
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(txtNome, GroupLayout.PREFERRED_SIZE, 413, GroupLayout.PREFERRED_SIZE)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-								.addComponent(txtDescricao, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 411, GroupLayout.PREFERRED_SIZE)
-								.addGroup(groupLayout.createSequentialGroup()
-									.addPreferredGap(ComponentPlacement.UNRELATED)
-									.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-										.addGroup(groupLayout.createSequentialGroup()
-											.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-												.addGroup(groupLayout.createSequentialGroup()
-													.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-														.addComponent(txtEstoqueAtual, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-														.addComponent(txtPrecoVenda, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-													.addPreferredGap(ComponentPlacement.RELATED)
-													.addComponent(lblEstoqueMnimo))
-												.addGroup(groupLayout.createSequentialGroup()
-													.addGap(35)
-													.addComponent(btnSalvar, GroupLayout.PREFERRED_SIZE, 96, GroupLayout.PREFERRED_SIZE)))
-											.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-												.addGroup(groupLayout.createSequentialGroup()
-													.addGap(46)
-													.addComponent(btnCancelar, GroupLayout.PREFERRED_SIZE, 104, GroupLayout.PREFERRED_SIZE))
-												.addGroup(groupLayout.createSequentialGroup()
-													.addPreferredGap(ComponentPlacement.RELATED)
-													.addComponent(txtEstoqueMinimo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-													.addPreferredGap(ComponentPlacement.RELATED)
-													.addComponent(lblEstoqueMximo)
-													.addPreferredGap(ComponentPlacement.RELATED)
-													.addComponent(txtEstoqueMaximo, GroupLayout.DEFAULT_SIZE, 68, Short.MAX_VALUE))))
-										.addGroup(groupLayout.createSequentialGroup()
-											.addComponent(cbbCategoria, GroupLayout.PREFERRED_SIZE, 152, GroupLayout.PREFERRED_SIZE)
-											.addPreferredGap(ComponentPlacement.RELATED, 87, Short.MAX_VALUE)
-											.addComponent(lblMarca)
-											.addPreferredGap(ComponentPlacement.RELATED)
-											.addComponent(cbbMarca, GroupLayout.PREFERRED_SIZE, 140, GroupLayout.PREFERRED_SIZE))
-										.addComponent(cbbFornecedor, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 415, GroupLayout.PREFERRED_SIZE))))
-							.addGap(8)))
-					.addGap(75))
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(256)
-					.addComponent(lblMsg)
-					.addContainerGap(281, Short.MAX_VALUE))
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(259)
-					.addComponent(lblProduto)
-					.addContainerGap(270, Short.MAX_VALUE))
-		);
-		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(lblProduto)
-					.addGap(48)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(txtNome, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblNome))
-					.addGap(18)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(txtDescricao, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblDescrio))
-					.addGap(18)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-							.addComponent(cbbCategoria, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addComponent(lblCategoria))
-						.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-							.addComponent(lblMarca)
-							.addComponent(cbbMarca, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-					.addGap(18)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(cbbFornecedor, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblFornecedor))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblPreoUnitrio)
-						.addComponent(txtPrecoVenda, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(txtEstoqueAtual, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblEstoqueAtual)
-						.addComponent(lblEstoqueMnimo)
-						.addComponent(txtEstoqueMinimo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblEstoqueMximo)
-						.addComponent(txtEstoqueMaximo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(18)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnSalvar)
-						.addComponent(btnCancelar))
-					.addGap(18)
-					.addComponent(lblMsg)
-					.addContainerGap(12, Short.MAX_VALUE))
-		);
-		setLayout(groupLayout);
-
+		
+		txtCategoria = new JTextField();
+		txtCategoria.setBounds(176, 256, 103, 20);
+		txtCategoria.setEnabled(false);
+		txtCategoria.setColumns(10);
+		
+		JButton btnPesquisaCategoria = new JButton("...");
+		btnPesquisaCategoria.setBounds(285, 255, 31, 23);
+		btnPesquisaCategoria.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				PesquisaCategoria pesquisaCategoria = new PesquisaCategoria();
+				pesquisaCategoria.setVisible(true);
+			}
+		});
+		
+		JLabel lblPreoDeCusto = new JLabel("Preço de custo:");
+		lblPreoDeCusto.setBounds(298, 350, 92, 14);
+		
+		txtPrecoCusto = new JTextField();
+		txtPrecoCusto.setBounds(394, 347, 95, 20);
+		txtPrecoCusto.setColumns(10);
+		
+		JLabel lblLucro = new JLabel("Lucro:");
+		lblLucro.setBounds(550, 350, 43, 14);
+		
+		txtLucro = new JTextField();
+		txtLucro.setBounds(594, 347, 82, 20);
+		txtLucro.setEnabled(false);
+		txtLucro.setColumns(10);
+		setLayout(null);
+		add(lblMsg);
+		add(lblProduto);
+		add(lblMarca);
+		add(txtCategoria);
+		add(btnPesquisaCategoria);
+		add(lblLucro);
+		add(txtLucro);
+		add(lblEstoqueAtual);
+		add(lblPreoUnitrio);
+		add(txtEstoqueAtual);
+		add(txtPrecoVenda);
+		add(lblEstoqueMnimo);
+		add(txtEstoqueMinimo);
+		add(lblPreoDeCusto);
+		add(txtPrecoCusto);
+		add(lblEstoqueMximo);
+		add(txtEstoqueMaximo);
+		add(txtDescricao);
+		add(txtNome);
+		add(lblFornecedor);
+		add(btnCancelar);
+		add(btnSalvar);
+		add(cbbFornecedor);
+		
+		JLabel lblNome = new JLabel("Nome:");
+		lblNome.setBounds(129, 161, 43, 14);
+		add(lblNome);
+		
+		JLabel lblDescio = new JLabel("Descição:");
+		lblDescio.setBounds(113, 189, 59, 14);
+		add(lblDescio);
+		
+		JLabel lblCategoria = new JLabel("Categoria:");
+		lblCategoria.setBounds(113, 259, 59, 14);
+		add(lblCategoria);
+		
+		JLabel lblCdigo = new JLabel("Código:");
+		lblCdigo.setBounds(344, 264, 46, 14);
+		add(lblCdigo);
+		
+		textField = new JTextField();
+		textField.setFont(new Font("Tahoma", Font.BOLD, 11));
+		textField.setBounds(394, 256, 199, 20);
+		add(textField);
+		textField.setColumns(10);
+		
+		JBusca busca = new JBusca<Marca, Integer>();
+		busca.setBounds(176, 282, 297, 35);
+		add(busca);
+		
+		ComponenteControlado<CadastroProduto> controleAcesso = new ComponenteControlado<CadastroProduto>(this); 
+		controleAcesso.pronto(tipoUsuario);
+		busca.setDaoGenerico(marcaDao);
 	}
+
+	public void setMarcaDao(MarcaDao marcaDao) {
+		this.marcaDao = marcaDao;
+	}
+	
+	
 }
