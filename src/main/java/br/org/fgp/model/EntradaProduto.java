@@ -1,15 +1,44 @@
 package br.org.fgp.model;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+@Entity
+@Table(name = "ENTRADA_PRODUTO")
 public class EntradaProduto {
-
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "IdEntradaProduto")
 	public Integer id;
+	
+	@Column(name = "Quantidade")
 	public Integer quantidade;
+	
+	@Column(name = "Data")
 	public Date data;
-	public Double precoCusto;
+	
+	@Column(name = "PrecoCusto")
+	public BigDecimal precoCusto;
+	
+	@ManyToOne
+	@JoinColumn(name = "IdFornecedor")
 	public Fornecedor fornecedor;
+	
+	@ManyToOne
+	@JoinColumn(name = "IdFuncionario")
 	public Funcionario funcionario;
+	
+	@ManyToOne
+	@JoinColumn(name = "IdProduto")
 	public Produto Produto;
 
 	public Integer getId() {
@@ -36,11 +65,11 @@ public class EntradaProduto {
 		this.data = data;
 	}
 
-	public Double getPrecoCusto() {
+	public BigDecimal getPrecoCusto() {
 		return precoCusto;
 	}
 
-	public void setPrecoCusto(Double precoCusto) {
+	public void setPrecoCusto(BigDecimal precoCusto) {
 		this.precoCusto = precoCusto;
 	}
 

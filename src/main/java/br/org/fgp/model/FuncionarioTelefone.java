@@ -1,18 +1,27 @@
 package br.org.fgp.model;
 
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import br.org.fgp.model.pk.FuncionarioTelefoneId;
+
+@Entity
+@Table(name = "FUNCIONARIO_TELEFONE")
 public class FuncionarioTelefone {
-	public Integer id;
+
+	@EmbeddedId
+	private FuncionarioTelefoneId id;	
+	
+	@ManyToOne
+	@JoinColumn(name = "IdFuncionario", insertable = false, updatable = false)
 	public Funcionario funcionario;
-	public Integer idTelefone;
+
+	@ManyToOne
+	@JoinColumn(name = "IdTelefone", insertable = false, updatable = false)
 	public Telefone telefone;
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
 
 	public Funcionario getFuncionario() {
 		return funcionario;
@@ -22,20 +31,20 @@ public class FuncionarioTelefone {
 		this.funcionario = funcionario;
 	}
 
-	public Integer getIdTelefone() {
-		return idTelefone;
-	}
-
-	public void setIdTelefone(Integer idTelefone) {
-		this.idTelefone = idTelefone;
-	}
-
 	public Telefone getTelefone() {
 		return telefone;
 	}
 
 	public void setTelefone(Telefone telefone) {
 		this.telefone = telefone;
+	}
+
+	public FuncionarioTelefoneId getId() {
+		return id;
+	}
+
+	public void setId(FuncionarioTelefoneId id) {
+		this.id = id;
 	}
 
 }
