@@ -2,36 +2,14 @@ package br.org.fgp.model;
 
 import java.math.BigDecimal;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
-@Entity
-@Table(name = "ITENSPEDIDOS")
 public class ItensPedido {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "IdItensPedido")
 	public Integer id;
-	
-	@Column(name = "Quantidade")
 	public Integer quantidade;
-	
-	@Column(name = "ValorUnitario")
 	public BigDecimal valorUnitario;
-	
-	@ManyToOne
-	@JoinColumn(name = "IdProduto")
+	public Integer idProduto;
 	public Produto produto;
-
-	@ManyToOne
-	@JoinColumn(name = "IdPedido")
+	public Integer idPedido;
 	public Pedido pedido;
 
 	public Integer getId() {
@@ -58,12 +36,28 @@ public class ItensPedido {
 		this.valorUnitario = valorUnitario;
 	}
 
+	public Integer getIdProduto() {
+		return idProduto;
+	}
+
+	public void setIdProduto(Integer idProduto) {
+		this.idProduto = idProduto;
+	}
+
 	public Produto getProduto() {
 		return produto;
 	}
 
 	public void setProduto(Produto produto) {
 		this.produto = produto;
+	}
+
+	public Integer getIdPedido() {
+		return idPedido;
+	}
+
+	public void setIdPedido(Integer idPedido) {
+		this.idPedido = idPedido;
 	}
 
 	public Pedido getPedido() {

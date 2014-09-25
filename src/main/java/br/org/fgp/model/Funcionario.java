@@ -1,34 +1,11 @@
 package br.org.fgp.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
-@Entity
-@Table(name = "FUNCIONARIO")
 public class Funcionario {
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "IdFuncionario")
 	public Integer id;
-	
-	@Column(name = "Nome")
 	public String nome;
-	
-	@Column(name = "Cpf")
 	public String cpf;
-	
-	@Column(name = "Endereco")
 	public String endereco;
-	
-	@ManyToOne
-	@JoinColumn(name = "IdCidade")
+	public Integer idCidade;
 	public Cidade cidade;
 
 	public Integer getId() {
@@ -61,6 +38,14 @@ public class Funcionario {
 
 	public void setEndereco(String endereco) {
 		this.endereco = endereco;
+	}
+
+	public Integer getIdCidade() {
+		return idCidade;
+	}
+
+	public void setIdCidade(Integer idCidade) {
+		this.idCidade = idCidade;
 	}
 
 	public Cidade getCidade() {
