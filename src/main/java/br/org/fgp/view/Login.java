@@ -58,11 +58,11 @@ public class Login extends JFrame {
 
 	public Login() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setLocationRelativeTo(null);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
+		setLocationRelativeTo(null);
 
 		JLabel lblBemVindo = new JLabel("Bem Vindo!");
 		lblBemVindo.setFont(new Font("Tahoma", Font.PLAIN, 30));

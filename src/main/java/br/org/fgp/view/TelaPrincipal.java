@@ -47,9 +47,9 @@ public class TelaPrincipal extends JFrame {
 		usuarioLogado = usuario;
 		frmInterdisciplinar = new JFrame();
 		frmInterdisciplinar.setTitle("Interdisciplinar -");
-		frmInterdisciplinar.setLocationRelativeTo(null);
 		frmInterdisciplinar.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmInterdisciplinar.setBounds(100, 100, 800, 600);
+		frmInterdisciplinar.setLocationRelativeTo(null);
 		
 		JMenuBar menuBar = new JMenuBar();
 		frmInterdisciplinar.setJMenuBar(menuBar);
