@@ -78,6 +78,9 @@ public class TelaPrincipal extends JFrame {
 		JMenuItem mntmUsurio = new JMenuItem("Usu\u00E1rios");
 		mnCadastrar.add(mntmUsurio);
 		
+		JMenuItem mntmSetor = new JMenuItem("Setor");
+		mnCadastrar.add(mntmSetor);
+		
 		JMenu mnVenda = new JMenu("Venda");
 		menuBar.add(mnVenda);
 		
@@ -128,5 +131,23 @@ public class TelaPrincipal extends JFrame {
 				venda.setVisible(true);
 			}			
 		});
+		mntmCategorias.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				CadastroCategoria cc = new CadastroCategoria();
+				cc.setVisible(true);
+			}
+	});
+		mntmMarca.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				CadastroMarca cm = new CadastroMarca();
+				cm.setVisible(true);
+			}
+	});
+		mntmSetor.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				CadastroSetor cs = new CadastroSetor();
+				cs.setVisible(true);
+			}
+	});				
 	}
 }

@@ -38,7 +38,7 @@ public class JBusca <T, PK> extends JPanel {
 	 */
 	public JBusca() {
 		descricaoComponente = new JTextField();
-		descricaoComponente.setEditable(false);
+		//descricaoComponente.setEditable(false);
 		descricaoComponente.setEnabled(false);
 		add(descricaoComponente);
 		descricaoComponente.setColumns(10);
@@ -69,6 +69,8 @@ public class JBusca <T, PK> extends JPanel {
 									}
 								}
 							}
+							else 
+								descricaoComponente.setText("");
 						}catch(Exception ex){
 							LOGGER.info("Código não encontrado, ou de tipo incompatível", ex);
 						}
