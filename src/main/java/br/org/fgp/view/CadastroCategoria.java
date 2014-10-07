@@ -32,11 +32,16 @@ import java.awt.Color;
 public class CadastroCategoria extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
+<<<<<<< HEAD
 	
 	private JTextField txtCategoria;
 	
 	final static JLabel lblCampoObrigatorio = new JLabel("");
 	
+=======
+	private JTextField txtCategoria;
+	final static JLabel lblCampoObrigatorio = new JLabel("");
+>>>>>>> 7641bca62dddf2324107cc7a6ec50238ae8dfed4
 	@Autowired
 	private CategoriaDao categoriaDao;
 
