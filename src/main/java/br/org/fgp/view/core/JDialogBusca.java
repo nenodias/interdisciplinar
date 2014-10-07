@@ -2,6 +2,8 @@ package br.org.fgp.view.core;
 
 import java.awt.BorderLayout;
 import java.awt.Font;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.List;
 
 import javax.swing.GroupLayout;
@@ -16,7 +18,10 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 
 import br.org.fgp.core.dao.GenericoDao;
+
 import javax.swing.SwingConstants;
+
+import java.awt.event.MouseAdapter;
 
 public class JDialogBusca<T, PK> extends JDialog {
 
@@ -27,11 +32,16 @@ public class JDialogBusca<T, PK> extends JDialog {
 	private JTable tabela;
 	private GenericoDao<T, PK> daoGenerico;
 	private Class clazz;
+	
+	private JDialogBusca dialogo;
 
 	/**
 	 * Create the dialog.
+	 * @param descricaoComponente 
+	 * @param codigoComponente 
 	 */
-	public JDialogBusca(GenericoDao<T, PK> daoGenerico) {
+	public JDialogBusca(GenericoDao<T, PK> daoGenerico, final JTextField codigoComponente, final JTextField descricaoComponente) {
+		dialogo = this;
 		this.daoGenerico = daoGenerico;
 		this.clazz = daoGenerico.getObjectClass(); 
 		this.setModal(true);
@@ -83,6 +93,28 @@ public class JDialogBusca<T, PK> extends JDialog {
 		scrollPane.setViewportView(tabela);
 		contentPanel.setLayout(gl_contentPanel);
 		carregarTabela();
+		
+		tabela.addMouseListener(new MouseAdapter() {
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() == 2) {
+					TableModelGenerico model = (TableModelGenerico) tabela.getModel();
+					int linha = tabela.getSelectedRow();
+					int coluna = tabela.getSelectedColumn();
+					if(coluna == model.getCountadorColunas() ){
+						//TODO Editar
+					} else if(coluna == model.getCountadorColunas() +1 ){
+						//TODO excluir
+					}else{
+						codigoComponente.setText( (String) model.getValueAt(linha, 0) );
+						descricaoComponente.setText( (String) model.getValueAt(linha, 1) ); 
+					}
+					dialogo.dispose();
+				}
+			}
+			
+		});
 	}
 
 	private void carregarTabela() {
@@ -90,4 +122,6 @@ public class JDialogBusca<T, PK> extends JDialog {
 		tabela.setModel( new TableModelGenerico(buscarTodos, clazz ) );
 		tabela.setVisible(true);
 	}
+
+	
 }

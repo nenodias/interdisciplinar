@@ -32,13 +32,16 @@ public class JBusca <T, PK> extends JPanel {
 	private GenericoDao<T,PK> daoGenerico;
 
 	private JButton botao;
+	
+	private JBusca jBusca;
 
 	/**
 	 * Create the panel.
 	 */
 	public JBusca() {
+		jBusca = this;
 		descricaoComponente = new JTextField();
-		descricaoComponente.setEditable(false);
+		//descricaoComponente.setEditable(false);
 		descricaoComponente.setEnabled(false);
 		add(descricaoComponente);
 		descricaoComponente.setColumns(10);
@@ -69,6 +72,8 @@ public class JBusca <T, PK> extends JPanel {
 									}
 								}
 							}
+							else 
+								descricaoComponente.setText("");
 						}catch(Exception ex){
 							LOGGER.info("Código não encontrado, ou de tipo incompatível", ex);
 						}
@@ -86,8 +91,10 @@ public class JBusca <T, PK> extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JDialogBusca<T, PK> dialogo = new JDialogBusca<T, PK>(daoGenerico);
+				JDialogBusca<T, PK> dialogo = new JDialogBusca<T, PK>(daoGenerico, codigoComponente, descricaoComponente);
+				dialogo.setLocationRelativeTo(jBusca.getParent());
 				dialogo.setVisible(true);
+				
 			}
 		});
 	}

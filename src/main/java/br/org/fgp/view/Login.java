@@ -31,8 +31,11 @@ import br.org.fgp.view.core.ComponenteControlado;
 public class Login extends JFrame {
 
 	protected JPanel contentPane;
+	
 	protected JTextField txtUsuario;
+	
 	static Login frame = new Login();
+	
 	JLabel lblMsg = new JLabel("");
 
 	@Autowired
