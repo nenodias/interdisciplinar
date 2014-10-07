@@ -1,48 +1,32 @@
 package br.org.fgp.view;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.Frame;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
-
-import java.awt.Font;
-
 import javax.swing.JTextField;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.swing.border.EmptyBorder;
 
 import br.org.fgp.dao.CategoriaDao;
 import br.org.fgp.model.Categoria;
 import br.org.fgp.model.enums.TipoUsuario;
 import br.org.fgp.view.core.ComponenteControlado;
 
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.awt.Color;
-
 public class CadastroCategoria extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
-<<<<<<< HEAD
 	
 	private JTextField txtCategoria;
 	
 	final static JLabel lblCampoObrigatorio = new JLabel("");
 	
-=======
-	private JTextField txtCategoria;
-	final static JLabel lblCampoObrigatorio = new JLabel("");
->>>>>>> 7641bca62dddf2324107cc7a6ec50238ae8dfed4
-	@Autowired
 	private CategoriaDao categoriaDao;
 
 	/**
