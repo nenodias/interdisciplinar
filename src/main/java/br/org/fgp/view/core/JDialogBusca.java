@@ -1,11 +1,13 @@
 package br.org.fgp.view.core;
 
 import java.awt.BorderLayout;
-import java.awt.Font;
+import java.awt.Desktop.Action;
+import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.List;
 
+import javax.swing.AbstractAction;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JDialog;
@@ -15,13 +17,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 
 import br.org.fgp.core.dao.GenericoDao;
-
-import javax.swing.SwingConstants;
-
-import java.awt.event.MouseAdapter;
 
 public class JDialogBusca<T, PK> extends JDialog {
 
@@ -115,6 +115,25 @@ public class JDialogBusca<T, PK> extends JDialog {
 			}
 			
 		});
+		
+		AbstractAction delete = new AbstractAction(){
+			
+		    public void actionPerformed(ActionEvent e){
+		    	//TODO Método para exclusão dos dados
+		        int modelRow = Integer.valueOf( e.getActionCommand() );
+		        ((DefaultTableModel)tabela.getModel()).removeRow(modelRow);
+		    }
+		};
+		AbstractAction editar = new AbstractAction(){
+			
+			public void actionPerformed(ActionEvent e){
+				//TODO Método para editar
+			}
+		};
+		TableModelGenerico model = (TableModelGenerico) tabela.getModel();
+		int coluna = model.getCountadorColunas();
+		ButtonColumn botaoEditar = new ButtonColumn(tabela, editar, coluna);
+		ButtonColumn botaoExcluir = new ButtonColumn(tabela, delete, coluna + 1 );
 	}
 
 	private void carregarTabela() {
