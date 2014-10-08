@@ -7,6 +7,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import br.org.fgp.view.annotations.Pesquisa;
+
 @Entity
 @Table(name = "CATEGORIA")
 public class Categoria {
@@ -19,6 +21,7 @@ public class Categoria {
 	@Column(name = "Categoria")
 	public String descricao;
 
+	@Pesquisa(nome = "Id", posicao = 0)
 	public Integer getId() {
 		return id;
 	}
@@ -26,7 +29,7 @@ public class Categoria {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-
+	@Pesquisa(nome = "Categoria", posicao = 1)
 	public String getDescricao() {
 		return descricao;
 	}

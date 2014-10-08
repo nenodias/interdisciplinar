@@ -15,23 +15,26 @@ import javax.swing.UIManager;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import br.org.fgp.dao.CategoriaDao;
 import br.org.fgp.dao.MarcaDao;
+import br.org.fgp.model.Categoria;
 import br.org.fgp.model.Marca;
 import br.org.fgp.model.enums.TipoUsuario;
 import br.org.fgp.view.core.ComponenteControlado;
 import br.org.fgp.view.core.JBusca;
 
 public class CadastroProduto extends JPanel {
-	
+
 	@Autowired
 	private MarcaDao marcaDao;
+	@Autowired
+	private CategoriaDao categoriaDao;
 	
 	private JTextField txtNome;
 	private JTextField txtPrecoVenda;
 	private JTextField txtEstoqueAtual;
 	private JTextField txtEstoqueMinimo;
 	private JTextField txtEstoqueMaximo;
-	private JTextField txtCategoria;
 	private JTextField txtPrecoCusto;
 	private JTextField txtLucro;
 	private JTextField textField;
@@ -101,20 +104,6 @@ public class CadastroProduto extends JPanel {
 		lblMsg.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblMsg.setForeground(Color.RED);
 		
-		txtCategoria = new JTextField();
-		txtCategoria.setBounds(176, 256, 103, 20);
-		txtCategoria.setEnabled(false);
-		txtCategoria.setColumns(10);
-		
-		JButton btnPesquisaCategoria = new JButton("...");
-		btnPesquisaCategoria.setBounds(285, 255, 31, 23);
-		btnPesquisaCategoria.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				PesquisaCategoria pesquisaCategoria = new PesquisaCategoria();
-				pesquisaCategoria.setVisible(true);
-			}
-		});
-		
 		JLabel lblPreoDeCusto = new JLabel("Preço de custo:");
 		lblPreoDeCusto.setBounds(298, 350, 92, 14);
 		
@@ -133,8 +122,6 @@ public class CadastroProduto extends JPanel {
 		add(lblMsg);
 		add(lblProduto);
 		add(lblMarca);
-		add(txtCategoria);
-		add(btnPesquisaCategoria);
 		add(lblLucro);
 		add(txtLucro);
 		add(lblEstoqueAtual);
@@ -167,12 +154,12 @@ public class CadastroProduto extends JPanel {
 		add(lblCategoria);
 		
 		JLabel lblCdigo = new JLabel("Código:");
-		lblCdigo.setBounds(344, 264, 46, 14);
+		lblCdigo.setBounds(480, 259, 46, 14);
 		add(lblCdigo);
 		
 		textField = new JTextField();
 		textField.setFont(new Font("Tahoma", Font.BOLD, 11));
-		textField.setBounds(394, 256, 199, 20);
+		textField.setBounds(530, 251, 131, 20);
 		add(textField);
 		textField.setColumns(10);
 		
@@ -180,14 +167,22 @@ public class CadastroProduto extends JPanel {
 		busca.setBounds(176, 282, 297, 35);
 		add(busca);
 		
+
+		JBusca busca_Categoria = new JBusca<Categoria, Integer>();
+		busca_Categoria.setBounds(175, 242, 297, 35);
+		add(busca_Categoria);
+		
 		ComponenteControlado<CadastroProduto> controleAcesso = new ComponenteControlado<CadastroProduto>(this); 
 		controleAcesso.pronto(tipoUsuario);
-		busca.setDaoGenerico(marcaDao);
+		busca.setDaoGenerico(marcaDao);		
+		busca_Categoria.setDaoGenerico(categoriaDao);
 	}
 
 	public void setMarcaDao(MarcaDao marcaDao) {
 		this.marcaDao = marcaDao;
 	}
 	
-	
+	public void setCategoriaDao(CategoriaDao categoriaDao){
+		this.categoriaDao = categoriaDao;
+	}
 }
