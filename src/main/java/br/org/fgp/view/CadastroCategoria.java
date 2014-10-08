@@ -14,6 +14,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import br.org.fgp.dao.CategoriaDao;
 import br.org.fgp.model.Categoria;
 import br.org.fgp.model.enums.TipoUsuario;
@@ -27,6 +29,7 @@ public class CadastroCategoria extends JDialog {
 	
 	final static JLabel lblCampoObrigatorio = new JLabel("");
 	
+	@Autowired
 	private CategoriaDao categoriaDao;
 
 	/**
@@ -95,7 +98,7 @@ public class CadastroCategoria extends JDialog {
 				Categoria categoria = new Categoria();
 				try{		
 					if(!txtCategoria.getText().isEmpty()){
-					categoria.setDescricao(txtCategoria.getText());
+					categoria.setDescricao(txtCategoria.getText());					
 					categoriaDao.salvar(categoria);
 					JOptionPane.showMessageDialog(null, "Categoria cadastrada com sucesso.");
 					dispose();
@@ -106,7 +109,7 @@ public class CadastroCategoria extends JDialog {
 					}
 				}
 				catch(Exception ex){
-					lblMsg.setText("Falha ao cadastrada nova categoria.");
+					lblMsg.setText("Falha ao cadastrar nova categoria.");
 				}
 			}
 		});
