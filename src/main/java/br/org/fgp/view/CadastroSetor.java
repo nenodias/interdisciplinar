@@ -12,6 +12,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -20,17 +21,23 @@ import br.org.fgp.model.Setor;
 import br.org.fgp.model.enums.TipoUsuario;
 import br.org.fgp.view.core.ComponenteControlado;
 
+import java.awt.Color;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+
+import javax.swing.border.TitledBorder;
+
 public class CadastroSetor extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txtSetor;
-	JLabel lblCampoObrigatorio = new JLabel("");
-	JLabel lblMsg = new JLabel("");
 	JButton btnSalvar = new JButton("Salvar");
-	JButton btnCancelar = new JButton("Cancelar");
 	
 	@Autowired
 	private SetorDao setorDao;
+	private final JLabel lblSetor_1 = new JLabel("Setor:");
+	private final JLabel lblMsg = new JLabel("");
 	/**
 	 * Launch the application.
 	 */
@@ -49,50 +56,55 @@ public class CadastroSetor extends JDialog {
 	 */
 	public CadastroSetor() {
 		setBounds(100, 100, 450, 300);
+		setSize(300, 200);
+		setTitle("Setor");
+		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
-		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPanel.setBorder(new TitledBorder(null, "Cadastrar novo Setor", TitledBorder.LEFT, TitledBorder.TOP, null, null));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
-		contentPanel.setLayout(null);
-		{
-			JLabel lblNovoSetor = new JLabel("Novo Setor");
-			lblNovoSetor.setFont(new Font("Tahoma", Font.PLAIN, 25));
-			lblNovoSetor.setBounds(136, 51, 160, 31);
-			contentPanel.add(lblNovoSetor);
-		}
-		{
-			JLabel lblSetor = new JLabel("Setor:");
-			lblSetor.setBounds(102, 96, 46, 14);
-			contentPanel.add(lblSetor);
-		}
-		{
+		GridBagLayout gbl_contentPanel = new GridBagLayout();
+		gbl_contentPanel.columnWidths = new int[]{50, 210, 0};
+		gbl_contentPanel.rowHeights = new int[]{35, 35, 35, 35, 0};
+		gbl_contentPanel.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+		gbl_contentPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		contentPanel.setLayout(gbl_contentPanel);
+		
+			GridBagConstraints gbc_lblSetor_1 = new GridBagConstraints();
+			gbc_lblSetor_1.insets = new Insets(0, 0, 5, 5);
+			gbc_lblSetor_1.anchor = GridBagConstraints.WEST;
+			gbc_lblSetor_1.gridx = 0;
+			gbc_lblSetor_1.gridy = 1;
+			contentPanel.add(lblSetor_1, gbc_lblSetor_1);
+		
 			txtSetor = new JTextField();
-			txtSetor.setBounds(143, 93, 153, 20);
-			contentPanel.add(txtSetor);
+			GridBagConstraints gbc_txtSetor = new GridBagConstraints();
+			gbc_txtSetor.fill = GridBagConstraints.HORIZONTAL;
+			gbc_txtSetor.insets = new Insets(0, 0, 5, 0);
+			gbc_txtSetor.gridx = 1;
+			gbc_txtSetor.gridy = 1;
+			contentPanel.add(txtSetor, gbc_txtSetor);
 			txtSetor.setColumns(10);
-		}
-		{
-			btnSalvar.setBounds(102, 124, 89, 23);
-			contentPanel.add(btnSalvar);
-		}
-		{			
-			btnCancelar.setBounds(207, 124, 89, 23);
-			contentPanel.add(btnCancelar);
-		}
-		{
-			
-			lblCampoObrigatorio.setBounds(306, 96, 46, 14);
-			contentPanel.add(lblCampoObrigatorio);
-		}
-		{
-			
-			lblMsg.setFont(new Font("Tahoma", Font.PLAIN, 15));
-			lblMsg.setBounds(102, 168, 194, 23);
-			contentPanel.add(lblMsg);
-		}
 		
-		ComponenteControlado<CadastroSetor> controleAcesso = new ComponenteControlado<CadastroSetor>(this); 
-		controleAcesso.pronto(TipoUsuario.ADMINISTRADOR);
+			JLabel lblSetor = new JLabel("Setor:");
+			GridBagConstraints gbc_lblSetor = new GridBagConstraints();
+			gbc_lblSetor.anchor = GridBagConstraints.WEST;
+			gbc_lblSetor.insets = new Insets(0, 0, 5, 0);
+			gbc_lblSetor.gridx = 1;
+			gbc_lblSetor.gridy = 1;
+			contentPanel.add(lblSetor, gbc_lblSetor);
 		
+			GridBagConstraints gbc_btnSalvar = new GridBagConstraints();
+			gbc_btnSalvar.insets = new Insets(0, 0, 5, 0);
+			gbc_btnSalvar.gridx = 1;
+			gbc_btnSalvar.gridy = 2;
+			contentPanel.add(btnSalvar, gbc_btnSalvar);
+		
+			GridBagConstraints gbc_lblMsg = new GridBagConstraints();
+			gbc_lblMsg.anchor = GridBagConstraints.WEST;
+			gbc_lblMsg.gridx = 1;
+			gbc_lblMsg.gridy = 3;
+			contentPanel.add(lblMsg, gbc_lblMsg);
+				
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Setor setor = new Setor();
@@ -105,7 +117,7 @@ public class CadastroSetor extends JDialog {
 					}
 					else{
 						JOptionPane.showMessageDialog(null, "Campo Setor obrigatório.");
-						lblCampoObrigatorio.setText("*");
+						txtSetor.setBorder(new LineBorder(new Color(255, 0, 0), 1));
 					}
 				}
 				catch(Exception ex){
@@ -113,11 +125,9 @@ public class CadastroSetor extends JDialog {
 				}
 			}
 		});
-		btnCancelar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				dispose();
-			}
-		});
+		
+		ComponenteControlado<CadastroSetor> controleAcesso = new ComponenteControlado<CadastroSetor>(this); 
+		controleAcesso.pronto(TipoUsuario.ADMINISTRADOR);
 	}
 
 	public SetorDao getSetorDao() {

@@ -60,6 +60,7 @@ public class CadastroMarca extends JDialog {
 		setBounds(100, 100, 450, 300);
 		setSize(300, 200);
 		setTitle("Marca");
+		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new TitledBorder(null, "Cadastrar nova Marca", TitledBorder.LEFT, TitledBorder.TOP, null, null));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);

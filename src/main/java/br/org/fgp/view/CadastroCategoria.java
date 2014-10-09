@@ -61,6 +61,7 @@ public class CadastroCategoria extends JDialog {
 		setBounds(100, 100, 450, 300);
 		setSize(300, 200);
 		setTitle("Categoria");
+		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new TitledBorder(null, "Criar nova Categoria", TitledBorder.LEFT, TitledBorder.TOP, null, null));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
