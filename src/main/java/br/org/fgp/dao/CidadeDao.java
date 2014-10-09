@@ -5,4 +5,6 @@ import br.org.fgp.model.Cidade;
 
 public interface CidadeDao extends GenericoDao<Cidade, Integer> {
 
+	Cidade buscaPorEstado(Integer idEstado);
+
 }

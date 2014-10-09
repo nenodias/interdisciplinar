@@ -5,7 +5,10 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -22,8 +25,10 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import br.org.fgp.dao.CidadeDao;
+import br.org.fgp.dao.EstadoDao;
 import br.org.fgp.dao.FornecedorDao;
 import br.org.fgp.model.Cidade;
+import br.org.fgp.model.Estado;
 import br.org.fgp.model.Fornecedor;
 import br.org.fgp.model.enums.TipoUsuario;
 import br.org.fgp.view.core.ComponenteControlado;
@@ -57,6 +62,17 @@ public class CadastroFornecedor extends JPanel {
 
 	public void setCidadeDao(CidadeDao cidadeDao) {
 		this.cidadeDao = cidadeDao;
+	}
+	
+	@Autowired
+	private EstadoDao estadoDao;
+
+	public EstadoDao getEstadoDao() {
+		return estadoDao;
+	}
+
+	public void setEstadoDao(EstadoDao estadoDao) {
+		this.estadoDao = estadoDao;
 	}
 
 	private JComboBox cbbEstado;
@@ -125,6 +141,7 @@ public class CadastroFornecedor extends JPanel {
 		JLabel lblMsg = new JLabel("");
 		lblMsg.setForeground(Color.RED);
 		lblMsg.setFont(new Font("Tahoma", Font.BOLD, 14));
+		
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -171,7 +188,7 @@ public class CadastroFornecedor extends JPanel {
 								.addGroup(groupLayout.createSequentialGroup()
 									.addGap(62)
 									.addComponent(lblMsg)))))
-					.addContainerGap(33, Short.MAX_VALUE))
+					.addContainerGap(69, Short.MAX_VALUE))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -218,20 +235,20 @@ public class CadastroFornecedor extends JPanel {
 						.addComponent(btnSalvar))
 					.addGap(18)
 					.addComponent(lblMsg)
-					.addContainerGap(49, Short.MAX_VALUE))
+					.addContainerGap(38, Short.MAX_VALUE))
 		);
 		setLayout(groupLayout);
 		
 		ComponenteControlado<CadastroFornecedor> controleAcesso = new ComponenteControlado<CadastroFornecedor>(this); 
 		controleAcesso.pronto(TipoUsuario.ADMINISTRADOR);
 		
+		carregarEstado();
 		carregarCidade();
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				salvar();
 			}
 		});
-
 	}
 	
 	private void salvar(){
@@ -266,17 +283,23 @@ public class CadastroFornecedor extends JPanel {
 						txt.setText("");
 					}
 			}
-			}
-			catch(Exception ex){
-				JOptionPane.showMessageDialog(null, "Falha ao salvar fornecedor.");
-			}
+		}
+		catch(Exception ex){
+			JOptionPane.showMessageDialog(null, "Falha ao salvar fornecedor.");
+		}
 	}
 
 	
 	private void carregarCidade(){
-		for (Cidade cidade : cidadeDao.buscarTodos()) {
+		Estado item = (Estado) cbbEstado.getSelectedItem();
+		for (Cidade cidade : cidadeDao.buscaPorEstado(item)) {
 			cbbCidade.addItem(cidade);
 		}
 	}
 	
+	private void carregarEstado(){
+		for (Estado estado : estadoDao.buscarTodos()) {
+			cbbEstado.addItem(estado);
+		}
+	}
 }

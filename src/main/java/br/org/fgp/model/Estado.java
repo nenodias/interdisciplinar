@@ -43,5 +43,9 @@ public class Estado {
 	public void setPais(Pais pais) {
 		this.pais = pais;
 	}
+	@Override
+	public String toString() {
+		return estado;
+	}
 	
 }

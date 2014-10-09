@@ -20,7 +20,7 @@ public abstract interface GenericoDao<T, PK>
   abstract T buscarPorId(PK paramPK);
 
   abstract List<T> buscarTodos();
-
+  
   abstract List<T> buscarTodos(Order paramOrder);
 
   @SuppressWarnings( "rawtypes")
