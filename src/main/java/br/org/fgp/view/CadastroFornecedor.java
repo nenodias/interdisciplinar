@@ -292,7 +292,7 @@ public class CadastroFornecedor extends JPanel {
 	
 	private void carregarCidade(){
 		Estado item = (Estado) cbbEstado.getSelectedItem();
-		for (Cidade cidade : cidadeDao.buscaPorEstado(item)) {
+		for (Cidade cidade : cidadeDao.buscaPorEstado( item.getId() ) ) {
 			cbbCidade.addItem(cidade);
 		}
 	}
