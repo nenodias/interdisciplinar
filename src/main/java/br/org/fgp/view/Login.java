@@ -146,21 +146,22 @@ public class Login extends JFrame {
 				logar();
 			}
 
-			private void logar() {
-				Usuario usuario = usuarioDao.buscarPorLogin(txtUsuario.getText());
-				String senhaCriptografada = SecurityUtils.encrypt( String.valueOf( txtSenha.getPassword() ) ) ;
-				if (usuario.getSenha().equals(senhaCriptografada) ) {							
-					TelaPrincipal.main(usuario);
-					frame.dispose();
-					threadLogin.cancel(true);
-				} else {
-					lblMsg.setText("Usuário ou senha inválidos.");
-				}
-			}
 
 		});
 	}
 
+	private void logar() {
+		Usuario usuario = usuarioDao.buscarPorLogin(txtUsuario.getText());
+		String senhaCriptografada = SecurityUtils.encrypt( String.valueOf( txtSenha.getPassword() ) ) ;
+		if (usuario != null && usuario.getSenha().equals(senhaCriptografada) ) {							
+			TelaPrincipal.main(usuario);
+			frame.dispose();
+			threadLogin.cancel(true);
+		} else {
+			lblMsg.setText("Usuário ou senha inválidos.");
+		}
+	}
+	
 	public JTextField getTxtUsuario() {
 		return txtUsuario;
 	}
