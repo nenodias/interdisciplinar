@@ -2,7 +2,9 @@ package br.org.fgp.view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -12,7 +14,9 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -20,9 +24,11 @@ import br.org.fgp.dao.CategoriaDao;
 import br.org.fgp.model.Categoria;
 import br.org.fgp.model.enums.TipoUsuario;
 import br.org.fgp.view.core.ComponenteControlado;
+
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+
 import javax.swing.border.TitledBorder;
 
 public class CadastroCategoria extends JDialog {
@@ -54,6 +60,7 @@ public class CadastroCategoria extends JDialog {
 		this.setModal(true);
 		setBounds(100, 100, 450, 300);
 		setSize(300, 200);
+		setTitle("Categoria");
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new TitledBorder(null, "Criar nova Categoria", TitledBorder.LEFT, TitledBorder.TOP, null, null));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -77,7 +84,7 @@ public class CadastroCategoria extends JDialog {
 		gbc_txtCategoria.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtCategoria.insets = new Insets(0, 0, 5, 0);
 		gbc_txtCategoria.gridx = 1;
-		gbc_txtCategoria.gridy = 1;
+		gbc_txtCategoria.gridy = 1;	
 		contentPanel.add(txtCategoria, gbc_txtCategoria);
 		txtCategoria.setColumns(10);
 
@@ -111,6 +118,7 @@ public class CadastroCategoria extends JDialog {
 					}
 					else {
 						JOptionPane.showMessageDialog(null, "O campo Categoria é obrigatório.");
+						txtCategoria.setBorder(new LineBorder(new Color(255, 0, 0), 1));
 					}
 				}
 				catch(Exception ex){
