@@ -29,4 +29,6 @@ public abstract interface GenericoDao<T, PK>
   @SuppressWarnings( "rawtypes")
   Class getObjectClass();
 
+ void execute(String sql);
+
 }

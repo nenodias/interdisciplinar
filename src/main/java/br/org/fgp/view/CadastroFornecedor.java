@@ -4,20 +4,26 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import br.org.fgp.dao.CidadeDao;
 import br.org.fgp.dao.FornecedorDao;
+import br.org.fgp.model.Cidade;
 import br.org.fgp.model.Fornecedor;
 import br.org.fgp.model.enums.TipoUsuario;
 import br.org.fgp.view.core.ComponenteControlado;
@@ -30,15 +36,36 @@ public class CadastroFornecedor extends JPanel {
 	private JTextField txtCnpj;
 	private JTextField txtEndereco;
 	private JTextField txtNumero;
-
+	
 	@Autowired
 	private FornecedorDao fornecedorDao;
+	
+	public FornecedorDao getFornecedorDao() {
+		return fornecedorDao;
+	}
+
+	public void setFornecedorDao(FornecedorDao fornecedorDao) {
+		this.fornecedorDao = fornecedorDao;
+	}
+
+	@Autowired
+	private CidadeDao cidadeDao;
+	
+	public CidadeDao getCidadeDao() {
+		return cidadeDao;
+	}
+
+	public void setCidadeDao(CidadeDao cidadeDao) {
+		this.cidadeDao = cidadeDao;
+	}
+
+	private JComboBox cbbEstado;
+	private JComboBox cbbCidade;
 	
 	/**
 	 * Create the panel.
 	 */
 	public CadastroFornecedor() {
-		
 		tbContato = new JTable();
 		
 		JLabel lblNomeFantasia = new JLabel("Nome Fantasia:");
@@ -56,29 +83,35 @@ public class CadastroFornecedor extends JPanel {
 		JLabel lblEstado = new JLabel("Estado:");
 		
 		txtNomeFantasia = new JTextField();
+		txtNomeFantasia.setName("Nome Fantasia");
 		txtNomeFantasia.setColumns(10);
 		
 		txtRazaoSocial = new JTextField();
 		txtRazaoSocial.setText("");
+		txtRazaoSocial.setName("Razão Social");
 		txtRazaoSocial.setColumns(10);
 		
 		txtInscricaoEstadual = new JTextField();
+		txtInscricaoEstadual.setName("Inscrição Estadual");
 		txtInscricaoEstadual.setColumns(10);
 		
 		txtCnpj = new JTextField();
 		txtCnpj.setText("");
+		txtCnpj.setName("CNPJ");
 		txtCnpj.setColumns(10);
 		
-		JComboBox cbbEstado = new JComboBox();
+		cbbEstado = new JComboBox();
 		
-		JComboBox cbbCidade = new JComboBox();
+		cbbCidade = new JComboBox();
 		
 		txtEndereco = new JTextField();
+		txtEndereco.setName("Endereço");
 		txtEndereco.setColumns(10);
 		
 		JLabel lblNmero = new JLabel("Número:");
 		
 		txtNumero = new JTextField();
+		txtNumero.setName("Número");
 		txtNumero.setColumns(10);
 		
 		JLabel lblFornecedor = new JLabel("Fornecedor");
@@ -192,20 +225,58 @@ public class CadastroFornecedor extends JPanel {
 		ComponenteControlado<CadastroFornecedor> controleAcesso = new ComponenteControlado<CadastroFornecedor>(this); 
 		controleAcesso.pronto(TipoUsuario.ADMINISTRADOR);
 		
+		carregarCidade();
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//////////////////////////////////////s
-				Fornecedor fornecedor = new Fornecedor();
-				fornecedor.setCnpj(txtCnpj.getText());
-				fornecedor.setEnderecoComercial(txtEndereco.getText());
-				fornecedor.setInscricaoEstadual(txtInscricaoEstadual.getText());
-				fornecedor.setNomeFantasia(txtNomeFantasia.getText());
-				fornecedor.setRazaoSocial(txtRazaoSocial.getText());
-				//fornecedor.setCidade
-				fornecedorDao.salvar(fornecedor);
-				
+				salvar();
 			}
 		});
 
 	}
+	
+	private void salvar(){
+		try{
+			List<JTextField> txts = Arrays.asList(txtNomeFantasia,txtRazaoSocial,txtInscricaoEstadual,txtCnpj,txtEndereco,txtNumero);
+			boolean erro = false;
+			StringBuilder nomes = new StringBuilder(); 
+			for (JTextField txt : txts) {
+				if(StringUtils.isBlank(txt.getText()) || StringUtils.isEmpty(txt.getText())){
+					nomes.append(txt.getName()).append(", ");
+					erro = true;
+				}
+			}
+			if(erro){
+				String mensagem = nomes.toString().substring(0,nomes.length()-2);
+				JOptionPane.showMessageDialog(null, mensagem + " está vazio.");
+			}
+			else{
+				Fornecedor fornecedor = new Fornecedor();
+				fornecedor.setCnpj(txtCnpj.getText());
+				fornecedor.setEnderecoComercial(txtEndereco.getText());
+				fornecedor.setInscricaoEstadual(txtInscricaoEstadual
+						.getText());
+				fornecedor.setNomeFantasia(txtNomeFantasia.getText());
+				fornecedor.setRazaoSocial(txtRazaoSocial.getText());
+				Cidade item = (Cidade) cbbCidade.getSelectedItem();
+				fornecedor.setCidade(item);
+				fornecedorDao.salvar(fornecedor);
+				JOptionPane.showMessageDialog(null, "Salvo com sucesso.");
+				
+				for (JTextField txt : txts) {
+						txt.setText("");
+					}
+			}
+			}
+			catch(Exception ex){
+				JOptionPane.showMessageDialog(null, "Falha ao salvar fornecedor.");
+			}
+	}
+
+	
+	private void carregarCidade(){
+		for (Cidade cidade : cidadeDao.buscarTodos()) {
+			cbbCidade.addItem(cidade);
+		}
+	}
+	
 }

@@ -1,6 +1,11 @@
 package br.org.fgp.core;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.Properties;
 
 import org.apache.commons.dbcp.BasicDataSource;
@@ -8,6 +13,7 @@ import org.apache.log4j.Logger;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
 
+import br.org.fgp.dao.PaisDao;
 import br.org.fgp.dao.UsuarioDao;
 import br.org.fgp.model.Categoria;
 import br.org.fgp.model.Cidade;
@@ -30,7 +36,7 @@ import br.org.fgp.model.Usuario;
 import br.org.fgp.model.enums.TipoUsuario;
 
 public class CriarBanco {
-	
+
 	private static final String JDBC_PASSWORD = "jdbc.password";
 	private static final String JDBC_USERNAME = "jdbc.username";
 	private static final String JDBC_URL = "jdbc.url";
@@ -96,9 +102,62 @@ public class CriarBanco {
 			UsuarioDao usuarioDao = ApplicationContextConfig.getContext().getBean(UsuarioDao.class);
 			usuarioDao.salvar(administrador);
 			
+			PaisDao paisDao = ApplicationContextConfig.getContext().getBean(PaisDao.class);
+			paisDao.execute("INSERT INTO Pais VALUES('Brasil')");
+			
+			paisDao.execute("INSERT INTO estado VALUES "+
+					"('Acre', 1),                                    "
+					+ "('Alagoas',1),                                "
+					+ "('Amazonas', 1),                              "
+					+ "('Amapá', 1),                                 "
+					+ "('Bahia', 1),                                 "
+					+ "('Ceará', 1),                                 "
+					+ "('Distrito Federal', 1),                      "
+					+ "('Espírito Santo', 1),                        "
+					+ "('Goiás', 1),                                 "
+					+ "('Maranhão', 1),                              "
+					+ "('Minas Gerais', 1),                          "
+					+ "('Mato Grosso do Sul', 1),                    "
+					+ "('Mato Grosso', 1),                           "
+					+ "('Pará', 1),                                  "
+					+ "('Paraíba', 1),                               "
+					+ "('Pernambuco', 1),                            "
+					+ "('Piauí', 1),                                 "
+					+ "('Paraná', 1),                                "
+					+ "('Rio de Janeiro', 1),                        "
+					+ "('Rio Grande do Norte', 1),                   "
+					+ "('Rondônia', 1),                              "
+					+ "('Roraima', 1),                               "
+					+ "('Rio Grande do Sul', 1),                     "
+					+ "('Santa Catarina', 1),                        "
+					+ "('Sergipe', 1),                               "
+					+ "('São Paulo', 1),                             "
+					+ "('Tocantins', 1);");                           
+			paisDao.execute(lerArquivo("script/cidades.sql"));
 		}catch(Exception e){
 			LOGGER.error(e);
 		}
 		
+	}
+	
+	public static String lerArquivo(String caminhoArquivo) throws URISyntaxException{
+		StringBuilder  stringBuilder = new StringBuilder("");
+		URL resource = ApplicationContextConfig.getContext().getClassLoader().getResource(caminhoArquivo);
+		File arquivo = new File(resource.toURI());
+		if(arquivo.exists()){
+			try{
+				BufferedReader reader = new BufferedReader( new FileReader (arquivo));
+				String         line = null;
+				String         ls = System.getProperty("line.separator");
+		
+				while( ( line = reader.readLine() ) != null ) {
+				    stringBuilder.append( line );
+				    stringBuilder.append( ls );
+				}
+			}catch (Exception e){
+				LOGGER.error(e);
+			}
+		}
+		return stringBuilder.toString();
 	}
 }

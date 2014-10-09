@@ -22,7 +22,7 @@ public class Cidade {
 	public String descricao;
 	
 	@ManyToOne
-	@JoinColumn(name = "IdEstado")
+	@JoinColumn(name = "IdEstado", nullable = false)
 	public Estado estado;
 
 	public Integer getId() {
@@ -49,4 +49,9 @@ public class Cidade {
 		this.estado = estado;
 	}
 
+	@Override
+	public String toString() {
+		return descricao;
+	}
+	
 }

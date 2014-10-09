@@ -7,6 +7,7 @@ import java.util.Set;
 
 import org.hibernate.Criteria;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Criterion;
@@ -34,6 +35,12 @@ public abstract class GenericoDaoImpl<T, PK> implements GenericoDao<T, PK> {
 
     public void salvar(T entity) {
         getSessaoAtual().saveOrUpdate(entity);
+    }
+    
+    @Override
+    public void execute(String sql){
+    	SQLQuery sqlQuery = getSessaoAtual().createSQLQuery(sql);
+    	sqlQuery.executeUpdate();
     }
 
     public void deletar(T entity) {
