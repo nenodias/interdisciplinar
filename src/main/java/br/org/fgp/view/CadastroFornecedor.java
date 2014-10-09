@@ -32,6 +32,10 @@ import br.org.fgp.model.Estado;
 import br.org.fgp.model.Fornecedor;
 import br.org.fgp.model.enums.TipoUsuario;
 import br.org.fgp.view.core.ComponenteControlado;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
 
 public class CadastroFornecedor extends JPanel {
 	private JTable tbContato;
@@ -117,6 +121,8 @@ public class CadastroFornecedor extends JPanel {
 		txtCnpj.setColumns(10);
 		
 		cbbEstado = new JComboBox();
+	
+		
 		
 		cbbCidade = new JComboBox();
 		
@@ -249,6 +255,13 @@ public class CadastroFornecedor extends JPanel {
 				salvar();
 			}
 		});
+		
+		cbbEstado.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent arg0) {
+				cbbCidade.removeAllItems();
+				carregarCidade();
+			}
+		});
 	}
 	
 	private void salvar(){
@@ -289,17 +302,16 @@ public class CadastroFornecedor extends JPanel {
 		}
 	}
 
-	
-	private void carregarCidade(){
-		Estado item = (Estado) cbbEstado.getSelectedItem();
-		for (Cidade cidade : cidadeDao.buscaPorEstado( item.getId() ) ) {
-			cbbCidade.addItem(cidade);
-		}
-	}
-	
 	private void carregarEstado(){
 		for (Estado estado : estadoDao.buscarTodos()) {
 			cbbEstado.addItem(estado);
+		}
+	}
+	
+	private void carregarCidade(){
+		Estado item = (Estado) cbbEstado.getSelectedItem();
+		for (Cidade cidade : cidadeDao.buscaPorEstado(item.getId() ) ) {
+			cbbCidade.addItem(cidade);
 		}
 	}
 }
