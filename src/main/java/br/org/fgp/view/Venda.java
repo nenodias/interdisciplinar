@@ -35,8 +35,8 @@ public class Venda extends JPanel {
 		JButton btnPesquisaProduto = new JButton("...");
 		btnPesquisaProduto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				PesquisaProduto pesquisaProduto = new PesquisaProduto();
-				pesquisaProduto.setVisible(true);				
+				//PesquisaProduto pesquisaProduto = new PesquisaProduto();
+				//pesquisaProduto.setVisible(true);				
 			}
 		});
 		

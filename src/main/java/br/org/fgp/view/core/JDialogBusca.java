@@ -22,17 +22,21 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import br.org.fgp.core.dao.GenericoDao;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+import javax.swing.border.TitledBorder;
 
 public class JDialogBusca<T, PK> extends JDialog {
 
 	private static final long serialVersionUID = 3237053657686708968L;
-	
+
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txtFiltro;
 	private JTable tabela;
 	private GenericoDao<T, PK> daoGenerico;
 	private Class clazz;
-	
+
 	private JDialogBusca dialogo;
 
 	/**
@@ -46,56 +50,45 @@ public class JDialogBusca<T, PK> extends JDialog {
 		this.clazz = daoGenerico.getObjectClass(); 
 		this.setModal(true);
 		setBounds(100, 100, 450, 300);
+		setSize(400, 250);
+		setTitle(clazz.getSimpleName());
 		getContentPane().setLayout(new BorderLayout());
-		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPanel.setBorder(new TitledBorder(null, "Buscar " + clazz.getSimpleName(), TitledBorder.LEFT, TitledBorder.TOP, null, null));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		
+		GridBagLayout gbl_contentPanel = new GridBagLayout();
+		gbl_contentPanel.columnWidths = new int[]{50, 145, 0};
+		gbl_contentPanel.rowHeights = new int[]{35, 35, 132, 0};
+		gbl_contentPanel.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
+		gbl_contentPanel.rowWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
+		contentPanel.setLayout(gbl_contentPanel);
+
 		JLabel label = new JLabel(clazz.getSimpleName().concat(":"));
 		label.setHorizontalAlignment(SwingConstants.RIGHT);
-		
+		GridBagConstraints gbc_label = new GridBagConstraints();
+		gbc_label.anchor = GridBagConstraints.WEST;
+		gbc_label.insets = new Insets(0, 0, 5, 5);
+		gbc_label.gridx = 0;
+		gbc_label.gridy = 1;
+		contentPanel.add(label, gbc_label);
+
 		txtFiltro = new JTextField();
 		txtFiltro.setColumns(10);
-		
-		JLabel label_1 = new JLabel(clazz.getSimpleName());
-		label_1.setHorizontalAlignment(SwingConstants.CENTER);
-		
+		GridBagConstraints gbc_txtFiltro = new GridBagConstraints();
+		gbc_txtFiltro.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtFiltro.insets = new Insets(0, 0, 5, 0);
+		gbc_txtFiltro.gridx = 1;
+		gbc_txtFiltro.gridy = 1;
+		contentPanel.add(txtFiltro, gbc_txtFiltro);
+
 		JScrollPane scrollPane = new JScrollPane();
-		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
-		gl_contentPanel.setHorizontalGroup(
-			gl_contentPanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPanel.createSequentialGroup()
-					.addGap(36)
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-						.addGroup(Alignment.TRAILING, gl_contentPanel.createSequentialGroup()
-							.addComponent(label, GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(txtFiltro, GroupLayout.PREFERRED_SIZE, 212, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED))
-						.addComponent(label_1, GroupLayout.PREFERRED_SIZE, 361, GroupLayout.PREFERRED_SIZE)
-						.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 360, GroupLayout.PREFERRED_SIZE))
-					.addGap(32))
-		);
-		gl_contentPanel.setVerticalGroup(
-			gl_contentPanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPanel.createSequentialGroup()
-					.addGap(32)
-					.addComponent(label_1, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
-					.addGap(11)
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(txtFiltro, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(label))
-					.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 132, GroupLayout.PREFERRED_SIZE)
-					.addGap(23))
-		);
-		
+
 		tabela = new JTable();
 		scrollPane.setViewportView(tabela);
-		contentPanel.setLayout(gl_contentPanel);
-		carregarTabela();
 		
+		carregarTabela();
 		tabela.addMouseListener(new MouseAdapter() {
-			
+
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) {
@@ -113,19 +106,18 @@ public class JDialogBusca<T, PK> extends JDialog {
 					dialogo.dispose();
 				}
 			}
-			
+
 		});
-		
 		AbstractAction delete = new AbstractAction(){
-			
-		    public void actionPerformed(ActionEvent e){
-		    	//TODO Método para exclusão dos dados
-		        int modelRow = Integer.valueOf( e.getActionCommand() );
-		        ((DefaultTableModel)tabela.getModel()).removeRow(modelRow);
-		    }
+
+			public void actionPerformed(ActionEvent e){
+				//TODO Método para exclusão dos dados
+				int modelRow = Integer.valueOf( e.getActionCommand() );
+				((DefaultTableModel)tabela.getModel()).removeRow(modelRow);
+			}
 		};
 		AbstractAction editar = new AbstractAction(){
-			
+
 			public void actionPerformed(ActionEvent e){
 				//TODO Método para editar
 			}
@@ -134,6 +126,11 @@ public class JDialogBusca<T, PK> extends JDialog {
 		int coluna = model.getCountadorColunas();
 		ButtonColumn botaoEditar = new ButtonColumn(tabela, editar, coluna);
 		ButtonColumn botaoExcluir = new ButtonColumn(tabela, delete, coluna + 1 );
+		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+		gbc_scrollPane.fill = GridBagConstraints.BOTH;
+		gbc_scrollPane.gridx = 1;
+		gbc_scrollPane.gridy = 2;
+		contentPanel.add(scrollPane, gbc_scrollPane);
 	}
 
 	private void carregarTabela() {
@@ -142,5 +139,5 @@ public class JDialogBusca<T, PK> extends JDialog {
 		tabela.setVisible(true);
 	}
 
-	
+
 }
