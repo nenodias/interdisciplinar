@@ -8,6 +8,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+import javax.swing.BorderFactory;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
@@ -28,22 +29,34 @@ import br.org.fgp.model.Usuario;
 import br.org.fgp.model.enums.TipoUsuario;
 import br.org.fgp.view.core.ComponenteControlado;
 
+import javax.swing.border.LineBorder;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.MatteBorder;
+import javax.swing.border.SoftBevelBorder;
+import javax.swing.border.TitledBorder;
+import javax.swing.UIManager;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+
 public class Login extends JFrame {
 
 	protected JPanel contentPane;
-	
+
 	protected JTextField txtUsuario;
-	
+
 	static Login frame = new Login();
-	
-	JLabel lblMsg = new JLabel("");
 
 	@Autowired
 	private UsuarioDao usuarioDao;
-	
+
 	private JPasswordField txtSenha;
 	private JButton btnLogar;
 	private static Future<?> threadLogin;
+
+	JLabel lblMsg = new JLabel("");
 
 	public static void main(String[] args) {
 		Runnable run = new Runnable() {
@@ -60,114 +73,74 @@ public class Login extends JFrame {
 	}
 
 	public Login() {
+		setTitle("Bem vindo");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 450, 303);
+		setSize(300, 183);
 		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setBorder(new TitledBorder(null, "Login", TitledBorder.LEFT, TitledBorder.TOP, null, null));
 		setContentPane(contentPane);
 		setLocationRelativeTo(null);
+		GridBagLayout gbl_contentPane = new GridBagLayout();
+		gbl_contentPane.columnWidths = new int[]{50, 100, 0};
+		gbl_contentPane.rowHeights = new int[]{14, 30, 30, 0, 0, 0};
+		gbl_contentPane.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
+		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		contentPane.setLayout(gbl_contentPane);
 
-		JLabel lblBemVindo = new JLabel("Bem Vindo!");
-		lblBemVindo.setFont(new Font("Tahoma", Font.PLAIN, 30));
+		JLabel lblUsurio = new JLabel("Usu\u00E1rio:");
+		GridBagConstraints gbc_lblUsurio = new GridBagConstraints();
+		gbc_lblUsurio.anchor = GridBagConstraints.WEST;
+		gbc_lblUsurio.insets = new Insets(0, 0, 5, 5);
+		gbc_lblUsurio.gridx = 0;
+		gbc_lblUsurio.gridy = 1;
+		contentPane.add(lblUsurio, gbc_lblUsurio);
 
 		txtUsuario = new JTextField();
 		txtUsuario.setColumns(10);
-		txtSenha = new JPasswordField();
-		txtSenha.setEchoChar('#');
-
-		JLabel lblUsurio = new JLabel("Usu\u00E1rio:");
+		GridBagConstraints gbc_txtUsuario = new GridBagConstraints();
+		gbc_txtUsuario.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtUsuario.insets = new Insets(0, 0, 5, 0);
+		gbc_txtUsuario.gridx = 1;
+		gbc_txtUsuario.gridy = 1;
+		contentPane.add(txtUsuario, gbc_txtUsuario);
 
 		JLabel lblSenha = new JLabel("Senha:");
+		GridBagConstraints gbc_lblSenha = new GridBagConstraints();
+		gbc_lblSenha.anchor = GridBagConstraints.WEST;
+		gbc_lblSenha.insets = new Insets(0, 0, 5, 5);
+		gbc_lblSenha.gridx = 0;
+		gbc_lblSenha.gridy = 2;
+		contentPane.add(lblSenha, gbc_lblSenha);
+		txtSenha = new JPasswordField();
+		txtSenha.setEchoChar('#');
+		GridBagConstraints gbc_txtSenha = new GridBagConstraints();
+		gbc_txtSenha.insets = new Insets(0, 0, 5, 0);
+		gbc_txtSenha.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtSenha.gridx = 1;
+		gbc_txtSenha.gridy = 2;
+		contentPane.add(txtSenha, gbc_txtSenha);
 
-		btnLogar = new JButton("Logar");
-		//Definindo o enter dispara o botão para Logar
-		rootPane.setDefaultButton(btnLogar);
-
-		lblMsg.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblMsg = new JLabel("");		
 		lblMsg.setForeground(Color.RED);
+		GridBagConstraints gbc_lblMsg = new GridBagConstraints();
+		gbc_lblMsg.gridx = 1;
+		gbc_lblMsg.gridy = 4;
+		contentPane.add(lblMsg, gbc_lblMsg);
 
-		GroupLayout gl_contentPane = new GroupLayout(contentPane);
-		gl_contentPane
-				.setHorizontalGroup(gl_contentPane
-						.createParallelGroup(Alignment.LEADING)
-						.addGroup(
-								gl_contentPane
-										.createSequentialGroup()
-										.addContainerGap(141, Short.MAX_VALUE)
-										.addGroup(
-												gl_contentPane
-														.createParallelGroup(
-																Alignment.TRAILING)
-														.addGroup(
-																gl_contentPane
-																		.createSequentialGroup()
-																		.addGroup(
-																				gl_contentPane
-																						.createParallelGroup(
-																								Alignment.LEADING,
-																								false)
-																						.addComponent(
-																								lblUsurio)
-																						.addComponent(
-																								lblSenha)
-																						.addComponent(
-																								lblBemVindo,
-																								GroupLayout.DEFAULT_SIZE,
-																								GroupLayout.DEFAULT_SIZE,
-																								Short.MAX_VALUE)
-																						.addComponent(
-																								txtSenha)
-																						.addComponent(
-																								txtUsuario))
-																		.addGap(130))
-														.addGroup(
-																gl_contentPane
-																		.createSequentialGroup()
-																		.addGroup(
-																				gl_contentPane
-																						.createParallelGroup(
-																								Alignment.LEADING)
-																						.addGroup(
-																								gl_contentPane
-																										.createSequentialGroup()
-																										.addGap(10)
-																										.addComponent(
-																												lblMsg))
-																						.addComponent(
-																								btnLogar,
-																								GroupLayout.PREFERRED_SIZE,
-																								90,
-																								GroupLayout.PREFERRED_SIZE))
-																		.addGap(161)))));
-		gl_contentPane.setVerticalGroup(gl_contentPane.createParallelGroup(
-				Alignment.LEADING).addGroup(
-				gl_contentPane
-						.createSequentialGroup()
-						.addGap(38)
-						.addComponent(lblBemVindo)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(lblUsurio)
-						.addGap(7)
-						.addComponent(txtUsuario, GroupLayout.PREFERRED_SIZE,
-								GroupLayout.DEFAULT_SIZE,
-								GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.UNRELATED)
-						.addComponent(lblSenha)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(txtSenha, GroupLayout.PREFERRED_SIZE,
-								GroupLayout.DEFAULT_SIZE,
-								GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(btnLogar)
-						.addPreferredGap(ComponentPlacement.UNRELATED)
-						.addComponent(lblMsg)
-						.addContainerGap(39, Short.MAX_VALUE)));
-		contentPane.setLayout(gl_contentPane);
+		btnLogar = new JButton("Entrar");	
+		//Definindo o enter dispara o BOTÃO para Logar
+		rootPane.setDefaultButton(btnLogar);
+		GridBagConstraints gbc_btnLogar = new GridBagConstraints();
+		gbc_btnLogar.insets = new Insets(0, 0, 5, 0);
+		gbc_btnLogar.gridx = 1;
+		gbc_btnLogar.gridy = 3;
+		contentPane.add(btnLogar, gbc_btnLogar);
+
 		ComponenteControlado<Login> controleAcesso = new ComponenteControlado<Login>(this); 
 		controleAcesso.pronto(TipoUsuario.ADMINISTRADOR);
 
 		btnLogar.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				logar();
@@ -176,16 +149,15 @@ public class Login extends JFrame {
 			private void logar() {
 				Usuario usuario = usuarioDao.buscarPorLogin(txtUsuario.getText());
 				String senhaCriptografada = SecurityUtils.encrypt( String.valueOf( txtSenha.getPassword() ) ) ;
-				if (usuario.getSenha().equals(senhaCriptografada ) ) {
-					JOptionPane.showMessageDialog(null, "Seja bem-vindo "
-							+ usuario.getLogin());
+				if (usuario.getSenha().equals(senhaCriptografada) ) {							
 					TelaPrincipal.main(usuario);
 					frame.dispose();
 					threadLogin.cancel(true);
 				} else {
-					lblMsg.setText("Usuário ou senha inválido.");
+					lblMsg.setText("Usuário ou senha inválidos.");
 				}
 			}
+
 		});
 	}
 
