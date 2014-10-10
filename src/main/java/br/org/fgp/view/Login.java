@@ -29,6 +29,8 @@ import java.awt.Insets;
 
 public class Login extends JFrame {
 
+	private static final long serialVersionUID = -6161972191900709890L;
+
 	protected JPanel contentPane;
 
 	protected JTextField txtUsuario;

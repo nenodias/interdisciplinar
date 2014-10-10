@@ -140,6 +140,7 @@ public class CriarBanco {
 		
 	}
 	
+	@SuppressWarnings("resource")
 	public static String lerArquivo(String caminhoArquivo) throws URISyntaxException{
 		StringBuilder  stringBuilder = new StringBuilder("");
 		URL resource = ApplicationContextConfig.getContext().getClassLoader().getResource(caminhoArquivo);

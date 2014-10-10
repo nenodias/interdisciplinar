@@ -4,11 +4,10 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -20,6 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.SwingWorker;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,12 +32,11 @@ import br.org.fgp.model.Estado;
 import br.org.fgp.model.Fornecedor;
 import br.org.fgp.model.enums.TipoUsuario;
 import br.org.fgp.view.core.ComponenteControlado;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.ItemListener;
-import java.awt.event.ItemEvent;
 
 public class CadastroFornecedor extends JPanel {
+	
+	private static final long serialVersionUID = 2174153481281619633L;
+	
 	private JTable tbContato;
 	private JTextField txtNomeFantasia;
 	private JTextField txtRazaoSocial;
@@ -79,8 +78,8 @@ public class CadastroFornecedor extends JPanel {
 		this.estadoDao = estadoDao;
 	}
 
-	private JComboBox cbbEstado;
-	private JComboBox cbbCidade;
+	private JComboBox<Estado> cbbEstado;
+	private JComboBox<Cidade> cbbCidade;
 	
 	/**
 	 * Create the panel.
@@ -120,11 +119,11 @@ public class CadastroFornecedor extends JPanel {
 		txtCnpj.setName("CNPJ");
 		txtCnpj.setColumns(10);
 		
-		cbbEstado = new JComboBox();
+		cbbEstado = new JComboBox<Estado>();
 	
 		
 		
-		cbbCidade = new JComboBox();
+		cbbCidade = new JComboBox<Cidade>();
 		
 		txtEndereco = new JTextField();
 		txtEndereco.setName("Endereço");
@@ -302,16 +301,34 @@ public class CadastroFornecedor extends JPanel {
 		}
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void carregarEstado(){
-		for (Estado estado : estadoDao.buscarTodos()) {
-			cbbEstado.addItem(estado);
-		}
+		SwingWorker<Object, String> swingWorker = new SwingWorker() {
+
+			@Override
+			protected Object doInBackground() throws Exception {
+				for (Estado estado : estadoDao.buscarTodos()) {
+					cbbEstado.addItem(estado);
+				}
+				return null;
+			}
+		};
+		swingWorker.execute();
 	}
 	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void carregarCidade(){
-		Estado item = (Estado) cbbEstado.getSelectedItem();
-		for (Cidade cidade : cidadeDao.buscaPorEstado(item.getId() ) ) {
-			cbbCidade.addItem(cidade);
-		}
+		SwingWorker<Object, String> swingWorker = new SwingWorker() {
+
+			@Override
+			protected Object doInBackground() throws Exception {
+				Estado item = (Estado) cbbEstado.getSelectedItem();
+				for (Cidade cidade : cidadeDao.buscaPorEstado(item.getId() ) ) {
+					cbbCidade.addItem(cidade);
+				}
+				return null;
+			}
+		};
+		swingWorker.execute();
 	}
 }
