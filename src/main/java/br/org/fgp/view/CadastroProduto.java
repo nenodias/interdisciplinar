@@ -2,8 +2,6 @@ package br.org.fgp.view;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -19,14 +17,17 @@ import br.org.fgp.dao.CategoriaDao;
 import br.org.fgp.dao.MarcaDao;
 import br.org.fgp.model.Categoria;
 import br.org.fgp.model.Marca;
-import br.org.fgp.model.enums.TipoUsuario;
+import br.org.fgp.model.Usuario;
 import br.org.fgp.view.core.ComponenteControlado;
 import br.org.fgp.view.core.JBusca;
 
 public class CadastroProduto extends JPanel {
 
+	private static final long serialVersionUID = 234546250563736381L;
+	
 	@Autowired
 	private MarcaDao marcaDao;
+	
 	@Autowired
 	private CategoriaDao categoriaDao;
 	
@@ -42,7 +43,7 @@ public class CadastroProduto extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public CadastroProduto(TipoUsuario tipoUsuario) {
+	public CadastroProduto(Usuario usuario) {
 		setBackground(UIManager.getColor("Button.background"));
 		
 		JLabel lblProduto = new JLabel("Produto");
@@ -163,17 +164,17 @@ public class CadastroProduto extends JPanel {
 		add(textField);
 		textField.setColumns(10);
 		
-		JBusca busca = new JBusca<Marca, Integer>();
+		JBusca<Marca, Integer> busca = new JBusca<Marca, Integer>();
 		busca.setBounds(176, 282, 297, 35);
 		add(busca);
 		
 
-		JBusca busca_Categoria = new JBusca<Categoria, Integer>();
+		JBusca<Categoria, Integer> busca_Categoria = new JBusca<Categoria, Integer>();
 		busca_Categoria.setBounds(175, 242, 297, 35);
 		add(busca_Categoria);
 		
 		ComponenteControlado<CadastroProduto> controleAcesso = new ComponenteControlado<CadastroProduto>(this); 
-		controleAcesso.pronto(tipoUsuario);
+		controleAcesso.pronto( usuario.getTipo() );
 		busca.setDaoGenerico(marcaDao);		
 		busca_Categoria.setDaoGenerico(categoriaDao);
 	}

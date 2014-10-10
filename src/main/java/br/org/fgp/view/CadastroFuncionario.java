@@ -12,7 +12,12 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
+import br.org.fgp.model.Cidade;
+import br.org.fgp.model.Estado;
+
 public class CadastroFuncionario extends JPanel {
+	
+	private static final long serialVersionUID = -2627759817945447945L;
 	private JTextField txtNome;
 	private JTextField txtEndereco;
 	private JTextField txtCpf;
@@ -35,9 +40,9 @@ public class CadastroFuncionario extends JPanel {
 		txtCpf = new JTextField();
 		txtCpf.setColumns(10);
 		
-		JComboBox cbbEstado = new JComboBox();
+		JComboBox<Estado> cbbEstado = new JComboBox<Estado>();
 		
-		JComboBox cbbCidade = new JComboBox();
+		JComboBox<Cidade> cbbCidade = new JComboBox<Cidade>();
 		
 		JLabel lblNome = new JLabel("Nome:");
 		

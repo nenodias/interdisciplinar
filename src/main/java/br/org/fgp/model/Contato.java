@@ -10,6 +10,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import br.org.fgp.view.annotations.Pesquisa;
+
 @Entity
 @Table(name = "CONTATO", indexes = @Index(columnList = "IdSetor") )
 public class Contato {
@@ -36,7 +38,7 @@ public class Contato {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-
+	
 	public String getEmail() {
 		return email;
 	}

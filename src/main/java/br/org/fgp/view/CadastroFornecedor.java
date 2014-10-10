@@ -30,6 +30,7 @@ import br.org.fgp.dao.FornecedorDao;
 import br.org.fgp.model.Cidade;
 import br.org.fgp.model.Estado;
 import br.org.fgp.model.Fornecedor;
+import br.org.fgp.model.Usuario;
 import br.org.fgp.model.enums.TipoUsuario;
 import br.org.fgp.view.core.ComponenteControlado;
 
@@ -84,7 +85,7 @@ public class CadastroFornecedor extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public CadastroFornecedor() {
+	public CadastroFornecedor(Usuario usuario) {
 		tbContato = new JTable();
 		
 		JLabel lblNomeFantasia = new JLabel("Nome Fantasia:");

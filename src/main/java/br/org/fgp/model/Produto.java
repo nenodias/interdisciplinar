@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import br.org.fgp.view.annotations.Pesquisa;
+
 @Entity
 @Table(name = "PRODUTO", indexes = { @Index(columnList = "IdCategoria"), @Index(columnList = "IdMarca") }  )
 public class Produto {
@@ -47,6 +49,7 @@ public class Produto {
 	@JoinColumn(name = "IdMarca")
 	public Marca marca;
 
+	@Pesquisa(nome = "Id", posicao = 0)
 	public Integer getId() {
 		return id;
 	}
@@ -55,6 +58,7 @@ public class Produto {
 		this.id = id;
 	}
 
+	@Pesquisa(nome = "Nome", posicao = 1)
 	public String getNome() {
 		return nome;
 	}
@@ -63,6 +67,7 @@ public class Produto {
 		this.nome = nome;
 	}
 
+	@Pesquisa(nome = "Descrição", posicao = 2)
 	public String getDescricao() {
 		return descricao;
 	}
@@ -71,6 +76,7 @@ public class Produto {
 		this.descricao = descricao;
 	}
 
+	@Pesquisa(nome = "Preço", posicao = 3)
 	public BigDecimal getPrecoUnitario() {
 		return precoUnitario;
 	}
@@ -95,6 +101,7 @@ public class Produto {
 		this.estoqueMinimo = estoqueMinimo;
 	}
 
+	@Pesquisa(nome = "Estoque", posicao = 4)
 	public Integer getEstoqueAtual() {
 		return estoqueAtual;
 	}
@@ -103,6 +110,7 @@ public class Produto {
 		this.estoqueAtual = estoqueAtual;
 	}
 
+	@Pesquisa(nome = "Categoria", posicao = 5)
 	public Categoria getCategoria() {
 		return categoria;
 	}
@@ -111,6 +119,7 @@ public class Produto {
 		this.categoria = categoria;
 	}
 
+	@Pesquisa(nome = "Marca", posicao = 6)
 	public Marca getMarca() {
 		return marca;
 	}

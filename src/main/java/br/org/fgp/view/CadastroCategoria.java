@@ -2,9 +2,10 @@ package br.org.fgp.view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Font;
-import java.awt.Graphics;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -14,49 +15,41 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.border.Border;
-import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.border.TitledBorder;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import br.org.fgp.dao.CategoriaDao;
 import br.org.fgp.model.Categoria;
-import br.org.fgp.model.enums.TipoUsuario;
+import br.org.fgp.model.Usuario;
 import br.org.fgp.view.core.ComponenteControlado;
-
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-
-import javax.swing.border.TitledBorder;
 
 public class CadastroCategoria extends JDialog {
 
+	private static final long serialVersionUID = 7790542144250751854L;
+
 	private final JPanel contentPanel = new JPanel();
 
+	private Integer codigoEntidade;
+	
 	private JTextField txtCategoria;
 
 	@Autowired
 	private CategoriaDao categoriaDao;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			CadastroCategoria dialog = new CadastroCategoria();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	public CadastroCategoria(Usuario usuarioLogado, Integer id) {
+		init(usuarioLogado);
+		Categoria categoria = categoriaDao.buscarPorId(id);
+		txtCategoria.setText(categoria.getDescricao());
+		codigoEntidade = id;
+	}
+	
+	public CadastroCategoria(Usuario usuarioLogado) {
+		init(usuarioLogado);
 	}
 
-	/**
-	 * Create the dialog.
-	 */
-	public CadastroCategoria() {
+	private void init(Usuario usuarioLogado) {
 		this.setModal(true);
 		setBounds(100, 100, 450, 300);
 		setSize(300, 200);
@@ -105,13 +98,17 @@ public class CadastroCategoria extends JDialog {
 		contentPanel.add(lblMsg, gbc_lblMsg);
 
 		ComponenteControlado<CadastroCategoria> controleAcesso = new ComponenteControlado<CadastroCategoria>(this); 
-		controleAcesso.pronto(TipoUsuario.ADMINISTRADOR);
+		controleAcesso.pronto(usuarioLogado.getTipo());
 
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Categoria categoria = new Categoria();
 				try{		
 					if(!txtCategoria.getText().isEmpty()){
+						if(codigoEntidade != null){
+							categoria.setId(codigoEntidade);
+							codigoEntidade = null;
+						}
 						categoria.setDescricao(txtCategoria.getText());					
 						categoriaDao.salvar(categoria);
 						JOptionPane.showMessageDialog(null, "Categoria cadastrada com sucesso.");
@@ -127,8 +124,6 @@ public class CadastroCategoria extends JDialog {
 				}
 			}
 		});
-
-
 	}
 
 	public CategoriaDao getCategoriaDao() {

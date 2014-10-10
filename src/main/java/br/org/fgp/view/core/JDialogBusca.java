@@ -1,31 +1,26 @@
 package br.org.fgp.view.core;
 
 import java.awt.BorderLayout;
-import java.awt.Desktop.Action;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
 
 import javax.swing.AbstractAction;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingConstants;
-import javax.swing.border.EmptyBorder;
+import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
 import br.org.fgp.core.dao.GenericoDao;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import javax.swing.border.TitledBorder;
 
 public class JDialogBusca<T, PK> extends JDialog {
 
@@ -35,15 +30,18 @@ public class JDialogBusca<T, PK> extends JDialog {
 	private JTextField txtFiltro;
 	private JTable tabela;
 	private GenericoDao<T, PK> daoGenerico;
+	
+	@SuppressWarnings("rawtypes")
 	private Class clazz;
 
-	private JDialogBusca dialogo;
+	private JDialogBusca<T, PK> dialogo;
 
 	/**
 	 * Create the dialog.
 	 * @param descricaoComponente 
 	 * @param codigoComponente 
 	 */
+	@SuppressWarnings("serial")
 	public JDialogBusca(GenericoDao<T, PK> daoGenerico, final JTextField codigoComponente, final JTextField descricaoComponente) {
 		dialogo = this;
 		this.daoGenerico = daoGenerico;

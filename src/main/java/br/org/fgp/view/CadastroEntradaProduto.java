@@ -12,14 +12,13 @@ import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
 public class CadastroEntradaProduto extends JPanel {
+	
+	private static final long serialVersionUID = -7159300943489660623L;
 	private JTextField txtFornecedor;
 	private JTextField txtProduto;
 	private JTextField txtQuantidade;
 	private JTextField txtPreco;
 
-	/**
-	 * Create the panel.
-	 */
 	public CadastroEntradaProduto() {
 		
 		JLabel label1 = new JLabel("Data:");

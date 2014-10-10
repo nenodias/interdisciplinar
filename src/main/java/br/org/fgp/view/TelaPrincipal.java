@@ -103,7 +103,7 @@ public class TelaPrincipal extends JFrame {
 		
 		mntmProdutos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				CadastroProduto cp = new CadastroProduto(usuarioLogado.getTipo());
+				CadastroProduto cp = new CadastroProduto(usuarioLogado);
 				frmInterdisciplinar.getContentPane().removeAll();
 				frmInterdisciplinar.getContentPane().setBounds(cp.getBounds());//, y, width, height);
 				frmInterdisciplinar.getContentPane().add(cp);//, BorderLayout.CENTER);
@@ -114,7 +114,7 @@ public class TelaPrincipal extends JFrame {
 		mntmFornecedor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				frmInterdisciplinar.getContentPane().removeAll();
-				CadastroFornecedor cf = new CadastroFornecedor();
+				CadastroFornecedor cf = new CadastroFornecedor(usuarioLogado);
 				frmInterdisciplinar.getContentPane().setBounds(cf.getBounds());//, y, width, height);
 				frmInterdisciplinar.getContentPane().add(cf);//, BorderLayout.CENTER);
 				frmInterdisciplinar.getContentPane().revalidate();
@@ -133,7 +133,7 @@ public class TelaPrincipal extends JFrame {
 		});
 		mntmCategorias.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				CadastroCategoria cc = new CadastroCategoria();
+				CadastroCategoria cc = new CadastroCategoria(usuarioLogado);
 				cc.setVisible(true);
 			}
 	});
