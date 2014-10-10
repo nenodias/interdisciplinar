@@ -1,4 +1,4 @@
-INSERT INTO CIDADE VALUES
+INSERT INTO CIDADE(Cidade, IdEstado) VALUES
 ('Afonso Cláudio', 8),
 ('Água Doce do Norte', 8),
 ('Águia Branca', 8),
@@ -995,7 +995,7 @@ INSERT INTO CIDADE VALUES
 ('Ipiranga de Goiás', 9),
 ('Iporá', 9),
 ('Israelândia', 9);
-INSERT INTO CIDADE VALUES
+INSERT INTO CIDADE(Cidade, IdEstado) VALUES
 ('Itaberaí', 9),
 ('Itaguari', 9),
 ('Itaguaru', 9),
@@ -1996,7 +1996,7 @@ INSERT INTO CIDADE VALUES
 ( 'Lagoa Santa', 11),
 ( 'Lajinha', 11),
 ( 'Lambari', 11);
-INSERT INTO CIDADE VALUES
+INSERT INTO CIDADE(Cidade, IdEstado) VALUES
 ( 'Lamim', 11),
 ( 'Laranjal', 11),
 ( 'Lassance', 11),
@@ -2027,7 +2027,7 @@ INSERT INTO CIDADE VALUES
 ( 'Mariana', 11),
 ( 'Marilac', 11),
 ( 'Mário Campos', 11);
-INSERT INTO CIDADE VALUES
+INSERT INTO CIDADE(Cidade, IdEstado) VALUES
 ( 'Maripá de Minas', 11),
 ( 'Marliéria', 11),
 ( 'Marmelópolis', 11),
@@ -2995,7 +2995,7 @@ INSERT INTO CIDADE VALUES
 ( 'Marilândia do Sul', 18),
 ( 'Marilena', 18),
 ( 'Mariluz', 18);
-INSERT INTO CIDADE VALUES
+INSERT INTO CIDADE(Cidade, IdEstado) VALUES
 ( 'Maringá', 18),
 ( 'Mariópolis', 18),
 ( 'Maripá', 18),
@@ -3896,7 +3896,7 @@ INSERT INTO CIDADE VALUES
 ( 'Benjamin Constant do Sul', 23),
 ( 'Bento Gonçalves', 23),
 ( 'Boa Vista das Missões', 23);
-INSERT INTO CIDADE VALUES
+INSERT INTO CIDADE(Cidade, IdEstado) VALUES
 ( 'Boa Vista do Buricá', 23),
 ( 'Boa Vista do Cadeado', 23),
 ( 'Boa Vista do Incra', 23),
@@ -3995,7 +3995,7 @@ INSERT INTO CIDADE VALUES
 ( 'Doutor Ricardo', 23),
 ( 'Eldorado do Sul', 23),
 ( 'Encantado', 23);
-INSERT INTO CIDADE VALUES
+INSERT INTO CIDADE(Cidade, IdEstado) VALUES
 ( 'Encruzilhada do Sul', 23),
 ( 'Engenho Velho', 23),
 ( 'Entre Rios do Sul', 23),
@@ -4995,7 +4995,7 @@ INSERT INTO CIDADE VALUES
 ( 'Jaguariúna', 26),
 ( 'Jales', 26),
 ( 'Jambeiro', 26);
-INSERT INTO CIDADE VALUES
+INSERT INTO CIDADE(Cidade, IdEstado) VALUES
 ( 'Jandira', 26),
 ( 'Jardinópolis', 26),
 ( 'Jarinu', 26),

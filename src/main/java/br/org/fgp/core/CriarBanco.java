@@ -103,9 +103,9 @@ public class CriarBanco {
 			usuarioDao.salvar(administrador);
 			
 			PaisDao paisDao = ApplicationContextConfig.getContext().getBean(PaisDao.class);
-			paisDao.execute("INSERT INTO Pais VALUES('Brasil')");
+			paisDao.execute("INSERT INTO PAIS(Pais) VALUES('Brasil');");
 			
-			paisDao.execute("INSERT INTO estado VALUES "+
+			paisDao.execute("INSERT INTO ESTADO(Estado, IdPais) VALUES "+
 					"('Acre', 1),                                    "
 					+ "('Alagoas',1),                                "
 					+ "('Amazonas', 1),                              "

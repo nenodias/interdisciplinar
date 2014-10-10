@@ -2,13 +2,14 @@ package br.org.fgp.model;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import br.org.fgp.model.pk.ContatoFornecedorId;
 @Entity
-@Table(name = "CONTATO_FORNECEDOR")
+@Table(name = "CONTATO_FORNECEDOR", indexes = { @Index(columnList = "IdContato"), @Index(columnList = "IdFornecedor") } )
 public class ContatoFornecedor {
 
 	

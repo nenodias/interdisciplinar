@@ -8,11 +8,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 @Entity
-@Table(name = "ENTRADA_PRODUTO")
+@Table(name = "ENTRADA_PRODUTO", indexes = { @Index(columnList = "IdFornecedor" ), @Index(columnList = "IdFuncionario" ), @Index(columnList = "IdProduto" ) } )
 public class EntradaProduto {
 	
 	@Id

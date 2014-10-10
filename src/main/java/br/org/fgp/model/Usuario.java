@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -15,7 +16,7 @@ import br.org.fgp.model.enums.TipoUsuario;
 import br.org.fgp.model.usertype.TipoUsuarioUserType;
 
 @Entity
-@Table(name = "USUARIO")
+@Table(name = "USUARIO", indexes = @Index(columnList = "IdFuncionario") )
 public class Usuario {
 
 	@Id
