@@ -12,50 +12,96 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+import javax.swing.border.TitledBorder;
+import br.org.fgp.view.core.JBusca;
+import br.org.fgp.model.Marca;
 
 public class Venda extends JPanel {
-	private JTextField txtCodigo;
 	private JTextField txtQuantidade;
-	private JTable tbProduto;
+	private JTable table;
 
 	/**
 	 * Create the panel.
 	 */
 	public Venda() {
+		setBorder(new TitledBorder(null, "Realizar Venda", TitledBorder.LEFT, TitledBorder.TOP, null, null));
+		GridBagLayout gridBagLayout = new GridBagLayout();
+		gridBagLayout.columnWidths = new int[]{50, 210, 20, 0};
+		gridBagLayout.rowHeights = new int[]{35, 35, 35, 0, 35, 0};
+		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
+		setLayout(gridBagLayout);		
 		
-		JLabel lblRealizarVenda = new JLabel("Realizar Venda");
-		lblRealizarVenda.setFont(new Font("Dialog", Font.PLAIN, 30));
+		JLabel lblCdigoProduto = new JLabel("Produto:");
+		GridBagConstraints gbc_lblCdigoProduto = new GridBagConstraints();
+		gbc_lblCdigoProduto.insets = new Insets(0, 0, 5, 5);
+		gbc_lblCdigoProduto.anchor = GridBagConstraints.WEST;
+		gbc_lblCdigoProduto.gridx = 0;
+		gbc_lblCdigoProduto.gridy = 1;
+		add(lblCdigoProduto, gbc_lblCdigoProduto);
 		
-		JLabel lblCdigoProduto = new JLabel("Código produto:");
+		JBusca<Marca, Integer> buscaProduto = new JBusca<Marca, Integer>();
+		GridBagConstraints gbc_buscaProduto = new GridBagConstraints();
+		gbc_buscaProduto.anchor = GridBagConstraints.SOUTHWEST;
+		gbc_buscaProduto.insets = new Insets(0, 0, 5, 5);
+		gbc_buscaProduto.gridx = 1;
+		gbc_buscaProduto.gridy = 1;
+		add(buscaProduto, gbc_buscaProduto);
 		
-		txtCodigo = new JTextField();
-		txtCodigo.setFont(new Font("Tahoma", Font.BOLD, 15));
-		txtCodigo.setColumns(10);
-		
-		JButton btnPesquisaProduto = new JButton("...");
-		btnPesquisaProduto.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				//PesquisaProduto pesquisaProduto = new PesquisaProduto();
-				//pesquisaProduto.setVisible(true);				
-			}
-		});
-		
-		JLabel lblNewLabel = new JLabel("Quantidade:");
+		JLabel lblQuantidade = new JLabel("Quantidade:");
+		GridBagConstraints gbc_lblQuantidade = new GridBagConstraints();
+		gbc_lblQuantidade.anchor = GridBagConstraints.WEST;
+		gbc_lblQuantidade.insets = new Insets(0, 0, 5, 5);
+		gbc_lblQuantidade.gridx = 0;
+		gbc_lblQuantidade.gridy = 2;
+		add(lblQuantidade, gbc_lblQuantidade);
 		
 		txtQuantidade = new JTextField();
-		txtQuantidade.setFont(new Font("Tahoma", Font.BOLD, 15));
+		GridBagConstraints gbc_txtQuantidade = new GridBagConstraints();
+		gbc_txtQuantidade.anchor = GridBagConstraints.WEST;
+		gbc_txtQuantidade.insets = new Insets(0, 0, 5, 5);
+		gbc_txtQuantidade.gridx = 1;
+		gbc_txtQuantidade.gridy = 2;
+		add(txtQuantidade, gbc_txtQuantidade);
 		txtQuantidade.setColumns(10);
 		
 		JButton btnAdicionar = new JButton("Adicionar");
+		GridBagConstraints gbc_btnAdicionar = new GridBagConstraints();
+		gbc_btnAdicionar.insets = new Insets(0, 0, 5, 0);
+		gbc_btnAdicionar.fill = GridBagConstraints.BOTH;
+		gbc_btnAdicionar.gridx = 2;
+		gbc_btnAdicionar.gridy = 2;
+		add(btnAdicionar, gbc_btnAdicionar);
 		
-		tbProduto = new JTable();
+		table = new JTable();
+		GridBagConstraints gbc_table = new GridBagConstraints();
+		gbc_table.gridwidth = 3;
+		gbc_table.insets = new Insets(0, 0, 5, 5);
+		gbc_table.fill = GridBagConstraints.BOTH;
+		gbc_table.gridx = 0;
+		gbc_table.gridy = 3;
+		add(table, gbc_table);
 		
 		JLabel newlabel = new JLabel("TOTAL:");
 		newlabel.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		GridBagConstraints gbc_newlabel = new GridBagConstraints();
+		gbc_newlabel.anchor = GridBagConstraints.WEST;
+		gbc_newlabel.insets = new Insets(0, 0, 0, 5);
+		gbc_newlabel.gridx = 0;
+		gbc_newlabel.gridy = 4;
+		add(newlabel, gbc_newlabel);
 		
 		JLabel lblTotal = new JLabel("00,00");
 		lblTotal.setFont(new Font("Tahoma", Font.PLAIN, 22));
-		
+		GridBagConstraints gbc_lblTotal = new GridBagConstraints();
+		gbc_lblTotal.fill = GridBagConstraints.HORIZONTAL;
+		gbc_lblTotal.insets = new Insets(0, 0, 0, 5);
+		gbc_lblTotal.gridx = 1;
+		gbc_lblTotal.gridy = 4;
+		add(lblTotal, gbc_lblTotal);
 		JButton btnFinalizarVenda = new JButton("Finalizar Venda");
 		btnFinalizarVenda.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -63,66 +109,11 @@ public class Venda extends JPanel {
 				pagamento.setVisible(true);
 			}
 		});
-		GroupLayout groupLayout = new GroupLayout(this);
-		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(42)
-					.addComponent(btnFinalizarVenda)
-					.addPreferredGap(ComponentPlacement.RELATED, 260, Short.MAX_VALUE)
-					.addComponent(newlabel)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(lblTotal)
-					.addGap(166))
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addContainerGap()
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addGroup(groupLayout.createSequentialGroup()
-									.addComponent(lblCdigoProduto)
-									.addGap(199)
-									.addComponent(lblNewLabel))
-								.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-									.addComponent(lblRealizarVenda)
-									.addGroup(groupLayout.createSequentialGroup()
-										.addComponent(txtCodigo, GroupLayout.PREFERRED_SIZE, 211, GroupLayout.PREFERRED_SIZE)
-										.addPreferredGap(ComponentPlacement.UNRELATED)
-										.addComponent(btnPesquisaProduto, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
-										.addGap(18)
-										.addComponent(txtQuantidade, GroupLayout.PREFERRED_SIZE, 86, GroupLayout.PREFERRED_SIZE)
-										.addPreferredGap(ComponentPlacement.UNRELATED)
-										.addComponent(btnAdicionar, GroupLayout.PREFERRED_SIZE, 126, GroupLayout.PREFERRED_SIZE)))))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(tbProduto, GroupLayout.DEFAULT_SIZE, 679, Short.MAX_VALUE)))
-					.addContainerGap())
-		);
-		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(lblRealizarVenda)
-					.addGap(18)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblCdigoProduto)
-						.addComponent(lblNewLabel))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
-						.addComponent(btnPesquisaProduto, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(txtCodigo, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE)
-						.addComponent(btnAdicionar, GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE)
-						.addComponent(txtQuantidade))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(tbProduto, GroupLayout.PREFERRED_SIZE, 348, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnFinalizarVenda, GroupLayout.PREFERRED_SIZE, 52, GroupLayout.PREFERRED_SIZE)
-						.addComponent(newlabel)
-						.addComponent(lblTotal))
-					.addContainerGap(43, Short.MAX_VALUE))
-		);
-		setLayout(groupLayout);
+		GridBagConstraints gbc_btnFinalizarVenda = new GridBagConstraints();
+		gbc_btnFinalizarVenda.fill = GridBagConstraints.BOTH;
+		gbc_btnFinalizarVenda.gridx = 2;
+		gbc_btnFinalizarVenda.gridy = 4;
+		add(btnFinalizarVenda, gbc_btnFinalizarVenda);
 
 	}
 }
