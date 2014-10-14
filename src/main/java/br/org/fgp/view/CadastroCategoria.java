@@ -19,37 +19,44 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+import br.org.fgp.core.TelasUtils;
 import br.org.fgp.dao.CategoriaDao;
 import br.org.fgp.model.Categoria;
 import br.org.fgp.model.Usuario;
+import br.org.fgp.model.enums.TipoUsuario;
 import br.org.fgp.view.core.ComponenteControlado;
+import br.org.fgp.view.core.Inicializavel;
 
-public class CadastroCategoria extends JDialog {
+@Component
+public class CadastroCategoria extends JDialog implements Inicializavel {
+
+	private static final String VAZIO = "";
 
 	private static final long serialVersionUID = 7790542144250751854L;
 
 	private final JPanel contentPanel = new JPanel();
 
-	private Integer codigoEntidade;
-	
 	private JTextField txtCategoria;
 
 	@Autowired
 	private CategoriaDao categoriaDao;
+	
+	private Categoria categoria;
 
-	public CadastroCategoria(Usuario usuarioLogado, Integer id) {
-		init(usuarioLogado);
-		Categoria categoria = categoriaDao.buscarPorId(id);
+	public void load(Integer id) {
+		init( TelasUtils.getUsuarioLogado() );
+		categoria = categoriaDao.buscarPorId(id);
 		txtCategoria.setText(categoria.getDescricao());
-		codigoEntidade = id;
 	}
 	
-	public CadastroCategoria(Usuario usuarioLogado) {
-		init(usuarioLogado);
+	public void init(Usuario usuario){
+		ComponenteControlado<CadastroCategoria> controleAcesso = new ComponenteControlado<CadastroCategoria>(this); 
+		controleAcesso.pronto(usuario.getTipo());
 	}
-
-	private void init(Usuario usuarioLogado) {
+	
+	public CadastroCategoria() {
 		this.setModal(true);
 		setBounds(100, 100, 450, 300);
 		setSize(300, 200);
@@ -89,29 +96,29 @@ public class CadastroCategoria extends JDialog {
 		gbc_btnSalvar.gridy = 2;
 		contentPanel.add(btnSalvar, gbc_btnSalvar);
 
-		final JLabel lblMsg = new JLabel("");
+		final JLabel lblMsg = new JLabel(VAZIO);
 		lblMsg.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		GridBagConstraints gbc_lblMsg = new GridBagConstraints();
 		gbc_lblMsg.anchor = GridBagConstraints.WEST;
 		gbc_lblMsg.gridx = 1;
 		gbc_lblMsg.gridy = 3;
 		contentPanel.add(lblMsg, gbc_lblMsg);
-
+		
 		ComponenteControlado<CadastroCategoria> controleAcesso = new ComponenteControlado<CadastroCategoria>(this); 
-		controleAcesso.pronto(usuarioLogado.getTipo());
+		controleAcesso.pronto(TipoUsuario.ADMINISTRADOR);
 
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Categoria categoria = new Categoria();
+				if(categoria == null){
+					categoria = new Categoria();
+				}
 				try{		
 					if(!txtCategoria.getText().isEmpty()){
-						if(codigoEntidade != null){
-							categoria.setId(codigoEntidade);
-							codigoEntidade = null;
-						}
 						categoria.setDescricao(txtCategoria.getText());					
 						categoriaDao.salvar(categoria);
 						JOptionPane.showMessageDialog(null, "Categoria cadastrada com sucesso.");
+						categoria = null;
+						txtCategoria.setText(VAZIO);	
 						dispose();
 					}
 					else {
@@ -133,4 +140,5 @@ public class CadastroCategoria extends JDialog {
 	public void setCategoriaDao(CategoriaDao categoriaDao) {
 		this.categoriaDao = categoriaDao;
 	}
+
 }

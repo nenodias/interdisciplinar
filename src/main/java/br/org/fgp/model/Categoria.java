@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import br.org.fgp.view.CadastroCategoria;
 import br.org.fgp.view.annotations.Pesquisa;
 
 @Entity
@@ -15,7 +16,8 @@ public class Categoria {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "IdCategoria")
+	@Column(name = "IdCateg"
+			+ "oria")
 	public Integer id;
 	
 	@Column(name = "Categoria")
@@ -37,4 +39,5 @@ public class Categoria {
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
+	
 }

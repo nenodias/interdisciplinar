@@ -31,7 +31,7 @@ public class InterdisciplinarReflectionUtil {
 		String nomeMetodo = LITERAL_GET.concat(campoUpperFirstWord);
 		Method metodo = null;
 		try {
-			metodo = clazz.getMethod(nomeMetodo, null);
+			metodo = clazz.getMethod(nomeMetodo, Void.class);
 		} catch (Exception e) {
 			LOGGER.info("Metodo não encontrado", e);
 		}

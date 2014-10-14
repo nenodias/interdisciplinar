@@ -1,7 +1,11 @@
 package br.org.fgp.view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -11,24 +15,24 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
-import br.org.fgp.dao.MarcaDao;
-import br.org.fgp.model.Marca;
-import br.org.fgp.model.enums.TipoUsuario;
-import br.org.fgp.view.core.ComponenteControlado;
-
-import java.awt.Color;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-
 import javax.swing.border.TitledBorder;
 
-public class CadastroMarca extends JDialog {
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import br.org.fgp.core.TelasUtils;
+import br.org.fgp.dao.MarcaDao;
+import br.org.fgp.model.Marca;
+import br.org.fgp.model.Usuario;
+import br.org.fgp.model.enums.TipoUsuario;
+import br.org.fgp.view.core.ComponenteControlado;
+import br.org.fgp.view.core.Inicializavel;
+
+@Component
+public class CadastroMarca extends JDialog implements Inicializavel {
+
+	private static final long serialVersionUID = 4699949600267605436L;
 
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txtMarca;
@@ -36,25 +40,11 @@ public class CadastroMarca extends JDialog {
 
 	@Autowired
 	private MarcaDao marcaDao;
+
 	private final JLabel lblMsg = new JLabel("");
 
+	private Marca marca;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			CadastroMarca dialog = new CadastroMarca();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
-	 * Create the dialog.
-	 */
 	public CadastroMarca() {
 		this.setModal(true);
 		setBounds(100, 100, 450, 300);
@@ -62,13 +52,16 @@ public class CadastroMarca extends JDialog {
 		setTitle("Marca");
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
-		contentPanel.setBorder(new TitledBorder(null, "Cadastrar nova Marca", TitledBorder.LEFT, TitledBorder.TOP, null, null));
+		contentPanel.setBorder(new TitledBorder(null, "Cadastrar nova Marca",
+				TitledBorder.LEFT, TitledBorder.TOP, null, null));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		GridBagLayout gbl_contentPanel = new GridBagLayout();
-		gbl_contentPanel.columnWidths = new int[]{60, 210, 0};
-		gbl_contentPanel.rowHeights = new int[]{35, 35, 35, 35, 0};
-		gbl_contentPanel.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
-		gbl_contentPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_contentPanel.columnWidths = new int[] { 60, 210, 0 };
+		gbl_contentPanel.rowHeights = new int[] { 35, 35, 35, 35, 0 };
+		gbl_contentPanel.columnWeights = new double[] { 0.0, 0.0,
+				Double.MIN_VALUE };
+		gbl_contentPanel.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0,
+				Double.MIN_VALUE };
 		contentPanel.setLayout(gbl_contentPanel);
 
 		JLabel lblMarca = new JLabel("Marca:");
@@ -79,7 +72,6 @@ public class CadastroMarca extends JDialog {
 		gbc_lblMarca.gridx = 0;
 		gbc_lblMarca.gridy = 1;
 		contentPanel.add(lblMarca, gbc_lblMarca);
-
 
 		txtMarca = new JTextField();
 		txtMarca.setColumns(10);
@@ -103,27 +95,30 @@ public class CadastroMarca extends JDialog {
 
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Marca marca = new Marca();
-				try
-				{
-					if(!txtMarca.getText().isEmpty()){
+				if(marca == null){
+					marca = new Marca();
+				}
+				try {
+					if (!txtMarca.getText().isEmpty()) {
 						marca.setMarca(txtMarca.getText());
 						marcaDao.salvar(marca);
-						JOptionPane.showMessageDialog(null, "Marca cadastrada com sucesso.");
+						JOptionPane.showMessageDialog(null,
+								"Marca cadastrada com sucesso.");
 						dispose();
+					} else {
+						JOptionPane.showMessageDialog(null,
+								"O campo Marca é obrigatório.");
+						txtMarca.setBorder(new LineBorder(new Color(255, 0, 0),
+								1));
 					}
-					else{
-						JOptionPane.showMessageDialog(null, "O campo Marca é obrigatório.");
-						txtMarca.setBorder(new LineBorder(new Color(255, 0, 0), 1));
-					}
-				}
-				catch(Exception ex){					
+				} catch (Exception ex) {
 					lblMsg.setText("Falha ao cadastrar nova marca.");
 				}
 			}
 		});
 
-		ComponenteControlado<CadastroMarca> controleAcesso = new ComponenteControlado<CadastroMarca>(this); 
+		ComponenteControlado<CadastroMarca> controleAcesso = new ComponenteControlado<CadastroMarca>(
+				this);
 		controleAcesso.pronto(TipoUsuario.ADMINISTRADOR);
 	}
 
@@ -135,4 +130,16 @@ public class CadastroMarca extends JDialog {
 		this.marcaDao = marcaDao;
 	}
 
+	@Override
+	public void load(Integer id) {
+		init(TelasUtils.getUsuarioLogado());
+		marca = marcaDao.buscarPorId(id);
+		txtMarca.setText(marca.getMarca());
+	}
+
+	public void init(Usuario usuario) {
+		ComponenteControlado<CadastroMarca> controleAcesso = new ComponenteControlado<CadastroMarca>(
+				this);
+		controleAcesso.pronto(usuario.getTipo());
+	}
 }

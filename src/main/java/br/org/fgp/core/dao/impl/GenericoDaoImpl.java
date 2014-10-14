@@ -43,7 +43,8 @@ public abstract class GenericoDaoImpl<T, PK> implements GenericoDao<T, PK> {
     	sqlQuery.executeUpdate();
     }
 
-    public void deletar(T entity) {
+    public void deletar(PK id) {
+    	T entity = buscarPorId(id);
         getSessaoAtual().delete(entity);
     }
 

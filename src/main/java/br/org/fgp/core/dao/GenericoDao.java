@@ -11,7 +11,7 @@ public abstract interface GenericoDao<T, PK>
 
   abstract void salvar(T entity);
 
-  abstract void deletar(T entity);
+  abstract void deletar(PK id);
   
   abstract void flush();
 

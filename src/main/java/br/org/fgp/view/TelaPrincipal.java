@@ -15,9 +15,13 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import br.org.fgp.core.ApplicationContextConfig;
+import br.org.fgp.core.TelasUtils;
 import br.org.fgp.model.Usuario;
 
 public class TelaPrincipal extends JFrame {
+
+	private static final long serialVersionUID = -7747890711976699854L;
 
 	private Usuario usuarioLogado;
 	
@@ -28,10 +32,11 @@ public class TelaPrincipal extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(final Usuario usuario) {
+		TelasUtils.setUsuarioLogado(usuario);
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					TelaPrincipal tp = new TelaPrincipal(usuario);
+					TelaPrincipal tp = new TelaPrincipal();
 					tp.frmInterdisciplinar.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -40,11 +45,8 @@ public class TelaPrincipal extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
-	public TelaPrincipal(Usuario usuario) {
-		usuarioLogado = usuario;
+	public TelaPrincipal() {
+		usuarioLogado = TelasUtils.getUsuarioLogado();
 		frmInterdisciplinar = new JFrame();
 		frmInterdisciplinar.setTitle("Interdisciplinar -");
 		frmInterdisciplinar.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -133,7 +135,8 @@ public class TelaPrincipal extends JFrame {
 		});
 		mntmCategorias.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				CadastroCategoria cc = new CadastroCategoria(usuarioLogado);
+				CadastroCategoria cc = ApplicationContextConfig.getContext().getBean(CadastroCategoria.class);
+				cc.init(usuarioLogado);
 				cc.setVisible(true);
 			}
 	});
