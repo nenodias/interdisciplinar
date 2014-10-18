@@ -282,13 +282,15 @@ public class CadastroFornecedor extends JPanel {
 			else{
 				Fornecedor fornecedor = new Fornecedor();
 				fornecedor.setCnpj(txtCnpj.getText());
-				fornecedor.setEnderecoComercial(txtEndereco.getText());
+				//TODO Corrigir o cadastro de Endereco e quebrar em mais campos
+//				fornecedor.setEnderecoComercial(txtEndereco.getText());
 				fornecedor.setInscricaoEstadual(txtInscricaoEstadual
 						.getText());
 				fornecedor.setNomeFantasia(txtNomeFantasia.getText());
 				fornecedor.setRazaoSocial(txtRazaoSocial.getText());
 				Cidade item = (Cidade) cbbCidade.getSelectedItem();
-				fornecedor.setCidade(item);
+				//TODO  A Cidade vai ser setada no Objeto referente ao endereço
+//				fornecedor.setCidade(item);
 				fornecedorDao.salvar(fornecedor);
 				JOptionPane.showMessageDialog(null, "Salvo com sucesso.");
 				

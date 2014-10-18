@@ -10,8 +10,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+
 @Entity
-@Table(name = "FORNECEDOR", indexes = @Index(columnList = "IdCidade" ) )
+@Table(name = "FORNECEDOR", indexes = @Index(columnList = "IdEndereco" ) )
 public class Fornecedor {
 
 	@Id
@@ -19,24 +22,22 @@ public class Fornecedor {
 	@Column(name = "IdFornecedor")
 	public Integer id;
 	
-	@Column(name = "Cnpj")
+	@Column(name = "Cnpj", length = 20)
 	public String cnpj;
 	
-	@Column(name = "IncricaoEstadual")
+	@Column(name = "IncricaoEstadual", length = 20)
 	public String inscricaoEstadual;
 	
-	@Column(name = "NomeFantasia")
+	@Column(name = "NomeFantasia", length = 200)
 	public String nomeFantasia;
 	
-	@Column(name = "RazaoSocial")
+	@Column(name = "RazaoSocial", length = 200)
 	public String razaoSocial;
 	
-	@Column(name = "EnderecoComenrcial")
-	public String enderecoComercial;
-	
+	@Cascade(value = CascadeType.ALL)
 	@ManyToOne
-	@JoinColumn(name = "IdCidade")
-	public Cidade cidade;
+	@JoinColumn(name = "IdEndereco")
+	public Endereco enderecoComercial;
 
 	public Integer getId() {
 		return id;
@@ -78,20 +79,12 @@ public class Fornecedor {
 		this.razaoSocial = razaoSocial;
 	}
 
-	public String getEnderecoComercial() {
+	public Endereco getEnderecoComercial() {
 		return enderecoComercial;
 	}
 
-	public void setEnderecoComercial(String enderecoComercial) {
+	public void setEnderecoComercial(Endereco enderecoComercial) {
 		this.enderecoComercial = enderecoComercial;
-	}
-
-	public Cidade getCidade() {
-		return cidade;
-	}
-
-	public void setCidade(Cidade cidade) {
-		this.cidade = cidade;
 	}
 
 }

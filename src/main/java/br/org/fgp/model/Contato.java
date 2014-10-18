@@ -10,21 +10,19 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import br.org.fgp.view.annotations.Pesquisa;
-
 @Entity
 @Table(name = "CONTATO", indexes = @Index(columnList = "IdSetor") )
 public class Contato {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "IdContato")
+	@Column(name = "IdContato")	
 	public Integer id;
 	
-	@Column(name = "Email")
+	@Column(name = "Email" , length = 200)
 	public String email;
 	
-	@Column(name = "Nome")
+	@Column(name = "Nome", length = 200)
 	public String nome;
 	
 	@ManyToOne

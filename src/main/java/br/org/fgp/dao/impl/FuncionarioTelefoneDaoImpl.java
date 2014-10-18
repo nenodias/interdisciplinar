@@ -4,9 +4,9 @@ import org.springframework.stereotype.Repository;
 
 import br.org.fgp.core.dao.impl.GenericoDaoImpl;
 import br.org.fgp.dao.FuncionarioTelefoneDao;
-import br.org.fgp.model.FuncionarioTelefone;
+import br.org.fgp.model.UsuarioTelefone;
 
 @Repository
-public class FuncionarioTelefoneDaoImpl extends GenericoDaoImpl<FuncionarioTelefone, FuncionarioTelefone> implements FuncionarioTelefoneDao {
+public class FuncionarioTelefoneDaoImpl extends GenericoDaoImpl<UsuarioTelefone, UsuarioTelefone> implements FuncionarioTelefoneDao {
 
 }

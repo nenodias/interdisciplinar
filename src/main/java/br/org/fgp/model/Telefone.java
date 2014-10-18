@@ -16,7 +16,7 @@ public class Telefone {
 	@Column(name = "IdTelefone")
 	private Integer id;
 	
-	@Column(name = "Telefone")
+	@Column(name = "Telefone", length = 20)
 	public String Telefone;
 	
 	@Column(name = "Tipo")

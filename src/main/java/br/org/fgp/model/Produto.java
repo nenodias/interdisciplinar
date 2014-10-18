@@ -23,13 +23,13 @@ public class Produto {
 	@Column(name = "IdProduto")
 	public Integer id;
 	
-	@Column(name = "Nome")
+	@Column(name = "Nome", length = 50)
 	public String nome;
 	
-	@Column(name = "Descricao")
+	@Column(name = "Descricao", length = 200)
 	public String descricao;
 	
-	@Column(name = "PrecoUnitario")
+	@Column(name = "PrecoUnitario", scale = 2, precision = 15)
 	public BigDecimal precoUnitario; //preco de venda
 	
 	@Column(name = "EstoqueMaximo")

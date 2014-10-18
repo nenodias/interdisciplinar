@@ -1,32 +1,30 @@
 package br.org.fgp.view;
 
 import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
 import javax.swing.border.TitledBorder;
-import br.org.fgp.view.core.JBusca;
-import br.org.fgp.model.Marca;
 
-public class Venda extends JPanel {
+import br.org.fgp.model.Marca;
+import br.org.fgp.view.core.JBusca;
+
+public class TelaVenda extends JPanel {
 	private JTextField txtQuantidade;
 	private JTable table;
 
 	/**
 	 * Create the panel.
 	 */
-	public Venda() {
+	public TelaVenda() {
 		setBorder(new TitledBorder(null, "Realizar Venda", TitledBorder.LEFT, TitledBorder.TOP, null, null));
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{50, 210, 20, 0};

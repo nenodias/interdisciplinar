@@ -126,7 +126,7 @@ public class TelaPrincipal extends JFrame {
 		mntmRealizarVenda.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0){
 				frmInterdisciplinar.getContentPane().removeAll();
-				Venda venda = new Venda();
+				TelaVenda venda = new TelaVenda();
 				frmInterdisciplinar.getContentPane().setBounds(venda.getBounds());//, y, width, height);
 				frmInterdisciplinar.getContentPane().add(venda);//, BorderLayout.CENTER);
 				frmInterdisciplinar.getContentPane().revalidate();

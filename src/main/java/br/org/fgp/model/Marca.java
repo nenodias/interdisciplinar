@@ -19,7 +19,7 @@ public class Marca {
 	@Column(name = "IdMarca")
 	public Integer id;
 	
-	@Column(name = "Marca")
+	@Column(name = "Marca", length = 30)
 	@LabelDescricao
 	public String marca;
 

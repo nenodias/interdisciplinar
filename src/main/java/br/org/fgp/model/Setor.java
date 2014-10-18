@@ -16,7 +16,7 @@ public class Setor {
 	@Column(name = "IdSetor")
 	public Integer id;
 	
-	@Column(name = "Setor")
+	@Column(name = "Setor", length = 30)
 	public String setor;
 
 	public Integer getId() {

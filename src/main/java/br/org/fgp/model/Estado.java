@@ -19,7 +19,7 @@ public class Estado {
 	@Column(name = "IdEstado")
 	public Integer id;
 	
-	@Column(name = "Estado")
+	@Column(name = "Estado", length = 40)
 	public String estado;
 	
 	@ManyToOne

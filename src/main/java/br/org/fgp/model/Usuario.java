@@ -10,13 +10,15 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Type;
 
 import br.org.fgp.model.enums.TipoUsuario;
 import br.org.fgp.model.usertype.TipoUsuarioUserType;
 
 @Entity
-@Table(name = "USUARIO", indexes = @Index(columnList = "IdFuncionario") )
+@Table(name = "USUARIO", indexes = @Index(columnList = "IdEndereco") )
 public class Usuario {
 
 	@Id
@@ -24,19 +26,26 @@ public class Usuario {
 	@Column(name = "IdUsuario")
 	private Integer id;
 	
-	@Column(name = "Login")
+	@Column(name = "Login", length = 150)
 	private String login;
 	
-	@Column(name = "Senha")
+	@Column(name = "Senha", length = 150)
 	private String senha;
 	
 	@Column(name = "IdTipo")
 	@Type(type = TipoUsuarioUserType.USER_TYPE)
 	private TipoUsuario tipo;
 	
+	@Column(name = "Nome", length = 200)
+	public String nome;
+	
+	@Column(name = "Cpf", length = 20)
+	public String cpf;
+	
+	@Cascade(value = CascadeType.ALL)
 	@ManyToOne
-	@JoinColumn(name = "IdFuncionario")
-	private Funcionario funcionario;
+	@JoinColumn(name = "IdEndereco")
+	public Endereco endereco;
 
 	public Integer getId() {
 		return id;
@@ -70,12 +79,28 @@ public class Usuario {
 		this.tipo = tipo;
 	}
 
-	public Funcionario getFuncionario() {
-		return funcionario;
+	public String getNome() {
+		return nome;
 	}
 
-	public void setFuncionario(Funcionario funcionario) {
-		this.funcionario = funcionario;
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public String getCpf() {
+		return cpf;
+	}
+
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
+	}
+
+	public Endereco getEndereco() {
+		return endereco;
+	}
+
+	public void setEndereco(Endereco endereco) {
+		this.endereco = endereco;
 	}
 
 }

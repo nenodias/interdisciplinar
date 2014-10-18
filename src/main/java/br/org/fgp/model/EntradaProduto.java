@@ -13,7 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 @Entity
-@Table(name = "ENTRADA_PRODUTO", indexes = { @Index(columnList = "IdFornecedor" ), @Index(columnList = "IdFuncionario" ), @Index(columnList = "IdProduto" ) } )
+@Table(name = "ENTRADA_PRODUTO", indexes = { @Index(columnList = "IdFornecedor" ), @Index(columnList = "IdUsuario" ), @Index(columnList = "IdProduto" ) } )
 public class EntradaProduto {
 	
 	@Id
@@ -27,7 +27,7 @@ public class EntradaProduto {
 	@Column(name = "Data")
 	public Date data;
 	
-	@Column(name = "PrecoCusto")
+	@Column(name = "PrecoCusto", scale = 2, precision = 15)
 	public BigDecimal precoCusto;
 	
 	@ManyToOne
@@ -35,8 +35,8 @@ public class EntradaProduto {
 	public Fornecedor fornecedor;
 	
 	@ManyToOne
-	@JoinColumn(name = "IdFuncionario")
-	public Funcionario funcionario;
+	@JoinColumn(name = "IdUsuario")
+	public Usuario usuario;
 	
 	@ManyToOne
 	@JoinColumn(name = "IdProduto")
@@ -82,12 +82,12 @@ public class EntradaProduto {
 		this.fornecedor = fornecedor;
 	}
 
-	public Funcionario getFuncionario() {
-		return funcionario;
+	public Usuario getUsuario() {
+		return usuario;
 	}
 
-	public void setFuncionario(Funcionario funcionario) {
-		this.funcionario = funcionario;
+	public void setUsuario(Usuario funcionario) {
+		this.usuario = funcionario;
 	}
 
 	public Produto getProduto() {

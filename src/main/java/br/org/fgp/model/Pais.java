@@ -16,7 +16,7 @@ public class Pais {
 	@Column(name = "IdPais")
 	public Integer id;
 	
-	@Column(name = "Pais")
+	@Column(name = "Pais", length = 30)
 	public String pais;
 
 	public Integer getId() {

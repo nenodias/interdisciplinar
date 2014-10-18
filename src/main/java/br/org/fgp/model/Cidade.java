@@ -19,7 +19,7 @@ public class Cidade {
 	@Column(name = "IdCidade")
 	public Integer id;
 	
-	@Column(name = "Cidade")
+	@Column(name = "Cidade" , length = 40)
 	public String descricao;
 	
 	@ManyToOne

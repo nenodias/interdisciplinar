@@ -10,26 +10,26 @@ import javax.persistence.Table;
 import br.org.fgp.model.pk.FuncionarioTelefoneId;
 
 @Entity
-@Table(name = "FUNCIONARIO_TELEFONE", indexes = { @Index(columnList = "IdFuncionario" ), @Index(columnList = "IdTelefone" ) } )
-public class FuncionarioTelefone {
+@Table(name = "USUARIO_TELEFONE", indexes = { @Index(columnList = "IdUsuario" ), @Index(columnList = "IdTelefone" ) } )
+public class UsuarioTelefone {
 
 	@EmbeddedId
 	private FuncionarioTelefoneId id;	
 	
 	@ManyToOne
-	@JoinColumn(name = "IdFuncionario", insertable = false, updatable = false)
-	public Funcionario funcionario;
+	@JoinColumn(name = "IdUsuario", insertable = false, updatable = false)
+	public Usuario usuario;
 
 	@ManyToOne
 	@JoinColumn(name = "IdTelefone", insertable = false, updatable = false)
 	public Telefone telefone;
 
-	public Funcionario getFuncionario() {
-		return funcionario;
+	public Usuario getUsuario() {
+		return usuario;
 	}
 
-	public void setFuncionario(Funcionario funcionario) {
-		this.funcionario = funcionario;
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
 	public Telefone getTelefone() {

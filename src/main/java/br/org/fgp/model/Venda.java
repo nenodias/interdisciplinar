@@ -14,23 +14,23 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "PEDIDO", indexes = @Index( columnList = "IdFunciorio" ) )
-public class Pedido {
+@Table(name = "VENDA", indexes = @Index( columnList = "IdUsuario" ) )
+public class Venda {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "IdPedido")
+	@Column(name = "IdVenda")
 	public Integer id;
 	
 	@Column(name = "Data")
 	public Date data;
 	
-	@Column(name = "ValorTotal")
+	@Column(name = "ValorTotal", scale = 2, precision = 15)
 	public BigDecimal valorTotal;
 	
 	@ManyToOne
-	@JoinColumn(name = "IdFunciorio")
-	public Funcionario funcionario;
+	@JoinColumn(name = "IdUsuario")
+	public Usuario usuario;
 
 	public Integer getId() {
 		return id;
@@ -48,12 +48,12 @@ public class Pedido {
 		this.data = data;
 	}
 	
-	public Funcionario getFuncionario() {
-		return funcionario;
+	public Usuario getUsuario() {
+		return usuario;
 	}
 
-	public void setFuncionario(Funcionario funcionario) {
-		this.funcionario = funcionario;
+	public void setUsuario(Usuario funcionario) {
+		this.usuario = funcionario;
 	}
 
 	public BigDecimal getValorTotal() {

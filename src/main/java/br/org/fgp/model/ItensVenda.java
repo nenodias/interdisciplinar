@@ -14,7 +14,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "ITENSPEDIDOS", indexes = { @Index(columnList = "IdProduto"), @Index(columnList = "IdPedido") } )
-public class ItensPedido {
+public class ItensVenda {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,7 +24,7 @@ public class ItensPedido {
 	@Column(name = "Quantidade")
 	public Integer quantidade;
 	
-	@Column(name = "ValorUnitario")
+	@Column(name = "ValorUnitario", scale = 2, precision = 15)
 	public BigDecimal valorUnitario;
 	
 	@ManyToOne
@@ -33,7 +33,7 @@ public class ItensPedido {
 
 	@ManyToOne
 	@JoinColumn(name = "IdPedido")
-	public Pedido pedido;
+	public Venda pedido;
 
 	public Integer getId() {
 		return id;
@@ -67,11 +67,11 @@ public class ItensPedido {
 		this.produto = produto;
 	}
 
-	public Pedido getPedido() {
+	public Venda getPedido() {
 		return pedido;
 	}
 
-	public void setPedido(Pedido pedido) {
+	public void setPedido(Venda pedido) {
 		this.pedido = pedido;
 	}
 

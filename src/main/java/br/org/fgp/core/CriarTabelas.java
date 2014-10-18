@@ -20,22 +20,22 @@ import br.org.fgp.model.Cidade;
 import br.org.fgp.model.Contato;
 import br.org.fgp.model.ContatoFornecedor;
 import br.org.fgp.model.ContatoTelefone;
+import br.org.fgp.model.Endereco;
 import br.org.fgp.model.EntradaProduto;
 import br.org.fgp.model.Estado;
 import br.org.fgp.model.Fornecedor;
-import br.org.fgp.model.Funcionario;
-import br.org.fgp.model.FuncionarioTelefone;
-import br.org.fgp.model.ItensPedido;
+import br.org.fgp.model.UsuarioTelefone;
+import br.org.fgp.model.ItensVenda;
 import br.org.fgp.model.Marca;
 import br.org.fgp.model.Pais;
-import br.org.fgp.model.Pedido;
+import br.org.fgp.model.Venda;
 import br.org.fgp.model.Produto;
 import br.org.fgp.model.Setor;
 import br.org.fgp.model.Telefone;
 import br.org.fgp.model.Usuario;
 import br.org.fgp.model.enums.TipoUsuario;
 
-public class CriarBanco {
+public class CriarTabelas {
 
 	private static final String JDBC_PASSWORD = "jdbc.password";
 	private static final String JDBC_USERNAME = "jdbc.username";
@@ -48,7 +48,7 @@ public class CriarBanco {
 	private static final String HIBERNATE_CONNECTION_URL = "hibernate.connection.url";
 	private static final String HIBERNATE_DIALECT = "hibernate.dialect";
 	private static final String HIBERNATE_UPDATE = "hbm2ddl.auto";
-	private static Logger LOGGER = Logger.getLogger(CriarBanco.class);
+	private static Logger LOGGER = Logger.getLogger(CriarTabelas.class);
 
 	public static void main(String[] args) throws IOException {
 		BasicDataSource datasource = ApplicationContextConfig.getContext().getBean(org.apache.commons.dbcp.BasicDataSource.class);
@@ -79,12 +79,12 @@ public class CriarBanco {
 		configuracao.addAnnotatedClass(EntradaProduto.class);
 		configuracao.addAnnotatedClass(Estado.class);
 		configuracao.addAnnotatedClass(Fornecedor.class);
-		configuracao.addAnnotatedClass(Funcionario.class);
-		configuracao.addAnnotatedClass(FuncionarioTelefone.class);
-		configuracao.addAnnotatedClass(ItensPedido.class);
+		configuracao.addAnnotatedClass(Endereco.class);
+		configuracao.addAnnotatedClass(UsuarioTelefone.class);
+		configuracao.addAnnotatedClass(ItensVenda.class);
 		configuracao.addAnnotatedClass(Marca.class);
 		configuracao.addAnnotatedClass(Pais.class);
-		configuracao.addAnnotatedClass(Pedido.class);
+		configuracao.addAnnotatedClass(Venda.class);
 		configuracao.addAnnotatedClass(Produto.class);
 		configuracao.addAnnotatedClass(Setor.class);
 		configuracao.addAnnotatedClass(Telefone.class);
@@ -97,6 +97,8 @@ public class CriarBanco {
 			Usuario administrador = new Usuario();
 			administrador.setLogin("admin");
 			administrador.setSenha(SecurityUtils.encrypt("123"));
+			administrador.setNome("Administrador");
+			administrador.setNome("Administrador");
 			administrador.setTipo(TipoUsuario.ADMINISTRADOR);
 			
 			UsuarioDao usuarioDao = ApplicationContextConfig.getContext().getBean(UsuarioDao.class);
