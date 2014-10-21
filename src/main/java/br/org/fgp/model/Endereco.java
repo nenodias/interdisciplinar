@@ -1,24 +1,17 @@
 package br.org.fgp.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Index;
+import javax.persistence.Embeddable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 
-@Entity
-@Table(name = "ENDERECO", indexes = {@Index(columnList = "IdCidade" ),@Index(columnList = "IdUsuario" ),@Index(columnList = "IdFornecedor" )})
-public class Endereco {
+@Embeddable
+public class Endereco implements Serializable{
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "IdEndereco")
-	public Integer id;
-	
+	private static final long serialVersionUID = 3771961905394408023L;
+
 	@Column(name = "Rua", length = 50)
 	public String rua;
 	
@@ -29,24 +22,8 @@ public class Endereco {
 	public String bairro;
 	
 	@ManyToOne
-	@JoinColumn(name = "IdCidade", nullable = false)
+	@JoinColumn(name = "IdCidade")
 	public Cidade cidade;
-	
-	@ManyToOne
-	@JoinColumn(name = "IdUsuario", nullable = true)
-	public Usuario usuario;
-	
-	@ManyToOne
-	@JoinColumn(name = "IdFornecedor", nullable = true)
-	public Fornecedor fornecedor;
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
 
 	public String getRua() {
 		return rua;
@@ -78,22 +55,6 @@ public class Endereco {
 
 	public void setCidade(Cidade cidade) {
 		this.cidade = cidade;
-	}
-
-	public Usuario getUsuario() {
-		return usuario;
-	}
-
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	}
-
-	public Fornecedor getFornecedor() {
-		return fornecedor;
-	}
-
-	public void setFornecedor(Fornecedor fornecedor) {
-		this.fornecedor = fornecedor;
 	}
 
 }

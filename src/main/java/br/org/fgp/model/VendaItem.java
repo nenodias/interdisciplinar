@@ -13,12 +13,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "ITENSPEDIDOS", indexes = { @Index(columnList = "IdProduto"), @Index(columnList = "IdPedido") } )
-public class ItensVenda {
+@Table(name = "VENDA_ITEM", indexes = { @Index(columnList = "IdProduto"), @Index(columnList = "IdVenda") } )
+public class VendaItem {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "IdItensPedido")
+	@Column(name = "IdVendaItem")
 	public Integer id;
 	
 	@Column(name = "Quantidade")
@@ -32,8 +32,8 @@ public class ItensVenda {
 	public Produto produto;
 
 	@ManyToOne
-	@JoinColumn(name = "IdPedido")
-	public Venda pedido;
+	@JoinColumn(name = "IdVenda")
+	public Venda venda;
 
 	public Integer getId() {
 		return id;
@@ -67,12 +67,12 @@ public class ItensVenda {
 		this.produto = produto;
 	}
 
-	public Venda getPedido() {
-		return pedido;
+	public Venda getVenda() {
+		return venda;
 	}
 
-	public void setPedido(Venda pedido) {
-		this.pedido = pedido;
+	public void setVenda(Venda venda) {
+		this.venda = venda;
 	}
 
 }

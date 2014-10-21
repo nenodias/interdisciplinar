@@ -1,24 +1,21 @@
 package br.org.fgp.model;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Type;
 
 import br.org.fgp.model.enums.TipoUsuario;
 import br.org.fgp.model.usertype.TipoUsuarioUserType;
 
 @Entity
-@Table(name = "USUARIO", indexes = @Index(columnList = "IdEndereco") )
+@Table(name = "USUARIO", indexes = @Index(columnList = "IdCidade" ) )
 public class Usuario {
 
 	@Id
@@ -42,9 +39,7 @@ public class Usuario {
 	@Column(name = "Cpf", length = 20)
 	public String cpf;
 	
-	@Cascade(value = CascadeType.ALL)
-	@ManyToOne
-	@JoinColumn(name = "IdEndereco")
+	@Embedded
 	public Endereco endereco;
 
 	public Integer getId() {

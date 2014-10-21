@@ -1,20 +1,16 @@
 package br.org.fgp.model;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
-
 @Entity
-@Table(name = "FORNECEDOR", indexes = @Index(columnList = "IdEndereco" ) )
+@Table(name = "FORNECEDOR", indexes = @Index(columnList = "IdCidade" ) )
 public class Fornecedor {
 
 	@Id
@@ -34,9 +30,7 @@ public class Fornecedor {
 	@Column(name = "RazaoSocial", length = 200)
 	public String razaoSocial;
 	
-	@Cascade(value = CascadeType.ALL)
-	@ManyToOne
-	@JoinColumn(name = "IdEndereco")
+	@Embedded
 	public Endereco enderecoComercial;
 
 	public Integer getId() {

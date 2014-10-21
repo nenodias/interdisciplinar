@@ -25,7 +25,7 @@ import br.org.fgp.model.EntradaProduto;
 import br.org.fgp.model.Estado;
 import br.org.fgp.model.Fornecedor;
 import br.org.fgp.model.UsuarioTelefone;
-import br.org.fgp.model.ItensVenda;
+import br.org.fgp.model.VendaItem;
 import br.org.fgp.model.Marca;
 import br.org.fgp.model.Pais;
 import br.org.fgp.model.Venda;
@@ -81,7 +81,7 @@ public class CriarTabelas {
 		configuracao.addAnnotatedClass(Fornecedor.class);
 		configuracao.addAnnotatedClass(Endereco.class);
 		configuracao.addAnnotatedClass(UsuarioTelefone.class);
-		configuracao.addAnnotatedClass(ItensVenda.class);
+		configuracao.addAnnotatedClass(VendaItem.class);
 		configuracao.addAnnotatedClass(Marca.class);
 		configuracao.addAnnotatedClass(Pais.class);
 		configuracao.addAnnotatedClass(Venda.class);
