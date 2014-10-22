@@ -142,7 +142,8 @@ public class TelaPrincipal extends JFrame {
 	});
 		mntmMarca.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				CadastroMarca cm = new CadastroMarca();
+				CadastroMarca cm = ApplicationContextConfig.getContext().getBean(CadastroMarca.class);
+				cm.init(usuarioLogado);
 				cm.setVisible(true);
 			}
 	});

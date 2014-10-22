@@ -104,8 +104,7 @@ public class CadastroCategoria extends JDialog implements Inicializavel {
 		gbc_lblMsg.gridy = 3;
 		contentPanel.add(lblMsg, gbc_lblMsg);
 		
-		ComponenteControlado<CadastroCategoria> controleAcesso = new ComponenteControlado<CadastroCategoria>(this); 
-		controleAcesso.pronto(TipoUsuario.ADMINISTRADOR);
+		
 
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
