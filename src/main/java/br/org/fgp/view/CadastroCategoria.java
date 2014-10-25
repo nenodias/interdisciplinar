@@ -8,6 +8,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Set;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -17,6 +18,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.ValidatorFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -25,7 +29,6 @@ import br.org.fgp.core.TelasUtils;
 import br.org.fgp.dao.CategoriaDao;
 import br.org.fgp.model.Categoria;
 import br.org.fgp.model.Usuario;
-import br.org.fgp.model.enums.TipoUsuario;
 import br.org.fgp.view.core.ComponenteControlado;
 import br.org.fgp.view.core.Inicializavel;
 
@@ -34,10 +37,11 @@ public class CadastroCategoria extends JDialog implements Inicializavel {
 
 	private static final String VAZIO = "";
 
-	private static final long serialVersionUID = 7790542144250751854L;
+	private static final long serialVersionUID = 7790542144250751854L;   
 
 	private final JPanel contentPanel = new JPanel();
 
+	
 	private JTextField txtCategoria;
 
 	@Autowired
@@ -108,30 +112,40 @@ public class CadastroCategoria extends JDialog implements Inicializavel {
 
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if(categoria == null){
-					categoria = new Categoria();
-				}
-				try{		
-					if(!txtCategoria.getText().isEmpty()){
-						categoria.setDescricao(txtCategoria.getText());					
-						categoriaDao.salvar(categoria);
-						JOptionPane.showMessageDialog(null, "Categoria cadastrada com sucesso.");
-						categoria = null;
-						txtCategoria.setText(VAZIO);	
-						dispose();
-					}
-					else {
-						JOptionPane.showMessageDialog(null, "O campo Categoria é obrigatório.");
-						txtCategoria.setBorder(new LineBorder(new Color(255, 0, 0), 1));
-					}
-				}
-				catch(Exception ex){
-					lblMsg.setText("Falha ao cadastrar nova categoria.");
-				}
+				salvar(lblMsg);
 			}
+
 		});
 	}
 
+	private void salvar(final JLabel lblMsg) {
+		if(categoria == null){
+			categoria = new Categoria();
+		}
+		try{
+			ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+			javax.validation.Validator myValidate = factory.getValidator();
+			Set<ConstraintViolation<CadastroCategoria>> validacao = myValidate.validate(this);
+			for (ConstraintViolation<CadastroCategoria> constraintViolation : validacao) {
+				JOptionPane.showMessageDialog(null,constraintViolation.getMessage());
+			}
+			if(!txtCategoria.getText().isEmpty()){
+				categoria.setDescricao(txtCategoria.getText());					
+				categoriaDao.salvar(categoria);
+				JOptionPane.showMessageDialog(null, "Categoria cadastrada com sucesso.");
+				categoria = null;
+				txtCategoria.setText(VAZIO);	
+				dispose();
+			}
+			else {
+				JOptionPane.showMessageDialog(null, "O campo Categoria é obrigatório.");
+				txtCategoria.setBorder(new LineBorder(new Color(255, 0, 0), 1));
+			}
+		}
+		catch(Exception ex){
+			lblMsg.setText("Falha ao cadastrar nova categoria.");
+		}
+	}
 	public CategoriaDao getCategoriaDao() {
 		return categoriaDao;
 	}

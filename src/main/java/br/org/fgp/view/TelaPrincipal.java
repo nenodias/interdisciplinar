@@ -1,6 +1,5 @@
 package br.org.fgp.view;
 
-
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
@@ -24,10 +23,10 @@ public class TelaPrincipal extends JFrame {
 	private static final long serialVersionUID = -7747890711976699854L;
 
 	private Usuario usuarioLogado;
-	
+
 	private JPanel contentPane;
 	private JFrame frmInterdisciplinar;
-	
+
 	/**
 	 * Launch the application.
 	 */
@@ -52,40 +51,40 @@ public class TelaPrincipal extends JFrame {
 		frmInterdisciplinar.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmInterdisciplinar.setBounds(100, 100, 800, 600);
 		frmInterdisciplinar.setLocationRelativeTo(null);
-		
+
 		JMenuBar menuBar = new JMenuBar();
 		frmInterdisciplinar.setJMenuBar(menuBar);
-		
+
 		JMenu mnCadastrar = new JMenu("Consultar");
 		menuBar.add(mnCadastrar);
-		
+
 		JMenu mnProdutos = new JMenu("Estoque");
 		mnCadastrar.add(mnProdutos);
-		
+
 		JMenuItem mntmEstoque = new JMenuItem("Movimenta\u00E7\u00E3o");
 		mnProdutos.add(mntmEstoque);
-		
+
 		JMenuItem mntmProdutos = new JMenuItem("Produtos");
 		mnCadastrar.add(mntmProdutos);
-				
+
 		JMenuItem mntmFornecedor = new JMenuItem("Fornecedores");
 		mnCadastrar.add(mntmFornecedor);
-		
+
 		JMenuItem mntmMarca = new JMenuItem("Marcas");
 		mnCadastrar.add(mntmMarca);
-		
+
 		JMenuItem mntmCategorias = new JMenuItem("Categorias");
 		mnCadastrar.add(mntmCategorias);
-		
+
 		JMenuItem mntmUsurio = new JMenuItem("Usu\u00E1rios");
 		mnCadastrar.add(mntmUsurio);
-		
+
 		JMenuItem mntmSetor = new JMenuItem("Setor");
 		mnCadastrar.add(mntmSetor);
-		
+
 		JMenu mnVenda = new JMenu("Venda");
 		menuBar.add(mnVenda);
-		
+
 		JMenuItem mntmRealizarVenda = new JMenuItem("Realizar Venda");
 		mnVenda.add(mntmRealizarVenda);
 		frmInterdisciplinar.getContentPane().setLayout(new BorderLayout(0, 0));
@@ -93,22 +92,22 @@ public class TelaPrincipal extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
-		gl_contentPane.setHorizontalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 732, Short.MAX_VALUE)
-		);
-		gl_contentPane.setVerticalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 484, Short.MAX_VALUE)
-		);
+		gl_contentPane.setHorizontalGroup(gl_contentPane.createParallelGroup(
+				Alignment.LEADING).addGap(0, 732, Short.MAX_VALUE));
+		gl_contentPane.setVerticalGroup(gl_contentPane.createParallelGroup(
+				Alignment.LEADING).addGap(0, 484, Short.MAX_VALUE));
 		contentPane.setLayout(gl_contentPane);
-		
+
 		mntmProdutos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				CadastroProduto cp = new CadastroProduto(usuarioLogado);
 				frmInterdisciplinar.getContentPane().removeAll();
-				frmInterdisciplinar.getContentPane().setBounds(cp.getBounds());//, y, width, height);
-				frmInterdisciplinar.getContentPane().add(cp);//, BorderLayout.CENTER);
+				frmInterdisciplinar.getContentPane().setBounds(cp.getBounds());// ,
+																				// y,
+																				// width,
+																				// height);
+				frmInterdisciplinar.getContentPane().add(cp);// ,
+																// BorderLayout.CENTER);
 				frmInterdisciplinar.getContentPane().revalidate();
 				cp.setVisible(true);
 			}
@@ -117,41 +116,60 @@ public class TelaPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				frmInterdisciplinar.getContentPane().removeAll();
 				CadastroFornecedor cf = new CadastroFornecedor(usuarioLogado);
-				frmInterdisciplinar.getContentPane().setBounds(cf.getBounds());//, y, width, height);
-				frmInterdisciplinar.getContentPane().add(cf);//, BorderLayout.CENTER);
+				frmInterdisciplinar.getContentPane().setBounds(cf.getBounds());// ,
+																				// y,
+																				// width,
+																				// height);
+				frmInterdisciplinar.getContentPane().add(cf);// ,
+																// BorderLayout.CENTER);
 				frmInterdisciplinar.getContentPane().revalidate();
 				cf.setVisible(true);
 			}
 		});
-		mntmRealizarVenda.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent arg0){
+		mntmRealizarVenda.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
 				frmInterdisciplinar.getContentPane().removeAll();
 				TelaVenda venda = new TelaVenda();
-				frmInterdisciplinar.getContentPane().setBounds(venda.getBounds());//, y, width, height);
-				frmInterdisciplinar.getContentPane().add(venda);//, BorderLayout.CENTER);
+				frmInterdisciplinar.getContentPane().setBounds(
+						venda.getBounds());// , y, width, height);
+				frmInterdisciplinar.getContentPane().add(venda);// ,
+																// BorderLayout.CENTER);
 				frmInterdisciplinar.getContentPane().revalidate();
 				venda.setVisible(true);
-			}			
+			}
+		});
+		mntmUsurio.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frmInterdisciplinar.getContentPane().removeAll();
+				CadastroUsuario cadastroUsuario = ApplicationContextConfig.getContext().getBean(CadastroUsuario.class);
+				cadastroUsuario.init(usuarioLogado);
+				frmInterdisciplinar.getContentPane().setBounds(cadastroUsuario.getBounds());
+				frmInterdisciplinar.getContentPane().add(cadastroUsuario);
+				frmInterdisciplinar.getContentPane().revalidate();
+				cadastroUsuario.setVisible(true);
+			}
 		});
 		mntmCategorias.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				CadastroCategoria cc = ApplicationContextConfig.getContext().getBean(CadastroCategoria.class);
+				CadastroCategoria cc = ApplicationContextConfig.getContext()
+						.getBean(CadastroCategoria.class);
 				cc.init(usuarioLogado);
 				cc.setVisible(true);
 			}
-	});
+		});
 		mntmMarca.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				CadastroMarca cm = ApplicationContextConfig.getContext().getBean(CadastroMarca.class);
+				CadastroMarca cm = ApplicationContextConfig.getContext()
+						.getBean(CadastroMarca.class);
 				cm.init(usuarioLogado);
 				cm.setVisible(true);
 			}
-	});
+		});
 		mntmSetor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				CadastroSetor cs = new CadastroSetor();
 				cs.setVisible(true);
 			}
-	});				
+		});
 	}
 }

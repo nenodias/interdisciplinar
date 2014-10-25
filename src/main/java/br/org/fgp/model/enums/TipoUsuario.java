@@ -36,4 +36,8 @@ public enum TipoUsuario {
 		}
 		return null;
 	}
+	@Override
+	public String toString() {
+		return descricao;
+	}
 }

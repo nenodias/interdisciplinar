@@ -8,37 +8,62 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+import javax.validation.Valid;
 
 import org.hibernate.annotations.Type;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
 
+import br.org.fgp.core.MessagemUtil;
 import br.org.fgp.model.enums.TipoUsuario;
 import br.org.fgp.model.usertype.TipoUsuarioUserType;
 
 @Entity
-@Table(name = "USUARIO", indexes = @Index(columnList = "IdCidade" ) )
+@Table(name = "USUARIO", indexes = {@Index(columnList = "IdCidade" )}, uniqueConstraints = @UniqueConstraint(columnNames = {Usuario.CPF } ) )
 public class Usuario {
+
+	protected static final String TIPO = "IdTipo";
+	protected static final int CPF_MAX = 20;
+	protected static final String CPF = "Cpf";
+	protected static final int NOME_MAX = 200;
+	protected static final String NOME = "Nome";
+	protected static final int SENHA_MAX = 150;
+	protected static final String SENHA = "Senha";
+	protected static final int LOGIN_MAX = 150;
+	protected static final String LOGIN = "Login";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "IdUsuario")
 	private Integer id;
 	
-	@Column(name = "Login", length = 150)
+	@NotBlank(message = MessagemUtil.CAMPO + LOGIN + MessagemUtil.NOT_BLANK)
+	@Length(max = LOGIN_MAX, message = MessagemUtil.CAMPO + LOGIN + MessagemUtil.MAX + LOGIN_MAX )
+	@Column(name = LOGIN, length = LOGIN_MAX)
 	private String login;
 	
-	@Column(name = "Senha", length = 150)
+	@NotBlank(message = MessagemUtil.CAMPO + SENHA + MessagemUtil.NOT_BLANK)
+	@Length(max = SENHA_MAX, message = MessagemUtil.CAMPO + SENHA + MessagemUtil.MAX + SENHA_MAX )
+	@Column(name = SENHA, length = SENHA_MAX)
 	private String senha;
 	
-	@Column(name = "IdTipo")
+	@Column(name = TIPO)
 	@Type(type = TipoUsuarioUserType.USER_TYPE)
 	private TipoUsuario tipo;
-	
-	@Column(name = "Nome", length = 200)
+
+	@NotBlank(message = MessagemUtil.CAMPO + NOME + MessagemUtil.NOT_BLANK)
+	@Length(max = NOME_MAX, message = MessagemUtil.CAMPO + NOME + MessagemUtil.MAX + NOME_MAX )
+	@Column(name = NOME, length = NOME_MAX)
 	public String nome;
 	
-	@Column(name = "Cpf", length = 20)
+	@NotBlank(message = MessagemUtil.CAMPO + CPF + MessagemUtil.NOT_BLANK)
+	@Length(max = CPF_MAX, message = MessagemUtil.CAMPO + CPF + MessagemUtil.MAX + CPF_MAX)
+	@Column(name = CPF, length = CPF_MAX)
+	@org.hibernate.validator.constraints.br.CPF(message = MessagemUtil.CAMPO + CPF + MessagemUtil.INVALIDO)
 	public String cpf;
 	
+	@Valid
 	@Embedded
 	public Endereco endereco;
 
