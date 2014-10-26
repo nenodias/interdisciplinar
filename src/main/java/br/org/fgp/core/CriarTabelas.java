@@ -24,15 +24,15 @@ import br.org.fgp.model.Endereco;
 import br.org.fgp.model.EntradaProduto;
 import br.org.fgp.model.Estado;
 import br.org.fgp.model.Fornecedor;
-import br.org.fgp.model.UsuarioTelefone;
-import br.org.fgp.model.VendaItem;
 import br.org.fgp.model.Marca;
 import br.org.fgp.model.Pais;
-import br.org.fgp.model.Venda;
 import br.org.fgp.model.Produto;
 import br.org.fgp.model.Setor;
 import br.org.fgp.model.Telefone;
 import br.org.fgp.model.Usuario;
+import br.org.fgp.model.UsuarioTelefone;
+import br.org.fgp.model.Venda;
+import br.org.fgp.model.VendaItem;
 import br.org.fgp.model.enums.TipoUsuario;
 
 public class CriarTabelas {
@@ -94,16 +94,6 @@ public class CriarTabelas {
 			SchemaExport schema = new SchemaExport(configuracao,datasource.getConnection());
 			schema.create(true, true);
 			
-			Usuario administrador = new Usuario();
-			administrador.setLogin("admin");
-			administrador.setSenha(SecurityUtils.encrypt("123"));
-			administrador.setNome("Administrador");
-			administrador.setNome("Administrador");
-			administrador.setTipo(TipoUsuario.ADMINISTRADOR);
-			
-			UsuarioDao usuarioDao = ApplicationContextConfig.getContext().getBean(UsuarioDao.class);
-			usuarioDao.salvar(administrador);
-			
 			PaisDao paisDao = ApplicationContextConfig.getContext().getBean(PaisDao.class);
 			paisDao.execute("INSERT INTO PAIS(Pais) VALUES('Brasil');");
 			
@@ -136,6 +126,23 @@ public class CriarTabelas {
 					+ "('São Paulo', 1),                             "
 					+ "('Tocantins', 1);");                           
 			paisDao.execute(lerArquivo("script/cidades.sql"));
+			
+			UsuarioDao usuarioDao = ApplicationContextConfig.getContext().getBean(UsuarioDao.class);
+			
+			Usuario administrador = new Usuario();
+			administrador.setLogin("admin");
+			administrador.setSenha(SecurityUtils.encrypt("123"));
+			administrador.setNome("Administrador");
+			administrador.setNome("Administrador");
+			administrador.setTipo(TipoUsuario.ADMINISTRADOR);
+			administrador.setCpf("111.444.777-35");
+			
+			Cidade cidade = new Cidade();
+			cidade.setId(5010);
+			
+			administrador.setEndereco(new Endereco("Rua dos Bobos", "0", "Núcleo Habitacional Luiz Zillo", cidade ));
+			
+			usuarioDao.salvar(administrador);
 		}catch(Exception e){
 			LOGGER.error(e);
 		}

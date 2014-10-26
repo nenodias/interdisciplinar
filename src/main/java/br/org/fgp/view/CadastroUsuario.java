@@ -13,7 +13,9 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingWorker;
 import javax.validation.ConstraintViolation;
@@ -47,13 +49,13 @@ public class CadastroUsuario extends JPanel implements Inicializavel {
 	
 	private static final String CLASS_NAME = "Usuário";
 	
-	private static final int X = 10; 
+	private static final int X = 0; 
 	
-	private static final int Y = 10; 
+	private static final int Y = 0; 
 	
 	private static final int LARGURA_COMPONENTES = 300;
 	
-	private static final int ALTURA_COMPONENTES = 20;
+	private static final int ALTURA_COMPONENTES = 18;
 	
 	private static final Logger LOGGER = Logger.getLogger(CadastroUsuario.class);
 	
@@ -179,10 +181,18 @@ public class CadastroUsuario extends JPanel implements Inicializavel {
 		cbbCidade = new JComboBox<Cidade>();
 		adicionarComponente(cbbCidade, 20);
 		
+		JScrollPane painelTabela = new JScrollPane();
+		JTable tabela = new JTable();
+		painelTabela.add(tabela);
+		painelTabela.setBounds(X+ ALTURA_COMPONENTES , Y +(22 *ALTURA_COMPONENTES) , LARGURA_COMPONENTES*2, ALTURA_COMPONENTES+ALTURA_COMPONENTES*2);
+		add(painelTabela);
+
 		splitPane = new JSplitPane();
 		splitPane.setOneTouchExpandable(false);
-		adicionarComponente(splitPane, 22);
-		add(splitPane);
+		adicionarComponente(splitPane, 26);
+		
+		
+		
 		
 		btnSalvar = new JButton("Salvar");
 		splitPane.setLeftComponent(btnSalvar);
@@ -364,11 +374,11 @@ public class CadastroUsuario extends JPanel implements Inicializavel {
 	
 	private void adicionarComponente(JComponent componente, int valor){
 		if(componente instanceof JLabel){
-			componente.setBounds(X  , Y +(valor *ALTURA_COMPONENTES) +  ALTURA_COMPONENTES , LARGURA_COMPONENTES, ALTURA_COMPONENTES);
+			componente.setBounds(X  , Y +(valor *ALTURA_COMPONENTES) , LARGURA_COMPONENTES, ALTURA_COMPONENTES);
 			JLabel jLabel = (JLabel)componente;
 			jLabel.setHorizontalAlignment(JLabel.RIGHT);
 		}else{
-			componente.setBounds(X  +LARGURA_COMPONENTES , Y+(valor *ALTURA_COMPONENTES)+ALTURA_COMPONENTES, LARGURA_COMPONENTES, ALTURA_COMPONENTES);
+			componente.setBounds(X  +LARGURA_COMPONENTES , Y+(valor *ALTURA_COMPONENTES), LARGURA_COMPONENTES, ALTURA_COMPONENTES);
 		}
 		if (componente instanceof JTextField) {
 			JTextField textField = (JTextField) componente;
