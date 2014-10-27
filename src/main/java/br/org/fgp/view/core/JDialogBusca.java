@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
@@ -24,9 +26,6 @@ import br.org.fgp.core.ApplicationContextConfig;
 import br.org.fgp.core.TelasUtils;
 import br.org.fgp.core.dao.Filtravel;
 import br.org.fgp.core.dao.GenericoDao;
-
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
 public class JDialogBusca<T, PK> extends JDialog {
 
@@ -161,14 +160,12 @@ public class JDialogBusca<T, PK> extends JDialog {
 		carregarTodosTabela();
 	}
 	
-	@SuppressWarnings({"unchecked","rawtypes"})
+	@SuppressWarnings({"unchecked","rawtypes", "unused"})
 	private void chamarEditar(Integer id) {
 		Class classeDoObjeto = daoGenerico.getObjectClass();
 		Class classeTela = TelasUtils.getView(classeDoObjeto);
 		Object tela = ApplicationContextConfig.getContext().getBean(classeTela);
-		if(tela instanceof JDialog){
-			JDialog telaDialogo = (JDialog) tela;
-		}else if(tela instanceof JPanel){
+		if(tela instanceof JPanel){
 			JPanel telaPainel = (JPanel) tela;
 			tabela.getParent().getParent();
 		}
@@ -200,9 +197,9 @@ public class JDialogBusca<T, PK> extends JDialog {
 		contentPanel.add(scrollPane, gbc_scrollPane);
 	}
 
+	@SuppressWarnings("unchecked")
 	private void eventoFiltro(){
 		try{
-		
 			Filtravel<T> filtravelDao = (Filtravel<T>) daoGenerico;
 			List<T> filtrarPorDescricao = filtravelDao.filtrarPorDescricao(txtFiltro.getText());
 			carregarTabela(filtrarPorDescricao);

@@ -22,8 +22,8 @@ public class TelasUtils {
 
 	private static Usuario usuarioLogado;
 	
-	public static Class getView(Class clazz){
-		Map<Class, Class> mapa = new HashMap<Class, Class>();
+	public static Class<?> getView(Class<?> clazz){
+		Map<Class<?>, Class<?>> mapa = new HashMap<Class<?>, Class<?>>();
 		
 		mapa.put(Categoria.class, CadastroCategoria.class);
 		mapa.put(EntradaProduto.class, CadastroEntradaProduto.class);

@@ -1,5 +1,7 @@
 package br.org.fgp.model;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -7,10 +9,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.Valid;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
@@ -66,6 +71,10 @@ public class Usuario {
 	@Valid
 	@Embedded
 	public Endereco endereco;
+	
+	@Cascade(value = CascadeType.ALL)
+	@OneToMany(mappedBy = "usuario", cascade = javax.persistence.CascadeType.ALL)
+	public List<UsuarioTelefone> listaTelefone;
 
 	public Integer getId() {
 		return id;
@@ -121,6 +130,14 @@ public class Usuario {
 
 	public void setEndereco(Endereco endereco) {
 		this.endereco = endereco;
+	}
+
+	public List<UsuarioTelefone> getListaTelefone() {
+		return listaTelefone;
+	}
+
+	public void setListaTelefone(List<UsuarioTelefone> listaTelefone) {
+		this.listaTelefone = listaTelefone;
 	}
 
 }

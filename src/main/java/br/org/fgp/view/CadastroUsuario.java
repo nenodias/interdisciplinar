@@ -1,14 +1,19 @@
 package br.org.fgp.view;
 
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -23,6 +28,7 @@ import javax.validation.Validation;
 import javax.validation.ValidationException;
 import javax.validation.ValidatorFactory;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -35,10 +41,13 @@ import br.org.fgp.dao.UsuarioDao;
 import br.org.fgp.model.Cidade;
 import br.org.fgp.model.Endereco;
 import br.org.fgp.model.Estado;
+import br.org.fgp.model.Telefone;
 import br.org.fgp.model.Usuario;
+import br.org.fgp.model.UsuarioTelefone;
 import br.org.fgp.model.enums.TipoUsuario;
 import br.org.fgp.view.core.ComponenteControlado;
 import br.org.fgp.view.core.Inicializavel;
+import br.org.fgp.view.core.TableModelGenerico;
 
 @Component
 public class CadastroUsuario extends JPanel implements Inicializavel {
@@ -99,6 +108,14 @@ public class CadastroUsuario extends JPanel implements Inicializavel {
 	}
 	
 	private SwingWorker<Object, String> cidadeWorker;
+
+	private List<UsuarioTelefone> listaTelefones;
+
+	private TableModelGenerico modelGenerico;
+
+	private JScrollPane painelTabela;
+
+	private JTable tabela;
 
 	public EstadoDao getEstadoDao() {
 		return estadoDao;
@@ -181,18 +198,31 @@ public class CadastroUsuario extends JPanel implements Inicializavel {
 		cbbCidade = new JComboBox<Cidade>();
 		adicionarComponente(cbbCidade, 20);
 		
-		JScrollPane painelTabela = new JScrollPane();
-		JTable tabela = new JTable();
-		painelTabela.add(tabela);
+		painelTabela = new JScrollPane();
+		tabela = new JTable();
+		if(usuario != null && usuario.getListaTelefone() != null ){
+			listaTelefones = usuario.getListaTelefone();
+		}else{
+			listaTelefones = new ArrayList<UsuarioTelefone>();
+		}
+		modelGenerico = new TableModelGenerico(listaTelefones, UsuarioTelefone.class, false);
+		
+		JButton btnAdicionarTelefone = new JButton("Adicionar");
+		JLabel telefones = new JLabel("Telefone:");
+		adicionarComponente(telefones, 21);
+		telefones.setHorizontalAlignment(JLabel.CENTER);
+		btnAdicionarTelefone.setBounds(X+ ALTURA_COMPONENTES , Y +(20 *ALTURA_COMPONENTES) , LARGURA_COMPONENTES /2, ALTURA_COMPONENTES);
+		add(btnAdicionarTelefone);
+		tabela.setModel(modelGenerico);
+		tabela.setEnabled(true);
+		painelTabela.setViewportView(tabela);
+		painelTabela.setEnabled(true);
 		painelTabela.setBounds(X+ ALTURA_COMPONENTES , Y +(22 *ALTURA_COMPONENTES) , LARGURA_COMPONENTES*2, ALTURA_COMPONENTES+ALTURA_COMPONENTES*2);
 		add(painelTabela);
+		painelTabela.setVisible(true);
 
 		splitPane = new JSplitPane();
-		splitPane.setOneTouchExpandable(false);
 		adicionarComponente(splitPane, 26);
-		
-		
-		
 		
 		btnSalvar = new JButton("Salvar");
 		splitPane.setLeftComponent(btnSalvar);
@@ -201,6 +231,12 @@ public class CadastroUsuario extends JPanel implements Inicializavel {
 		splitPane.setRightComponent(btnCancelar);
 		splitPane.setDividerLocation(LARGURA_COMPONENTES/2);
 		splitPane.setEnabled(false);
+		
+		ComponenteControlado<CadastroUsuario> controleAcesso = new ComponenteControlado<CadastroUsuario>(this); 
+		controleAcesso.pronto(TipoUsuario.ADMINISTRADOR);
+		
+		carregarEstado();
+		carregarCidade();
 		
 		cbbEstado.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent arg0) {
@@ -221,16 +257,22 @@ public class CadastroUsuario extends JPanel implements Inicializavel {
 			}
 
 		});
-
-		ComponenteControlado<CadastroUsuario> controleAcesso = new ComponenteControlado<CadastroUsuario>(this); 
-		controleAcesso.pronto(TipoUsuario.ADMINISTRADOR);
 		
-		carregarEstado();
-		carregarCidade();
+		btnAdicionarTelefone.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				adicionarTelefone();
+			}
+		});
 	}
 	
 	private void cancelar() {
-		
+		if(this.getParent().getParent().getParent().getParent() instanceof JFrame){
+			JFrame frame = (JFrame) this.getParent().getParent().getParent().getParent();
+			frame.getContentPane().removeAll();
+			JPanel panel = new JPanel();
+		 	frame.getContentPane().add(panel, BorderLayout.CENTER);
+		 	frame.getContentPane().revalidate();
+		}
 	}
 	
 	private void salvar() {
@@ -390,5 +432,28 @@ public class CadastroUsuario extends JPanel implements Inicializavel {
 		this.add(componente);
 		componente.setVisible(true);
 	}
-	
+
+	private void adicionarTelefone() {
+		final Telefone telefone = new Telefone();
+		Runnable runnable = new Runnable() {
+			public void run() {
+				try {
+					CadastroTelefone dialog = new CadastroTelefone(telefone);
+					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+					dialog.setVisible(true);
+				} catch (Exception e) {
+					LOGGER.error(e);
+				}
+			}
+		};
+		runnable.run();
+		if(StringUtils.isNotBlank( telefone.getTelefone() ) ){
+			UsuarioTelefone usuarioTelefone = new UsuarioTelefone();
+			usuarioTelefone.setTelefone(telefone);
+			usuarioTelefone.setUsuario(usuario);
+			listaTelefones.add(usuarioTelefone);
+			modelGenerico.fireTableDataChanged();
+			tabela.updateUI();
+		}
+	}
 }

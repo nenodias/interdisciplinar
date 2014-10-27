@@ -8,6 +8,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import br.org.fgp.model.pk.FuncionarioTelefoneId;
+import br.org.fgp.view.annotations.Pesquisa;
 
 @Entity
 @Table(name = "USUARIO_TELEFONE", indexes = { @Index(columnList = "IdUsuario" ), @Index(columnList = "IdTelefone" ) } )
@@ -32,6 +33,7 @@ public class UsuarioTelefone {
 		this.usuario = usuario;
 	}
 
+	@Pesquisa(nome = "Telefone", posicao = 0)
 	public Telefone getTelefone() {
 		return telefone;
 	}
@@ -47,5 +49,5 @@ public class UsuarioTelefone {
 	public void setId(FuncionarioTelefoneId id) {
 		this.id = id;
 	}
-
+	
 }
