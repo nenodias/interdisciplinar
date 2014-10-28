@@ -144,7 +144,7 @@ public class TelaPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				CadastroCategoria cc = ApplicationContextConfig.getContext()
 						.getBean(CadastroCategoria.class);
-				cc.init(usuarioLogado);
+				cc.init(TelasUtils.getUsuarioLogado());
 				cc.setVisible(true);
 			}
 		});
@@ -152,7 +152,7 @@ public class TelaPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				CadastroMarca cm = ApplicationContextConfig.getContext()
 						.getBean(CadastroMarca.class);
-				cm.init(usuarioLogado);
+				cm.init(TelasUtils.getUsuarioLogado() );
 				cm.setVisible(true);
 			}
 		});
