@@ -8,7 +8,9 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
+import org.hibernate.validator.constraints.Length;
 
+import br.org.fgp.core.MessagemUtil;
 import br.org.fgp.model.enums.TipoTelefone;
 import br.org.fgp.model.usertype.TipoTelefoneUserType;
 
@@ -17,12 +19,17 @@ import br.org.fgp.model.usertype.TipoTelefoneUserType;
 @Table(name = "TELEFONE")
 public class Telefone {
 
+	private static final int TELEFONE_MAX = 20;
+
+	private static final String TELEFONE = "Telefone";
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "IdTelefone")
 	private Integer id;
 	
-	@Column(name = "Telefone", length = 20)
+	@Length(max = TELEFONE_MAX, message = MessagemUtil.CAMPO + TELEFONE + MessagemUtil.MAX + TELEFONE_MAX )
+	@Column(name = TELEFONE, length = TELEFONE_MAX)
 	public String telefone;
 	
 	@Type(type = TipoTelefoneUserType.USER_TYPE)

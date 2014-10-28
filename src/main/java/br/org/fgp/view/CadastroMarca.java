@@ -133,8 +133,12 @@ public class CadastroMarca extends JDialog implements Inicializavel {
 	@Override
 	public void load(Integer id) {
 		init(TelasUtils.getUsuarioLogado());
-		marca = marcaDao.buscarPorId(id);
-		txtMarca.setText(marca.getMarca());
+		if(id != null){
+			marca = marcaDao.buscarPorId(id);
+			txtMarca.setText(marca.getMarca());
+		}else{
+			marca = new Marca();
+		}
 	}
 
 	public void init(Usuario usuario) {

@@ -14,8 +14,6 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.Valid;
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
@@ -23,9 +21,10 @@ import org.hibernate.validator.constraints.NotBlank;
 import br.org.fgp.core.MessagemUtil;
 import br.org.fgp.model.enums.TipoUsuario;
 import br.org.fgp.model.usertype.TipoUsuarioUserType;
+import br.org.fgp.view.annotations.Pesquisa;
 
 @Entity
-@Table(name = "USUARIO", indexes = {@Index(columnList = "IdCidade" )}, uniqueConstraints = @UniqueConstraint(columnNames = {Usuario.CPF } ) )
+@Table(name = "USUARIO", indexes = {@Index(columnList = "IdCidade" )}, uniqueConstraints = {@UniqueConstraint(columnNames = {Usuario.CPF } ), @UniqueConstraint(columnNames = {Usuario.LOGIN } )} )
 public class Usuario {
 
 	protected static final String TIPO = "IdTipo";
@@ -72,10 +71,10 @@ public class Usuario {
 	@Embedded
 	public Endereco endereco;
 	
-	@Cascade(value = CascadeType.ALL)
-	@OneToMany(mappedBy = "usuario", cascade = javax.persistence.CascadeType.ALL)
+	@OneToMany(mappedBy = "usuario")
 	public List<UsuarioTelefone> listaTelefone;
 
+	@Pesquisa(nome = "Código", posicao = 0)
 	public Integer getId() {
 		return id;
 	}
@@ -84,6 +83,7 @@ public class Usuario {
 		this.id = id;
 	}
 
+	@Pesquisa(nome = LOGIN, posicao = 1)
 	public String getLogin() {
 		return login;
 	}
@@ -100,6 +100,7 @@ public class Usuario {
 		this.senha = senha;
 	}
 
+	@Pesquisa(nome = "Tipo", posicao = 2)
 	public TipoUsuario getTipo() {
 		return tipo;
 	}
@@ -108,6 +109,7 @@ public class Usuario {
 		this.tipo = tipo;
 	}
 
+	@Pesquisa(nome = NOME, posicao = 3)
 	public String getNome() {
 		return nome;
 	}

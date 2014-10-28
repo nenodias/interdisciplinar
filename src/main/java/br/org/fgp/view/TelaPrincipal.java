@@ -1,7 +1,6 @@
 package br.org.fgp.view;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -14,10 +13,15 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import org.springframework.stereotype.Component;
+
 import br.org.fgp.core.ApplicationContextConfig;
 import br.org.fgp.core.TelasUtils;
+import br.org.fgp.dao.UsuarioDao;
 import br.org.fgp.model.Usuario;
+import br.org.fgp.view.core.JDialogBusca;
 
+@Component
 public class TelaPrincipal extends JFrame {
 
 	private static final long serialVersionUID = -7747890711976699854L;
@@ -26,23 +30,6 @@ public class TelaPrincipal extends JFrame {
 
 	private JPanel contentPane;
 	private JFrame frmInterdisciplinar;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(final Usuario usuario) {
-		TelasUtils.setUsuarioLogado(usuario);
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					TelaPrincipal tp = new TelaPrincipal();
-					tp.frmInterdisciplinar.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	public TelaPrincipal() {
 		usuarioLogado = TelasUtils.getUsuarioLogado();
@@ -140,13 +127,17 @@ public class TelaPrincipal extends JFrame {
 		});
 		mntmUsurio.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				frmInterdisciplinar.getContentPane().removeAll();
-				CadastroUsuario cadastroUsuario = ApplicationContextConfig.getContext().getBean(CadastroUsuario.class);
-				cadastroUsuario.init(usuarioLogado);
-				frmInterdisciplinar.getContentPane().setBounds(cadastroUsuario.getBounds());
-				frmInterdisciplinar.getContentPane().add(cadastroUsuario);
-				frmInterdisciplinar.getContentPane().revalidate();
-				cadastroUsuario.setVisible(true);
+				UsuarioDao usuarioDao = ApplicationContextConfig.getContext().getBean(UsuarioDao.class);
+				JDialogBusca<Usuario, Integer> dialogo = new JDialogBusca<Usuario, Integer>(usuarioDao, null, null);
+				dialogo.setLocationRelativeTo(frmInterdisciplinar);
+				dialogo.setVisible(true);
+//				frmInterdisciplinar.getContentPane().removeAll();
+//				CadastroUsuario cadastroUsuario = ApplicationContextConfig.getContext().getBean(CadastroUsuario.class);
+//				cadastroUsuario.init(usuarioLogado);
+//				frmInterdisciplinar.getContentPane().setBounds(cadastroUsuario.getBounds());
+//				frmInterdisciplinar.getContentPane().add(cadastroUsuario);
+//				frmInterdisciplinar.getContentPane().revalidate();
+//				cadastroUsuario.setVisible(true);
 			}
 		});
 		mntmCategorias.addActionListener(new ActionListener() {
@@ -172,4 +163,13 @@ public class TelaPrincipal extends JFrame {
 			}
 		});
 	}
+	
+	public void show() {
+		frmInterdisciplinar.setVisible(true);
+	}
+	
+	public JFrame getFrameCentral(){
+		return frmInterdisciplinar;
+	}
+	
 }

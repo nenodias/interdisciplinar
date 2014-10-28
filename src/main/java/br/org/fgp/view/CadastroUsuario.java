@@ -5,6 +5,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -34,10 +36,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import br.org.fgp.core.MessagemUtil;
+import br.org.fgp.core.SecurityUtils;
 import br.org.fgp.core.TelasUtils;
 import br.org.fgp.dao.CidadeDao;
 import br.org.fgp.dao.EstadoDao;
+import br.org.fgp.dao.TelefoneDao;
 import br.org.fgp.dao.UsuarioDao;
+import br.org.fgp.dao.UsuarioTelefoneDao;
 import br.org.fgp.model.Cidade;
 import br.org.fgp.model.Endereco;
 import br.org.fgp.model.Estado;
@@ -45,6 +50,7 @@ import br.org.fgp.model.Telefone;
 import br.org.fgp.model.Usuario;
 import br.org.fgp.model.UsuarioTelefone;
 import br.org.fgp.model.enums.TipoUsuario;
+import br.org.fgp.view.core.ButtonColumn;
 import br.org.fgp.view.core.ComponenteControlado;
 import br.org.fgp.view.core.Inicializavel;
 import br.org.fgp.view.core.TableModelGenerico;
@@ -88,7 +94,7 @@ public class CadastroUsuario extends JPanel implements Inicializavel {
 	private JButton btnCancelar;
 	private Usuario usuario;
 	
-	private JTextField[] componentes = {txtNome,txtLogin,txtCPF,txtEndereco,txtNumero,txtBairro};
+	private JPanel painel; 
 	
 	@Autowired
 	private UsuarioDao usuarioDao;
@@ -99,6 +105,26 @@ public class CadastroUsuario extends JPanel implements Inicializavel {
 	@Autowired
 	private EstadoDao estadoDao;
 	
+	@Autowired
+	private UsuarioTelefoneDao usuarioTelefoneDao;
+	
+	@Autowired
+	private TelefoneDao telefoneDao;
+	
+	public UsuarioTelefoneDao getUsuarioTelefoneDao(){
+		return usuarioTelefoneDao;
+	}
+	public void setUsuarioTelefoneDao(UsuarioTelefoneDao telefoneDao){
+		this.usuarioTelefoneDao = telefoneDao;
+	}
+	
+	public TelefoneDao getTelefoneDao(){
+		return telefoneDao;
+	}
+	public void setTelefoneDao(TelefoneDao telefoneDao){
+		this.telefoneDao = telefoneDao;
+	}
+	
 	public CidadeDao getCidadeDao() {
 		return cidadeDao;
 	}
@@ -106,6 +132,7 @@ public class CadastroUsuario extends JPanel implements Inicializavel {
 	public void setCidadeDao(CidadeDao cidadeDao) {
 		this.cidadeDao = cidadeDao;
 	}
+	
 	
 	private SwingWorker<Object, String> cidadeWorker;
 
@@ -116,6 +143,8 @@ public class CadastroUsuario extends JPanel implements Inicializavel {
 	private JScrollPane painelTabela;
 
 	private JTable tabela;
+
+	private SwingWorker<Object, String> estadoWorker;
 
 	public EstadoDao getEstadoDao() {
 		return estadoDao;
@@ -134,6 +163,7 @@ public class CadastroUsuario extends JPanel implements Inicializavel {
 	}
 
 	public CadastroUsuario() {
+		painel = this;
 		setLayout(null);
 		JLabel lblNewLabel = new JLabel("Nome:");
 		adicionarComponente(lblNewLabel, 2);
@@ -205,8 +235,7 @@ public class CadastroUsuario extends JPanel implements Inicializavel {
 		}else{
 			listaTelefones = new ArrayList<UsuarioTelefone>();
 		}
-		modelGenerico = new TableModelGenerico(listaTelefones, UsuarioTelefone.class, false);
-		
+		modelGenerico = new TableModelGenerico(listaTelefones, UsuarioTelefone.class);
 		JButton btnAdicionarTelefone = new JButton("Adicionar");
 		JLabel telefones = new JLabel("Telefone:");
 		adicionarComponente(telefones, 21);
@@ -237,6 +266,14 @@ public class CadastroUsuario extends JPanel implements Inicializavel {
 		
 		carregarEstado();
 		carregarCidade();
+		
+		tabela.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				eventoCliqueTabela(e);
+			}
+		});
 		
 		cbbEstado.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent arg0) {
@@ -283,7 +320,7 @@ public class CadastroUsuario extends JPanel implements Inicializavel {
 			
 			usuario.setNome(txtNome.getText() );
 			usuario.setLogin(txtLogin.getText());
-			usuario.setSenha(txtSenha.getPassword().toString());
+			usuario.setSenha( SecurityUtils.encrypt( String.valueOf( txtSenha.getPassword() ) ) );
 			usuario.setCpf( txtCPF.getText());
 			TipoUsuario tipoUsuario = (TipoUsuario)cbbTipo.getSelectedItem();
 			usuario.setTipo(tipoUsuario);
@@ -291,12 +328,27 @@ public class CadastroUsuario extends JPanel implements Inicializavel {
 			usuario.setEndereco(new Endereco(txtEndereco.getText(), txtNumero.getText(), txtBairro.getText(), cidade ));
 			validacaoCampos();
 			usuarioDao.salvar(usuario);
+			if(!listaTelefones.isEmpty()){
+				if(usuario.getId() != null){
+					List<UsuarioTelefone> listaBD = usuarioTelefoneDao.buscarPorIdUsuario(usuario.getId());
+					int contador = 0;
+					while(contador != listaBD.size()){
+						UsuarioTelefone usuarioTelefone = listaBD.get(contador);
+						telefoneDao.deletar(usuarioTelefone.getId());
+						usuarioTelefoneDao.deletar(usuarioTelefone.getId());
+						listaBD.remove(contador);
+					}
+				}
+				for (UsuarioTelefone usuarioTelefone : listaTelefones) {
+					usuarioTelefone.setUsuario(usuario);
+					telefoneDao.salvar( usuarioTelefone.getTelefone() );
+					usuarioTelefoneDao.salvar(usuarioTelefone);
+				}
+			}
 			JOptionPane.showMessageDialog(null, CLASS_NAME+" cadastrado com sucesso.");
 			usuario = null;
-			for (JTextField jComponent : componentes) {
-				jComponent.setText(VAZIO);
-			}
-			txtSenha.setText(VAZIO);
+			limparComponentes();
+			cancelar();
 		}
 		catch(ValidationException e){
 			LOGGER.error(e);
@@ -305,6 +357,16 @@ public class CadastroUsuario extends JPanel implements Inicializavel {
 			JOptionPane.showMessageDialog(null, "Falha ao salvar "+CLASS_NAME+".");
 			LOGGER.error(ex);
 		}
+	}
+
+	private void limparComponentes() {
+		final JTextField[] componentes = {txtNome,txtLogin,txtCPF,txtEndereco,txtNumero,txtBairro};
+		for (JTextField jComponent : componentes) {
+			jComponent.setText(VAZIO);
+		}
+		listaTelefones.clear();
+		atualizaDesenhoTabela();
+		txtSenha.setText(VAZIO);
 	}
 	
 	private void validacaoCampos() {
@@ -325,10 +387,11 @@ public class CadastroUsuario extends JPanel implements Inicializavel {
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void carregarEstado(){
-		SwingWorker<Object, String> estadoWorker = new SwingWorker() {
+		estadoWorker = new SwingWorker() {
 
 			@Override
 			protected Object doInBackground() throws Exception {
+				cbbEstado.removeAllItems();
 				for (Estado estado : estadoDao.buscarTodos()) {
 					cbbEstado.addItem(estado);
 				}
@@ -345,6 +408,7 @@ public class CadastroUsuario extends JPanel implements Inicializavel {
 			@Override
 			protected Object doInBackground() throws Exception {
 				Estado item = (Estado) cbbEstado.getSelectedItem();
+				cbbCidade.removeAllItems();
 				for (Cidade cidade : cidadeDao.buscaPorEstado(item.getId() ) ) {
 					cbbCidade.addItem(cidade);
 				}
@@ -358,53 +422,40 @@ public class CadastroUsuario extends JPanel implements Inicializavel {
 	@Override
 	public void load(Integer id) {
 		init(TelasUtils.getUsuarioLogado());
-		usuario = usuarioDao.buscarPorId(id);
-		txtNome.setText( usuario.getNome() );
-		txtLogin.setText( usuario.getLogin() );
-		txtSenha.setText( usuario.getSenha() );
-		txtCPF.setText( usuario.getCpf() );
-		txtEndereco.setText( usuario.getEndereco().getRua() );
-		txtNumero.setText( usuario.getEndereco().getNumero() );
-		txtBairro.setText( usuario.getEndereco().getBairro() );
-		
-		SwingWorker<Object, String> tipoWorker = new SwingWorker() {
-
-			@Override
-			protected Object doInBackground() throws Exception {
-				for (int i = 0; i < cbbTipo.getItemCount(); i++) {
-					if(cbbTipo.getItemAt(i).equals( usuario.getTipo() )){
-						cbbTipo.setSelectedIndex(i);
-						break;
-					}
+		if(id != null){
+			usuario = usuarioDao.buscarPorId(id);
+			txtNome.setText( usuario.getNome() );
+			txtLogin.setText( usuario.getLogin() );
+			txtCPF.setText( usuario.getCpf() );
+			txtEndereco.setText( usuario.getEndereco().getRua() );
+			txtNumero.setText( usuario.getEndereco().getNumero() );
+			txtBairro.setText( usuario.getEndereco().getBairro() );
+			
+			SwingWorker<Object, String> tipoWorker = new SwingWorker() {
+	
+				@Override
+				protected Object doInBackground() throws Exception {
+					carregarTipoWorker();
+					return null;
 				}
-				return null;
-			}
-		};
-		tipoWorker.execute();
-		
-		SwingWorker<Object, String> estadoCidadeLoadWorker = new SwingWorker() {
-
-			@Override
-			protected Object doInBackground() throws Exception {
-				for (int i = 0; i < cbbEstado.getItemCount(); i++) {
-					if(cbbEstado.getItemAt(i).equals( usuario.getEndereco().getCidade().getEstado() )){
-						cbbEstado.setSelectedIndex(i);
-						while(!cidadeWorker.isDone()){
-							this.wait(500L);
-						}
-						for (int j = 0; j < cbbEstado.getItemCount(); j++) {
-							if(cbbCidade.getItemAt(i).equals( usuario.getEndereco().getCidade() )){
-								cbbCidade.setSelectedIndex(j);
-								break;
-							}
-						}
-						break;
-					}
+			};
+			tipoWorker.execute();
+			carregarEstado();
+			SwingWorker<Object, String> estadoCidadeLoadWorker = new SwingWorker() {
+	
+				@Override
+				protected Object doInBackground() throws Exception {
+					carregaEstadoCidadeWorker();
+					return null;
 				}
-				return null;
-			}
-		};
-		estadoCidadeLoadWorker.execute();
+			};
+			estadoCidadeLoadWorker.execute();
+			
+			listaTelefones = usuario.getListaTelefone();
+			atualizaDesenhoTabela();
+		}else{
+			usuario = new Usuario();
+		}
 	}
 
 	public void init(Usuario usuario) {
@@ -435,11 +486,23 @@ public class CadastroUsuario extends JPanel implements Inicializavel {
 
 	private void adicionarTelefone() {
 		final Telefone telefone = new Telefone();
+		abrirModalTelefone(telefone);
+		if(StringUtils.isNotBlank( telefone.getTelefone() ) ){
+			UsuarioTelefone usuarioTelefone = new UsuarioTelefone();
+			usuarioTelefone.setTelefone(telefone);
+			usuarioTelefone.setUsuario(usuario);
+			listaTelefones.add(usuarioTelefone);
+			atualizaDesenhoTabela();
+		}
+	}
+
+	private void abrirModalTelefone(final Telefone telefone) {
 		Runnable runnable = new Runnable() {
 			public void run() {
 				try {
 					CadastroTelefone dialog = new CadastroTelefone(telefone);
 					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+					dialog.setLocationRelativeTo(painel);
 					dialog.setVisible(true);
 				} catch (Exception e) {
 					LOGGER.error(e);
@@ -447,13 +510,73 @@ public class CadastroUsuario extends JPanel implements Inicializavel {
 			}
 		};
 		runnable.run();
-		if(StringUtils.isNotBlank( telefone.getTelefone() ) ){
-			UsuarioTelefone usuarioTelefone = new UsuarioTelefone();
-			usuarioTelefone.setTelefone(telefone);
-			usuarioTelefone.setUsuario(usuario);
-			listaTelefones.add(usuarioTelefone);
-			modelGenerico.fireTableDataChanged();
-			tabela.updateUI();
+	}
+	
+	private void eventoCliqueTabela(MouseEvent e) {
+		if (e.getClickCount() == 2) {
+			TableModelGenerico model = (TableModelGenerico) tabela.getModel();
+			boolean atualizaTabela = false;
+			int linha = tabela.getSelectedRow();
+			int coluna = tabela.getSelectedColumn();
+			UsuarioTelefone usuarioTelefone = listaTelefones.get(linha);
+			
+			if(coluna == model.getCountadorColunas() ){
+				abrirModalTelefone(usuarioTelefone.getTelefone());
+				atualizaTabela = true;
+			} else if(coluna == model.getCountadorColunas() +1 ){
+				int excluir = JOptionPane.showConfirmDialog(null, "Deseja excluir o registro: "+usuarioTelefone.getTelefone() + " ?", "Excluir?", JOptionPane.YES_NO_OPTION);
+				if(excluir == JOptionPane.YES_OPTION){
+					int contador = 0;
+					while(true){
+						if(listaTelefones.get(contador).equals(usuarioTelefone) ){
+							UsuarioTelefone usuTelefone = listaTelefones.get(contador);
+							listaTelefones.remove( usuTelefone );
+							break;
+						}
+						contador++;
+					}
+				}
+				atualizaTabela = true;
+			}
+			if(atualizaTabela){
+				atualizaDesenhoTabela();
+			}
+		}
+	}
+
+	private void atualizaDesenhoTabela() {
+		if(listaTelefones.size() > 0){
+			new ButtonColumn(tabela, null, modelGenerico.getCountadorColunas() );
+			new ButtonColumn(tabela, null, modelGenerico.getCountadorColunas() + 1 );
+		}
+		modelGenerico.fireTableDataChanged();
+		tabela.updateUI();
+	}
+	private void carregarTipoWorker() {
+		for (int i = 0; i < cbbTipo.getItemCount(); i++) {
+			if(cbbTipo.getItemAt(i).equals( usuario.getTipo() )){
+				cbbTipo.setSelectedIndex(i);
+				break;
+			}
+		}
+	}
+	private void carregaEstadoCidadeWorker() throws InterruptedException {
+		while(!estadoWorker.isDone()){
+			for (int i = 0; i < cbbEstado.getItemCount(); i++) {
+				if(cbbEstado.getItemAt(i).equals( usuario.getEndereco().getCidade().getEstado() ) ){
+					cbbEstado.setSelectedIndex(i);
+					while(!cidadeWorker.isDone()){
+						this.wait(500L);
+					}
+					for (int j = 0; j < cbbEstado.getItemCount(); j++) {
+						if(cbbCidade.getItemAt(i).equals( usuario.getEndereco().getCidade() )){
+							cbbCidade.setSelectedIndex(j);
+							break;
+						}
+					}
+					break;
+				}
+			}
 		}
 	}
 }

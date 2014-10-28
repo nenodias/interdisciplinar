@@ -51,8 +51,12 @@ public class CadastroCategoria extends JDialog implements Inicializavel {
 
 	public void load(Integer id) {
 		init( TelasUtils.getUsuarioLogado() );
-		categoria = categoriaDao.buscarPorId(id);
-		txtCategoria.setText(categoria.getDescricao());
+		if(id != null){
+			categoria = categoriaDao.buscarPorId(id);
+			txtCategoria.setText(categoria.getDescricao());
+		}else{
+			categoria = new Categoria();
+		}
 	}
 	
 	public void init(Usuario usuario){

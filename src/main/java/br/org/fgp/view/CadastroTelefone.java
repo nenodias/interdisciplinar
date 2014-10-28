@@ -12,6 +12,8 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import org.apache.commons.lang.StringUtils;
+
 import br.org.fgp.model.Telefone;
 import br.org.fgp.model.enums.TipoTelefone;
 
@@ -57,7 +59,7 @@ public class CadastroTelefone extends JDialog {
 		adicionarComponente(new JLabel("Tipo:"), 4);
 		adicionarComponente(cbbTipo,4);
 		
-		buttonPane.setBounds(0 , 250 , 300, ALTURA_COMPONENTES * 2);
+		buttonPane.setBounds(0 , 220 , 300, ALTURA_COMPONENTES * 2);
 		JButton okButton = new JButton("OK");
 		buttonPane.add(okButton);
 		getRootPane().setDefaultButton(okButton);
@@ -79,6 +81,17 @@ public class CadastroTelefone extends JDialog {
 				dialog.dispose();
 			}
 		});
+		if(StringUtils.isNotBlank( telefone.getTelefone() ) ){
+			txtTelefone.setText( telefone.getTelefone() );
+		}
+		if(telefone.getTipo() != null){
+			for (int i = 0; i < cbbTipo.getItemCount(); i++) {
+				if( cbbTipo.getItemAt(i).equals( telefone.getTipo() ) ){
+					cbbTipo.setSelectedIndex(i);
+					break;
+				}
+			}
+		}
 	}
 
 	private void adicionarComponente(JComponent componente, int valor){

@@ -1,28 +1,35 @@
 package br.org.fgp.model;
 
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import br.org.fgp.model.pk.FuncionarioTelefoneId;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+
 import br.org.fgp.view.annotations.Pesquisa;
 
 @Entity
 @Table(name = "USUARIO_TELEFONE", indexes = { @Index(columnList = "IdUsuario" ), @Index(columnList = "IdTelefone" ) } )
 public class UsuarioTelefone {
 
-	@EmbeddedId
-	private FuncionarioTelefoneId id;	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;	
 	
+	@Cascade(value = CascadeType.ALL)
 	@ManyToOne
-	@JoinColumn(name = "IdUsuario", insertable = false, updatable = false)
+	@JoinColumn(name = "IdUsuario", nullable = false)
 	public Usuario usuario;
 
+	@Cascade(value = CascadeType.ALL)
 	@ManyToOne
-	@JoinColumn(name = "IdTelefone", insertable = false, updatable = false)
+	@JoinColumn(name = "IdTelefone", nullable = false)
 	public Telefone telefone;
 
 	public Usuario getUsuario() {
@@ -42,12 +49,11 @@ public class UsuarioTelefone {
 		this.telefone = telefone;
 	}
 
-	public FuncionarioTelefoneId getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(FuncionarioTelefoneId id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
-	
 }

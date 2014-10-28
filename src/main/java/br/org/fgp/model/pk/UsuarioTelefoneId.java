@@ -6,29 +6,30 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 @Embeddable
-public class FuncionarioTelefoneId implements Serializable{
+public class UsuarioTelefoneId implements Serializable{
 
 	private static final long serialVersionUID = -2833221620401589330L;
 
-	@Column(name = "IdFuncionario")
-	private Integer idFuncionario;
+	@Column(name = "IdUsuario")
+	private Integer idUsuario;
 	
 	@Column(name = "IdTelefone")
 	private Integer idTelefone;
-	
-	
-	public Integer getIdFuncionario() {
-		return idFuncionario;
+
+	public Integer getIdUsuario() {
+		return idUsuario;
 	}
-	public void setIdFuncionario(Integer idFuncionario) {
-		this.idFuncionario = idFuncionario;
+
+	public void setIdUsuario(Integer idUsuario) {
+		this.idUsuario = idUsuario;
 	}
+
 	public Integer getIdTelefone() {
 		return idTelefone;
 	}
+
 	public void setIdTelefone(Integer idTelefone) {
 		this.idTelefone = idTelefone;
 	}
-	
 	
 }

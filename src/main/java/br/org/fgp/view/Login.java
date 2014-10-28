@@ -1,6 +1,10 @@
 package br.org.fgp.view;
 
 import java.awt.Color;
+import java.awt.EventQueue;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.concurrent.ExecutorService;
@@ -13,19 +17,17 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.border.TitledBorder;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import br.org.fgp.core.ApplicationContextConfig;
 import br.org.fgp.core.SecurityUtils;
+import br.org.fgp.core.TelasUtils;
 import br.org.fgp.dao.UsuarioDao;
 import br.org.fgp.model.Usuario;
 import br.org.fgp.model.enums.TipoUsuario;
 import br.org.fgp.view.core.ComponenteControlado;
-
-import javax.swing.border.TitledBorder;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
 
 public class Login extends JFrame {
 
@@ -141,8 +143,19 @@ public class Login extends JFrame {
 	private void logar() {
 		Usuario usuario = usuarioDao.buscarPorLogin(txtUsuario.getText());
 		String senhaCriptografada = SecurityUtils.encrypt( String.valueOf( txtSenha.getPassword() ) ) ;
-		if (usuario != null && usuario.getSenha().equals(senhaCriptografada) ) {							
-			TelaPrincipal.main(usuario);
+		if (usuario != null && usuario.getSenha().equals(senhaCriptografada) ) {
+			TelasUtils.setUsuarioLogado(usuario);
+			EventQueue.invokeLater(new Runnable() {
+				public void run() {
+					try {
+						TelaPrincipal telaPrincipal = ApplicationContextConfig.getContext().getBean(TelaPrincipal.class);
+						telaPrincipal.show();
+						telaPrincipal.setVisible(true);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			});
 			frame.dispose();
 			threadLogin.cancel(true);
 		} else {
