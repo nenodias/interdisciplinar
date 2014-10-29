@@ -1,6 +1,5 @@
 package br.org.fgp.view;
 
-import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -15,7 +14,6 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -35,6 +33,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import br.org.fgp.core.ApplicationContextConfig;
 import br.org.fgp.core.MessagemUtil;
 import br.org.fgp.core.SecurityUtils;
 import br.org.fgp.core.TelasUtils;
@@ -303,13 +302,8 @@ public class CadastroUsuario extends JPanel implements Inicializavel {
 	}
 	
 	private void cancelar() {
-		if(this.getParent().getParent().getParent().getParent() instanceof JFrame){
-			JFrame frame = (JFrame) this.getParent().getParent().getParent().getParent();
-			frame.getContentPane().removeAll();
-			JPanel panel = new JPanel();
-		 	frame.getContentPane().add(panel, BorderLayout.CENTER);
-		 	frame.getContentPane().revalidate();
-		}
+		TelaPrincipal telaPrincipal = ApplicationContextConfig.getContext().getBean(TelaPrincipal.class);
+		telaPrincipal.cancelar();
 	}
 	
 	private void salvar() {

@@ -17,7 +17,9 @@ import org.springframework.stereotype.Component;
 
 import br.org.fgp.core.ApplicationContextConfig;
 import br.org.fgp.core.TelasUtils;
+import br.org.fgp.dao.FornecedorDao;
 import br.org.fgp.dao.UsuarioDao;
+import br.org.fgp.model.Fornecedor;
 import br.org.fgp.model.Usuario;
 import br.org.fgp.view.core.JDialogBusca;
 
@@ -25,8 +27,6 @@ import br.org.fgp.view.core.JDialogBusca;
 public class TelaPrincipal extends JFrame {
 
 	private static final long serialVersionUID = -7747890711976699854L;
-
-	private Usuario usuarioLogado;
 
 	private JPanel contentPane;
 	private JFrame frmInterdisciplinar;
@@ -100,26 +100,18 @@ public class TelaPrincipal extends JFrame {
 		});
 		mntmFornecedor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				frmInterdisciplinar.getContentPane().removeAll();
-				CadastroFornecedor cf = new CadastroFornecedor();
-				frmInterdisciplinar.getContentPane().setBounds(cf.getBounds());// ,
-																				// y,
-																				// width,
-																				// height);
-				frmInterdisciplinar.getContentPane().add(cf);// ,
-																// BorderLayout.CENTER);
-				frmInterdisciplinar.getContentPane().revalidate();
-				cf.setVisible(true);
+				FornecedorDao fornecedorDao = ApplicationContextConfig.getContext().getBean(FornecedorDao.class);
+				JDialogBusca<Fornecedor, Integer> dialogo = new JDialogBusca<Fornecedor, Integer>(fornecedorDao, null, null);
+				dialogo.setLocationRelativeTo(frmInterdisciplinar);
+				dialogo.setVisible(true);
 			}
 		});
 		mntmRealizarVenda.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				frmInterdisciplinar.getContentPane().removeAll();
 				TelaVenda venda = new TelaVenda();
-				frmInterdisciplinar.getContentPane().setBounds(
-						venda.getBounds());// , y, width, height);
-				frmInterdisciplinar.getContentPane().add(venda);// ,
-																// BorderLayout.CENTER);
+				frmInterdisciplinar.getContentPane().setBounds(venda.getBounds());
+				frmInterdisciplinar.getContentPane().add(venda);
 				frmInterdisciplinar.getContentPane().revalidate();
 				venda.setVisible(true);
 			}
@@ -130,13 +122,6 @@ public class TelaPrincipal extends JFrame {
 				JDialogBusca<Usuario, Integer> dialogo = new JDialogBusca<Usuario, Integer>(usuarioDao, null, null);
 				dialogo.setLocationRelativeTo(frmInterdisciplinar);
 				dialogo.setVisible(true);
-//				frmInterdisciplinar.getContentPane().removeAll();
-//				CadastroUsuario cadastroUsuario = ApplicationContextConfig.getContext().getBean(CadastroUsuario.class);
-//				cadastroUsuario.init(usuarioLogado);
-//				frmInterdisciplinar.getContentPane().setBounds(cadastroUsuario.getBounds());
-//				frmInterdisciplinar.getContentPane().add(cadastroUsuario);
-//				frmInterdisciplinar.getContentPane().revalidate();
-//				cadastroUsuario.setVisible(true);
 			}
 		});
 		mntmCategorias.addActionListener(new ActionListener() {
@@ -169,6 +154,13 @@ public class TelaPrincipal extends JFrame {
 	
 	public JFrame getFrameCentral(){
 		return frmInterdisciplinar;
+	}
+	
+	public void cancelar() {
+		frmInterdisciplinar.getContentPane().removeAll();
+		JPanel panel = new JPanel();
+		frmInterdisciplinar.getContentPane().add(panel, BorderLayout.CENTER);
+		frmInterdisciplinar.getContentPane().revalidate();
 	}
 	
 }

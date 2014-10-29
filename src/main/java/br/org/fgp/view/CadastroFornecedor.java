@@ -25,6 +25,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import br.org.fgp.core.ApplicationContextConfig;
 import br.org.fgp.core.TelasUtils;
 import br.org.fgp.dao.CidadeDao;
 import br.org.fgp.dao.EstadoDao;
@@ -33,6 +34,7 @@ import br.org.fgp.model.Cidade;
 import br.org.fgp.model.Estado;
 import br.org.fgp.model.Fornecedor;
 import br.org.fgp.model.Usuario;
+import br.org.fgp.model.enums.TipoUsuario;
 import br.org.fgp.view.core.ComponenteControlado;
 import br.org.fgp.view.core.Inicializavel;
 
@@ -251,11 +253,20 @@ public class CadastroFornecedor extends JPanel implements Inicializavel {
 		setLayout(groupLayout);
 		
 		ComponenteControlado<CadastroFornecedor> controleAcesso = new ComponenteControlado<CadastroFornecedor>(this); 
-		controleAcesso.pronto(TelasUtils.getUsuarioLogado().getTipo());
+		controleAcesso.pronto(TipoUsuario.ADMINISTRADOR);
 		
 		carregarEstado();
 		carregarCidade();
+		
+		btnCancelar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				cancelar();
+			}
+		});
+		
 		btnSalvar.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				salvar();
 			}
@@ -357,5 +368,10 @@ public class CadastroFornecedor extends JPanel implements Inicializavel {
 		controleAcesso.pronto(usuarioLogado.getTipo());
 		carregarEstado();
 		carregarCidade();
+	}
+	
+	private void cancelar() {
+		TelaPrincipal telaPrincipal = ApplicationContextConfig.getContext().getBean(TelaPrincipal.class);
+		telaPrincipal.cancelar();
 	}
 }
