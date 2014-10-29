@@ -23,7 +23,9 @@ import javax.swing.SwingWorker;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+import br.org.fgp.core.TelasUtils;
 import br.org.fgp.dao.CidadeDao;
 import br.org.fgp.dao.EstadoDao;
 import br.org.fgp.dao.FornecedorDao;
@@ -31,10 +33,11 @@ import br.org.fgp.model.Cidade;
 import br.org.fgp.model.Estado;
 import br.org.fgp.model.Fornecedor;
 import br.org.fgp.model.Usuario;
-import br.org.fgp.model.enums.TipoUsuario;
 import br.org.fgp.view.core.ComponenteControlado;
+import br.org.fgp.view.core.Inicializavel;
 
-public class CadastroFornecedor extends JPanel {
+@Component
+public class CadastroFornecedor extends JPanel implements Inicializavel {
 	
 	private static final long serialVersionUID = 2174153481281619633L;
 	
@@ -45,6 +48,8 @@ public class CadastroFornecedor extends JPanel {
 	private JTextField txtCnpj;
 	private JTextField txtEndereco;
 	private JTextField txtNumero;
+	
+	private Fornecedor fornecedor;
 	
 	@Autowired
 	private FornecedorDao fornecedorDao;
@@ -85,7 +90,7 @@ public class CadastroFornecedor extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public CadastroFornecedor(Usuario usuario) {
+	public CadastroFornecedor() {
 		tbContato = new JTable();
 		
 		JLabel lblNomeFantasia = new JLabel("Nome Fantasia:");
@@ -246,7 +251,7 @@ public class CadastroFornecedor extends JPanel {
 		setLayout(groupLayout);
 		
 		ComponenteControlado<CadastroFornecedor> controleAcesso = new ComponenteControlado<CadastroFornecedor>(this); 
-		controleAcesso.pronto(TipoUsuario.ADMINISTRADOR);
+		controleAcesso.pronto(TelasUtils.getUsuarioLogado().getTipo());
 		
 		carregarEstado();
 		carregarCidade();
@@ -312,6 +317,9 @@ public class CadastroFornecedor extends JPanel {
 			protected Object doInBackground() throws Exception {
 				for (Estado estado : estadoDao.buscarTodos()) {
 					cbbEstado.addItem(estado);
+					if(fornecedor != null && estado.equals(fornecedor.getEnderecoComercial().getCidade().getEstado() ) ){
+						cbbEstado.setSelectedItem(estado);
+					}
 				}
 				return null;
 			}
@@ -328,10 +336,26 @@ public class CadastroFornecedor extends JPanel {
 				Estado item = (Estado) cbbEstado.getSelectedItem();
 				for (Cidade cidade : cidadeDao.buscaPorEstado(item.getId() ) ) {
 					cbbCidade.addItem(cidade);
+					if(fornecedor != null && cidade.equals(fornecedor.getEnderecoComercial().getCidade() ) ){
+						cbbCidade.setSelectedItem(cidade);
+					}
 				}
 				return null;
 			}
 		};
 		swingWorker.execute();
+	}
+
+	@Override
+	public void load(Integer id) {
+		init(TelasUtils.getUsuarioLogado());
+		fornecedorDao.buscarPorId(id);
+	}
+
+	private void init(Usuario usuarioLogado) {
+		ComponenteControlado<CadastroFornecedor> controleAcesso = new ComponenteControlado<CadastroFornecedor>(this);
+		controleAcesso.pronto(usuarioLogado.getTipo());
+		carregarEstado();
+		carregarCidade();
 	}
 }

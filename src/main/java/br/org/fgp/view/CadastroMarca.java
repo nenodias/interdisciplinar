@@ -144,6 +144,6 @@ public class CadastroMarca extends JDialog implements Inicializavel {
 	public void init(Usuario usuario) {
 		ComponenteControlado<CadastroMarca> controleAcesso = new ComponenteControlado<CadastroMarca>(
 				this);
-		controleAcesso.pronto(usuario.getTipo());
+		controleAcesso.pronto(TelasUtils.getUsuarioLogado().getTipo());
 	}
 }

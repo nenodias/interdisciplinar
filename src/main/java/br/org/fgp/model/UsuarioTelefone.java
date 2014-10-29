@@ -9,9 +9,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
-
 import br.org.fgp.view.annotations.Pesquisa;
 
 @Entity
@@ -22,12 +19,10 @@ public class UsuarioTelefone {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;	
 	
-	@Cascade(value = CascadeType.ALL)
 	@ManyToOne
 	@JoinColumn(name = "IdUsuario", nullable = false)
 	public Usuario usuario;
 
-	@Cascade(value = CascadeType.ALL)
 	@ManyToOne
 	@JoinColumn(name = "IdTelefone", nullable = false)
 	public Telefone telefone;

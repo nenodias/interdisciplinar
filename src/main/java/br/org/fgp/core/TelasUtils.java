@@ -36,7 +36,7 @@ public class TelasUtils {
 		return mapa.get(clazz);
 	}
 
-	public static Usuario getUsuarioLogado(){
+	public synchronized static Usuario getUsuarioLogado(){
 		return usuarioLogado;
 	}
 

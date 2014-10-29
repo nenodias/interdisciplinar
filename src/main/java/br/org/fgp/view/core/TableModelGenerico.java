@@ -7,23 +7,23 @@ import javax.swing.table.AbstractTableModel;
 
 import br.org.fgp.view.annotations.Pesquisa;
 
-public class TableModelGenerico extends AbstractTableModel {
+public class TableModelGenerico<T> extends AbstractTableModel {
 	private static final String EXCLUIR_LABEL = "Excluir";
 	private static final String EDITAR_LABEL = "Editar";
 	private static final String VAZIO = "";
 	private static final long serialVersionUID = -6777048973027518361L;
-	private final List<?> lista;
-	private final Class<?> classe;
+	private final List<T> lista;
+	private final Class<T> classe;
 	private Integer countadorColunas = 0;
 	private Boolean botoes = true;
 
-	public TableModelGenerico(List<?> lista, Class classe, Boolean botoes) {
+	public TableModelGenerico(List<T> lista, Class<T> classe, Boolean botoes) {
 		this.lista = lista;
 		this.classe = classe;
 		this.botoes = botoes;
 	}
 	
-	public TableModelGenerico(List<?> lista, Class classe) {
+	public TableModelGenerico(List<T> lista, Class<T> classe) {
 		this.lista = lista;
 		this.classe = classe;
 	}
@@ -84,6 +84,9 @@ public class TableModelGenerico extends AbstractTableModel {
 	public Integer getCountadorColunas() {
 		return countadorColunas;
 	}
-	
+
+	public List<T> getLista() {
+		return lista;
+	}
 	
 }

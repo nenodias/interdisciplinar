@@ -10,6 +10,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+
 @Entity
 @Table(name = "ESTADO",indexes = @Index(columnList = "IdPais") )
 public class Estado {
@@ -47,6 +50,20 @@ public class Estado {
 	@Override
 	public String toString() {
 		return estado;
+	}
+	@Override
+	public int hashCode() {
+		HashCodeBuilder builder = new HashCodeBuilder().append(id).append(estado);
+		return builder.toHashCode();
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if(obj != null && obj instanceof Estado){
+			Estado other = (Estado)obj;
+			EqualsBuilder builder = new EqualsBuilder().append(this.id, other.id).append(this.estado, other.estado);
+			return builder.isEquals();
+		}
+		return false;
 	}
 	
 }

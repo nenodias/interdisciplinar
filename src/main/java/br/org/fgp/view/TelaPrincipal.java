@@ -16,7 +16,6 @@ import javax.swing.border.EmptyBorder;
 import org.springframework.stereotype.Component;
 
 import br.org.fgp.core.ApplicationContextConfig;
-import br.org.fgp.core.TelasUtils;
 import br.org.fgp.dao.UsuarioDao;
 import br.org.fgp.model.Usuario;
 import br.org.fgp.view.core.JDialogBusca;
@@ -32,7 +31,6 @@ public class TelaPrincipal extends JFrame {
 	private JFrame frmInterdisciplinar;
 
 	public TelaPrincipal() {
-		usuarioLogado = TelasUtils.getUsuarioLogado();
 		frmInterdisciplinar = new JFrame();
 		frmInterdisciplinar.setTitle("Interdisciplinar -");
 		frmInterdisciplinar.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -87,7 +85,7 @@ public class TelaPrincipal extends JFrame {
 
 		mntmProdutos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				CadastroProduto cp = new CadastroProduto(usuarioLogado);
+				CadastroProduto cp = new CadastroProduto();
 				frmInterdisciplinar.getContentPane().removeAll();
 				frmInterdisciplinar.getContentPane().setBounds(cp.getBounds());// ,
 																				// y,
@@ -102,7 +100,7 @@ public class TelaPrincipal extends JFrame {
 		mntmFornecedor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				frmInterdisciplinar.getContentPane().removeAll();
-				CadastroFornecedor cf = new CadastroFornecedor(usuarioLogado);
+				CadastroFornecedor cf = new CadastroFornecedor();
 				frmInterdisciplinar.getContentPane().setBounds(cf.getBounds());// ,
 																				// y,
 																				// width,

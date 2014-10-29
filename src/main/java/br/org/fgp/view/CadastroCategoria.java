@@ -61,7 +61,7 @@ public class CadastroCategoria extends JDialog implements Inicializavel {
 	
 	public void init(Usuario usuario){
 		ComponenteControlado<CadastroCategoria> controleAcesso = new ComponenteControlado<CadastroCategoria>(this); 
-		controleAcesso.pronto(usuario.getTipo());
+		controleAcesso.pronto(TelasUtils.getUsuarioLogado().getTipo());
 	}
 	
 	public CadastroCategoria() {

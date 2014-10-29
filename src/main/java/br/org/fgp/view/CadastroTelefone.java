@@ -69,17 +69,14 @@ public class CadastroTelefone extends JDialog {
 		
 		cancelButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				dialog.dispose();
+				fecharDialogo();
 			}
 		});
 		okButton.addActionListener(new ActionListener() {			
 			public void actionPerformed(ActionEvent e) {
-				dialog.telefone.setTelefone( txtTelefone.getText() );
-				TipoTelefone tipo = (TipoTelefone) cbbTipo.getSelectedItem();
-				dialog.telefone.setTipo( tipo );
-				txtTelefone.setText(VAZIO);
-				dialog.dispose();
+				novoTelefone();
 			}
+
 		});
 		if(StringUtils.isNotBlank( telefone.getTelefone() ) ){
 			txtTelefone.setText( telefone.getTelefone() );
@@ -94,6 +91,18 @@ public class CadastroTelefone extends JDialog {
 		}
 	}
 
+	private void novoTelefone() {
+		dialog.telefone.setTelefone( txtTelefone.getText() );
+		TipoTelefone tipo = (TipoTelefone) cbbTipo.getSelectedItem();
+		dialog.telefone.setTipo( tipo );
+		txtTelefone.setText(VAZIO);
+		fecharDialogo();
+	}
+
+	private void fecharDialogo() {
+		dialog.dispose();
+	}
+	
 	private void adicionarComponente(JComponent componente, int valor){
 		if(componente instanceof JLabel){
 			componente.setBounds(X  , Y +(valor *ALTURA_COMPONENTES) , LARGURA_COMPONENTES, ALTURA_COMPONENTES);

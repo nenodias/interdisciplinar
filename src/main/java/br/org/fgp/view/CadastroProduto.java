@@ -13,11 +13,11 @@ import javax.swing.UIManager;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import br.org.fgp.core.TelasUtils;
 import br.org.fgp.dao.CategoriaDao;
 import br.org.fgp.dao.MarcaDao;
 import br.org.fgp.model.Categoria;
 import br.org.fgp.model.Marca;
-import br.org.fgp.model.Usuario;
 import br.org.fgp.view.core.ComponenteControlado;
 import br.org.fgp.view.core.JBusca;
 
@@ -43,7 +43,7 @@ public class CadastroProduto extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public CadastroProduto(Usuario usuario) {
+	public CadastroProduto() {
 		setBackground(UIManager.getColor("Button.background"));
 		
 		JLabel lblProduto = new JLabel("Produto");
@@ -174,7 +174,7 @@ public class CadastroProduto extends JPanel {
 		add(busca_Categoria);
 		
 		ComponenteControlado<CadastroProduto> controleAcesso = new ComponenteControlado<CadastroProduto>(this); 
-		controleAcesso.pronto( usuario.getTipo() );
+		controleAcesso.pronto( TelasUtils.getUsuarioLogado().getTipo() );
 		busca.setDaoGenerico(marcaDao);		
 		busca_Categoria.setDaoGenerico(categoriaDao);
 	}

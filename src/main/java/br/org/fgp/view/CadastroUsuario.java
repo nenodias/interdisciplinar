@@ -138,7 +138,7 @@ public class CadastroUsuario extends JPanel implements Inicializavel {
 
 	private List<UsuarioTelefone> listaTelefones;
 
-	private TableModelGenerico modelGenerico;
+	private TableModelGenerico<UsuarioTelefone> modelGenerico;
 
 	private JScrollPane painelTabela;
 
@@ -320,7 +320,10 @@ public class CadastroUsuario extends JPanel implements Inicializavel {
 			
 			usuario.setNome(txtNome.getText() );
 			usuario.setLogin(txtLogin.getText());
-			usuario.setSenha( SecurityUtils.encrypt( String.valueOf( txtSenha.getPassword() ) ) );
+			String password = String.valueOf( txtSenha.getPassword() );
+			if(StringUtils.isNotBlank(password)){
+				usuario.setSenha( SecurityUtils.encrypt( password ) );
+			}
 			usuario.setCpf( txtCPF.getText());
 			TipoUsuario tipoUsuario = (TipoUsuario)cbbTipo.getSelectedItem();
 			usuario.setTipo(tipoUsuario);
@@ -330,17 +333,12 @@ public class CadastroUsuario extends JPanel implements Inicializavel {
 			usuarioDao.salvar(usuario);
 			if(!listaTelefones.isEmpty()){
 				if(usuario.getId() != null){
-					List<UsuarioTelefone> listaBD = usuarioTelefoneDao.buscarPorIdUsuario(usuario.getId());
-					int contador = 0;
-					while(contador != listaBD.size()){
-						UsuarioTelefone usuarioTelefone = listaBD.get(contador);
-						telefoneDao.deletar(usuarioTelefone.getId());
-						usuarioTelefoneDao.deletar(usuarioTelefone.getId());
-						listaBD.remove(contador);
-					}
+					usuarioTelefoneDao.deletarPorIdUsuario(usuario.getId());
 				}
 				for (UsuarioTelefone usuarioTelefone : listaTelefones) {
+					usuarioTelefone.setId(null);
 					usuarioTelefone.setUsuario(usuario);
+					usuarioTelefone.getTelefone().setId(null);
 					telefoneDao.salvar( usuarioTelefone.getTelefone() );
 					usuarioTelefoneDao.salvar(usuarioTelefone);
 				}
@@ -394,6 +392,9 @@ public class CadastroUsuario extends JPanel implements Inicializavel {
 				cbbEstado.removeAllItems();
 				for (Estado estado : estadoDao.buscarTodos()) {
 					cbbEstado.addItem(estado);
+					if(usuario != null && estado.equals(usuario.getEndereco().getCidade().getEstado() ) ){
+						cbbEstado.setSelectedItem(estado);
+					}
 				}
 				return null;
 			}
@@ -411,6 +412,9 @@ public class CadastroUsuario extends JPanel implements Inicializavel {
 				cbbCidade.removeAllItems();
 				for (Cidade cidade : cidadeDao.buscaPorEstado(item.getId() ) ) {
 					cbbCidade.addItem(cidade);
+					if(usuario != null && cidade.equals(usuario.getEndereco().getCidade() ) ){
+						cbbCidade.setSelectedItem(cidade);
+					}
 				}
 				return null;
 			}
@@ -421,9 +425,11 @@ public class CadastroUsuario extends JPanel implements Inicializavel {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public void load(Integer id) {
-		init(TelasUtils.getUsuarioLogado());
 		if(id != null){
 			usuario = usuarioDao.buscarPorId(id);
+		}
+		init(TelasUtils.getUsuarioLogado());
+		if(id != null){
 			txtNome.setText( usuario.getNome() );
 			txtLogin.setText( usuario.getLogin() );
 			txtCPF.setText( usuario.getCpf() );
@@ -440,16 +446,6 @@ public class CadastroUsuario extends JPanel implements Inicializavel {
 				}
 			};
 			tipoWorker.execute();
-			carregarEstado();
-			SwingWorker<Object, String> estadoCidadeLoadWorker = new SwingWorker() {
-	
-				@Override
-				protected Object doInBackground() throws Exception {
-					carregaEstadoCidadeWorker();
-					return null;
-				}
-			};
-			estadoCidadeLoadWorker.execute();
 			
 			listaTelefones = usuario.getListaTelefone();
 			atualizaDesenhoTabela();
@@ -514,7 +510,7 @@ public class CadastroUsuario extends JPanel implements Inicializavel {
 	
 	private void eventoCliqueTabela(MouseEvent e) {
 		if (e.getClickCount() == 2) {
-			TableModelGenerico model = (TableModelGenerico) tabela.getModel();
+			TableModelGenerico<UsuarioTelefone> model = (TableModelGenerico<UsuarioTelefone>) tabela.getModel();
 			boolean atualizaTabela = false;
 			int linha = tabela.getSelectedRow();
 			int coluna = tabela.getSelectedColumn();
@@ -549,6 +545,14 @@ public class CadastroUsuario extends JPanel implements Inicializavel {
 			new ButtonColumn(tabela, null, modelGenerico.getCountadorColunas() );
 			new ButtonColumn(tabela, null, modelGenerico.getCountadorColunas() + 1 );
 		}
+		if(!modelGenerico.getLista().equals(listaTelefones)){
+			modelGenerico.getLista().clear();
+			for (UsuarioTelefone usuarioTelefone : listaTelefones) {
+				modelGenerico.getLista().add(usuarioTelefone);
+			}
+			listaTelefones = (List<UsuarioTelefone>) modelGenerico.getLista();
+			
+		}
 		modelGenerico.fireTableDataChanged();
 		tabela.updateUI();
 	}
@@ -557,25 +561,6 @@ public class CadastroUsuario extends JPanel implements Inicializavel {
 			if(cbbTipo.getItemAt(i).equals( usuario.getTipo() )){
 				cbbTipo.setSelectedIndex(i);
 				break;
-			}
-		}
-	}
-	private void carregaEstadoCidadeWorker() throws InterruptedException {
-		while(!estadoWorker.isDone()){
-			for (int i = 0; i < cbbEstado.getItemCount(); i++) {
-				if(cbbEstado.getItemAt(i).equals( usuario.getEndereco().getCidade().getEstado() ) ){
-					cbbEstado.setSelectedIndex(i);
-					while(!cidadeWorker.isDone()){
-						this.wait(500L);
-					}
-					for (int j = 0; j < cbbEstado.getItemCount(); j++) {
-						if(cbbCidade.getItemAt(i).equals( usuario.getEndereco().getCidade() )){
-							cbbCidade.setSelectedIndex(j);
-							break;
-						}
-					}
-					break;
-				}
 			}
 		}
 	}

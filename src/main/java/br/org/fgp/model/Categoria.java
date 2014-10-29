@@ -7,6 +7,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+
 import br.org.fgp.view.annotations.Pesquisa;
 
 @Entity
@@ -36,6 +39,21 @@ public class Categoria {
 
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
+	}
+	
+	@Override
+	public int hashCode() {
+		HashCodeBuilder builder = new HashCodeBuilder().append(id).append(descricao);
+		return builder.toHashCode();
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if(obj != null && obj instanceof Categoria){
+			Categoria other = (Categoria)obj;
+			EqualsBuilder builder = new EqualsBuilder().append(this.id, other.id).append(this.descricao, other.descricao);
+			return builder.isEquals();
+		}
+		return false;
 	}
 	
 }
