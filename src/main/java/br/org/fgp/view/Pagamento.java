@@ -2,7 +2,6 @@ package br.org.fgp.view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Font;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -44,41 +43,27 @@ public class Pagamento extends JDialog {
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		
 		JLabel label = new JLabel("Total:");
-		label.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		
 		JLabel label_1 = new JLabel("New label");
-		label_1.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		
 		JLabel label_2 = new JLabel("Pagamento");
-		label_2.setFont(new Font("Dialog", Font.PLAIN, 30));
-		
 		JButton button = new JButton("Cancelar");
-		button.setFont(new Font("Tahoma", Font.BOLD, 11));
 		button.setBackground(new Color(255, 69, 0));
 		
 		JButton button_1 = new JButton("Concluir Pagamento");
-		button_1.setFont(new Font("Tahoma", Font.BOLD, 12));
 		button_1.setBackground(Color.GREEN);
 		
 		JLabel label_3 = new JLabel("Troco:");
-		label_3.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		
 		JLabel label_4 = new JLabel("Dinheiro:");
-		label_4.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		
 		JLabel label_5 = new JLabel("Desconto:");
-		label_5.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		
 		textField = new JTextField();
-		textField.setFont(new Font("Tahoma", Font.BOLD, 15));
 		textField.setColumns(10);
 		
 		textField_1 = new JTextField();
-		textField_1.setFont(new Font("Tahoma", Font.BOLD, 15));
 		textField_1.setColumns(10);
 		
 		textField_2 = new JTextField();
-		textField_2.setFont(new Font("Tahoma", Font.BOLD, 15));
 		textField_2.setColumns(10);
 		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
 		gl_contentPanel.setHorizontalGroup(

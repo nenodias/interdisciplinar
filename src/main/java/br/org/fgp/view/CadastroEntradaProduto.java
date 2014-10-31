@@ -1,7 +1,6 @@
 package br.org.fgp.view;
 
 import java.awt.Color;
-import java.awt.Font;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -49,7 +48,6 @@ public class CadastroEntradaProduto extends JPanel {
 		txtQuantidade.setColumns(10);
 		
 		JLabel lblEntradaDeProdutos = new JLabel("Entrada de Produtos");
-		lblEntradaDeProdutos.setFont(new Font("Tahoma", Font.PLAIN, 30));
 		
 		JButton btnSalvar = new JButton("Salvar");
 		
@@ -61,7 +59,6 @@ public class CadastroEntradaProduto extends JPanel {
 		txtPreco.setColumns(10);
 		
 		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblNewLabel.setForeground(Color.RED);
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(

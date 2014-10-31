@@ -1,7 +1,6 @@
 package br.org.fgp.view;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -144,16 +143,13 @@ public class CadastroFornecedor extends JPanel implements Inicializavel {
 		txtNumero.setColumns(10);
 		
 		JLabel lblFornecedor = new JLabel("Fornecedor");
-		lblFornecedor.setFont(new Font("Tahoma", Font.PLAIN, 30));
 		
 		JButton btnSalvar = new JButton("Salvar");
-		
 		
 		JButton btnCancelar = new JButton("Cancelar");
 		
 		JLabel lblMsg = new JLabel("");
 		lblMsg.setForeground(Color.RED);
-		lblMsg.setFont(new Font("Tahoma", Font.BOLD, 14));
 		
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(

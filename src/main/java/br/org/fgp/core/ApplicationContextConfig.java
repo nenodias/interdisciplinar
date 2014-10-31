@@ -9,6 +9,8 @@ public class ApplicationContextConfig {
 
 	private static final ClassPathXmlApplicationContext CONTEXT = new ClassPathXmlApplicationContext("META-INF/spring-config.xml");
 
+	public ApplicationContextConfig() {
+	}
 	public static ApplicationContext getContext(){
 		Locale.setDefault(new Locale("pt","BR"));
 		return CONTEXT;

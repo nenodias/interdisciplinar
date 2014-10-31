@@ -28,6 +28,7 @@ import br.org.fgp.dao.UsuarioDao;
 import br.org.fgp.model.Usuario;
 import br.org.fgp.model.enums.TipoUsuario;
 import br.org.fgp.view.core.ComponenteControlado;
+import br.org.fgp.view.core.UILookAndFellManager;
 
 public class Login extends JFrame {
 
@@ -49,6 +50,7 @@ public class Login extends JFrame {
 	JLabel lblMsg = new JLabel("");
 
 	public static void main(String[] args) {
+		
 		Runnable run = new Runnable() {
 			public void run() {
 				try {
@@ -63,6 +65,7 @@ public class Login extends JFrame {
 	}
 
 	public Login() {
+		UILookAndFellManager.init();
 		setTitle("Bem vindo");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 303);

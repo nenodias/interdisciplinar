@@ -2,7 +2,6 @@ package br.org.fgp.view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -105,7 +104,6 @@ public class CadastroCategoria extends JDialog implements Inicializavel {
 		contentPanel.add(btnSalvar, gbc_btnSalvar);
 
 		final JLabel lblMsg = new JLabel(VAZIO);
-		lblMsg.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		GridBagConstraints gbc_lblMsg = new GridBagConstraints();
 		gbc_lblMsg.anchor = GridBagConstraints.WEST;
 		gbc_lblMsg.gridx = 1;

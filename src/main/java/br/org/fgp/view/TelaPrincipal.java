@@ -88,12 +88,8 @@ public class TelaPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				CadastroProduto cp = new CadastroProduto();
 				frmInterdisciplinar.getContentPane().removeAll();
-				frmInterdisciplinar.getContentPane().setBounds(cp.getBounds());// ,
-																				// y,
-																				// width,
-																				// height);
-				frmInterdisciplinar.getContentPane().add(cp);// ,
-																// BorderLayout.CENTER);
+				frmInterdisciplinar.getContentPane().setBounds(cp.getBounds());
+				frmInterdisciplinar.getContentPane().add(cp);
 				frmInterdisciplinar.getContentPane().revalidate();
 				cp.setVisible(true);
 			}

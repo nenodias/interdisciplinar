@@ -1,6 +1,5 @@
 package br.org.fgp.view;
 
-import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -84,7 +83,6 @@ public class TelaVenda extends JPanel {
 		add(table, gbc_table);
 		
 		JLabel newlabel = new JLabel("TOTAL:");
-		newlabel.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		GridBagConstraints gbc_newlabel = new GridBagConstraints();
 		gbc_newlabel.anchor = GridBagConstraints.WEST;
 		gbc_newlabel.insets = new Insets(0, 0, 0, 5);
@@ -93,7 +91,6 @@ public class TelaVenda extends JPanel {
 		add(newlabel, gbc_newlabel);
 		
 		JLabel lblTotal = new JLabel("00,00");
-		lblTotal.setFont(new Font("Tahoma", Font.PLAIN, 22));
 		GridBagConstraints gbc_lblTotal = new GridBagConstraints();
 		gbc_lblTotal.fill = GridBagConstraints.HORIZONTAL;
 		gbc_lblTotal.insets = new Insets(0, 0, 0, 5);

@@ -7,7 +7,9 @@ import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.swing.JButton;
@@ -62,14 +64,6 @@ public class CadastroUsuario extends JPanel implements Inicializavel {
 	private static final long serialVersionUID = -2627759817945447945L;
 	
 	private static final String CLASS_NAME = "Usuário";
-	
-	private static final int X = 0; 
-	
-	private static final int Y = 0; 
-	
-	private static final int LARGURA_COMPONENTES = 300;
-	
-	private static final int ALTURA_COMPONENTES = 18;
 	
 	private static final Logger LOGGER = Logger.getLogger(CadastroUsuario.class);
 	
@@ -166,7 +160,7 @@ public class CadastroUsuario extends JPanel implements Inicializavel {
 		setLayout(null);
 		JLabel lblNewLabel = new JLabel("Nome:");
 		adicionarComponente(lblNewLabel, 2);
-		
+		adicionarComponente(new JLabel("Usuário"),0);
 		txtNome = new JTextField();
 		adicionarComponente(txtNome, 2);
 		
@@ -234,30 +228,27 @@ public class CadastroUsuario extends JPanel implements Inicializavel {
 		}else{
 			listaTelefones = new ArrayList<UsuarioTelefone>();
 		}
-		modelGenerico = new TableModelGenerico(listaTelefones, UsuarioTelefone.class);
+		modelGenerico = new TableModelGenerico<UsuarioTelefone>(listaTelefones, UsuarioTelefone.class);
 		JButton btnAdicionarTelefone = new JButton("Adicionar");
-		JLabel telefones = new JLabel("Telefone:");
-		adicionarComponente(telefones, 21);
-		telefones.setHorizontalAlignment(JLabel.CENTER);
-		btnAdicionarTelefone.setBounds(X+ ALTURA_COMPONENTES , Y +(20 *ALTURA_COMPONENTES) , LARGURA_COMPONENTES /2, ALTURA_COMPONENTES);
+		btnAdicionarTelefone.setBounds(TelasUtils.DEFAULT_X+ TelasUtils.DEFAULT_ESPACO , TelasUtils.DEFAULT_Y +(20 *TelasUtils.DEFAULT_ESPACO) , TelasUtils.DEFAULT_LARGURA_COMPONENTE /2, TelasUtils.DEFAULT_ALTURA_COMPONENTE);
 		add(btnAdicionarTelefone);
 		tabela.setModel(modelGenerico);
 		tabela.setEnabled(true);
 		painelTabela.setViewportView(tabela);
 		painelTabela.setEnabled(true);
-		painelTabela.setBounds(X+ ALTURA_COMPONENTES , Y +(22 *ALTURA_COMPONENTES) , LARGURA_COMPONENTES*2, ALTURA_COMPONENTES+ALTURA_COMPONENTES*2);
+		painelTabela.setBounds(TelasUtils.DEFAULT_X+ TelasUtils.DEFAULT_ESPACO , TelasUtils.DEFAULT_Y +(22 *TelasUtils.DEFAULT_ESPACO) , TelasUtils.DEFAULT_LARGURA_COMPONENTE*2, TelasUtils.DEFAULT_ALTURA_COMPONENTE+TelasUtils.DEFAULT_ALTURA_COMPONENTE*2);
 		add(painelTabela);
 		painelTabela.setVisible(true);
 
 		splitPane = new JSplitPane();
-		adicionarComponente(splitPane, 26);
+		adicionarComponente(splitPane, 28);
 		
 		btnSalvar = new JButton("Salvar");
 		splitPane.setLeftComponent(btnSalvar);
 		
 		btnCancelar = new JButton("Cancelar");
 		splitPane.setRightComponent(btnCancelar);
-		splitPane.setDividerLocation(LARGURA_COMPONENTES/2);
+		splitPane.setDividerLocation(TelasUtils.DEFAULT_LARGURA_COMPONENTE/2);
 		splitPane.setEnabled(false);
 		
 		ComponenteControlado<CadastroUsuario> controleAcesso = new ComponenteControlado<CadastroUsuario>(this); 
@@ -456,22 +447,8 @@ public class CadastroUsuario extends JPanel implements Inicializavel {
 	}
 	
 	private void adicionarComponente(JComponent componente, int valor){
-		if(componente instanceof JLabel){
-			componente.setBounds(X  , Y +(valor *ALTURA_COMPONENTES) , LARGURA_COMPONENTES, ALTURA_COMPONENTES);
-			JLabel jLabel = (JLabel)componente;
-			jLabel.setHorizontalAlignment(JLabel.RIGHT);
-		}else{
-			componente.setBounds(X  +LARGURA_COMPONENTES , Y+(valor *ALTURA_COMPONENTES), LARGURA_COMPONENTES, ALTURA_COMPONENTES);
-		}
-		if (componente instanceof JTextField) {
-			JTextField textField = (JTextField) componente;
-			textField.setColumns(10);
-		}else if(componente instanceof JPasswordField){
-			JPasswordField jPasswordField = (JPasswordField)componente;
-			jPasswordField.setEchoChar('#');
-		}
-		this.add(componente);
-		componente.setVisible(true);
+		Map<String, Integer> parametros = new HashMap<String, Integer>();
+		TelasUtils.adicionarComponente(componente, valor, this, parametros);
 	}
 
 	private void adicionarTelefone() {
@@ -502,6 +479,7 @@ public class CadastroUsuario extends JPanel implements Inicializavel {
 		runnable.run();
 	}
 	
+	@SuppressWarnings("unchecked")
 	private void eventoCliqueTabela(MouseEvent e) {
 		if (e.getClickCount() == 2) {
 			TableModelGenerico<UsuarioTelefone> model = (TableModelGenerico<UsuarioTelefone>) tabela.getModel();

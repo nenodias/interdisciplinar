@@ -48,7 +48,6 @@ public class CadastroProduto extends JPanel {
 		
 		JLabel lblProduto = new JLabel("Produto");
 		lblProduto.setBounds(341, 76, 104, 39);
-		lblProduto.setFont(new Font("Dialog", Font.PLAIN, 30));
 		
 		txtNome = new JTextField();
 		txtNome.setBounds(175, 158, 501, 20);
@@ -159,7 +158,6 @@ public class CadastroProduto extends JPanel {
 		add(lblCdigo);
 		
 		textField = new JTextField();
-		textField.setFont(new Font("Tahoma", Font.BOLD, 11));
 		textField.setBounds(530, 251, 131, 20);
 		add(textField);
 		textField.setColumns(10);

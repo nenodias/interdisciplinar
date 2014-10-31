@@ -2,6 +2,8 @@ package br.org.fgp.view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -9,11 +11,11 @@ import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import org.apache.commons.lang.StringUtils;
 
+import br.org.fgp.core.TelasUtils;
 import br.org.fgp.model.Telefone;
 import br.org.fgp.model.enums.TipoTelefone;
 
@@ -22,11 +24,6 @@ public class CadastroTelefone extends JDialog {
 	private static final String VAZIO = "";
 	
 	private static final long serialVersionUID = 6594227432444740974L;
-
-	private static final int X = 0; 
-	private static final int Y = 0; 
-	private static final int LARGURA_COMPONENTES = 150;
-	private static final int ALTURA_COMPONENTES = 18;
 	
 	private Telefone telefone;
 
@@ -59,7 +56,7 @@ public class CadastroTelefone extends JDialog {
 		adicionarComponente(new JLabel("Tipo:"), 4);
 		adicionarComponente(cbbTipo,4);
 		
-		buttonPane.setBounds(0 , 220 , 300, ALTURA_COMPONENTES * 2);
+		buttonPane.setBounds(0 , 220 , 300, TelasUtils.DEFAULT_ALTURA_COMPONENTE * 2);
 		JButton okButton = new JButton("OK");
 		buttonPane.add(okButton);
 		getRootPane().setDefaultButton(okButton);
@@ -104,21 +101,9 @@ public class CadastroTelefone extends JDialog {
 	}
 	
 	private void adicionarComponente(JComponent componente, int valor){
-		if(componente instanceof JLabel){
-			componente.setBounds(X  , Y +(valor *ALTURA_COMPONENTES) , LARGURA_COMPONENTES, ALTURA_COMPONENTES);
-			JLabel jLabel = (JLabel)componente;
-			jLabel.setHorizontalAlignment(JLabel.RIGHT);
-		}else{
-			componente.setBounds(X  +LARGURA_COMPONENTES , Y+(valor *ALTURA_COMPONENTES), LARGURA_COMPONENTES, ALTURA_COMPONENTES);
-		}
-		if (componente instanceof JTextField) {
-			JTextField textField = (JTextField) componente;
-			textField.setColumns(10);
-		}else if(componente instanceof JPasswordField){
-			JPasswordField jPasswordField = (JPasswordField)componente;
-			jPasswordField.setEchoChar('#');
-		}
-		getContentPane().add(componente);
+		Map<String, Integer> parametros = new HashMap<String, Integer>();
+		parametros.put(TelasUtils.PARAM_LARGURA_COMPONENTES, -150);
+		TelasUtils.adicionarComponente(componente, valor, this, parametros);
 	}
 	
 }
