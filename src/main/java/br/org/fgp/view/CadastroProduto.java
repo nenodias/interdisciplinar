@@ -2,16 +2,20 @@ package br.org.fgp.view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
+import javax.validation.ValidationException;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,6 +34,7 @@ import br.org.fgp.view.core.ComponenteControlado;
 import br.org.fgp.view.core.Inicializavel;
 import br.org.fgp.view.core.JBusca;
 import br.org.fgp.view.core.JCabecalhoLabel;
+import br.org.fgp.view.core.Validador;
 
 @Controller
 public class CadastroProduto extends JPanel implements Inicializavel {
@@ -57,8 +62,6 @@ public class CadastroProduto extends JPanel implements Inicializavel {
 	private JBusca<Categoria, Integer> txtCategoria;
 	private JBusca<Marca, Integer> txtMarca;
 	
-	private JPanel painel;
-
 	private JSplitPane splitPane;
 
 	private JButton btnSalvar;
@@ -66,7 +69,6 @@ public class CadastroProduto extends JPanel implements Inicializavel {
 	private JButton btnCancelar;
 	
 	public CadastroProduto() {
-		painel = this;
 		setLayout(null);
 		
 		adicionarComponente(new JCabecalhoLabel(CLASS_NAME), 0);
@@ -121,7 +123,51 @@ public class CadastroProduto extends JPanel implements Inicializavel {
 	}
 
 	private void salvar() {
-		
+		String mensagemSave = " atualizado ";
+		try{
+			if(produto == null ){
+				produto = new  Produto();
+				mensagemSave = " salvo ";
+			}
+			
+			produto.setNome( txtNome.getText() );
+			produto.setDescricao( txtDescricao.getText() );
+			produto.setPrecoUnitario( new BigDecimal( txtPrecoUnitario.getText() ) );
+			if(categoriaDao != null){
+				int codigoCategoria = Integer.parseInt( txtCategoria.getText() );
+				Categoria categoria = categoriaDao.buscarPorId(codigoCategoria);
+				produto.setCategoria(categoria);
+			}
+			if(marcaDao != null){
+				int codigoMarca = Integer.parseInt( txtMarca.getText() );
+				Marca marca = marcaDao.buscarPorId(codigoMarca);
+				produto.setMarca(marca);
+			}
+			
+			Validador<Produto> validador = new Validador<Produto>();
+			validador.validacaoCampos(produto);
+			produtoDao.salvar(produto);
+			JOptionPane.showMessageDialog(null, CLASS_NAME.concat(mensagemSave).concat("com sucesso.") );
+			produto = null;
+			limparComponentes();
+			cancelar();
+		}
+		catch(ValidationException e){
+			LOGGER.error(e);
+		}
+		catch(Exception ex){
+			JOptionPane.showMessageDialog(null, "Falha ao ".concat(mensagemSave).concat(" ").concat(CLASS_NAME).concat(".") );
+			LOGGER.error(ex);
+		}
+	}
+
+	private void limparComponentes() {
+		final JTextField[] componentes = {txtNome,txtDescricao,txtPrecoUnitario};
+		for (JTextField jComponent : componentes) {
+			jComponent.setText(StringUtils.EMPTY);
+		}
+		txtCategoria.limpar();;
+		txtMarca.limpar();
 	}
 
 	@Override

@@ -1,124 +1,99 @@
 package br.org.fgp.view;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JSplitPane;
 import javax.swing.JTextField;
-import javax.swing.border.LineBorder;
-import javax.swing.border.TitledBorder;
+import javax.validation.ValidationException;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 
 import br.org.fgp.core.TelasUtils;
 import br.org.fgp.dao.MarcaDao;
 import br.org.fgp.model.Marca;
 import br.org.fgp.model.Usuario;
-import br.org.fgp.model.enums.TipoUsuario;
 import br.org.fgp.view.core.ComponenteControlado;
 import br.org.fgp.view.core.Inicializavel;
+import br.org.fgp.view.core.JCabecalhoLabel;
+import br.org.fgp.view.core.Validador;
 
 @Controller
 public class CadastroMarca extends JDialog implements Inicializavel {
 
 	private static final long serialVersionUID = 4699949600267605436L;
 
+	private static final Logger LOGGER = Logger.getLogger(CadastroMarca.class);
+
+	private static final String CLASS_NAME = "Marca";   
+
 	private final JPanel contentPanel = new JPanel();
+	
 	private JTextField txtMarca;
-	JButton btnSalvar = new JButton("Salvar");
 
 	@Autowired
 	private MarcaDao marcaDao;
-
-	private final JLabel lblMsg = new JLabel("");
-
+	
 	private Marca marca;
+
+	private JSplitPane splitPane;
+
+	private JButton btnSalvar;
+
+	private JButton btnCancelar;
 
 	public CadastroMarca() {
 		this.setModal(true);
 		setBounds(100, 100, 450, 300);
 		setSize(300, 200);
-		setTitle("Marca");
+		setTitle(CLASS_NAME);
 		setLocationRelativeTo(null);
-		getContentPane().setLayout(new BorderLayout());
-		contentPanel.setBorder(new TitledBorder(null, "Cadastrar nova Marca",
-				TitledBorder.LEFT, TitledBorder.TOP, null, null));
-		getContentPane().add(contentPanel, BorderLayout.CENTER);
-		GridBagLayout gbl_contentPanel = new GridBagLayout();
-		gbl_contentPanel.columnWidths = new int[] { 60, 210, 0 };
-		gbl_contentPanel.rowHeights = new int[] { 35, 35, 35, 35, 0 };
-		gbl_contentPanel.columnWeights = new double[] { 0.0, 0.0,
-				Double.MIN_VALUE };
-		gbl_contentPanel.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0,
-				Double.MIN_VALUE };
-		contentPanel.setLayout(gbl_contentPanel);
-
-		JLabel lblMarca = new JLabel("Marca:");
-		GridBagConstraints gbc_lblMarca = new GridBagConstraints();
-		gbc_lblMarca.anchor = GridBagConstraints.WEST;
-		gbc_lblMarca.insets = new Insets(0, 0, 5, 5);
-		gbc_lblMarca.gridx = 0;
-		gbc_lblMarca.gridy = 1;
-		contentPanel.add(lblMarca, gbc_lblMarca);
-
+		contentPanel.setVisible(true);
+		setContentPane(contentPanel);
+		getContentPane().setLayout(null);
+		
+		adicionarComponente(new JCabecalhoLabel(CLASS_NAME), 0);
+		
+		adicionarComponente(new JLabel("Marca:"), 4);
 		txtMarca = new JTextField();
-		txtMarca.setColumns(10);
-		GridBagConstraints gbc_txtMarca = new GridBagConstraints();
-		gbc_txtMarca.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtMarca.insets = new Insets(0, 0, 5, 0);
-		gbc_txtMarca.gridx = 1;
-		gbc_txtMarca.gridy = 1;
-		contentPanel.add(txtMarca, gbc_txtMarca);
-
-		GridBagConstraints gbc_btnSalvar = new GridBagConstraints();
-		gbc_btnSalvar.insets = new Insets(0, 0, 5, 0);
-		gbc_btnSalvar.gridx = 1;
-		gbc_btnSalvar.gridy = 2;
-		contentPanel.add(btnSalvar, gbc_btnSalvar);
-
-		GridBagConstraints gbc_lblMsg = new GridBagConstraints();
-		gbc_lblMsg.gridx = 1;
-		gbc_lblMsg.gridy = 3;
-		contentPanel.add(lblMsg, gbc_lblMsg);
+		adicionarComponente(txtMarca, 4);
+		splitPane = new JSplitPane();
+		
+		adicionarComponente(splitPane, 8);
+		
+		btnSalvar = new JButton("Salvar");
+		splitPane.setLeftComponent(btnSalvar);
+		
+		btnCancelar = new JButton("Cancelar");
+		splitPane.setRightComponent(btnCancelar);
+		
+		splitPane.setDividerLocation( ( ( Double ) ( TelasUtils.DEFAULT_LARGURA_COMPONENTE * 0.22 ) ).intValue()  );
+		
+		splitPane.setEnabled(false);
 
 		btnSalvar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				salvar();
+			}
+
+		});
+		btnCancelar.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(marca == null){
-					marca = new Marca();
-				}
-				try {
-					if (!txtMarca.getText().isEmpty()) {
-						marca.setMarca(txtMarca.getText());
-						marcaDao.salvar(marca);
-						JOptionPane.showMessageDialog(null,
-								"Marca cadastrada com sucesso.");
-						dispose();
-					} else {
-						JOptionPane.showMessageDialog(null,
-								"O campo Marca é obrigatório.");
-						txtMarca.setBorder(new LineBorder(new Color(255, 0, 0),
-								1));
-					}
-				} catch (Exception ex) {
-					lblMsg.setText("Falha ao cadastrar nova marca.");
-				}
+				dispose();
 			}
 		});
-
-		ComponenteControlado<CadastroMarca> controleAcesso = new ComponenteControlado<CadastroMarca>(
-				this);
-		controleAcesso.pronto(TipoUsuario.ADMINISTRADOR);
 	}
 
 	public MarcaDao getMarcaDao() {
@@ -129,9 +104,8 @@ public class CadastroMarca extends JDialog implements Inicializavel {
 		this.marcaDao = marcaDao;
 	}
 
-	@Override
 	public void load(Integer id) {
-		init(TelasUtils.getUsuarioLogado());
+		init( TelasUtils.getUsuarioLogado() );
 		if(id != null){
 			marca = marcaDao.buscarPorId(id);
 			txtMarca.setText(marca.getMarca());
@@ -139,9 +113,42 @@ public class CadastroMarca extends JDialog implements Inicializavel {
 			marca = new Marca();
 		}
 	}
+	
+	private void salvar(){
+		String mensagemSave = " atualizada ";
+		if(marca == null){
+			marca = new Marca();
+			mensagemSave = " salva ";
+		}
+		try{
+			marca.setMarca(txtMarca.getText());
+			Validador<Marca> validador = new  Validador<Marca>();
+			validador.validacaoCampos(marca);
+			marcaDao.salvar(marca);
+			JOptionPane.showMessageDialog(null, CLASS_NAME.concat(mensagemSave).concat("com sucesso.") );
+			marca = null;
+			txtMarca.setText(StringUtils.EMPTY);	
+			dispose();
+		}
+		catch(ValidationException e){
+			LOGGER.error(e);
+		}
+		catch(Exception ex){
+			JOptionPane.showMessageDialog(null, "Falha ao ".concat(mensagemSave).concat(" ").concat(CLASS_NAME).concat(".") );
+			LOGGER.error(ex);
+		}
+	}
 
-	public void init(Usuario usuario) {
-		ComponenteControlado<CadastroMarca> controleAcesso = new ComponenteControlado<CadastroMarca>(this);
+	public void init(Usuario usuario){
+		ComponenteControlado<CadastroMarca> controleAcesso = new ComponenteControlado<CadastroMarca>(this); 
 		controleAcesso.pronto(TelasUtils.getUsuarioLogado().getTipo());
+	}
+	
+	private void adicionarComponente(JComponent componente, int valor){
+		Map<String, Integer> parametros = new HashMap<String, Integer>();
+		parametros.put(TelasUtils.PARAM_LARGURA_COMPONENTES, -140);
+		parametros.put(TelasUtils.PARAM_X, -40);
+		parametros.put(TelasUtils.PARAM_ESPACO, -5);
+		TelasUtils.adicionarComponente(componente, valor, contentPanel, parametros);
 	}
 }

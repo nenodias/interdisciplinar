@@ -1,118 +1,131 @@
 package br.org.fgp.view;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JSplitPane;
 import javax.swing.JTextField;
-import javax.swing.border.LineBorder;
-import javax.swing.border.TitledBorder;
+import javax.validation.ValidationException;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import br.org.fgp.core.TelasUtils;
 import br.org.fgp.dao.SetorDao;
 import br.org.fgp.model.Setor;
-import br.org.fgp.model.enums.TipoUsuario;
+import br.org.fgp.model.Usuario;
 import br.org.fgp.view.core.ComponenteControlado;
+import br.org.fgp.view.core.Inicializavel;
+import br.org.fgp.view.core.JCabecalhoLabel;
+import br.org.fgp.view.core.Validador;
 
 @Controller
-public class CadastroSetor extends JDialog {
+public class CadastroSetor extends JDialog implements Inicializavel {
 
 	private static final long serialVersionUID = -5360024164470109759L;
 	
+	private static final Logger LOGGER = Logger.getLogger(CadastroCategoria.class);
+
+	private static final String CLASS_NAME = "Setor";   
+
 	private final JPanel contentPanel = new JPanel();
-	private JTextField txtSetor;
-	JButton btnSalvar = new JButton("Salvar");
 	
+	private JTextField txtSetor;
+
 	@Autowired
 	private SetorDao setorDao;
-	private final JLabel lblSetor_1 = new JLabel("Setor:");
-	private final JLabel lblMsg = new JLabel("");
+	
+	private Setor setor;
+
+	private JSplitPane splitPane;
+
+	private JButton btnSalvar;
+
+	private JButton btnCancelar;
 	
 	public CadastroSetor() {
+		this.setModal(true);
 		setBounds(100, 100, 450, 300);
 		setSize(300, 200);
-		setTitle("Setor");
+		setTitle(CLASS_NAME);
 		setLocationRelativeTo(null);
-		getContentPane().setLayout(new BorderLayout());
-		contentPanel.setBorder(new TitledBorder(null, "Cadastrar novo Setor", TitledBorder.LEFT, TitledBorder.TOP, null, null));
-		getContentPane().add(contentPanel, BorderLayout.CENTER);
-		GridBagLayout gbl_contentPanel = new GridBagLayout();
-		gbl_contentPanel.columnWidths = new int[]{50, 210, 0};
-		gbl_contentPanel.rowHeights = new int[]{35, 35, 35, 35, 0};
-		gbl_contentPanel.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
-		gbl_contentPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		contentPanel.setLayout(gbl_contentPanel);
+		contentPanel.setVisible(true);
+		setContentPane(contentPanel);
+		getContentPane().setLayout(null);
 		
-			GridBagConstraints gbc_lblSetor_1 = new GridBagConstraints();
-			gbc_lblSetor_1.insets = new Insets(0, 0, 5, 5);
-			gbc_lblSetor_1.anchor = GridBagConstraints.WEST;
-			gbc_lblSetor_1.gridx = 0;
-			gbc_lblSetor_1.gridy = 1;
-			contentPanel.add(lblSetor_1, gbc_lblSetor_1);
+		adicionarComponente(new JCabecalhoLabel(CLASS_NAME), 0);
 		
-			txtSetor = new JTextField();
-			GridBagConstraints gbc_txtSetor = new GridBagConstraints();
-			gbc_txtSetor.fill = GridBagConstraints.HORIZONTAL;
-			gbc_txtSetor.insets = new Insets(0, 0, 5, 0);
-			gbc_txtSetor.gridx = 1;
-			gbc_txtSetor.gridy = 1;
-			contentPanel.add(txtSetor, gbc_txtSetor);
-			txtSetor.setColumns(10);
+		adicionarComponente(new JLabel("Setor:"), 4);
+		txtSetor = new JTextField();
+		adicionarComponente(txtSetor, 4);
+		splitPane = new JSplitPane();
 		
-			JLabel lblSetor = new JLabel("Setor:");
-			GridBagConstraints gbc_lblSetor = new GridBagConstraints();
-			gbc_lblSetor.anchor = GridBagConstraints.WEST;
-			gbc_lblSetor.insets = new Insets(0, 0, 5, 0);
-			gbc_lblSetor.gridx = 1;
-			gbc_lblSetor.gridy = 1;
-			contentPanel.add(lblSetor, gbc_lblSetor);
+		adicionarComponente(splitPane, 8);
 		
-			GridBagConstraints gbc_btnSalvar = new GridBagConstraints();
-			gbc_btnSalvar.insets = new Insets(0, 0, 5, 0);
-			gbc_btnSalvar.gridx = 1;
-			gbc_btnSalvar.gridy = 2;
-			contentPanel.add(btnSalvar, gbc_btnSalvar);
+		btnSalvar = new JButton("Salvar");
+		splitPane.setLeftComponent(btnSalvar);
 		
-			GridBagConstraints gbc_lblMsg = new GridBagConstraints();
-			gbc_lblMsg.anchor = GridBagConstraints.WEST;
-			gbc_lblMsg.gridx = 1;
-			gbc_lblMsg.gridy = 3;
-			contentPanel.add(lblMsg, gbc_lblMsg);
-				
+		btnCancelar = new JButton("Cancelar");
+		splitPane.setRightComponent(btnCancelar);
+		
+		splitPane.setDividerLocation( ( ( Double ) ( TelasUtils.DEFAULT_LARGURA_COMPONENTE * 0.22 ) ).intValue()  );
+		
+		splitPane.setEnabled(false);
+
 		btnSalvar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				salvar();
+			}
+
+		});
+		btnCancelar.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
-				Setor setor = new Setor();
-				try{
-					if(!txtSetor.getText().isEmpty()){
-						setor.setSetor(txtSetor.getText());
-						setorDao.salvar(setor);
-						JOptionPane.showMessageDialog(null, "Setor cadastrado com sucesso.");
-						dispose();
-					}
-					else{
-						JOptionPane.showMessageDialog(null, "Campo Setor obrigatório.");
-						txtSetor.setBorder(new LineBorder(new Color(255, 0, 0), 1));
-					}
-				}
-				catch(Exception ex){
-					lblMsg.setText("Falha ao cadastrada novo setor");
-				}
+				dispose();
 			}
 		});
-		
-		ComponenteControlado<CadastroSetor> controleAcesso = new ComponenteControlado<CadastroSetor>(this); 
-		controleAcesso.pronto(TipoUsuario.ADMINISTRADOR);
+	}
+
+	private void salvar() {
+		String mensagemSave = " atualizado ";
+		if(setor == null){
+			setor = new Setor();
+			mensagemSave = " salvo ";
+		}
+		try{
+			setor.setSetor(txtSetor.getText());
+			Validador<Setor> validador = new  Validador<Setor>();
+			validador.validacaoCampos(setor);
+			setorDao.salvar(setor);
+			JOptionPane.showMessageDialog(null, CLASS_NAME.concat(mensagemSave).concat("com sucesso.") );
+			setor = null;
+			txtSetor.setText(StringUtils.EMPTY);	
+			dispose();
+		}
+		catch(ValidationException e){
+			LOGGER.error(e);
+		}
+		catch(Exception ex){
+			JOptionPane.showMessageDialog(null, "Falha ao ".concat(mensagemSave).concat(" ").concat(CLASS_NAME).concat(".") );
+			LOGGER.error(ex);
+		}
+	}
+	private void adicionarComponente(JComponent componente, int valor){
+		Map<String, Integer> parametros = new HashMap<String, Integer>();
+		parametros.put(TelasUtils.PARAM_LARGURA_COMPONENTES, -140);
+		parametros.put(TelasUtils.PARAM_X, -40);
+		parametros.put(TelasUtils.PARAM_ESPACO, -5);
+		TelasUtils.adicionarComponente(componente, valor, contentPanel, parametros);
 	}
 
 	public SetorDao getSetorDao() {
@@ -123,4 +136,18 @@ public class CadastroSetor extends JDialog {
 		this.setorDao = setorDao;
 	}
 
+	public void load(Integer id) {
+		init( TelasUtils.getUsuarioLogado() );
+		if(id != null){
+			setor = setorDao.buscarPorId(id);
+			txtSetor.setText(setor.getSetor());
+		}else{
+			setor = new Setor();
+		}
+	}
+
+	public void init(Usuario usuario){
+		ComponenteControlado<CadastroSetor> controleAcesso = new ComponenteControlado<CadastroSetor>(this); 
+		controleAcesso.pronto(TelasUtils.getUsuarioLogado().getTipo());
+	}
 }

@@ -293,9 +293,11 @@ public class CadastroUsuario extends JPanel implements Inicializavel {
 	}
 	
 	private void salvar() {
+		String mensagemSave = " atualizado ";
 		try{
 			if(usuario == null ){
 				usuario = new  Usuario();
+				mensagemSave = " salvo ";
 			}
 			
 			usuario.setNome(txtNome.getText() );
@@ -324,7 +326,7 @@ public class CadastroUsuario extends JPanel implements Inicializavel {
 					usuarioTelefoneDao.salvar(usuarioTelefone);
 				}
 			}
-			JOptionPane.showMessageDialog(null, CLASS_NAME+" cadastrado com sucesso.");
+			JOptionPane.showMessageDialog(null, CLASS_NAME.concat(mensagemSave).concat("com sucesso.") );
 			usuario = null;
 			limparComponentes();
 			cancelar();
@@ -333,7 +335,7 @@ public class CadastroUsuario extends JPanel implements Inicializavel {
 			LOGGER.error(e);
 		}
 		catch(Exception ex){
-			JOptionPane.showMessageDialog(null, "Falha ao salvar "+CLASS_NAME+".");
+			JOptionPane.showMessageDialog(null, "Falha ao ".concat(mensagemSave).concat(" ").concat(CLASS_NAME).concat(".") );
 			LOGGER.error(ex);
 		}
 	}

@@ -25,13 +25,13 @@ public class InterdisciplinarReflectionUtil {
 		return retorno;
 	}
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings({ "all" })
 	public static Method getMetodoGet(Class clazz,Field campo){
 		String campoUpperFirstWord = InterdisciplinarStringUtil.upperFirstWord( campo.getName() );
 		String nomeMetodo = LITERAL_GET.concat(campoUpperFirstWord);
 		Method metodo = null;
 		try {
-			metodo = clazz.getMethod(nomeMetodo, Void.class);
+			metodo = clazz.getMethod(nomeMetodo, null);
 		} catch (Exception e) {
 			LOGGER.info("Metodo não encontrado", e);
 		}

@@ -11,26 +11,59 @@ import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
+
+import br.org.fgp.core.MessagemUtil;
+import br.org.fgp.view.annotations.LabelDescricao;
 import br.org.fgp.view.annotations.Pesquisa;
 
 @Entity
 @Table(name = "PRODUTO", indexes = { @Index(columnList = "IdCategoria"), @Index(columnList = "IdMarca") }  )
 public class Produto {
 
+	private static final String MARCA = "Marca";
+
+	private static final String CATEGORIA = "Categoria";
+
+	private static final String PRECO = "Preço";
+
+	private static final int PRECO_FRACAO = 2;
+
+	private static final int PRECO_INT = 13;
+
+	private static final int PRECO_MAX = 15;
+
+	private static final String DESCRICAO = "Descrição";
+
+	private static final int DESCRICAO_MAX = 200;
+
+	private static final int NOME_MAX = 50;
+
+	private static final String NOME = "Nome";
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "IdProduto")
 	public Integer id;
 	
-	@Column(name = "Nome", length = 50)
+	@NotBlank(message = MessagemUtil.CAMPO + NOME + MessagemUtil.NOT_BLANK)
+	@Length(max = NOME_MAX, message = MessagemUtil.CAMPO + NOME + MessagemUtil.MAX + NOME_MAX )
+	@Column(name = NOME, length = NOME_MAX)
+	@LabelDescricao
 	public String nome;
 	
-	@Column(name = "Descricao", length = 200)
+	@NotBlank(message = MessagemUtil.CAMPO + DESCRICAO + MessagemUtil.NOT_BLANK)
+	@Length(max = DESCRICAO_MAX, message = MessagemUtil.CAMPO + DESCRICAO + MessagemUtil.MAX + DESCRICAO_MAX )
+	@Column(name = "Descricao", length = DESCRICAO_MAX)
 	public String descricao;
 	
-	@Column(name = "PrecoUnitario", scale = 2, precision = 15)
-	public BigDecimal precoUnitario; //preco de venda
+	@Digits(integer = PRECO_INT, fraction = PRECO_FRACAO, message = MessagemUtil.CAMPO + PRECO + MessagemUtil.DIGITS + PRECO_MAX + MessagemUtil.INTEIROS + MessagemUtil.AND+PRECO_FRACAO + MessagemUtil.CASAS_DECIMAIS)
+	@Column(name = "PrecoUnitario", scale = PRECO_FRACAO, precision = PRECO_MAX)
+	public BigDecimal precoUnitario;
 	
 	@Column(name = "EstoqueMaximo")
 	public Integer estoqueMaximo;
@@ -41,10 +74,12 @@ public class Produto {
 	@Column(name = "EstoqueAtual")
 	public Integer estoqueAtual;
 	
+	@NotNull(message=MessagemUtil.CAMPO+CATEGORIA+MessagemUtil.NOT_BLANK)
 	@ManyToOne
 	@JoinColumn(name = "IdCategoria")
 	public Categoria categoria;
 	
+	@NotNull(message=MessagemUtil.CAMPO+MARCA+MessagemUtil.NOT_BLANK)
 	@ManyToOne
 	@JoinColumn(name = "IdMarca")
 	public Marca marca;
@@ -58,7 +93,7 @@ public class Produto {
 		this.id = id;
 	}
 
-	@Pesquisa(nome = "Nome", posicao = 1)
+	@Pesquisa(nome = NOME, posicao = 1)
 	public String getNome() {
 		return nome;
 	}
@@ -67,7 +102,7 @@ public class Produto {
 		this.nome = nome;
 	}
 
-	@Pesquisa(nome = "Descrição", posicao = 2)
+	@Pesquisa(nome = DESCRICAO, posicao = 2)
 	public String getDescricao() {
 		return descricao;
 	}
@@ -76,7 +111,7 @@ public class Produto {
 		this.descricao = descricao;
 	}
 
-	@Pesquisa(nome = "Preço", posicao = 3)
+	@Pesquisa(nome = PRECO, posicao = 3)
 	public BigDecimal getPrecoUnitario() {
 		return precoUnitario;
 	}
@@ -110,7 +145,7 @@ public class Produto {
 		this.estoqueAtual = estoqueAtual;
 	}
 
-	@Pesquisa(nome = "Categoria", posicao = 5)
+	@Pesquisa(nome = CATEGORIA, posicao = 5)
 	public Categoria getCategoria() {
 		return categoria;
 	}
@@ -119,7 +154,7 @@ public class Produto {
 		this.categoria = categoria;
 	}
 
-	@Pesquisa(nome = "Marca", posicao = 6)
+	@Pesquisa(nome = MARCA, posicao = 6)
 	public Marca getMarca() {
 		return marca;
 	}

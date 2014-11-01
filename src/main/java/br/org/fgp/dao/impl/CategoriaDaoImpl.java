@@ -1,9 +1,8 @@
 package br.org.fgp.dao.impl;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import br.org.fgp.core.dao.Filtravel;
@@ -17,9 +16,7 @@ public class CategoriaDaoImpl extends GenericoDaoImpl<Categoria, Integer>
 	
 	@Override
 	public List<Categoria> filtrarPorDescricao(String descricao) {
-		Map<String, Object> parametros = new HashMap<String, Object>();
-		parametros.put("descricao", descricao+"%");
-		return selectHQL(" FROM Categoria c where c.descricao like :descricao ", parametros);
+		return buscarPorCriteria(Restrictions.like("descricao","%"+descricao+"%") );
 	}
 
 }

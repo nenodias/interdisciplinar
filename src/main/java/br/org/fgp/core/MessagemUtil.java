@@ -16,4 +16,9 @@ public class MessagemUtil {
 
 	public static final String ERRO = "Erro";
 
+	public static final String DIGITS = " só aceita números com ";
+	public static final String INTEIROS = " inteiros ";
+	public static final String AND = " e  ";
+	public static final String CASAS_DECIMAIS = " casas decimais";
+
 }

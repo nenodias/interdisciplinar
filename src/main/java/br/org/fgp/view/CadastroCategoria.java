@@ -20,7 +20,6 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
-import br.org.fgp.core.ApplicationContextConfig;
 import br.org.fgp.core.TelasUtils;
 import br.org.fgp.dao.CategoriaDao;
 import br.org.fgp.model.Categoria;
@@ -113,15 +112,17 @@ public class CadastroCategoria extends JDialog implements Inicializavel {
 	}
 
 	private void salvar() {
+		String mensagemSave = " atualizada ";
 		if(categoria == null){
 			categoria = new Categoria();
+			mensagemSave = " salva ";
 		}
 		try{
 			categoria.setDescricao(txtCategoria.getText());
 			Validador<Categoria> validador = new  Validador<Categoria>();
 			validador.validacaoCampos(categoria);
 			categoriaDao.salvar(categoria);
-			JOptionPane.showMessageDialog(null, "Categoria cadastrada com sucesso.");
+			JOptionPane.showMessageDialog(null, CLASS_NAME.concat(mensagemSave).concat("com sucesso.") );
 			categoria = null;
 			txtCategoria.setText(StringUtils.EMPTY);	
 			dispose();
@@ -130,7 +131,7 @@ public class CadastroCategoria extends JDialog implements Inicializavel {
 			LOGGER.error(e);
 		}
 		catch(Exception ex){
-			JOptionPane.showMessageDialog(null, "Falha ao salvar "+CLASS_NAME+".");
+			JOptionPane.showMessageDialog(null, "Falha ao ".concat(mensagemSave).concat(" ").concat(CLASS_NAME).concat(".") );
 			LOGGER.error(ex);
 		}
 	}

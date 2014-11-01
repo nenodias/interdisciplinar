@@ -91,9 +91,9 @@ public class JBusca <T, PK> extends JPanel {
 								descricaoComponente.setText( (String) descricao );
 							}
 						}
-					}
-					else 
+					}else{
 						descricaoComponente.setText("");
+					}
 				}catch(Exception ex){
 					LOGGER.info("Código não encontrado, ou de tipo incompatível", ex);
 				}
@@ -144,4 +144,8 @@ public class JBusca <T, PK> extends JPanel {
 		}
 	}
 	
+	public void limpar(){
+		codigoComponente.setText(StringUtils.EMPTY);
+		descricaoComponente.setText(StringUtils.EMPTY);
+	}
 }

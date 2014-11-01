@@ -26,11 +26,9 @@ import br.org.fgp.model.enums.TipoUsuario;
  */
 public class ComponenteControlado<T>{
 
-	private static final long serialVersionUID = -1660186148473856758L;
-	
 	private static final Logger LOGGER = Logger.getLogger(ComponenteControlado.class);
 	
-	private final Class clazz;
+	private final Class<?> clazz;
 	
 	private final T frame;
 	
@@ -41,10 +39,10 @@ public class ComponenteControlado<T>{
 	
 	public void pronto(TipoUsuario tipoUsuario){
 		verificaPermissao(tipoUsuario, frame, clazz);
-//		verificaInjecao(clazz);
+		verificaInjecao(clazz);
 	}
 
-	private void verificaInjecao(Class clazz) {
+	private void verificaInjecao(Class<?> clazz) {
 		List<Field> atributoComAnotacao = InterdisciplinarReflectionUtil.getAtributoComAnotacao(clazz, Autowired.class);
 		for (Field campo : atributoComAnotacao) {
 			ApplicationContext context = ApplicationContextConfig.getContext();
@@ -59,8 +57,9 @@ public class ComponenteControlado<T>{
 		}
 	}
 
+	@SuppressWarnings({"all"})
 	private void verificaPermissao(TipoUsuario tipoUsuario,
-			T frame, Class clazz) {
+			T frame, Class<?> clazz) {
 		 List<Field> atributoComAnotacao = InterdisciplinarReflectionUtil.getAtributoComAnotacao(clazz, Permissao.class);
 		for (Field campo : atributoComAnotacao) {
 			Permissao permissao = campo.getAnnotation(Permissao.class);

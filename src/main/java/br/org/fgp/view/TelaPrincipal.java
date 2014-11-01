@@ -16,14 +16,17 @@ import javax.swing.border.EmptyBorder;
 import org.springframework.stereotype.Controller;
 
 import br.org.fgp.core.ApplicationContextConfig;
-import br.org.fgp.core.TelasUtils;
 import br.org.fgp.dao.CategoriaDao;
 import br.org.fgp.dao.FornecedorDao;
+import br.org.fgp.dao.MarcaDao;
 import br.org.fgp.dao.ProdutoDao;
+import br.org.fgp.dao.SetorDao;
 import br.org.fgp.dao.UsuarioDao;
 import br.org.fgp.model.Categoria;
 import br.org.fgp.model.Fornecedor;
+import br.org.fgp.model.Marca;
 import br.org.fgp.model.Produto;
+import br.org.fgp.model.Setor;
 import br.org.fgp.model.Usuario;
 import br.org.fgp.view.core.JDialogBusca;
 
@@ -132,16 +135,18 @@ public class TelaPrincipal extends JFrame {
 		});
 		mntmMarca.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				CadastroMarca cm = ApplicationContextConfig.getContext()
-						.getBean(CadastroMarca.class);
-				cm.init(TelasUtils.getUsuarioLogado() );
-				cm.setVisible(true);
+				MarcaDao marcaDao = ApplicationContextConfig.getContext().getBean(MarcaDao.class);
+				JDialogBusca<Marca, Integer> dialogo = new JDialogBusca<Marca, Integer>(marcaDao, null, null);
+				dialogo.setLocationRelativeTo(frmInterdisciplinar);
+				dialogo.setVisible(true);
 			}
 		});
 		mntmSetor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				CadastroSetor cs = new CadastroSetor();
-				cs.setVisible(true);
+				SetorDao setorDao = ApplicationContextConfig.getContext().getBean(SetorDao.class);
+				JDialogBusca<Setor, Integer> dialogo = new JDialogBusca<Setor, Integer>(setorDao, null, null);
+				dialogo.setLocationRelativeTo(frmInterdisciplinar);
+				dialogo.setVisible(true);
 			}
 		});
 	}

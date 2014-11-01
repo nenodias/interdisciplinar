@@ -13,6 +13,7 @@ import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 
 import br.org.fgp.core.MessagemUtil;
+import br.org.fgp.view.annotations.LabelDescricao;
 import br.org.fgp.view.annotations.Pesquisa;
 
 @Entity
@@ -31,6 +32,7 @@ public class Categoria {
 	@NotBlank(message = MessagemUtil.CAMPO + CATEGORIA + MessagemUtil.NOT_BLANK)
 	@Length(max = CATEGORIA_MAX, message = MessagemUtil.CAMPO + CATEGORIA + MessagemUtil.MAX + CATEGORIA_MAX )
 	@Column(name = CATEGORIA, length = CATEGORIA_MAX)
+	@LabelDescricao
 	public String descricao;
 
 	@Pesquisa(nome = "Id", posicao = 0)
@@ -63,6 +65,11 @@ public class Categoria {
 			return builder.isEquals();
 		}
 		return false;
+	}
+	
+	@Override
+	public String toString() {
+		return descricao;
 	}
 	
 }
