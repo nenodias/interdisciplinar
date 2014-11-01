@@ -1,187 +1,176 @@
 package br.org.fgp.view;
 
-import java.awt.Color;
-import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.JButton;
-import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSplitPane;
 import javax.swing.JTextField;
-import javax.swing.JTextPane;
-import javax.swing.UIManager;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 
+import br.org.fgp.core.ApplicationContextConfig;
 import br.org.fgp.core.TelasUtils;
 import br.org.fgp.dao.CategoriaDao;
 import br.org.fgp.dao.MarcaDao;
+import br.org.fgp.dao.ProdutoDao;
 import br.org.fgp.model.Categoria;
 import br.org.fgp.model.Marca;
+import br.org.fgp.model.Produto;
+import br.org.fgp.model.Usuario;
+import br.org.fgp.model.enums.TipoUsuario;
 import br.org.fgp.view.core.ComponenteControlado;
+import br.org.fgp.view.core.Inicializavel;
 import br.org.fgp.view.core.JBusca;
+import br.org.fgp.view.core.JCabecalhoLabel;
 
-public class CadastroProduto extends JPanel {
+@Controller
+public class CadastroProduto extends JPanel implements Inicializavel {
 
 	private static final long serialVersionUID = 234546250563736381L;
+	
+	private static final String CLASS_NAME = "Produto";
+
+	private static final Logger LOGGER = Logger.getLogger(CadastroProduto.class);
 	
 	@Autowired
 	private MarcaDao marcaDao;
 	
 	@Autowired
 	private CategoriaDao categoriaDao;
+
+	private Produto produto;
+
+	@Autowired
+	private ProdutoDao produtoDao;
 	
 	private JTextField txtNome;
-	private JTextField txtPrecoVenda;
-	private JTextField txtEstoqueAtual;
-	private JTextField txtEstoqueMinimo;
-	private JTextField txtEstoqueMaximo;
-	private JTextField txtPrecoCusto;
-	private JTextField txtLucro;
-	private JTextField textField;
+	private JTextField txtDescricao;
+	private JTextField txtPrecoUnitario;
+	private JBusca<Categoria, Integer> txtCategoria;
+	private JBusca<Marca, Integer> txtMarca;
+	
+	private JPanel painel;
 
-	/**
-	 * Create the panel.
-	 */
+	private JSplitPane splitPane;
+
+	private JButton btnSalvar;
+
+	private JButton btnCancelar;
+	
 	public CadastroProduto() {
-		setBackground(UIManager.getColor("Button.background"));
-		
-		JLabel lblProduto = new JLabel("Produto");
-		lblProduto.setBounds(341, 76, 104, 39);
-		
-		txtNome = new JTextField();
-		txtNome.setBounds(175, 158, 501, 20);
-		txtNome.setColumns(10);
-		
-		JTextPane txtDescricao = new JTextPane();
-		txtDescricao.setBounds(175, 189, 501, 55);
-		
-		JLabel lblMarca = new JLabel("Marca:");
-		lblMarca.setBounds(129, 288, 43, 14);
-		
-		JLabel lblPreoUnitrio = new JLabel("Pre\u00E7o de venda:");
-		lblPreoUnitrio.setBounds(80, 350, 92, 14);
-		
-		JLabel lblFornecedor = new JLabel("Fornecedor:");
-		lblFornecedor.setBounds(101, 319, 71, 14);
-		
-		JComboBox cbbFornecedor = new JComboBox();
-		cbbFornecedor.setBounds(174, 316, 502, 20);
-		
-		txtPrecoVenda = new JTextField();
-		txtPrecoVenda.setBounds(176, 344, 96, 20);
-		txtPrecoVenda.setColumns(10);
-		
-		JLabel lblEstoqueAtual = new JLabel("Estoque atual:");
-		lblEstoqueAtual.setBounds(90, 373, 82, 14);
-		
-		txtEstoqueAtual = new JTextField();
-		txtEstoqueAtual.setBounds(175, 370, 96, 20);
-		txtEstoqueAtual.setColumns(10);
-		
-		JLabel lblEstoqueMnimo = new JLabel("Estoque m\u00EDnimo:");
-		lblEstoqueMnimo.setBounds(292, 373, 98, 14);
-		
-		txtEstoqueMinimo = new JTextField();
-		txtEstoqueMinimo.setBounds(394, 370, 95, 20);
-		txtEstoqueMinimo.setColumns(10);
-		
-		JLabel lblEstoqueMximo = new JLabel("Estoque m\u00E1ximo:");
-		lblEstoqueMximo.setBounds(493, 375, 104, 14);
-		
-		txtEstoqueMaximo = new JTextField();
-		txtEstoqueMaximo.setBounds(594, 373, 82, 20);
-		txtEstoqueMaximo.setColumns(10);
-		
-		JButton btnSalvar = new JButton("Salvar");
-		btnSalvar.setBounds(284, 409, 96, 45);
-		
-		JButton btnCancelar = new JButton("Cancelar");
-		btnCancelar.setBounds(433, 409, 104, 45);
-		
-		JLabel lblMsg = new JLabel("");
-		lblMsg.setBounds(435, 523, 0, 0);
-		lblMsg.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblMsg.setForeground(Color.RED);
-		
-		JLabel lblPreoDeCusto = new JLabel("Preço de custo:");
-		lblPreoDeCusto.setBounds(298, 350, 92, 14);
-		
-		txtPrecoCusto = new JTextField();
-		txtPrecoCusto.setBounds(394, 347, 95, 20);
-		txtPrecoCusto.setColumns(10);
-		
-		JLabel lblLucro = new JLabel("Lucro:");
-		lblLucro.setBounds(550, 350, 43, 14);
-		
-		txtLucro = new JTextField();
-		txtLucro.setBounds(594, 347, 82, 20);
-		txtLucro.setEnabled(false);
-		txtLucro.setColumns(10);
+		painel = this;
 		setLayout(null);
-		add(lblMsg);
-		add(lblProduto);
-		add(lblMarca);
-		add(lblLucro);
-		add(txtLucro);
-		add(lblEstoqueAtual);
-		add(lblPreoUnitrio);
-		add(txtEstoqueAtual);
-		add(txtPrecoVenda);
-		add(lblEstoqueMnimo);
-		add(txtEstoqueMinimo);
-		add(lblPreoDeCusto);
-		add(txtPrecoCusto);
-		add(lblEstoqueMximo);
-		add(txtEstoqueMaximo);
-		add(txtDescricao);
-		add(txtNome);
-		add(lblFornecedor);
-		add(btnCancelar);
-		add(btnSalvar);
-		add(cbbFornecedor);
 		
-		JLabel lblNome = new JLabel("Nome:");
-		lblNome.setBounds(129, 161, 43, 14);
-		add(lblNome);
+		adicionarComponente(new JCabecalhoLabel(CLASS_NAME), 0);
 		
-		JLabel lblDescio = new JLabel("Descição:");
-		lblDescio.setBounds(113, 189, 59, 14);
-		add(lblDescio);
+		adicionarComponente(new JLabel("Nome"), 2);
+		txtNome = new JTextField();
+		adicionarComponente(txtNome, 2);
 		
-		JLabel lblCategoria = new JLabel("Categoria:");
-		lblCategoria.setBounds(113, 259, 59, 14);
-		add(lblCategoria);
+		adicionarComponente(new JLabel("Descricao"), 4);
+		txtDescricao = new JTextField();
+		adicionarComponente(txtDescricao, 4);
 		
-		JLabel lblCdigo = new JLabel("Código:");
-		lblCdigo.setBounds(480, 259, 46, 14);
-		add(lblCdigo);
+		adicionarComponente(new JLabel("Preço Venda"), 6);
+		txtPrecoUnitario = new JTextField();
+		adicionarComponente(txtPrecoUnitario, 6);
 		
-		textField = new JTextField();
-		textField.setBounds(530, 251, 131, 20);
-		add(textField);
-		textField.setColumns(10);
+		adicionarComponente(new JLabel("Categoria"), 8);
+		txtCategoria = new JBusca<Categoria, Integer>();
+		adicionarComponente(txtCategoria, 8);
 		
-		JBusca<Marca, Integer> busca = new JBusca<Marca, Integer>();
-		busca.setBounds(176, 282, 297, 35);
-		add(busca);
+		adicionarComponente(new JLabel("Marca"), 10);
+		txtMarca = new JBusca<Marca, Integer>();
+		adicionarComponente(txtMarca, 10);
 		
+		
+		splitPane = new JSplitPane();
+		adicionarComponente(splitPane, 14);
+		
+		btnSalvar = new JButton("Salvar");
+		splitPane.setLeftComponent(btnSalvar);
+		
+		btnCancelar = new JButton("Cancelar");
+		splitPane.setRightComponent(btnCancelar);
+		splitPane.setDividerLocation(TelasUtils.DEFAULT_LARGURA_COMPONENTE/2);
+		splitPane.setEnabled(false);
+		
+		ComponenteControlado<CadastroProduto> componenteControlado = new ComponenteControlado<CadastroProduto>(this);
+		componenteControlado.pronto(TipoUsuario.ADMINISTRADOR);
+		btnCancelar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				cancelar();
+			}
+		});
+		
+		btnSalvar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				salvar();
+			}
+		});
+	}
 
-		JBusca<Categoria, Integer> busca_Categoria = new JBusca<Categoria, Integer>();
-		busca_Categoria.setBounds(175, 242, 297, 35);
-		add(busca_Categoria);
+	private void salvar() {
 		
-		ComponenteControlado<CadastroProduto> controleAcesso = new ComponenteControlado<CadastroProduto>(this); 
-		controleAcesso.pronto( TelasUtils.getUsuarioLogado().getTipo() );
-		busca.setDaoGenerico(marcaDao);		
-		busca_Categoria.setDaoGenerico(categoriaDao);
+	}
+
+	@Override
+	public void load(Integer id) {
+		if(id != null){
+			produto = produtoDao.buscarPorId(id);
+		}
+		init(TelasUtils.getUsuarioLogado());
+		if(id != null){
+			txtNome.setText( produto.getNome() );
+			txtDescricao.setText( produto.getDescricao() );
+			txtPrecoUnitario.setText( produto.getPrecoUnitario().toString() );
+			txtCategoria.setText( produto.getCategoria().getId().toString() );
+			txtMarca.setText( produto.getMarca().getId().toString() );
+		}
+	}
+	
+	public void init(Usuario getUsuarioLogado){
+		ComponenteControlado<CadastroProduto> controleAcesso = new ComponenteControlado<CadastroProduto>(this);
+		controleAcesso.pronto(TelasUtils.getUsuarioLogado().getTipo() );
+		txtCategoria.setDaoGenerico(categoriaDao);
+		txtMarca.setDaoGenerico(marcaDao);
+	}
+	
+	private void cancelar() {
+		TelaPrincipal telaPrincipal = ApplicationContextConfig.getContext().getBean(TelaPrincipal.class);
+		telaPrincipal.cancelar();
+	}
+
+	private void adicionarComponente(JComponent componente, int valor){
+		Map<String, Integer> parametros = new HashMap<String, Integer>();
+		TelasUtils.adicionarComponente(componente, valor, this, parametros);
+	}
+
+	public MarcaDao getMarcaDao() {
+		return marcaDao;
 	}
 
 	public void setMarcaDao(MarcaDao marcaDao) {
 		this.marcaDao = marcaDao;
 	}
-	
-	public void setCategoriaDao(CategoriaDao categoriaDao){
+
+	public CategoriaDao getCategoriaDao() {
+		return categoriaDao;
+	}
+
+	public void setCategoriaDao(CategoriaDao categoriaDao) {
 		this.categoriaDao = categoriaDao;
 	}
+	
+	
 }

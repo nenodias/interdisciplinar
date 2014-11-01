@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -25,18 +24,14 @@ import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingWorker;
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
 import javax.validation.ValidationException;
-import javax.validation.ValidatorFactory;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 
 import br.org.fgp.core.ApplicationContextConfig;
-import br.org.fgp.core.MessagemUtil;
 import br.org.fgp.core.SecurityUtils;
 import br.org.fgp.core.TelasUtils;
 import br.org.fgp.dao.CidadeDao;
@@ -54,13 +49,13 @@ import br.org.fgp.model.enums.TipoUsuario;
 import br.org.fgp.view.core.ButtonColumn;
 import br.org.fgp.view.core.ComponenteControlado;
 import br.org.fgp.view.core.Inicializavel;
+import br.org.fgp.view.core.JCabecalhoLabel;
 import br.org.fgp.view.core.TableModelGenerico;
+import br.org.fgp.view.core.Validador;
 
-@Component
+@Controller
 public class CadastroUsuario extends JPanel implements Inicializavel {
 	
-	private static final String VAZIO = "";
-
 	private static final long serialVersionUID = -2627759817945447945L;
 	
 	private static final String CLASS_NAME = "Usuário";
@@ -158,9 +153,9 @@ public class CadastroUsuario extends JPanel implements Inicializavel {
 	public CadastroUsuario() {
 		painel = this;
 		setLayout(null);
+		adicionarComponente(new JCabecalhoLabel("Usuário"),0);
 		JLabel lblNewLabel = new JLabel("Nome:");
 		adicionarComponente(lblNewLabel, 2);
-		adicionarComponente(new JLabel("Usuário"),0);
 		txtNome = new JTextField();
 		adicionarComponente(txtNome, 2);
 		
@@ -314,7 +309,8 @@ public class CadastroUsuario extends JPanel implements Inicializavel {
 			usuario.setTipo(tipoUsuario);
 			Cidade cidade = (Cidade) cbbCidade.getSelectedItem();
 			usuario.setEndereco(new Endereco(txtEndereco.getText(), txtNumero.getText(), txtBairro.getText(), cidade ));
-			validacaoCampos();
+			Validador<Usuario> validador = new Validador<Usuario>();
+			validador.validacaoCampos(usuario);
 			usuarioDao.salvar(usuario);
 			if(!listaTelefones.isEmpty()){
 				if(usuario.getId() != null){
@@ -345,27 +341,11 @@ public class CadastroUsuario extends JPanel implements Inicializavel {
 	private void limparComponentes() {
 		final JTextField[] componentes = {txtNome,txtLogin,txtCPF,txtEndereco,txtNumero,txtBairro};
 		for (JTextField jComponent : componentes) {
-			jComponent.setText(VAZIO);
+			jComponent.setText(StringUtils.EMPTY);
 		}
 		listaTelefones.clear();
 		atualizaDesenhoTabela();
-		txtSenha.setText(VAZIO);
-	}
-	
-	private void validacaoCampos() {
-		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-		javax.validation.Validator myValidate = factory.getValidator();
-		Set<ConstraintViolation<Usuario>> validacao = myValidate.validate(usuario);
-		StringBuilder mensagem = new StringBuilder();
-		boolean erro = false;
-		for (ConstraintViolation<Usuario> constraintViolation : validacao) {
-			mensagem.append(constraintViolation.getMessage() ).append(MessagemUtil.BR);
-			erro = true;
-		}
-		if(erro){
-			JOptionPane.showMessageDialog(null, mensagem.toString());
-			throw new ValidationException( mensagem.toString() );
-		}
+		txtSenha.setText(StringUtils.EMPTY);
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -415,6 +395,7 @@ public class CadastroUsuario extends JPanel implements Inicializavel {
 		}
 		init(TelasUtils.getUsuarioLogado());
 		if(id != null){
+			
 			txtNome.setText( usuario.getNome() );
 			txtLogin.setText( usuario.getLogin() );
 			txtCPF.setText( usuario.getCpf() );

@@ -14,7 +14,7 @@ import br.org.fgp.model.Categoria;
 @Repository
 public class CategoriaDaoImpl extends GenericoDaoImpl<Categoria, Integer>
 		implements CategoriaDao, Filtravel<Categoria> {
-
+	
 	@Override
 	public List<Categoria> filtrarPorDescricao(String descricao) {
 		Map<String, Object> parametros = new HashMap<String, Object>();

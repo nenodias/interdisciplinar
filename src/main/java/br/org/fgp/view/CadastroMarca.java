@@ -19,6 +19,7 @@ import javax.swing.border.TitledBorder;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 
 import br.org.fgp.core.TelasUtils;
 import br.org.fgp.dao.MarcaDao;
@@ -28,7 +29,7 @@ import br.org.fgp.model.enums.TipoUsuario;
 import br.org.fgp.view.core.ComponenteControlado;
 import br.org.fgp.view.core.Inicializavel;
 
-@Component
+@Controller
 public class CadastroMarca extends JDialog implements Inicializavel {
 
 	private static final long serialVersionUID = 4699949600267605436L;

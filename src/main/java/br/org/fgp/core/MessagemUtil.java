@@ -14,4 +14,6 @@ public class MessagemUtil {
 
 	public static final String INVALIDO = " está inválido";
 
+	public static final String ERRO = "Erro";
+
 }

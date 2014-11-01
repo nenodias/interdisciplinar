@@ -13,17 +13,21 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 
 import br.org.fgp.core.ApplicationContextConfig;
 import br.org.fgp.core.TelasUtils;
+import br.org.fgp.dao.CategoriaDao;
 import br.org.fgp.dao.FornecedorDao;
+import br.org.fgp.dao.ProdutoDao;
 import br.org.fgp.dao.UsuarioDao;
+import br.org.fgp.model.Categoria;
 import br.org.fgp.model.Fornecedor;
+import br.org.fgp.model.Produto;
 import br.org.fgp.model.Usuario;
 import br.org.fgp.view.core.JDialogBusca;
 
-@Component
+@Controller
 public class TelaPrincipal extends JFrame {
 
 	private static final long serialVersionUID = -7747890711976699854L;
@@ -86,12 +90,10 @@ public class TelaPrincipal extends JFrame {
 
 		mntmProdutos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				CadastroProduto cp = new CadastroProduto();
-				frmInterdisciplinar.getContentPane().removeAll();
-				frmInterdisciplinar.getContentPane().setBounds(cp.getBounds());
-				frmInterdisciplinar.getContentPane().add(cp);
-				frmInterdisciplinar.getContentPane().revalidate();
-				cp.setVisible(true);
+				ProdutoDao produtoDao = ApplicationContextConfig.getContext().getBean(ProdutoDao.class);
+				JDialogBusca<Produto, Integer> dialogo = new JDialogBusca<Produto, Integer>(produtoDao, null, null);
+				dialogo.setLocationRelativeTo(frmInterdisciplinar);
+				dialogo.setVisible(true);
 			}
 		});
 		mntmFornecedor.addActionListener(new ActionListener() {
@@ -122,10 +124,10 @@ public class TelaPrincipal extends JFrame {
 		});
 		mntmCategorias.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				CadastroCategoria cc = ApplicationContextConfig.getContext()
-						.getBean(CadastroCategoria.class);
-				cc.init(TelasUtils.getUsuarioLogado());
-				cc.setVisible(true);
+				CategoriaDao categoriaDao = ApplicationContextConfig.getContext().getBean(CategoriaDao.class);
+				JDialogBusca<Categoria, Integer> dialogo = new JDialogBusca<Categoria, Integer>(categoriaDao, null, null);
+				dialogo.setLocationRelativeTo(frmInterdisciplinar);
+				dialogo.setVisible(true);
 			}
 		});
 		mntmMarca.addActionListener(new ActionListener() {

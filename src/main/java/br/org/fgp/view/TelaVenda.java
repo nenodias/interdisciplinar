@@ -20,9 +20,6 @@ public class TelaVenda extends JPanel {
 	private JTextField txtQuantidade;
 	private JTable table;
 
-	/**
-	 * Create the panel.
-	 */
 	public TelaVenda() {
 		setBorder(new TitledBorder(null, "Realizar Venda", TitledBorder.LEFT, TitledBorder.TOP, null, null));
 		GridBagLayout gridBagLayout = new GridBagLayout();

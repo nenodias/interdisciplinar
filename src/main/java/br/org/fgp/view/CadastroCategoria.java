@@ -1,45 +1,45 @@
 package br.org.fgp.view;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JSplitPane;
 import javax.swing.JTextField;
-import javax.swing.border.LineBorder;
-import javax.swing.border.TitledBorder;
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.ValidatorFactory;
+import javax.validation.ValidationException;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 
+import br.org.fgp.core.ApplicationContextConfig;
 import br.org.fgp.core.TelasUtils;
 import br.org.fgp.dao.CategoriaDao;
 import br.org.fgp.model.Categoria;
 import br.org.fgp.model.Usuario;
 import br.org.fgp.view.core.ComponenteControlado;
 import br.org.fgp.view.core.Inicializavel;
+import br.org.fgp.view.core.JCabecalhoLabel;
+import br.org.fgp.view.core.Validador;
 
-@Component
+@Controller
 public class CadastroCategoria extends JDialog implements Inicializavel {
 
-	private static final String VAZIO = "";
+	private static final long serialVersionUID = 7790542144250751854L;
 
-	private static final long serialVersionUID = 7790542144250751854L;   
+	private static final Logger LOGGER = Logger.getLogger(CadastroCategoria.class);
+
+	private static final String CLASS_NAME = "Categoria";   
 
 	private final JPanel contentPanel = new JPanel();
-
 	
 	private JTextField txtCategoria;
 
@@ -47,6 +47,12 @@ public class CadastroCategoria extends JDialog implements Inicializavel {
 	private CategoriaDao categoriaDao;
 	
 	private Categoria categoria;
+
+	private JSplitPane splitPane;
+
+	private JButton btnSalvar;
+
+	private JButton btnCancelar;
 
 	public void load(Integer id) {
 		init( TelasUtils.getUsuarioLogado() );
@@ -67,85 +73,65 @@ public class CadastroCategoria extends JDialog implements Inicializavel {
 		this.setModal(true);
 		setBounds(100, 100, 450, 300);
 		setSize(300, 200);
-		setTitle("Categoria");
+		setTitle(CLASS_NAME);
 		setLocationRelativeTo(null);
-		getContentPane().setLayout(new BorderLayout());
-		contentPanel.setBorder(new TitledBorder(null, "Criar nova Categoria", TitledBorder.LEFT, TitledBorder.TOP, null, null));
-		getContentPane().add(contentPanel, BorderLayout.CENTER);
-		GridBagLayout gbl_contentPanel = new GridBagLayout();
-		gbl_contentPanel.columnWidths = new int[]{60, 210, 0};
-		gbl_contentPanel.rowHeights = new int[]{35, 35, 35, 35, 0};
-		gbl_contentPanel.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
-		gbl_contentPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		contentPanel.setLayout(gbl_contentPanel);
-
-		final JLabel lblCategoria = new JLabel("Categoria:");
-		GridBagConstraints gbc_lblCategoria = new GridBagConstraints();
-		gbc_lblCategoria.anchor = GridBagConstraints.WEST;
-		gbc_lblCategoria.insets = new Insets(0, 0, 5, 5);
-		gbc_lblCategoria.gridx = 0;
-		gbc_lblCategoria.gridy = 1;
-		contentPanel.add(lblCategoria, gbc_lblCategoria);
-
+		contentPanel.setVisible(true);
+		setContentPane(contentPanel);
+		getContentPane().setLayout(null);
+		
+		adicionarComponente(new JCabecalhoLabel(CLASS_NAME), 0);
+		
+		adicionarComponente(new JLabel("Categoria:"), 4);
 		txtCategoria = new JTextField();
-		GridBagConstraints gbc_txtCategoria = new GridBagConstraints();
-		gbc_txtCategoria.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtCategoria.insets = new Insets(0, 0, 5, 0);
-		gbc_txtCategoria.gridx = 1;
-		gbc_txtCategoria.gridy = 1;	
-		contentPanel.add(txtCategoria, gbc_txtCategoria);
-		txtCategoria.setColumns(10);
-
-		JButton btnSalvar = new JButton("Salvar");
-		GridBagConstraints gbc_btnSalvar = new GridBagConstraints();
-		gbc_btnSalvar.insets = new Insets(0, 0, 5, 0);
-		gbc_btnSalvar.gridx = 1;
-		gbc_btnSalvar.gridy = 2;
-		contentPanel.add(btnSalvar, gbc_btnSalvar);
-
-		final JLabel lblMsg = new JLabel(VAZIO);
-		GridBagConstraints gbc_lblMsg = new GridBagConstraints();
-		gbc_lblMsg.anchor = GridBagConstraints.WEST;
-		gbc_lblMsg.gridx = 1;
-		gbc_lblMsg.gridy = 3;
-		contentPanel.add(lblMsg, gbc_lblMsg);
+		adicionarComponente(txtCategoria, 4);
+		splitPane = new JSplitPane();
 		
+		adicionarComponente(splitPane, 8);
 		
+		btnSalvar = new JButton("Salvar");
+		splitPane.setLeftComponent(btnSalvar);
+		
+		btnCancelar = new JButton("Cancelar");
+		splitPane.setRightComponent(btnCancelar);
+		
+		splitPane.setDividerLocation( ( ( Double ) ( TelasUtils.DEFAULT_LARGURA_COMPONENTE * 0.22 ) ).intValue()  );
+		
+		splitPane.setEnabled(false);
 
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				salvar(lblMsg);
+				salvar();
 			}
 
 		});
+		btnCancelar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
 	}
 
-	private void salvar(final JLabel lblMsg) {
+	private void salvar() {
 		if(categoria == null){
 			categoria = new Categoria();
 		}
 		try{
-			ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-			javax.validation.Validator myValidate = factory.getValidator();
-			Set<ConstraintViolation<CadastroCategoria>> validacao = myValidate.validate(this);
-			for (ConstraintViolation<CadastroCategoria> constraintViolation : validacao) {
-				JOptionPane.showMessageDialog(null,constraintViolation.getMessage());
-			}
-			if(!txtCategoria.getText().isEmpty()){
-				categoria.setDescricao(txtCategoria.getText());					
-				categoriaDao.salvar(categoria);
-				JOptionPane.showMessageDialog(null, "Categoria cadastrada com sucesso.");
-				categoria = null;
-				txtCategoria.setText(VAZIO);	
-				dispose();
-			}
-			else {
-				JOptionPane.showMessageDialog(null, "O campo Categoria é obrigatório.");
-				txtCategoria.setBorder(new LineBorder(new Color(255, 0, 0), 1));
-			}
+			categoria.setDescricao(txtCategoria.getText());
+			Validador<Categoria> validador = new  Validador<Categoria>();
+			validador.validacaoCampos(categoria);
+			categoriaDao.salvar(categoria);
+			JOptionPane.showMessageDialog(null, "Categoria cadastrada com sucesso.");
+			categoria = null;
+			txtCategoria.setText(StringUtils.EMPTY);	
+			dispose();
+		}
+		catch(ValidationException e){
+			LOGGER.error(e);
 		}
 		catch(Exception ex){
-			lblMsg.setText("Falha ao cadastrar nova categoria.");
+			JOptionPane.showMessageDialog(null, "Falha ao salvar "+CLASS_NAME+".");
+			LOGGER.error(ex);
 		}
 	}
 	public CategoriaDao getCategoriaDao() {
@@ -154,6 +140,14 @@ public class CadastroCategoria extends JDialog implements Inicializavel {
 
 	public void setCategoriaDao(CategoriaDao categoriaDao) {
 		this.categoriaDao = categoriaDao;
+	}
+	
+	private void adicionarComponente(JComponent componente, int valor){
+		Map<String, Integer> parametros = new HashMap<String, Integer>();
+		parametros.put(TelasUtils.PARAM_LARGURA_COMPONENTES, -140);
+		parametros.put(TelasUtils.PARAM_X, -40);
+		parametros.put(TelasUtils.PARAM_ESPACO, -5);
+		TelasUtils.adicionarComponente(componente, valor, contentPanel, parametros);
 	}
 
 }

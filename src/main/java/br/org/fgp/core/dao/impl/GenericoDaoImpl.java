@@ -171,12 +171,12 @@ public abstract class GenericoDaoImpl<T, PK> implements GenericoDao<T, PK> {
     }
     
     @Override
-    public Class<?> getObjectClass(){
+    public Class<T> getObjectClass(){
     	return clazz;
     }
     
     @Override
-    public Class<?> getPKClass(){
+    public Class<PK> getPKClass(){
     	return PKclazz;
     }
     

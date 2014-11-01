@@ -5,12 +5,13 @@ import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
+import org.apache.commons.lang.StringUtils;
+
 import br.org.fgp.view.annotations.Pesquisa;
 
 public class TableModelGenerico<T> extends AbstractTableModel {
 	private static final String EXCLUIR_LABEL = "Excluir";
 	private static final String EDITAR_LABEL = "Editar";
-	private static final String VAZIO = "";
 	private static final long serialVersionUID = -6777048973027518361L;
 	private final List<T> lista;
 	private final Class<T> classe;
@@ -49,6 +50,7 @@ public class TableModelGenerico<T> extends AbstractTableModel {
 		return count;
 	}
 
+	@SuppressWarnings({"all"})
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		if(columnIndex == countadorColunas && botoes){
@@ -78,7 +80,7 @@ public class TableModelGenerico<T> extends AbstractTableModel {
 				return annotation.nome();
 			}
 		}
-		return VAZIO;
+		return StringUtils.EMPTY;
 	}
 
 	public Integer getCountadorColunas() {

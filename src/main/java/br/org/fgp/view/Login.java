@@ -132,6 +132,7 @@ public class Login extends JFrame {
 
 		ComponenteControlado<Login> controleAcesso = new ComponenteControlado<Login>(this); 
 		controleAcesso.pronto(TipoUsuario.ADMINISTRADOR);
+		usuarioDao = ApplicationContextConfig.getContext().getBean(UsuarioDao.class);
 
 		btnLogar.addActionListener(new ActionListener() {
 			@Override

@@ -33,15 +33,14 @@ public class JBusca <T, PK> extends JPanel {
 
 	private JButton botao;
 	
-	private JBusca jBusca;
+	private JBusca<T, PK> jBusca;
 
-	/**
-	 * Create the panel.
-	 */
 	public JBusca() {
+		init();
+	}
+	private void init() {
 		jBusca = this;
 		descricaoComponente = new JTextField();
-		//descricaoComponente.setEditable(false);
 		descricaoComponente.setEnabled(false);
 		add(descricaoComponente);
 		descricaoComponente.setColumns(10);
@@ -51,36 +50,9 @@ public class JBusca <T, PK> extends JPanel {
 			
 			@Override
 			public void focusLost(FocusEvent e) {
-				if(daoGenerico != null){
-					String codigoTxt = codigoComponente.getText();
-					if(StringUtils.isNotEmpty(codigoTxt)&& StringUtils.isNotBlank(codigoTxt)){
-						try{
-							T retorno = null;
-							if(Integer.class.equals( daoGenerico.getPKClass() ) ) {
-							PK codigoConvertido = (PK) ( daoGenerico.getPKClass().cast(Integer.parseInt(codigoTxt)));
-							retorno = daoGenerico.buscarPorId( codigoConvertido );
-							}
-							if(retorno != null){
-								Class classe = daoGenerico.getObjectClass();
-								List<Field> campos = InterdisciplinarReflectionUtil.getAtributoComAnotacao(classe, LabelDescricao.class);
-								if(!campos.isEmpty()){
-									Field campo = campos.get(0);
-									Method metodoGet = InterdisciplinarReflectionUtil.getMetodoGet(classe, campo);
-									Object descricao = metodoGet.invoke(retorno, null);
-									if(descricao != null && descricao instanceof String){
-										descricaoComponente.setText( (String) descricao );
-									}
-								}
-							}
-							else 
-								descricaoComponente.setText("");
-						}catch(Exception ex){
-							LOGGER.info("Código não encontrado, ou de tipo incompatível", ex);
-						}
-					}
-				}
+				eventoPerdeFoco();
 			}
-			
+
 		});
 		add(codigoComponente);
 		codigoComponente.setColumns(10);
@@ -91,18 +63,52 @@ public class JBusca <T, PK> extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JDialogBusca<T, PK> dialogo = new JDialogBusca<T, PK>(daoGenerico, codigoComponente, descricaoComponente);
-				dialogo.setLocationRelativeTo(jBusca.getParent());
-				dialogo.setVisible(true);
+				eventoBotao();
 				
 			}
 		});
 	}
 	
+	@SuppressWarnings({"all"})
+	private void eventoPerdeFoco() {
+		if(daoGenerico != null){
+			String codigoTxt = codigoComponente.getText();
+			if(StringUtils.isNotEmpty(codigoTxt)&& StringUtils.isNotBlank(codigoTxt)){
+				try{
+					T retorno = null;
+					if(Integer.class.equals( daoGenerico.getPKClass() ) ) {
+					PK codigoConvertido = (PK) ( daoGenerico.getPKClass().cast(Integer.parseInt(codigoTxt)));
+					retorno = daoGenerico.buscarPorId( codigoConvertido );
+					}
+					if(retorno != null){
+						Class<?> classe = daoGenerico.getObjectClass();
+						List<Field> campos = InterdisciplinarReflectionUtil.getAtributoComAnotacao(classe, LabelDescricao.class);
+						if(!campos.isEmpty()){
+							Field campo = campos.get(0);
+							Method metodoGet = InterdisciplinarReflectionUtil.getMetodoGet(classe, campo);
+							Object descricao = metodoGet.invoke(retorno, null);
+							if(descricao != null && descricao instanceof String){
+								descricaoComponente.setText( (String) descricao );
+							}
+						}
+					}
+					else 
+						descricaoComponente.setText("");
+				}catch(Exception ex){
+					LOGGER.info("Código não encontrado, ou de tipo incompatível", ex);
+				}
+			}
+		}
+	}
 	public String getText(){
 		return codigoComponente.getText();
 	}
 
+	public void setText(String text){
+		codigoComponente.setText(text);
+		eventoPerdeFoco();
+	}
+	
 	public String getLabelText(){
 		return descricaoComponente.getText();
 	}
@@ -121,5 +127,21 @@ public class JBusca <T, PK> extends JPanel {
 		this.daoGenerico = daoGenerico;
 	}
 	
+	@Override
+	public void setBounds(int x, int y, int width, int height) {
+		super.setBounds(x , y-7, width, height+10);
+		int largura = ( (Double) (width * 0.4) ).intValue();
+		int larguraBtn = ( (Double) (width * 0.1) ).intValue();
+		codigoComponente.setSize(largura, height);
+		descricaoComponente.setSize(largura, height);
+		botao.setSize(larguraBtn, height);
+	}
+	private void eventoBotao() {
+		if(daoGenerico != null){
+			JDialogBusca<T, PK> dialogo = new JDialogBusca<T, PK>(daoGenerico, codigoComponente, descricaoComponente);
+			dialogo.setLocationRelativeTo(jBusca.getParent());
+			dialogo.setVisible(true);
+		}
+	}
 	
 }

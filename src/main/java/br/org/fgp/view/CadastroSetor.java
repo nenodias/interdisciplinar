@@ -1,7 +1,10 @@
 package br.org.fgp.view;
 
 import java.awt.BorderLayout;
-import java.awt.Font;
+import java.awt.Color;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -11,25 +14,22 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.border.TitledBorder;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 
 import br.org.fgp.dao.SetorDao;
 import br.org.fgp.model.Setor;
 import br.org.fgp.model.enums.TipoUsuario;
 import br.org.fgp.view.core.ComponenteControlado;
 
-import java.awt.Color;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-
-import javax.swing.border.TitledBorder;
-
+@Controller
 public class CadastroSetor extends JDialog {
 
+	private static final long serialVersionUID = -5360024164470109759L;
+	
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txtSetor;
 	JButton btnSalvar = new JButton("Salvar");
@@ -38,22 +38,7 @@ public class CadastroSetor extends JDialog {
 	private SetorDao setorDao;
 	private final JLabel lblSetor_1 = new JLabel("Setor:");
 	private final JLabel lblMsg = new JLabel("");
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			CadastroSetor dialog = new CadastroSetor();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
-	 * Create the dialog.
-	 */
+	
 	public CadastroSetor() {
 		setBounds(100, 100, 450, 300);
 		setSize(300, 200);

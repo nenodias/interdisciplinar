@@ -41,7 +41,7 @@ public class ComponenteControlado<T>{
 	
 	public void pronto(TipoUsuario tipoUsuario){
 		verificaPermissao(tipoUsuario, frame, clazz);
-		verificaInjecao(clazz);
+//		verificaInjecao(clazz);
 	}
 
 	private void verificaInjecao(Class clazz) {

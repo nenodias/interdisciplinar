@@ -9,19 +9,28 @@ import javax.persistence.Table;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
 
+import br.org.fgp.core.MessagemUtil;
 import br.org.fgp.view.annotations.Pesquisa;
 
 @Entity
 @Table(name = "CATEGORIA")
 public class Categoria {
 
+	private static final int CATEGORIA_MAX = 30;
+
+	private static final String CATEGORIA = "Categoria";
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "IdCategoria")
 	public Integer id;
 	
-	@Column(name = "Categoria", length = 30)
+	@NotBlank(message = MessagemUtil.CAMPO + CATEGORIA + MessagemUtil.NOT_BLANK)
+	@Length(max = CATEGORIA_MAX, message = MessagemUtil.CAMPO + CATEGORIA + MessagemUtil.MAX + CATEGORIA_MAX )
+	@Column(name = CATEGORIA, length = CATEGORIA_MAX)
 	public String descricao;
 
 	@Pesquisa(nome = "Id", posicao = 0)
@@ -32,7 +41,7 @@ public class Categoria {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	@Pesquisa(nome = "Categoria", posicao = 1)
+	@Pesquisa(nome = CATEGORIA, posicao = 1)
 	public String getDescricao() {
 		return descricao;
 	}

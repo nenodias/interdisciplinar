@@ -21,8 +21,6 @@ import br.org.fgp.model.enums.TipoTelefone;
 
 public class CadastroTelefone extends JDialog {
 
-	private static final String VAZIO = "";
-	
 	private static final long serialVersionUID = 6594227432444740974L;
 	
 	private Telefone telefone;
@@ -92,7 +90,7 @@ public class CadastroTelefone extends JDialog {
 		dialog.telefone.setTelefone( txtTelefone.getText() );
 		TipoTelefone tipo = (TipoTelefone) cbbTipo.getSelectedItem();
 		dialog.telefone.setTipo( tipo );
-		txtTelefone.setText(VAZIO);
+		txtTelefone.setText(StringUtils.EMPTY);
 		fecharDialogo();
 	}
 

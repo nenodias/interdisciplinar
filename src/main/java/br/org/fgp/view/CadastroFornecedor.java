@@ -1,28 +1,28 @@
 package br.org.fgp.view;
 
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.util.Arrays;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTable;
+import javax.swing.JSplitPane;
 import javax.swing.JTextField;
-import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingWorker;
+import javax.validation.ValidationException;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 
 import br.org.fgp.core.ApplicationContextConfig;
 import br.org.fgp.core.TelasUtils;
@@ -30,41 +30,35 @@ import br.org.fgp.dao.CidadeDao;
 import br.org.fgp.dao.EstadoDao;
 import br.org.fgp.dao.FornecedorDao;
 import br.org.fgp.model.Cidade;
+import br.org.fgp.model.Endereco;
 import br.org.fgp.model.Estado;
 import br.org.fgp.model.Fornecedor;
 import br.org.fgp.model.Usuario;
 import br.org.fgp.model.enums.TipoUsuario;
 import br.org.fgp.view.core.ComponenteControlado;
 import br.org.fgp.view.core.Inicializavel;
+import br.org.fgp.view.core.JCabecalhoLabel;
+import br.org.fgp.view.core.Validador;
 
-@Component
+@Controller
 public class CadastroFornecedor extends JPanel implements Inicializavel {
 	
 	private static final long serialVersionUID = 2174153481281619633L;
-	
-	private JTable tbContato;
-	private JTextField txtNomeFantasia;
-	private JTextField txtRazaoSocial;
-	private JTextField txtInscricaoEstadual;
-	private JTextField txtCnpj;
-	private JTextField txtEndereco;
-	private JTextField txtNumero;
+
+	private static final String CLASS_NAME = "Fornecedor";
+
+	private static final Logger LOGGER = Logger.getLogger(CadastroFornecedor.class);
 	
 	private Fornecedor fornecedor;
 	
 	@Autowired
 	private FornecedorDao fornecedorDao;
 	
-	public FornecedorDao getFornecedorDao() {
-		return fornecedorDao;
-	}
-
-	public void setFornecedorDao(FornecedorDao fornecedorDao) {
-		this.fornecedorDao = fornecedorDao;
-	}
-
 	@Autowired
 	private CidadeDao cidadeDao;
+	
+	@Autowired
+	private EstadoDao estadoDao;
 	
 	public CidadeDao getCidadeDao() {
 		return cidadeDao;
@@ -74,9 +68,14 @@ public class CadastroFornecedor extends JPanel implements Inicializavel {
 		this.cidadeDao = cidadeDao;
 	}
 	
-	@Autowired
-	private EstadoDao estadoDao;
+	public FornecedorDao getFornecedorDao() {
+		return fornecedorDao;
+	}
 
+	public void setFornecedorDao(FornecedorDao fornecedorDao) {
+		this.fornecedorDao = fornecedorDao;
+	}
+	
 	public EstadoDao getEstadoDao() {
 		return estadoDao;
 	}
@@ -87,166 +86,75 @@ public class CadastroFornecedor extends JPanel implements Inicializavel {
 
 	private JComboBox<Estado> cbbEstado;
 	private JComboBox<Cidade> cbbCidade;
+
+	private JPanel painel;
 	
-	/**
-	 * Create the panel.
-	 */
+	private JButton btnSalvar;
+	private JButton btnCancelar;
+	private JSplitPane splitPane;
+
+	private JTextField txtCnpj;
+	private JTextField txtInscricaoEstadual;
+	private JTextField txtNomeFantasia;
+	private JTextField txtRazaoSocial;
+
+	private JTextField txtEndereco;
+
+	private JTextField txtNumero;
+
+	private JTextField txtBairro;
+	
 	public CadastroFornecedor() {
-		tbContato = new JTable();
+		painel = this;
+		setLayout(null);
+		adicionarComponente(new JCabecalhoLabel(CLASS_NAME), 0);
 		
-		JLabel lblNomeFantasia = new JLabel("Nome Fantasia:");
-		
-		JLabel lblRazoSocial = new JLabel("Razão Social:");
-		
-		JLabel lblInscrioEstadual = new JLabel("Inscrição Estadual:");
-		
-		JLabel lblEndereo = new JLabel("Endereço:");
-		
-		JLabel lblCnpj = new JLabel("CNPJ:");
-		
-		JLabel lblCidade = new JLabel("Cidade:");
-		
-		JLabel lblEstado = new JLabel("Estado:");
-		
+		adicionarComponente(new JLabel("Nome Fantasia:"), 2);
 		txtNomeFantasia = new JTextField();
-		txtNomeFantasia.setName("Nome Fantasia");
-		txtNomeFantasia.setColumns(10);
+		adicionarComponente(txtNomeFantasia, 2);
 		
+		adicionarComponente(new JLabel("Razão Social:"), 4);
 		txtRazaoSocial = new JTextField();
-		txtRazaoSocial.setText("");
-		txtRazaoSocial.setName("Razão Social");
-		txtRazaoSocial.setColumns(10);
+		adicionarComponente(txtRazaoSocial, 4);
 		
-		txtInscricaoEstadual = new JTextField();
-		txtInscricaoEstadual.setName("Inscrição Estadual");
-		txtInscricaoEstadual.setColumns(10);
-		
+		adicionarComponente(new JLabel("CNPJ:"), 6);
 		txtCnpj = new JTextField();
-		txtCnpj.setText("");
-		txtCnpj.setName("CNPJ");
-		txtCnpj.setColumns(10);
+		adicionarComponente(txtCnpj, 6);
 		
-		cbbEstado = new JComboBox<Estado>();
-	
+		adicionarComponente(new JLabel("Inscrição Estadual:"), 8);
+		txtInscricaoEstadual = new JTextField();
+		adicionarComponente(txtInscricaoEstadual, 8);
 		
-		
-		cbbCidade = new JComboBox<Cidade>();
-		
+		adicionarComponente(new JLabel("Rua:"), 10);
 		txtEndereco = new JTextField();
-		txtEndereco.setName("Endereço");
-		txtEndereco.setColumns(10);
+		adicionarComponente(txtEndereco, 10);
 		
-		JLabel lblNmero = new JLabel("Número:");
-		
+		adicionarComponente(new JLabel("Número:"), 12);
 		txtNumero = new JTextField();
-		txtNumero.setName("Número");
-		txtNumero.setColumns(10);
+		adicionarComponente(txtNumero, 12);
 		
-		JLabel lblFornecedor = new JLabel("Fornecedor");
+		adicionarComponente(new JLabel("Bairro:"),14 );
+		txtBairro = new JTextField();
+		adicionarComponente(txtBairro, 14);
 		
-		JButton btnSalvar = new JButton("Salvar");
+		adicionarComponente(new JLabel("Estado:"), 16);
+		cbbEstado = new JComboBox<Estado>();
+		adicionarComponente(cbbEstado, 16);
+
+		adicionarComponente(new JLabel("Cidade:"), 18);
+		cbbCidade = new JComboBox<Cidade>();
+		adicionarComponente(cbbCidade, 18);
 		
-		JButton btnCancelar = new JButton("Cancelar");
+		splitPane = new JSplitPane();
+		adicionarComponente(splitPane, 28);
 		
-		JLabel lblMsg = new JLabel("");
-		lblMsg.setForeground(Color.RED);
+		btnSalvar = new JButton("Salvar");
+		splitPane.setLeftComponent(btnSalvar);
 		
-		GroupLayout groupLayout = new GroupLayout(this);
-		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(42)
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addGroup(groupLayout.createSequentialGroup()
-									.addGap(34)
-									.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-										.addComponent(lblCnpj)
-										.addComponent(lblInscrioEstadual)
-										.addComponent(lblRazoSocial)
-										.addComponent(lblNomeFantasia)
-										.addComponent(lblCidade)
-										.addComponent(lblEndereo)
-										.addComponent(lblEstado)
-										.addComponent(lblNmero))
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-										.addComponent(txtNumero, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-										.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
-											.addComponent(cbbCidade, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-											.addComponent(txtInscricaoEstadual)
-											.addComponent(txtNomeFantasia, GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE)
-											.addComponent(txtRazaoSocial)
-											.addComponent(txtCnpj)
-											.addComponent(txtEndereco)
-											.addComponent(cbbEstado, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-								.addGroup(groupLayout.createSequentialGroup()
-									.addGap(145)
-									.addComponent(lblFornecedor))))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(42)
-							.addComponent(tbContato, GroupLayout.PREFERRED_SIZE, 486, GroupLayout.PREFERRED_SIZE))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(172)
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addGroup(groupLayout.createSequentialGroup()
-									.addComponent(btnSalvar)
-									.addGap(42)
-									.addComponent(btnCancelar))
-								.addGroup(groupLayout.createSequentialGroup()
-									.addGap(62)
-									.addComponent(lblMsg)))))
-					.addContainerGap(69, Short.MAX_VALUE))
-		);
-		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(lblFornecedor)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblNomeFantasia)
-						.addComponent(txtNomeFantasia, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblRazoSocial)
-						.addComponent(txtRazaoSocial, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblInscrioEstadual)
-						.addComponent(txtInscricaoEstadual, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblCnpj)
-						.addComponent(txtCnpj, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblEstado)
-						.addComponent(cbbEstado, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblCidade)
-						.addComponent(cbbCidade, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblEndereo)
-						.addComponent(txtEndereco, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblNmero)
-						.addComponent(txtNumero, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(24)
-					.addComponent(tbContato, GroupLayout.PREFERRED_SIZE, 147, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnCancelar)
-						.addComponent(btnSalvar))
-					.addGap(18)
-					.addComponent(lblMsg)
-					.addContainerGap(38, Short.MAX_VALUE))
-		);
-		setLayout(groupLayout);
+		btnCancelar = new JButton("Cancelar");
+		splitPane.setRightComponent(btnCancelar);
+		splitPane.setDividerLocation(TelasUtils.DEFAULT_LARGURA_COMPONENTE/2);
+		splitPane.setEnabled(false);
 		
 		ComponenteControlado<CadastroFornecedor> controleAcesso = new ComponenteControlado<CadastroFornecedor>(this); 
 		controleAcesso.pronto(TipoUsuario.ADMINISTRADOR);
@@ -275,44 +183,39 @@ public class CadastroFornecedor extends JPanel implements Inicializavel {
 			}
 		});
 	}
-	
+
 	private void salvar(){
 		try{
-			List<JTextField> txts = Arrays.asList(txtNomeFantasia,txtRazaoSocial,txtInscricaoEstadual,txtCnpj,txtEndereco,txtNumero);
-			boolean erro = false;
-			StringBuilder nomes = new StringBuilder(); 
-			for (JTextField txt : txts) {
-				if(StringUtils.isBlank(txt.getText()) || StringUtils.isEmpty(txt.getText())){
-					nomes.append(txt.getName()).append(", ");
-					erro = true;
-				}
+			if(fornecedor == null ){
+				fornecedor = new  Fornecedor();
 			}
-			if(erro){
-				String mensagem = nomes.toString().substring(0,nomes.length()-2);
-				JOptionPane.showMessageDialog(null, mensagem + " está vazio.");
-			}
-			else{
-				Fornecedor fornecedor = new Fornecedor();
-				fornecedor.setCnpj(txtCnpj.getText());
-				//TODO Corrigir o cadastro de Endereco e quebrar em mais campos
-//				fornecedor.setEnderecoComercial(txtEndereco.getText());
-				fornecedor.setInscricaoEstadual(txtInscricaoEstadual
-						.getText());
-				fornecedor.setNomeFantasia(txtNomeFantasia.getText());
-				fornecedor.setRazaoSocial(txtRazaoSocial.getText());
-				Cidade item = (Cidade) cbbCidade.getSelectedItem();
-				//TODO  A Cidade vai ser setada no Objeto referente ao endereço
-//				fornecedor.setCidade(item);
-				fornecedorDao.salvar(fornecedor);
-				JOptionPane.showMessageDialog(null, "Salvo com sucesso.");
-				
-				for (JTextField txt : txts) {
-						txt.setText("");
-					}
-			}
+			fornecedor.setNomeFantasia( txtNomeFantasia.getText() );
+			fornecedor.setRazaoSocial( txtRazaoSocial.getText() );
+			fornecedor.setCnpj(txtCnpj.getText());
+			fornecedor.setInscricaoEstadual(txtInscricaoEstadual.getText());
+			Cidade cidade = (Cidade) cbbCidade.getSelectedItem();
+			fornecedor.setEnderecoComercial(new Endereco(txtEndereco.getText(), txtNumero.getText(), txtBairro.getText(), cidade ));
+			Validador<Fornecedor> validador = new Validador<Fornecedor>();
+			validador.validacaoCampos(fornecedor);
+			fornecedorDao.salvar(fornecedor);
+			JOptionPane.showMessageDialog(null, CLASS_NAME+" cadastrado com sucesso.");
+			fornecedor = null;
+			limparComponentes();
+			cancelar();
+		}
+		catch(ValidationException e){
+			LOGGER.error(e);
 		}
 		catch(Exception ex){
-			JOptionPane.showMessageDialog(null, "Falha ao salvar fornecedor.");
+			JOptionPane.showMessageDialog(null, "Falha ao salvar "+CLASS_NAME+".");
+			LOGGER.error(ex);
+		}
+	}
+
+	private void limparComponentes() {
+		final JTextField[] componentes = {txtNomeFantasia,txtRazaoSocial,txtCnpj, txtInscricaoEstadual,txtEndereco,txtNumero,txtBairro};
+		for (JTextField jComponent : componentes) {
+			jComponent.setText(StringUtils.EMPTY);
 		}
 	}
 
@@ -356,7 +259,22 @@ public class CadastroFornecedor extends JPanel implements Inicializavel {
 	@Override
 	public void load(Integer id) {
 		init(TelasUtils.getUsuarioLogado());
-		fornecedorDao.buscarPorId(id);
+		if(id != null){
+			fornecedor = fornecedorDao.buscarPorId(id);
+		}
+		init(TelasUtils.getUsuarioLogado());
+		if(id != null){
+			txtNomeFantasia.setText( fornecedor.getNomeFantasia() );
+			txtInscricaoEstadual.setText( fornecedor.getInscricaoEstadual() );
+			txtRazaoSocial.setText( fornecedor.getRazaoSocial() );
+			txtCnpj.setText( fornecedor.getCnpj() );
+			txtEndereco.setText( fornecedor.getEnderecoComercial().getRua() );
+			txtNumero.setText( fornecedor.getEnderecoComercial().getNumero() );
+			txtBairro.setText( fornecedor.getEnderecoComercial().getBairro() );
+			
+		}else{
+			fornecedor = new Fornecedor();
+		}
 	}
 
 	private void init(Usuario usuarioLogado) {
@@ -369,5 +287,10 @@ public class CadastroFornecedor extends JPanel implements Inicializavel {
 	private void cancelar() {
 		TelaPrincipal telaPrincipal = ApplicationContextConfig.getContext().getBean(TelaPrincipal.class);
 		telaPrincipal.cancelar();
+	}
+	
+	private void adicionarComponente(JComponent componente, int valor){
+		Map<String, Integer> parametros = new HashMap<String, Integer>();
+		TelasUtils.adicionarComponente(componente, valor, this, parametros);
 	}
 }
