@@ -21,7 +21,6 @@ import javax.validation.ValidationException;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 
 import br.org.fgp.core.ApplicationContextConfig;
@@ -185,9 +184,13 @@ public class CadastroFornecedor extends JPanel implements Inicializavel {
 	}
 
 	private void salvar(){
+		String mensagemSave = " atualizado ";
 		try{
 			if(fornecedor == null ){
 				fornecedor = new  Fornecedor();
+				if(fornecedor.getId() != null){
+					mensagemSave = " salvo ";
+				}
 			}
 			fornecedor.setNomeFantasia( txtNomeFantasia.getText() );
 			fornecedor.setRazaoSocial( txtRazaoSocial.getText() );
@@ -198,7 +201,7 @@ public class CadastroFornecedor extends JPanel implements Inicializavel {
 			Validador<Fornecedor> validador = new Validador<Fornecedor>();
 			validador.validacaoCampos(fornecedor);
 			fornecedorDao.salvar(fornecedor);
-			JOptionPane.showMessageDialog(null, CLASS_NAME+" cadastrado com sucesso.");
+			JOptionPane.showMessageDialog(null, CLASS_NAME.concat(mensagemSave).concat("com sucesso.") );
 			fornecedor = null;
 			limparComponentes();
 			cancelar();
@@ -207,7 +210,7 @@ public class CadastroFornecedor extends JPanel implements Inicializavel {
 			LOGGER.error(e);
 		}
 		catch(Exception ex){
-			JOptionPane.showMessageDialog(null, "Falha ao salvar "+CLASS_NAME+".");
+			JOptionPane.showMessageDialog(null, "Falha ao ".concat(mensagemSave).concat(" ").concat(CLASS_NAME).concat(".") );
 			LOGGER.error(ex);
 		}
 	}

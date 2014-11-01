@@ -1,6 +1,9 @@
 package br.org.fgp.core;
 
 import java.awt.Container;
+import java.math.BigDecimal;
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,6 +11,10 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.text.MaskFormatter;
+import javax.swing.text.NumberFormatter;
+
+import org.apache.log4j.Logger;
 
 import br.org.fgp.model.Categoria;
 import br.org.fgp.model.EntradaProduto;
@@ -26,6 +33,7 @@ import br.org.fgp.view.CadastroUsuario;
 
 public class TelasUtils {
 
+	private static final Logger LOGGER = Logger.getLogger(TelasUtils.class);
 	public static final int DEFAULT_ALTURA_COMPONENTE = 25;
 	public static final int DEFAULT_LARGURA_COMPONENTE = 300;
 	public static final int DEFAULT_X = 0;
@@ -84,4 +92,45 @@ public class TelasUtils {
 		componente.setVisible(true);
 	}
 	
+	public static NumberFormatter getFormatadorInteiro(){
+		NumberFormat format = NumberFormat.getInstance();
+	    NumberFormatter formatter = new NumberFormatter(format);
+	    formatter.setValueClass(Integer.class);
+	    formatter.setMinimum(0);
+	    formatter.setMaximum(Integer.MAX_VALUE);
+	    formatter.setCommitsOnValidEdit(true);
+	    return formatter;
+	}
+	
+	public static NumberFormatter getFormatadorDecimal(){
+		NumberFormat format = NumberFormat.getInstance();
+		format.setMinimumFractionDigits(2);
+	    NumberFormatter formatter = new NumberFormatter(format);
+	    formatter.setValueClass(BigDecimal.class);
+	    formatter.setMinimum(0);
+	    formatter.setCommitsOnValidEdit(true);
+	    return formatter;
+	}
+	
+	public static MaskFormatter getMascaraTelefone(){
+		MaskFormatter mascara = null;
+		try {
+			mascara = new MaskFormatter("(##) # ####-####");
+			mascara.setValueContainsLiteralCharacters(false);
+		} catch (ParseException e) {
+			LOGGER.error(e);
+		}
+		return mascara;
+	}
+	
+	public static MaskFormatter getMascaraCPF(){
+		MaskFormatter mascara = null;
+		try {
+			mascara = new MaskFormatter("###.###.###-##");
+			mascara.setValueContainsLiteralCharacters(true);
+		} catch (ParseException e) {
+			LOGGER.error(e);
+		}
+		return mascara;
+	}
 }

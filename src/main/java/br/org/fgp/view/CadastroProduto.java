@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -58,7 +59,9 @@ public class CadastroProduto extends JPanel implements Inicializavel {
 	
 	private JTextField txtNome;
 	private JTextField txtDescricao;
-	private JTextField txtPrecoUnitario;
+	private JFormattedTextField txtEstoqueMinimo;
+	private JFormattedTextField txtEstoqueMaximo;
+	private JFormattedTextField txtPrecoUnitario;
 	private JBusca<Categoria, Integer> txtCategoria;
 	private JBusca<Marca, Integer> txtMarca;
 	
@@ -82,7 +85,7 @@ public class CadastroProduto extends JPanel implements Inicializavel {
 		adicionarComponente(txtDescricao, 4);
 		
 		adicionarComponente(new JLabel("Preço Venda"), 6);
-		txtPrecoUnitario = new JTextField();
+		txtPrecoUnitario = new JFormattedTextField(TelasUtils.getFormatadorDecimal());
 		adicionarComponente(txtPrecoUnitario, 6);
 		
 		adicionarComponente(new JLabel("Categoria"), 8);
@@ -93,9 +96,16 @@ public class CadastroProduto extends JPanel implements Inicializavel {
 		txtMarca = new JBusca<Marca, Integer>();
 		adicionarComponente(txtMarca, 10);
 		
+		adicionarComponente(new JLabel("Estoque Mínimo:"), 12);
+		txtEstoqueMinimo = new JFormattedTextField(TelasUtils.getFormatadorInteiro());
+		adicionarComponente(txtEstoqueMinimo, 12);
+		
+		adicionarComponente(new JLabel("Estoque Máximo:"), 14);
+		txtEstoqueMaximo = new JFormattedTextField(TelasUtils.getFormatadorInteiro());
+		adicionarComponente(txtEstoqueMaximo, 14);
 		
 		splitPane = new JSplitPane();
-		adicionarComponente(splitPane, 14);
+		adicionarComponente(splitPane, 18);
 		
 		btnSalvar = new JButton("Salvar");
 		splitPane.setLeftComponent(btnSalvar);
@@ -127,18 +137,28 @@ public class CadastroProduto extends JPanel implements Inicializavel {
 		try{
 			if(produto == null ){
 				produto = new  Produto();
-				mensagemSave = " salvo ";
+				if(produto.getId() != null){
+					mensagemSave = " salvo ";
+				}
 			}
 			
 			produto.setNome( txtNome.getText() );
 			produto.setDescricao( txtDescricao.getText() );
-			produto.setPrecoUnitario( new BigDecimal( txtPrecoUnitario.getText() ) );
-			if(categoriaDao != null){
+			if(StringUtils.isNotBlank(txtPrecoUnitario.getText() ) ){
+				produto.setPrecoUnitario( new BigDecimal( txtPrecoUnitario.getText() ) );
+			}
+			if(StringUtils.isNotBlank(txtEstoqueMinimo.getText() ) ){
+				produto.setEstoqueMinimo( Integer.parseInt( txtEstoqueMinimo.getText() ) );
+			}
+			if(StringUtils.isNotBlank(txtEstoqueMaximo.getText() ) ){
+				produto.setEstoqueMaximo( Integer.parseInt( txtEstoqueMaximo.getText() ) );
+			}
+			if(categoriaDao != null && StringUtils.isNotBlank(txtCategoria.getText() ) ){
 				int codigoCategoria = Integer.parseInt( txtCategoria.getText() );
 				Categoria categoria = categoriaDao.buscarPorId(codigoCategoria);
 				produto.setCategoria(categoria);
 			}
-			if(marcaDao != null){
+			if(marcaDao != null && StringUtils.isNotBlank(txtMarca.getText() ) ){
 				int codigoMarca = Integer.parseInt( txtMarca.getText() );
 				Marca marca = marcaDao.buscarPorId(codigoMarca);
 				produto.setMarca(marca);
@@ -182,6 +202,8 @@ public class CadastroProduto extends JPanel implements Inicializavel {
 			txtPrecoUnitario.setText( produto.getPrecoUnitario().toString() );
 			txtCategoria.setText( produto.getCategoria().getId().toString() );
 			txtMarca.setText( produto.getMarca().getId().toString() );
+			txtEstoqueMinimo.setText( produto.getEstoqueMinimo().toString() );
+			txtEstoqueMaximo.setText( produto.getEstoqueMaximo().toString() );
 		}
 	}
 	

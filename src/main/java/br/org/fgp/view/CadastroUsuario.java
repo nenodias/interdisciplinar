@@ -15,6 +15,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
+import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -64,7 +65,7 @@ public class CadastroUsuario extends JPanel implements Inicializavel {
 	
 	private JTextField txtNome;
 	private JTextField txtLogin;
-	private JTextField txtCPF;
+	private JFormattedTextField txtCPF;
 	private JPasswordField txtSenha;
 	private JTextField txtEndereco;
 	private JTextField txtNumero;
@@ -182,7 +183,7 @@ public class CadastroUsuario extends JPanel implements Inicializavel {
 		JLabel label = new JLabel("CPF:");
 		adicionarComponente(label, 10);
 		
-		txtCPF = new JTextField();
+		txtCPF = new JFormattedTextField(TelasUtils.getMascaraCPF());
 		adicionarComponente(txtCPF,10);
 		
 		
@@ -297,7 +298,9 @@ public class CadastroUsuario extends JPanel implements Inicializavel {
 		try{
 			if(usuario == null ){
 				usuario = new  Usuario();
-				mensagemSave = " salvo ";
+				if(usuario.getId() != null){
+					mensagemSave = " salvo ";
+				}
 			}
 			
 			usuario.setNome(txtNome.getText() );

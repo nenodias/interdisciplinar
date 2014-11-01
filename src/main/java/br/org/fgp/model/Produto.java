@@ -25,6 +25,10 @@ import br.org.fgp.view.annotations.Pesquisa;
 @Table(name = "PRODUTO", indexes = { @Index(columnList = "IdCategoria"), @Index(columnList = "IdMarca") }  )
 public class Produto {
 
+	private static final String ESTOQUE_MINIMO = "Estoque Mínimo";
+
+	private static final String ESTOQUE_MAXIMO = "Estoque Máximo";
+
 	private static final String MARCA = "Marca";
 
 	private static final String CATEGORIA = "Categoria";
@@ -65,14 +69,16 @@ public class Produto {
 	@Column(name = "PrecoUnitario", scale = PRECO_FRACAO, precision = PRECO_MAX)
 	public BigDecimal precoUnitario;
 	
+	@NotNull(message = MessagemUtil.CAMPO + ESTOQUE_MAXIMO + MessagemUtil.NOT_BLANK)
 	@Column(name = "EstoqueMaximo")
-	public Integer estoqueMaximo;
+	public Integer estoqueMaximo = 0;
 	
+	@NotNull(message = MessagemUtil.CAMPO + ESTOQUE_MINIMO + MessagemUtil.NOT_BLANK)
 	@Column(name = "EstoqueMinimo")
-	public Integer estoqueMinimo;
+	public Integer estoqueMinimo = 0;
 	
 	@Column(name = "EstoqueAtual")
-	public Integer estoqueAtual;
+	public Integer estoqueAtual = 0;
 	
 	@NotNull(message=MessagemUtil.CAMPO+CATEGORIA+MessagemUtil.NOT_BLANK)
 	@ManyToOne

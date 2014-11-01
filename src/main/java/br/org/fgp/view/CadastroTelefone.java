@@ -9,9 +9,9 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
+import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -27,7 +27,7 @@ public class CadastroTelefone extends JDialog {
 
 	private CadastroTelefone dialog;
 
-	private JTextField txtTelefone;
+	private JFormattedTextField txtTelefone;
 
 	private JComboBox<TipoTelefone> cbbTipo;
 	
@@ -44,7 +44,7 @@ public class CadastroTelefone extends JDialog {
 		JPanel buttonPane = new JPanel();
 		getContentPane().setLayout(null);
 		getContentPane().add(buttonPane);
-		txtTelefone = new JTextField();
+		txtTelefone = new JFormattedTextField( TelasUtils.getMascaraTelefone() );
 		adicionarComponente(new JLabel("Telefone:"), 2);
 		adicionarComponente(txtTelefone, 2);
 		cbbTipo = new JComboBox<TipoTelefone>();
