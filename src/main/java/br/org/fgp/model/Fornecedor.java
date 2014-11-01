@@ -1,5 +1,7 @@
 package br.org.fgp.model;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -7,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.Valid;
 
@@ -63,6 +66,9 @@ public class Fornecedor {
 	@Valid
 	@Embedded
 	public Endereco enderecoComercial;
+	
+	@OneToMany(mappedBy = "fornecedor")
+	public List<ContatoFornecedor> listaContato;
 
 	public Integer getId() {
 		return id;
@@ -112,4 +118,13 @@ public class Fornecedor {
 		this.enderecoComercial = enderecoComercial;
 	}
 
+	public List<ContatoFornecedor> getListaContato() {
+		return listaContato;
+	}
+
+	public void setListaContato(List<ContatoFornecedor> listaContato) {
+		this.listaContato = listaContato;
+	}
+
+	
 }
