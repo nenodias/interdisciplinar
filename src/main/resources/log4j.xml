@@ -8,8 +8,15 @@
             <param name="ConversionPattern" value="%d{HH:mm:ss,SSS} %5p [%-20c{1}] %m%n" />
         </layout>
     </appender>
+    <appender name="stdout" class="org.apache.log4j.ConsoleAppender">
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{HH:mm:ss,SSS} %5p [%-20c{1}] %m%n" />
+		</layout>
+	</appender>
+
     <root>
-        <level value="DEBUG" />
+        <level value="TRACE" />
         <appender-ref ref="fileAppender" />
+        <appender-ref ref="stdout" />
     </root>
 </log4j:configuration>

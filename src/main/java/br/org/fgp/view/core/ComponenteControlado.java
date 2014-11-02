@@ -52,7 +52,7 @@ public class ComponenteControlado<T>{
 					metodoSetter.invoke(frame, context.getBean(campo.getType()) );
 				}
 			}catch(Exception e){
-				LOGGER.error(e.getMessage(), e);
+				LOGGER.info(e.getMessage(), e);
 			}
 		}
 	}
@@ -74,7 +74,7 @@ public class ComponenteControlado<T>{
 						}
 					}
 				}catch(Exception e){
-					LOGGER.error(e.getMessage(), e);
+					LOGGER.info(e.getMessage(), e);
 				}
 			}
 		}

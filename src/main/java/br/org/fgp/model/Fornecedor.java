@@ -17,6 +17,8 @@ import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 
 import br.org.fgp.core.MessagemUtil;
+import br.org.fgp.view.annotations.LabelDescricao;
+import br.org.fgp.view.annotations.Pesquisa;
 
 @Entity
 @Table(name = "FORNECEDOR", indexes = @Index(columnList = "IdCidade" ) )
@@ -56,6 +58,7 @@ public class Fornecedor {
 	@NotBlank(message = MessagemUtil.CAMPO + NOME_FANTASIA + MessagemUtil.NOT_BLANK)
 	@Length(max = NOME_FANTASIA_MAX, message = MessagemUtil.CAMPO + NOME_FANTASIA + MessagemUtil.MAX + NOME_FANTASIA_MAX )
 	@Column(name = "NomeFantasia", length = NOME_FANTASIA_MAX)
+	@LabelDescricao
 	public String nomeFantasia;
 	
 	@NotBlank(message = MessagemUtil.CAMPO + RAZAO_SOCIAL + MessagemUtil.NOT_BLANK)
@@ -70,6 +73,7 @@ public class Fornecedor {
 	@OneToMany(mappedBy = "fornecedor")
 	public List<ContatoFornecedor> listaContato;
 
+	@Pesquisa(nome = "Código", posicao = 0)
 	public Integer getId() {
 		return id;
 	}
@@ -78,6 +82,7 @@ public class Fornecedor {
 		this.id = id;
 	}
 
+	@Pesquisa(nome = "Cnpj", posicao = 3)
 	public String getCnpj() {
 		return cnpj;
 	}
@@ -94,6 +99,7 @@ public class Fornecedor {
 		this.inscricaoEstadual = inscricaoEstadual;
 	}
 
+	@Pesquisa(nome = "Código", posicao = 1)
 	public String getNomeFantasia() {
 		return nomeFantasia;
 	}
@@ -102,6 +108,7 @@ public class Fornecedor {
 		this.nomeFantasia = nomeFantasia;
 	}
 
+	@Pesquisa(nome = "Código", posicao = 2)
 	public String getRazaoSocial() {
 		return razaoSocial;
 	}

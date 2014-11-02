@@ -4,16 +4,23 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingWorker;
 import javax.validation.ValidationException;
@@ -29,14 +36,18 @@ import br.org.fgp.dao.CidadeDao;
 import br.org.fgp.dao.EstadoDao;
 import br.org.fgp.dao.FornecedorDao;
 import br.org.fgp.model.Cidade;
+import br.org.fgp.model.Contato;
+import br.org.fgp.model.ContatoFornecedor;
 import br.org.fgp.model.Endereco;
 import br.org.fgp.model.Estado;
 import br.org.fgp.model.Fornecedor;
 import br.org.fgp.model.Usuario;
 import br.org.fgp.model.enums.TipoUsuario;
+import br.org.fgp.view.core.ButtonColumn;
 import br.org.fgp.view.core.ComponenteControlado;
 import br.org.fgp.view.core.Inicializavel;
 import br.org.fgp.view.core.JCabecalhoLabel;
+import br.org.fgp.view.core.TableModelGenerico;
 import br.org.fgp.view.core.Validador;
 
 @Controller
@@ -102,6 +113,14 @@ public class CadastroFornecedor extends JPanel implements Inicializavel {
 	private JTextField txtNumero;
 
 	private JTextField txtBairro;
+
+	private JScrollPane painelTabela;
+
+	private JTable tabela;
+
+	private List<ContatoFornecedor> listaContato;
+
+	private TableModelGenerico<ContatoFornecedor> modelGenerico;
 	
 	public CadastroFornecedor() {
 		painel = this;
@@ -155,23 +174,36 @@ public class CadastroFornecedor extends JPanel implements Inicializavel {
 		splitPane.setDividerLocation(TelasUtils.DEFAULT_LARGURA_COMPONENTE/2);
 		splitPane.setEnabled(false);
 		
+		painelTabela = new JScrollPane();
+		tabela = new JTable();
+		if(this.fornecedor != null && this.fornecedor.getListaContato() != null ){
+			listaContato = this.fornecedor.getListaContato();
+		}else{
+			listaContato = new ArrayList<ContatoFornecedor>();
+		}
+		modelGenerico = new TableModelGenerico<ContatoFornecedor>(listaContato, ContatoFornecedor.class);
+		JButton btnAdicionarContato = new JButton("Adicionar");
+		btnAdicionarContato.setBounds(TelasUtils.DEFAULT_X+ TelasUtils.DEFAULT_ESPACO , TelasUtils.DEFAULT_Y +(20 *TelasUtils.DEFAULT_ESPACO) , TelasUtils.DEFAULT_LARGURA_COMPONENTE /2, TelasUtils.DEFAULT_ALTURA_COMPONENTE);
+		add(btnAdicionarContato);
+		tabela.setModel(modelGenerico);
+		tabela.setEnabled(true);
+		painelTabela.setViewportView(tabela);
+		painelTabela.setEnabled(true);
+		painelTabela.setBounds(TelasUtils.DEFAULT_X+ TelasUtils.DEFAULT_ESPACO , TelasUtils.DEFAULT_Y +(22 *TelasUtils.DEFAULT_ESPACO) , TelasUtils.DEFAULT_LARGURA_COMPONENTE*2, TelasUtils.DEFAULT_ALTURA_COMPONENTE+TelasUtils.DEFAULT_ALTURA_COMPONENTE*2);
+		add(painelTabela);
+		painelTabela.setVisible(true);
+		
 		ComponenteControlado<CadastroFornecedor> controleAcesso = new ComponenteControlado<CadastroFornecedor>(this); 
 		controleAcesso.pronto(TipoUsuario.ADMINISTRADOR);
 		
 		carregarEstado();
 		carregarCidade();
 		
-		btnCancelar.addActionListener(new ActionListener() {
+		tabela.addMouseListener(new MouseAdapter() {
+
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				cancelar();
-			}
-		});
-		
-		btnSalvar.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				salvar();
+			public void mouseClicked(MouseEvent e) {
+				eventoCliqueTabela(e);
 			}
 		});
 		
@@ -180,6 +212,26 @@ public class CadastroFornecedor extends JPanel implements Inicializavel {
 				cbbCidade.removeAllItems();
 				carregarCidade();
 			}
+		});
+		btnSalvar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				salvar();
+			}
+
+		});
+		
+		btnCancelar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cancelar();
+			}
+
+		});
+		
+		btnAdicionarContato.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				adicionarContato();
+			}
+
 		});
 	}
 
@@ -265,7 +317,6 @@ public class CadastroFornecedor extends JPanel implements Inicializavel {
 		if(id != null){
 			fornecedor = fornecedorDao.buscarPorId(id);
 		}
-		init(TelasUtils.getUsuarioLogado());
 		if(id != null){
 			txtNomeFantasia.setText( fornecedor.getNomeFantasia() );
 			txtInscricaoEstadual.setText( fornecedor.getInscricaoEstadual() );
@@ -285,6 +336,8 @@ public class CadastroFornecedor extends JPanel implements Inicializavel {
 		controleAcesso.pronto(usuarioLogado.getTipo());
 		carregarEstado();
 		carregarCidade();
+		repaint();
+		revalidate();
 	}
 	
 	private void cancelar() {
@@ -295,5 +348,83 @@ public class CadastroFornecedor extends JPanel implements Inicializavel {
 	private void adicionarComponente(JComponent componente, int valor){
 		Map<String, Integer> parametros = new HashMap<String, Integer>();
 		TelasUtils.adicionarComponente(componente, valor, this, parametros);
+	}
+	
+	private void adicionarContato() {
+		final Contato contato = new Contato();
+		abrirModalContato(contato);
+		if(StringUtils.isNotBlank( contato.getNome() ) && StringUtils.isNotBlank( contato.getEmail() ) ){
+			ContatoFornecedor contatoFornecedo = new ContatoFornecedor();
+			contatoFornecedo.setContato(contato);
+			contatoFornecedo.setFornecedor(fornecedor);
+			listaContato.add(contatoFornecedo);
+			atualizaDesenhoTabela();
+		}
+	}
+	
+	private void abrirModalContato(final Contato contato) {
+		Runnable runnable = new Runnable() {
+			public void run() {
+				try {
+					CadastroContato dialog = new CadastroContato(contato);
+					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+					dialog.setLocationRelativeTo(painel);
+					dialog.setVisible(true);
+				} catch (Exception e) {
+					LOGGER.error(e);
+				}
+			}
+		};
+		runnable.run();
+	}
+
+	private void atualizaDesenhoTabela() {
+		if(listaContato.size() > 0){
+			new ButtonColumn(tabela, null, modelGenerico.getCountadorColunas() );
+			new ButtonColumn(tabela, null, modelGenerico.getCountadorColunas() + 1 );
+		}
+		if(!modelGenerico.getLista().equals(listaContato)){
+			modelGenerico.getLista().clear();
+			for (ContatoFornecedor usuarioTelefone : listaContato) {
+				modelGenerico.getLista().add(usuarioTelefone);
+			}
+			listaContato = (List<ContatoFornecedor>) modelGenerico.getLista();
+			
+		}
+		modelGenerico.fireTableDataChanged();
+		tabela.updateUI();
+	}
+
+	@SuppressWarnings("unchecked")
+	protected void eventoCliqueTabela(MouseEvent e) {
+		if (e.getClickCount() == 2) {
+			TableModelGenerico<ContatoFornecedor> model = (TableModelGenerico<ContatoFornecedor>) tabela.getModel();
+			boolean atualizaTabela = false;
+			int linha = tabela.getSelectedRow();
+			int coluna = tabela.getSelectedColumn();
+			ContatoFornecedor contatoFornecedor = listaContato.get(linha);
+			
+			if(coluna == model.getCountadorColunas() ){
+				abrirModalContato(contatoFornecedor.getContato());
+				atualizaTabela = true;
+			} else if(coluna == model.getCountadorColunas() +1 ){
+				int excluir = JOptionPane.showConfirmDialog(null, "Deseja excluir o registro: "+contatoFornecedor.getContatoNome() + " ?", "Excluir?", JOptionPane.YES_NO_OPTION);
+				if(excluir == JOptionPane.YES_OPTION){
+					int contador = 0;
+					while(true){
+						if(listaContato.get(contador).equals(contatoFornecedor) ){
+							ContatoFornecedor contatoFor = listaContato.get(contador);
+							listaContato.remove( contatoFor );
+							break;
+						}
+						contador++;
+					}
+				}
+				atualizaTabela = true;
+			}
+			if(atualizaTabela){
+				atualizaDesenhoTabela();
+			}
+		}
 	}
 }

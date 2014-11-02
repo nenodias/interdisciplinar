@@ -9,6 +9,7 @@ import java.lang.reflect.Method;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -16,6 +17,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 import br.org.fgp.core.InterdisciplinarReflectionUtil;
+import br.org.fgp.core.TelasUtils;
 import br.org.fgp.core.dao.GenericoDao;
 import br.org.fgp.view.annotations.LabelDescricao;
 
@@ -27,7 +29,7 @@ public class JBusca <T, PK> extends JPanel {
 	
 	private JTextField descricaoComponente;
 	
-	private JTextField codigoComponente;
+	private JFormattedTextField codigoComponente;
 	
 	private GenericoDao<T,PK> daoGenerico;
 
@@ -45,7 +47,7 @@ public class JBusca <T, PK> extends JPanel {
 		add(descricaoComponente);
 		descricaoComponente.setColumns(10);
 		
-		codigoComponente = new JTextField();
+		codigoComponente = new JFormattedTextField(TelasUtils.getFormatadorInteiro());
 		codigoComponente.addFocusListener(new FocusAdapter() {
 			
 			@Override

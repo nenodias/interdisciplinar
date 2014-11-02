@@ -9,6 +9,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+
+import br.org.fgp.view.annotations.Pesquisa;
 @Entity
 @Table(name = "CONTATO_FORNECEDOR", indexes = { @Index(columnList = "IdContato"), @Index(columnList = "IdFornecedor") }, uniqueConstraints = @UniqueConstraint(columnNames = {"IdContato", "IdFornecedor"}) )
 public class ContatoFornecedor {
@@ -48,6 +50,16 @@ public class ContatoFornecedor {
 
 	public void setFornecedor(Fornecedor fornecedor) {
 		this.fornecedor = fornecedor;
+	}
+	
+	@Pesquisa(nome = "Nome", posicao = 0)
+	public String getContatoNome(){
+		return this.contato.getNome();
+	}
+	
+	@Pesquisa(nome = "Email", posicao = 1)
+	public String getContatoEmail(){
+		return this.contato.getEmail();
 	}
 
 }

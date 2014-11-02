@@ -10,6 +10,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+
+import br.org.fgp.view.annotations.Pesquisa;
+
 @Entity
 @Table(name = "CONTATO_TELEFONE", indexes = { @Index(columnList = "IdContato"), @Index(columnList = "IdTelefone") }, uniqueConstraints = @UniqueConstraint(columnNames = {"IdContato", "IdTelefone"}))
 public class ContatoTelefone {
@@ -34,6 +39,7 @@ public class ContatoTelefone {
 		this.contato = contato;
 	}
 
+	@Pesquisa(nome = "Telefone", posicao = 0)
 	public Telefone getTelefone() {
 		return telefone;
 	}
@@ -41,6 +47,7 @@ public class ContatoTelefone {
 	public void setTelefone(Telefone telefone) {
 		this.telefone = telefone;
 	}
+	
 
 	public Integer getId() {
 		return id;
@@ -48,6 +55,21 @@ public class ContatoTelefone {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+	
+	@Override
+	public int hashCode() {
+		HashCodeBuilder builder = new HashCodeBuilder().append(id).append(contato).append(telefone);
+		return builder.toHashCode();
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if(obj != null && obj instanceof ContatoTelefone){
+			ContatoTelefone other = (ContatoTelefone)obj;
+			EqualsBuilder builder = new EqualsBuilder().append(this.id, other.id).append(this.contato, other.contato).append(this.telefone, other.telefone);
+			return builder.isEquals();
+		}
+		return false;
 	}
 
 }

@@ -430,6 +430,8 @@ public class CadastroUsuario extends JPanel implements Inicializavel {
 		controleAcesso.pronto(usuario.getTipo());
 		carregarEstado();
 		carregarCidade();
+		repaint();
+		revalidate();
 	}
 	
 	private void adicionarComponente(JComponent componente, int valor){
@@ -514,6 +516,7 @@ public class CadastroUsuario extends JPanel implements Inicializavel {
 		modelGenerico.fireTableDataChanged();
 		tabela.updateUI();
 	}
+	
 	private void carregarTipoWorker() {
 		for (int i = 0; i < cbbTipo.getItemCount(); i++) {
 			if(cbbTipo.getItemAt(i).equals( usuario.getTipo() )){
