@@ -12,6 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.Valid;
 
 import br.org.fgp.view.annotations.Pesquisa;
 @Entity
@@ -23,6 +24,7 @@ public class ContatoFornecedor {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
+	@Valid
 	@ManyToOne
 	@JoinColumn(name = "IdContato",nullable = false)
 	public Contato contato;
@@ -31,6 +33,7 @@ public class ContatoFornecedor {
 	@JoinColumn(name = "IdFornecedor",nullable = false)
 	public Fornecedor fornecedor;
 
+	@Valid
 	@OneToMany(mappedBy = "contato")
 	public List<ContatoTelefone> listaTelefone;
 	

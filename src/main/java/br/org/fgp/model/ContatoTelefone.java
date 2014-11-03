@@ -9,6 +9,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.Valid;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -27,6 +28,7 @@ public class ContatoTelefone {
 	@JoinColumn(name = "IdContato", nullable = false)
 	public Contato contato;
 	
+	@Valid
 	@ManyToOne
 	@JoinColumn(name = "IdTelefone", nullable = false)
 	public Telefone telefone;

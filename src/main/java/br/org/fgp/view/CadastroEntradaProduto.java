@@ -1,155 +1,181 @@
 package br.org.fgp.view;
 
-import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.Map;
 
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.JSplitPane;
 
-public class CadastroEntradaProduto extends JPanel {
+import org.springframework.beans.factory.annotation.Autowired;
+
+import br.org.fgp.core.ApplicationContextConfig;
+import br.org.fgp.core.TelasUtils;
+import br.org.fgp.dao.EntradaProdutoDao;
+import br.org.fgp.dao.FornecedorDao;
+import br.org.fgp.dao.ProdutoDao;
+import br.org.fgp.model.EntradaProduto;
+import br.org.fgp.model.Fornecedor;
+import br.org.fgp.model.Produto;
+import br.org.fgp.model.Usuario;
+import br.org.fgp.model.enums.TipoUsuario;
+import br.org.fgp.view.core.ComponenteControlado;
+import br.org.fgp.view.core.Inicializavel;
+import br.org.fgp.view.core.JBusca;
+import br.org.fgp.view.core.JCabecalhoLabel;
+
+public class CadastroEntradaProduto extends JPanel  implements Inicializavel{
 	
 	private static final long serialVersionUID = -7159300943489660623L;
-	private JTextField txtFornecedor;
-	private JTextField txtProduto;
-	private JTextField txtQuantidade;
-	private JTextField txtPreco;
+	
+	private EntradaProduto entradaProduto;
+	
+	@Autowired
+	private EntradaProdutoDao entradaProdutoDao;
+	
+	@Autowired
+	private ProdutoDao produtoDao;
+	
+	@Autowired
+	private FornecedorDao fornecedorDao;
+
+	private JSplitPane splitPane;
+
+	private JButton btnSalvar;
+
+	private JButton btnCancelar;
+	
+	private JPanel painel;
+	
+	private JBusca<Produto, Integer> txtProduto;
+	private JFormattedTextField txtQuantidade;
+	private JFormattedTextField txtPrecoCusto;
+	private JBusca<Fornecedor, Integer> txtFornecedor;
 
 	public CadastroEntradaProduto() {
 		
-		JLabel label1 = new JLabel("Data:");
+		setLayout(null);
+		adicionarComponente(new JCabecalhoLabel("Entrada de Produtos"),0);
 		
-		JLabel lblData = new JLabel("DataAtual");
+		adicionarComponente(new JLabel("Produto:"), 2);
+		txtProduto = new JBusca<Produto, Integer>();
+		adicionarComponente(txtProduto, 2);
 		
-		JLabel lblFornecedor = new JLabel("Fornecedor:");
+		adicionarComponente(new JLabel("Quantidade:"), 4);
+		txtQuantidade = new JFormattedTextField(TelasUtils.getFormatadorInteiro());
+		adicionarComponente(txtQuantidade, 4);
 		
-		JLabel lblFuncionario = new JLabel("Funcionario");
+		adicionarComponente(new JLabel("Preço Unitário:"), 6);
+		txtPrecoCusto = new JFormattedTextField(TelasUtils.getFormatadorDecimal());
+		adicionarComponente(txtPrecoCusto, 6);
 		
-		txtFornecedor = new JTextField();
-		txtFornecedor.setEnabled(false);
-		txtFornecedor.setColumns(10);
+		adicionarComponente(new JLabel("Fornecedor:"), 8);
+		txtFornecedor = new JBusca<Fornecedor, Integer>();
+		adicionarComponente(txtFornecedor, 8);
 		
-		JButton btnPesquisaFornecedor = new JButton("+");
+		painel = this;
+		splitPane = new JSplitPane();
+		adicionarComponente(splitPane, 28);
 		
-		JLabel lblProduto = new JLabel("Produto:");
+		btnSalvar = new JButton("Salvar");
+		if(getRootPane() != null){
+			getRootPane().setDefaultButton(btnSalvar);
+		}
+		splitPane.setLeftComponent(btnSalvar);
 		
-		txtProduto = new JTextField();
-		txtProduto.setEnabled(false);
-		txtProduto.setColumns(10);
+		btnCancelar = new JButton("Cancelar");
+		splitPane.setRightComponent(btnCancelar);
+		splitPane.setDividerLocation(TelasUtils.DEFAULT_LARGURA_COMPONENTE/2);
+		splitPane.setEnabled(false);
 		
-		JButton btnPesquisaProduto = new JButton("+");
+		ComponenteControlado<CadastroEntradaProduto> controleAcesso = new ComponenteControlado<CadastroEntradaProduto>(this); 
+		controleAcesso.pronto(TipoUsuario.ADMINISTRADOR);
 		
-		JLabel lblQuantidade = new JLabel("Quantidade:");
+		btnCancelar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				cancelar();
+			}
+		});
 		
-		txtQuantidade = new JTextField();
-		txtQuantidade.setColumns(10);
-		
-		JLabel lblEntradaDeProdutos = new JLabel("Entrada de Produtos");
-		
-		JButton btnSalvar = new JButton("Salvar");
-		
-		JButton btnCancelar = new JButton("Cancelar");
-		
-		JLabel lblPreo = new JLabel("Pre\u00E7o:");
-		
-		txtPreco = new JTextField();
-		txtPreco.setColumns(10);
-		
-		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setForeground(Color.RED);
-		GroupLayout groupLayout = new GroupLayout(this);
-		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(30)
-					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-						.addComponent(lblPreo)
-						.addComponent(lblProduto)
-						.addComponent(label1)
-						.addComponent(lblQuantidade)
-						.addComponent(lblFornecedor))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(lblEntradaDeProdutos)
-							.addContainerGap())
-						.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-							.addGroup(groupLayout.createSequentialGroup()
-								.addComponent(lblNewLabel)
-								.addContainerGap())
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addGroup(groupLayout.createSequentialGroup()
-									.addComponent(btnSalvar)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(btnCancelar)
-									.addContainerGap())
-								.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-									.addGroup(groupLayout.createSequentialGroup()
-										.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-											.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-												.addGroup(groupLayout.createSequentialGroup()
-													.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-														.addGroup(groupLayout.createSequentialGroup()
-															.addComponent(lblFuncionario)
-															.addPreferredGap(ComponentPlacement.UNRELATED, 216, Short.MAX_VALUE))
-														.addComponent(txtProduto, GroupLayout.DEFAULT_SIZE, 271, Short.MAX_VALUE)
-														.addComponent(txtFornecedor, GroupLayout.DEFAULT_SIZE, 271, Short.MAX_VALUE))
-													.addGap(6)
-													.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-														.addComponent(btnPesquisaFornecedor, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 17, GroupLayout.PREFERRED_SIZE)
-														.addComponent(btnPesquisaProduto, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 17, GroupLayout.PREFERRED_SIZE)))
-												.addGroup(groupLayout.createSequentialGroup()
-													.addComponent(lblData)
-													.addPreferredGap(ComponentPlacement.RELATED, 246, GroupLayout.PREFERRED_SIZE)))
-											.addGroup(groupLayout.createSequentialGroup()
-												.addComponent(txtQuantidade, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-												.addPreferredGap(ComponentPlacement.RELATED, 208, GroupLayout.PREFERRED_SIZE)))
-										.addGap(60))
-									.addGroup(groupLayout.createSequentialGroup()
-										.addComponent(txtPreco, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-										.addContainerGap()))))))
-		);
-		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(40)
-					.addComponent(lblEntradaDeProdutos)
-					.addGap(18)
-					.addComponent(lblFuncionario)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(label1)
-						.addComponent(lblData))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblProduto)
-						.addComponent(txtProduto, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnPesquisaProduto))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnPesquisaFornecedor)
-						.addComponent(lblFornecedor)
-						.addComponent(txtFornecedor, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblQuantidade)
-						.addComponent(txtQuantidade, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblPreo)
-						.addComponent(txtPreco, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnSalvar)
-						.addComponent(btnCancelar))
-					.addGap(18)
-					.addComponent(lblNewLabel)
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-		);
-		setLayout(groupLayout);
-
+		btnSalvar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				salvar();
+			}
+		});
 	}
+
+	@Override
+	public void load(Integer id) {
+		if(id != null){
+			entradaProduto = entradaProdutoDao.buscarPorId(id);
+		}
+		init(TelasUtils.getUsuarioLogado());
+		if(id != null){
+			txtProduto.setText( entradaProduto.getProduto().getId().toString() );
+			txtQuantidade.setText( entradaProduto.getQuantidade().toString() );
+			txtPrecoCusto.setText( entradaProduto.getPrecoCusto().toString() );
+			txtFornecedor.setText( entradaProduto.getFornecedor().getId().toString() );
+		}else{
+			entradaProduto = new EntradaProduto();
+		}
+	}
+
+	private void init(Usuario usuarioLogado) {
+		ComponenteControlado<CadastroEntradaProduto> controleAcesso = new ComponenteControlado<CadastroEntradaProduto>(this);
+		controleAcesso.pronto(usuarioLogado.getTipo());
+		txtProduto.setDaoGenerico(produtoDao);
+		txtFornecedor.setDaoGenerico(fornecedorDao);
+		repaint();
+		revalidate();
+	}
+	
+	public ProdutoDao getProdutoDao() {
+		return produtoDao;
+	}
+
+	public void setProdutoDao(ProdutoDao produtoDao) {
+		this.produtoDao = produtoDao;
+	}
+
+	public FornecedorDao getFornecedorDao() {
+		return fornecedorDao;
+	}
+
+	public void setFornecedorDao(FornecedorDao fornecedorDao) {
+		this.fornecedorDao = fornecedorDao;
+	}
+
+	public EntradaProdutoDao getEntradaProdutoDao() {
+		return entradaProdutoDao;
+	}
+
+	public void setEntradaProdutoDao(EntradaProdutoDao entradaProdutoDao) {
+		this.entradaProdutoDao = entradaProdutoDao;
+	}
+	
+	private void adicionarComponente(JComponent componente, int valor){
+		Map<String, Integer> parametros = new HashMap<String, Integer>();
+		TelasUtils.adicionarComponente(componente, valor, this, parametros);
+	}
+	
+	private void cancelar() {
+		TelaPrincipal telaPrincipal = ApplicationContextConfig.getContext().getBean(TelaPrincipal.class);
+		telaPrincipal.cancelar();
+	}
+	
+	private void limparComponentes() {
+		//TODO
+	}
+	
+	private void salvar() {
+		//TODO
+	}
+
 }

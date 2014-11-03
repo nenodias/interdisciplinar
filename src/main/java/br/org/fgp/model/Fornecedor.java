@@ -70,6 +70,7 @@ public class Fornecedor {
 	@Embedded
 	public Endereco enderecoComercial;
 	
+	@Valid
 	@OneToMany(mappedBy = "fornecedor")
 	public List<ContatoFornecedor> listaContato;
 

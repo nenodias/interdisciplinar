@@ -8,6 +8,7 @@ import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.Valid;
 
 import br.org.fgp.view.annotations.Pesquisa;
 
@@ -23,6 +24,7 @@ public class UsuarioTelefone {
 	@JoinColumn(name = "IdUsuario", nullable = false)
 	public Usuario usuario;
 
+	@Valid
 	@ManyToOne
 	@JoinColumn(name = "IdTelefone", nullable = false)
 	public Telefone telefone;

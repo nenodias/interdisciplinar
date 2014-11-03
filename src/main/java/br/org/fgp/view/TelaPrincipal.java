@@ -17,17 +17,21 @@ import org.springframework.stereotype.Controller;
 
 import br.org.fgp.core.ApplicationContextConfig;
 import br.org.fgp.dao.CategoriaDao;
+import br.org.fgp.dao.EntradaProdutoDao;
 import br.org.fgp.dao.FornecedorDao;
 import br.org.fgp.dao.MarcaDao;
 import br.org.fgp.dao.ProdutoDao;
 import br.org.fgp.dao.SetorDao;
 import br.org.fgp.dao.UsuarioDao;
+import br.org.fgp.dao.VendaDao;
 import br.org.fgp.model.Categoria;
+import br.org.fgp.model.EntradaProduto;
 import br.org.fgp.model.Fornecedor;
 import br.org.fgp.model.Marca;
 import br.org.fgp.model.Produto;
 import br.org.fgp.model.Setor;
 import br.org.fgp.model.Usuario;
+import br.org.fgp.model.Venda;
 import br.org.fgp.view.core.JDialogBusca;
 
 @Controller
@@ -99,6 +103,14 @@ public class TelaPrincipal extends JFrame {
 				dialogo.setVisible(true);
 			}
 		});
+		mntmEstoque.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				EntradaProdutoDao entradaProdutoDaoDao = ApplicationContextConfig.getContext().getBean(EntradaProdutoDao.class);
+				JDialogBusca<EntradaProduto, Integer> dialogo = new JDialogBusca<EntradaProduto, Integer>(entradaProdutoDaoDao, null, null);
+				dialogo.setLocationRelativeTo(frmInterdisciplinar);
+				dialogo.setVisible(true);
+			}
+		});
 		mntmFornecedor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				FornecedorDao fornecedorDao = ApplicationContextConfig.getContext().getBean(FornecedorDao.class);
@@ -109,7 +121,10 @@ public class TelaPrincipal extends JFrame {
 		});
 		mntmRealizarVenda.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+				VendaDao vendaDao = ApplicationContextConfig.getContext().getBean(VendaDao.class);
+				JDialogBusca<Venda, Integer> dialogo = new JDialogBusca<Venda, Integer>(vendaDao, null, null);
+				dialogo.setLocationRelativeTo(frmInterdisciplinar);
+				dialogo.setVisible(true);
 			}
 		});
 		mntmUsurio.addActionListener(new ActionListener() {

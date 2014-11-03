@@ -11,22 +11,42 @@ import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotNull;
+
+import br.org.fgp.core.MessagemUtil;
+import br.org.fgp.view.annotations.Pesquisa;
 
 @Entity
 @Table(name = "VENDA_ITEM", indexes = { @Index(columnList = "IdProduto"), @Index(columnList = "IdVenda") } )
 public class VendaItem {
+
+	private static final int VALOR_MAX = 15;
+
+	private static final String VALOR = "Valor Unitário";
+
+	private static final int VALOR_FRACAO = 2;
+
+	private static final int VALOR_INT = 13;
+
+	private static final String PRODUTO = "Produto";
+
+	private static final String QUANTIDADE = "Quantidade";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "IdVendaItem")
 	public Integer id;
 	
-	@Column(name = "Quantidade")
+	@NotNull(message = MessagemUtil.CAMPO + QUANTIDADE + MessagemUtil.NOT_BLANK)
+	@Column(name = QUANTIDADE)
 	public Integer quantidade;
 	
-	@Column(name = "ValorUnitario", scale = 2, precision = 15)
+	@Digits(integer = VALOR_INT, fraction = VALOR_FRACAO, message = MessagemUtil.CAMPO + VALOR + MessagemUtil.DIGITS + VALOR_MAX + MessagemUtil.INTEIROS + MessagemUtil.AND+VALOR_FRACAO + MessagemUtil.CASAS_DECIMAIS)
+	@Column(name = "ValorUnitario", scale = VALOR_FRACAO, precision = VALOR_MAX)
 	public BigDecimal valorUnitario;
 	
+	@NotNull(message = MessagemUtil.CAMPO + PRODUTO + MessagemUtil.NOT_BLANK)
 	@ManyToOne
 	@JoinColumn(name = "IdProduto")
 	public Produto produto;
@@ -43,6 +63,7 @@ public class VendaItem {
 		this.id = id;
 	}
 
+	@Pesquisa(nome = "Quantidade", posicao = 1)
 	public Integer getQuantidade() {
 		return quantidade;
 	}
@@ -51,6 +72,7 @@ public class VendaItem {
 		this.quantidade = quantidade;
 	}
 
+	@Pesquisa(nome = "Valor Unitário", posicao = 2)
 	public BigDecimal getValorUnitario() {
 		return valorUnitario;
 	}
@@ -59,6 +81,11 @@ public class VendaItem {
 		this.valorUnitario = valorUnitario;
 	}
 
+	@Pesquisa(nome = "Produto", posicao = 0)
+	public String getProdutoTexto() {
+		return produto.getNome();
+	}
+	
 	public Produto getProduto() {
 		return produto;
 	}
