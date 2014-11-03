@@ -126,6 +126,14 @@ public class CadastroContato extends JDialog{
 				adicionarTelefone();
 			}
 		});
+		if(StringUtils.isNotBlank(contato.getNome())){
+			txtNome.setText(contato.getNome());
+		}
+		if(StringUtils.isNotBlank(contato.getEmail())){
+			txtEmail.setText(contato.getEmail());
+		}
+		listaTelefones = contato.getListaTelefone();
+		atualizaDesenhoTabela();
 	}
 	
 	protected void novoContato() {

@@ -125,6 +125,7 @@ public class JDialogBusca<T, PK> extends JDialog {
 		
 	}
 	
+	@SuppressWarnings("rawtypes")
 	private void eventoCliqueTabela(final JTextField codigoComponente,
 			final JTextField descricaoComponente, MouseEvent e) {
 		if (e.getClickCount() == 2) {
@@ -221,7 +222,7 @@ public class JDialogBusca<T, PK> extends JDialog {
 		carregarTabela(buscarTodos);
 	}
 	
-	@SuppressWarnings("unused")
+	@SuppressWarnings({ "unused", "rawtypes", "unchecked" })
 	private void carregarTabela(List<T> buscarTodos) {
 		
 		tabela.setModel( new TableModelGenerico(buscarTodos, clazz ) );

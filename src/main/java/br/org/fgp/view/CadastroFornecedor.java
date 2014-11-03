@@ -380,6 +380,8 @@ public class CadastroFornecedor extends JPanel implements Inicializavel {
 			txtNumero.setText( fornecedor.getEnderecoComercial().getNumero() );
 			txtBairro.setText( fornecedor.getEnderecoComercial().getBairro() );
 			
+			listaContato = fornecedor.getListaContato();
+			atualizaDesenhoTabela();
 		}else{
 			fornecedor = new Fornecedor();
 		}
