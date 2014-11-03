@@ -349,6 +349,8 @@ public class CadastroFornecedor extends JPanel implements Inicializavel {
 		for (JTextField jComponent : componentes) {
 			jComponent.setText(StringUtils.EMPTY);
 		}
+		listaContato.clear();
+		atualizaDesenhoTabela();
 	}
 
 	@SuppressWarnings({ "rawtypes" })
