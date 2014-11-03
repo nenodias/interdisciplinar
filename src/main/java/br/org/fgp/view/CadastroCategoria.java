@@ -88,6 +88,9 @@ public class CadastroCategoria extends JDialog implements Inicializavel {
 		adicionarComponente(splitPane, 8);
 		
 		btnSalvar = new JButton("Salvar");
+		if(getRootPane() != null){
+			getRootPane().setDefaultButton(btnSalvar);
+		}
 		splitPane.setLeftComponent(btnSalvar);
 		
 		btnCancelar = new JButton("Cancelar");
@@ -113,10 +116,12 @@ public class CadastroCategoria extends JDialog implements Inicializavel {
 
 	private void salvar() {
 		String mensagemSave = " atualizada ";
+		String mensagemFail = " atualizar ";
 		if(categoria == null){
 			categoria = new Categoria();
 			if(categoria.getId() != null){
 				mensagemSave = " salva ";
+				mensagemFail = " salvar ";
 			}
 		}
 		try{
@@ -133,7 +138,7 @@ public class CadastroCategoria extends JDialog implements Inicializavel {
 			LOGGER.error(e);
 		}
 		catch(Exception ex){
-			JOptionPane.showMessageDialog(null, "Falha ao ".concat(mensagemSave).concat(" ").concat(CLASS_NAME).concat(".") );
+			JOptionPane.showMessageDialog(null, "Falha ao ".concat(mensagemFail).concat(" ").concat(CLASS_NAME).concat(".") );
 			LOGGER.error(ex);
 		}
 	}

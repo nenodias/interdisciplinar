@@ -108,6 +108,9 @@ public class CadastroProduto extends JPanel implements Inicializavel {
 		adicionarComponente(splitPane, 18);
 		
 		btnSalvar = new JButton("Salvar");
+		if(getRootPane() != null){
+			getRootPane().setDefaultButton(btnSalvar);
+		}
 		splitPane.setLeftComponent(btnSalvar);
 		
 		btnCancelar = new JButton("Cancelar");
@@ -134,11 +137,13 @@ public class CadastroProduto extends JPanel implements Inicializavel {
 
 	private void salvar() {
 		String mensagemSave = " atualizado ";
+		String mensagemFail = " atualizar ";
 		try{
 			if(produto == null ){
 				produto = new  Produto();
 				if(produto.getId() != null){
 					mensagemSave = " salvo ";
+					mensagemFail = " salvar ";
 				}
 			}
 			
@@ -176,7 +181,7 @@ public class CadastroProduto extends JPanel implements Inicializavel {
 			LOGGER.error(e);
 		}
 		catch(Exception ex){
-			JOptionPane.showMessageDialog(null, "Falha ao ".concat(mensagemSave).concat(" ").concat(CLASS_NAME).concat(".") );
+			JOptionPane.showMessageDialog(null, "Falha ao ".concat(mensagemFail).concat(" ").concat(CLASS_NAME).concat(".") );
 			LOGGER.error(ex);
 		}
 	}

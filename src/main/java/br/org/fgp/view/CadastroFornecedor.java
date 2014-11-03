@@ -33,6 +33,7 @@ import org.springframework.stereotype.Controller;
 import br.org.fgp.core.ApplicationContextConfig;
 import br.org.fgp.core.TelasUtils;
 import br.org.fgp.dao.CidadeDao;
+import br.org.fgp.dao.ContatoDao;
 import br.org.fgp.dao.ContatoFornecedorDao;
 import br.org.fgp.dao.ContatoTelefoneDao;
 import br.org.fgp.dao.EstadoDao;
@@ -75,6 +76,9 @@ public class CadastroFornecedor extends JPanel implements Inicializavel {
 	private EstadoDao estadoDao;
 	
 	@Autowired
+	private ContatoDao contatoDao;
+	
+	@Autowired
 	private ContatoFornecedorDao contatoFornecedorDao;
 	
 	@Autowired
@@ -89,6 +93,14 @@ public class CadastroFornecedor extends JPanel implements Inicializavel {
 
 	public void setContatoTelefoneDao(ContatoTelefoneDao contatoTelefoneDao) {
 		this.contatoTelefoneDao = contatoTelefoneDao;
+	}
+	
+	public ContatoDao getContatoDao() {
+		return contatoDao;
+	}
+	
+	public void setContatoDao(ContatoDao contatoDao) {
+		this.contatoDao = contatoDao;
 	}
 
 	public ContatoFornecedorDao getContatoFornecedorDao() {
@@ -159,6 +171,12 @@ public class CadastroFornecedor extends JPanel implements Inicializavel {
 
 	private TableModelGenerico<ContatoFornecedor> modelGenerico;
 
+	@SuppressWarnings("rawtypes")
+	private SwingWorker estadoWorker;
+
+	@SuppressWarnings("rawtypes")
+	private SwingWorker cidadeWorker;
+
 	public CadastroFornecedor() {
 		painel = this;
 		setLayout(null);
@@ -204,6 +222,9 @@ public class CadastroFornecedor extends JPanel implements Inicializavel {
 		adicionarComponente(splitPane, 28);
 		
 		btnSalvar = new JButton("Salvar");
+		if(getRootPane() != null){
+			getRootPane().setDefaultButton(btnSalvar);
+		}
 		splitPane.setLeftComponent(btnSalvar);
 		
 		btnCancelar = new JButton("Cancelar");
@@ -246,7 +267,6 @@ public class CadastroFornecedor extends JPanel implements Inicializavel {
 		
 		cbbEstado.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent arg0) {
-				cbbCidade.removeAllItems();
 				carregarCidade();
 			}
 		});
@@ -274,11 +294,13 @@ public class CadastroFornecedor extends JPanel implements Inicializavel {
 
 	private void salvar(){
 		String mensagemSave = " atualizado ";
+		String mensagemFail = " atualizar ";
 		try{
 			if(fornecedor == null ){
 				fornecedor = new  Fornecedor();
 				if(fornecedor.getId() != null){
 					mensagemSave = " salvo ";
+					mensagemFail = " salvar ";
 				}
 			}
 			fornecedor.setNomeFantasia( txtNomeFantasia.getText() );
@@ -302,12 +324,13 @@ public class CadastroFornecedor extends JPanel implements Inicializavel {
 						contatoTelefone.setId(null);
 						contatoTelefone.setContato(contatoFornecedor.getContato());
 						telefoneDao.salvar( contatoTelefone.getTelefone() );
+						contatoDao.salvar( contatoTelefone.getContato() );
 						contatoTelefoneDao.salvar(contatoTelefone);
 					}
 					contatoFornecedorDao.salvar(contatoFornecedor);
 				}
 			}
-			JOptionPane.showMessageDialog(null, CLASS_NAME.concat(mensagemSave).concat("com sucesso.") );
+			JOptionPane.showMessageDialog(null, CLASS_NAME.concat(mensagemFail).concat("com sucesso.") );
 			fornecedor = null;
 			limparComponentes();
 			cancelar();
@@ -328,41 +351,46 @@ public class CadastroFornecedor extends JPanel implements Inicializavel {
 		}
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings({ "rawtypes" })
 	private void carregarEstado(){
-		SwingWorker<Object, String> swingWorker = new SwingWorker() {
+		estadoWorker = new SwingWorker() {
 
 			@Override
 			protected Object doInBackground() throws Exception {
+				cbbEstado.removeAllItems();
 				for (Estado estado : estadoDao.buscarTodos()) {
 					cbbEstado.addItem(estado);
-					if(fornecedor != null && estado.equals(fornecedor.getEnderecoComercial().getCidade().getEstado() ) ){
+					if(fornecedor != null && fornecedor.getEnderecoComercial() != null && estado.equals(fornecedor.getEnderecoComercial().getCidade().getEstado() ) ){
 						cbbEstado.setSelectedItem(estado);
 					}
 				}
 				return null;
 			}
 		};
-		swingWorker.execute();
+		estadoWorker.execute();
 	}
 	
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings({ "rawtypes" })
 	private void carregarCidade(){
-		SwingWorker<Object, String> swingWorker = new SwingWorker() {
+		cidadeWorker = new SwingWorker() {
 
 			@Override
 			protected Object doInBackground() throws Exception {
 				Estado item = (Estado) cbbEstado.getSelectedItem();
+				cbbCidade.removeAllItems();
+				while (!estadoWorker.isDone()) {
+					
+				}
 				for (Cidade cidade : cidadeDao.buscaPorEstado(item.getId() ) ) {
 					cbbCidade.addItem(cidade);
-					if(fornecedor != null && cidade.equals(fornecedor.getEnderecoComercial().getCidade() ) ){
+					if(fornecedor != null && fornecedor.getEnderecoComercial() != null && cidade.equals(fornecedor.getEnderecoComercial().getCidade() ) ){
 						cbbCidade.setSelectedItem(cidade);
 					}
 				}
 				return null;
 			}
 		};
-		swingWorker.execute();
+		cidadeWorker.execute();
 	}
 
 	@Override

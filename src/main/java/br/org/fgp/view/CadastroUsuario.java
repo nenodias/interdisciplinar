@@ -240,6 +240,9 @@ public class CadastroUsuario extends JPanel implements Inicializavel {
 		adicionarComponente(splitPane, 28);
 		
 		btnSalvar = new JButton("Salvar");
+		if(getRootPane() != null){
+			getRootPane().setDefaultButton(btnSalvar);
+		}
 		splitPane.setLeftComponent(btnSalvar);
 		
 		btnCancelar = new JButton("Cancelar");
@@ -263,7 +266,6 @@ public class CadastroUsuario extends JPanel implements Inicializavel {
 		
 		cbbEstado.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent arg0) {
-				cbbCidade.removeAllItems();
 				carregarCidade();
 			}
 		});
@@ -295,11 +297,13 @@ public class CadastroUsuario extends JPanel implements Inicializavel {
 	
 	private void salvar() {
 		String mensagemSave = " atualizado ";
+		String mensagemFail = " atualizar ";
 		try{
 			if(usuario == null ){
 				usuario = new  Usuario();
 				if(usuario.getId() != null){
 					mensagemSave = " salvo ";
+					mensagemFail = " salvar ";
 				}
 			}
 			
@@ -338,7 +342,7 @@ public class CadastroUsuario extends JPanel implements Inicializavel {
 			LOGGER.error(e);
 		}
 		catch(Exception ex){
-			JOptionPane.showMessageDialog(null, "Falha ao ".concat(mensagemSave).concat(" ").concat(CLASS_NAME).concat(".") );
+			JOptionPane.showMessageDialog(null, "Falha ao ".concat(mensagemFail).concat(" ").concat(CLASS_NAME).concat(".") );
 			LOGGER.error(ex);
 		}
 	}
@@ -362,7 +366,7 @@ public class CadastroUsuario extends JPanel implements Inicializavel {
 				cbbEstado.removeAllItems();
 				for (Estado estado : estadoDao.buscarTodos()) {
 					cbbEstado.addItem(estado);
-					if(usuario != null && estado.equals(usuario.getEndereco().getCidade().getEstado() ) ){
+					if(usuario != null &&  usuario.getEndereco() != null && estado.equals(usuario.getEndereco().getCidade().getEstado() ) ){
 						cbbEstado.setSelectedItem(estado);
 					}
 				}
@@ -380,9 +384,12 @@ public class CadastroUsuario extends JPanel implements Inicializavel {
 			protected Object doInBackground() throws Exception {
 				Estado item = (Estado) cbbEstado.getSelectedItem();
 				cbbCidade.removeAllItems();
+				while (!estadoWorker.isDone()) {
+					
+				}
 				for (Cidade cidade : cidadeDao.buscaPorEstado(item.getId() ) ) {
 					cbbCidade.addItem(cidade);
-					if(usuario != null && cidade.equals(usuario.getEndereco().getCidade() ) ){
+					if(usuario != null && usuario.getEndereco() != null && cidade.equals(usuario.getEndereco().getCidade() ) ){
 						cbbCidade.setSelectedItem(cidade);
 					}
 				}

@@ -109,12 +109,7 @@ public class TelaPrincipal extends JFrame {
 		});
 		mntmRealizarVenda.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				frmInterdisciplinar.getContentPane().removeAll();
-				TelaVenda venda = new TelaVenda();
-				frmInterdisciplinar.getContentPane().setBounds(venda.getBounds());
-				frmInterdisciplinar.getContentPane().add(venda);
-				frmInterdisciplinar.getContentPane().revalidate();
-				venda.setVisible(true);
+				
 			}
 		});
 		mntmUsurio.addActionListener(new ActionListener() {

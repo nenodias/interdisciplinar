@@ -73,6 +73,9 @@ public class CadastroSetor extends JDialog implements Inicializavel {
 		adicionarComponente(splitPane, 8);
 		
 		btnSalvar = new JButton("Salvar");
+		if(getRootPane() != null){
+			getRootPane().setDefaultButton(btnSalvar);
+		}
 		splitPane.setLeftComponent(btnSalvar);
 		
 		btnCancelar = new JButton("Cancelar");
@@ -98,6 +101,7 @@ public class CadastroSetor extends JDialog implements Inicializavel {
 
 	private void salvar() {
 		String mensagemSave = " atualizado ";
+		String mensagemFail = " atualizar ";
 		if(setor == null){
 			setor = new Setor();
 			if(setor.getId() != null){
@@ -118,7 +122,7 @@ public class CadastroSetor extends JDialog implements Inicializavel {
 			LOGGER.error(e);
 		}
 		catch(Exception ex){
-			JOptionPane.showMessageDialog(null, "Falha ao ".concat(mensagemSave).concat(" ").concat(CLASS_NAME).concat(".") );
+			JOptionPane.showMessageDialog(null, "Falha ao ".concat(mensagemFail).concat(" ").concat(CLASS_NAME).concat(".") );
 			LOGGER.error(ex);
 		}
 	}

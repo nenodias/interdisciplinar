@@ -73,7 +73,6 @@ public class CadastroContato extends JDialog{
 		
 		adicionarComponente(new JLabel("Setor:"), 6);
 		txtSetor = new JBusca<Setor, Integer>();
-		txtSetor.setEnabled(true);
 		setorDao = ApplicationContextConfig.getContext().getBean(SetorDao.class);
 		txtSetor.setDaoGenerico(setorDao);
 		adicionarComponente(txtSetor, 6);
@@ -132,7 +131,9 @@ public class CadastroContato extends JDialog{
 		if(StringUtils.isNotBlank(contato.getEmail())){
 			txtEmail.setText(contato.getEmail());
 		}
-		listaTelefones = contato.getListaTelefone();
+		if(contato.getSetor() != null){
+			txtSetor.setText(contato.getSetor().getId().toString());
+		}
 		atualizaDesenhoTabela();
 	}
 	

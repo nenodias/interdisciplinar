@@ -15,7 +15,7 @@
 	</appender>
 
     <root>
-        <level value="TRACE" />
+        <level value="ERROR" />
         <appender-ref ref="fileAppender" />
         <appender-ref ref="stdout" />
     </root>

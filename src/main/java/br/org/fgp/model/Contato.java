@@ -22,7 +22,6 @@ public class Contato {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "IdContato")	
 	public Integer id;
 	
 	@Column(name = "Email" , length = 200)

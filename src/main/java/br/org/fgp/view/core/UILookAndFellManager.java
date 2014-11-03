@@ -1,5 +1,6 @@
 package br.org.fgp.view.core;
 
+import java.awt.Color;
 import java.awt.Font;
 
 import javax.swing.UIManager;
@@ -42,6 +43,7 @@ public class UILookAndFellManager {
 		} catch (UnsupportedLookAndFeelException ex) {
 		}
 		UIManager.getLookAndFeelDefaults().put(DEFAULT_FONT, new Font("Arial", Font.TRUETYPE_FONT, 12));
+		UIManager.put("TextField.inactiveForeground", Color.BLACK); 
 	}
 	
 }
