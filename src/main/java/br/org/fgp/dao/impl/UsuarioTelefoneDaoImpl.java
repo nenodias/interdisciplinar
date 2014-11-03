@@ -31,7 +31,7 @@ public class UsuarioTelefoneDaoImpl extends GenericoDaoImpl<UsuarioTelefone, Int
 		while(contador != listaBD.size()){
 			UsuarioTelefone usuarioTelefone = listaBD.get(contador);
 			deletar(usuarioTelefone.getId());
-			telefoneDao.deletar(usuarioTelefone.getId());
+			telefoneDao.deletar(usuarioTelefone.getTelefone().getId());
 			listaBD.remove(contador);
 		}
 	}

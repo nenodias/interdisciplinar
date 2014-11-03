@@ -33,11 +33,15 @@ import org.springframework.stereotype.Controller;
 import br.org.fgp.core.ApplicationContextConfig;
 import br.org.fgp.core.TelasUtils;
 import br.org.fgp.dao.CidadeDao;
+import br.org.fgp.dao.ContatoFornecedorDao;
+import br.org.fgp.dao.ContatoTelefoneDao;
 import br.org.fgp.dao.EstadoDao;
 import br.org.fgp.dao.FornecedorDao;
+import br.org.fgp.dao.TelefoneDao;
 import br.org.fgp.model.Cidade;
 import br.org.fgp.model.Contato;
 import br.org.fgp.model.ContatoFornecedor;
+import br.org.fgp.model.ContatoTelefone;
 import br.org.fgp.model.Endereco;
 import br.org.fgp.model.Estado;
 import br.org.fgp.model.Fornecedor;
@@ -70,6 +74,39 @@ public class CadastroFornecedor extends JPanel implements Inicializavel {
 	@Autowired
 	private EstadoDao estadoDao;
 	
+	@Autowired
+	private ContatoFornecedorDao contatoFornecedorDao;
+	
+	@Autowired
+	private ContatoTelefoneDao contatoTelefoneDao;
+	
+	@Autowired
+	private TelefoneDao telefoneDao;
+	
+	public ContatoTelefoneDao getContatoTelefoneDao() {
+		return contatoTelefoneDao;
+	}
+
+	public void setContatoTelefoneDao(ContatoTelefoneDao contatoTelefoneDao) {
+		this.contatoTelefoneDao = contatoTelefoneDao;
+	}
+
+	public ContatoFornecedorDao getContatoFornecedorDao() {
+		return contatoFornecedorDao;
+	}
+
+	public void setContatoFornecedorDao(ContatoFornecedorDao contatoFornecedorDao) {
+		this.contatoFornecedorDao = contatoFornecedorDao;
+	}
+
+	public TelefoneDao getTelefoneDao() {
+		return telefoneDao;
+	}
+
+	public void setTelefoneDao(TelefoneDao telefoneDao) {
+		this.telefoneDao = telefoneDao;
+	}
+
 	public CidadeDao getCidadeDao() {
 		return cidadeDao;
 	}
@@ -121,7 +158,7 @@ public class CadastroFornecedor extends JPanel implements Inicializavel {
 	private List<ContatoFornecedor> listaContato;
 
 	private TableModelGenerico<ContatoFornecedor> modelGenerico;
-	
+
 	public CadastroFornecedor() {
 		painel = this;
 		setLayout(null);
@@ -253,6 +290,23 @@ public class CadastroFornecedor extends JPanel implements Inicializavel {
 			Validador<Fornecedor> validador = new Validador<Fornecedor>();
 			validador.validacaoCampos(fornecedor);
 			fornecedorDao.salvar(fornecedor);
+			if(!listaContato.isEmpty()){
+				if(fornecedor.getId() != null){
+					contatoFornecedorDao.deletarPorIdUsuario(fornecedor.getId());
+				}
+				for (ContatoFornecedor contatoFornecedor : listaContato) {
+					contatoFornecedor.setId(null);
+					contatoFornecedor.setFornecedor(fornecedor);
+					contatoFornecedor.getContato().setId(null);
+					for (ContatoTelefone contatoTelefone : contatoFornecedor.getContato().getListaTelefone() ) {
+						contatoTelefone.setId(null);
+						contatoTelefone.setContato(contatoFornecedor.getContato());
+						telefoneDao.salvar( contatoTelefone.getTelefone() );
+						contatoTelefoneDao.salvar(contatoTelefone);
+					}
+					contatoFornecedorDao.salvar(contatoFornecedor);
+				}
+			}
 			JOptionPane.showMessageDialog(null, CLASS_NAME.concat(mensagemSave).concat("com sucesso.") );
 			fornecedor = null;
 			limparComponentes();
