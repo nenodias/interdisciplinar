@@ -1,0 +1,44 @@
+<dados>
+	<movimentacao>
+		<tipo>VENDAS</tipo>
+		<data>01/01/2001</data>
+		<mes>Outubro</mes>
+			<produto>
+				<descricao>COCA</descricao>
+				<quantidade>10</quantidade>
+				<percentual></percentual>
+				<preco>5</preco>
+				<total>50</total>
+			</produto>
+			<produto>
+				<descricao>COCA ZERO</descricao>
+				<quantidade>5</quantidade>
+				<percentual></percentual>
+				<preco>6</preco>
+				<total>30</total>
+			</produto>
+			<totaTotal></totaTotal>
+	</movimentacao>
+	<movimentacao>
+		<tipo>COMPRAS</tipo>
+		<data>01/01/2001</data>
+		<mes>Outubro</mes>
+			<produto>
+				<descricao>FANTA</descricao>
+				<quantidade>20</quantidade>
+				<percentual></percentual>
+				<preco>5</preco>
+				<total>100</total>
+			</produto>
+			<produto>
+				<descricao>KINDEROVO</descricao>
+				<quantidade>1</quantidade>
+				<percentual></percentual>
+				<preco>100</preco>
+				<total>100</total>
+			</produto>
+			<totaTotal></totaTotal>
+	</movimentacao>
+	<lucroBruto>555</lucroBruto>
+	<lucroLiquido>0001</lucroLiquido>
+</dados>
