@@ -2,6 +2,8 @@ package br.org.fgp.view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,10 +11,15 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
+import javax.validation.ValidationException;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 
 import br.org.fgp.core.ApplicationContextConfig;
 import br.org.fgp.core.TelasUtils;
@@ -28,10 +35,16 @@ import br.org.fgp.view.core.ComponenteControlado;
 import br.org.fgp.view.core.Inicializavel;
 import br.org.fgp.view.core.JBusca;
 import br.org.fgp.view.core.JCabecalhoLabel;
+import br.org.fgp.view.core.Validador;
 
+@Controller
 public class CadastroEntradaProduto extends JPanel  implements Inicializavel{
 	
 	private static final long serialVersionUID = -7159300943489660623L;
+
+	private static final String CLASS_NAME = "Entrada Produto";
+
+	private static final Logger LOGGER = Logger.getLogger(CadastroEntradaProduto.class);
 	
 	private EntradaProduto entradaProduto;
 	
@@ -125,6 +138,7 @@ public class CadastroEntradaProduto extends JPanel  implements Inicializavel{
 		}else{
 			entradaProduto = new EntradaProduto();
 		}
+		limparComponentes();
 	}
 
 	private void init(Usuario usuarioLogado) {
@@ -171,11 +185,79 @@ public class CadastroEntradaProduto extends JPanel  implements Inicializavel{
 	}
 	
 	private void limparComponentes() {
-		//TODO
+		txtProduto.setText( StringUtils.EMPTY );
+		txtQuantidade.setText( StringUtils.EMPTY );
+		txtPrecoCusto.setText( StringUtils.EMPTY );
+		txtFornecedor.setText( StringUtils.EMPTY );
 	}
 	
 	private void salvar() {
-		//TODO
+		String mensagemSave = " atualizada ";
+		String mensagemFail = " atualizar ";
+		try{
+			if(entradaProduto == null ){
+				entradaProduto = new  EntradaProduto();
+				if(entradaProduto.getId() != null){
+					mensagemSave = " salva ";
+					mensagemFail = " salvar ";
+				}
+			}
+			
+			Validador<EntradaProduto> validador = new Validador<EntradaProduto>();
+			validador.validacaoCampos(entradaProduto);
+			
+			if(entradaProduto.getData() == null){
+				entradaProduto.setData(new Date());
+			}
+			if( StringUtils.isNotBlank( txtFornecedor.getText() ) ){
+				try{
+					Integer idFornecedor = Integer.parseInt( txtFornecedor.getText() );
+					Fornecedor fornecedor = fornecedorDao.buscarPorId(idFornecedor);
+					entradaProduto.setFornecedor(fornecedor);
+				}catch(Exception e){
+					LOGGER.error(e);
+				}
+			}
+			if( StringUtils.isNotBlank( txtPrecoCusto.getText() ) ){
+				try{
+					BigDecimal preco = new BigDecimal(txtPrecoCusto.getText());
+					entradaProduto.setPrecoCusto(preco);
+				}catch(Exception e){
+					LOGGER.error(e);
+				}
+			}
+			if( StringUtils.isNotBlank( txtProduto.getText() ) ){
+				try{
+					Integer idProduto = Integer.parseInt(txtPrecoCusto.getText());
+					Produto produto = produtoDao.buscarPorId(idProduto);
+					entradaProduto.setProduto(produto);
+				}catch(Exception e){
+					LOGGER.error(e);
+				}
+			}
+			if( StringUtils.isNotBlank( txtQuantidade.getText() ) ){
+				try{
+					Integer quantidade = Integer.parseInt(txtQuantidade.getText());
+					entradaProduto.setQuantidade(quantidade);
+				}catch(Exception e){
+					LOGGER.error(e);
+				}
+			}
+			entradaProduto.setUsuario(TelasUtils.getUsuarioLogado());
+			
+			entradaProdutoDao.salvar(entradaProduto);
+			JOptionPane.showMessageDialog(null, CLASS_NAME.concat(mensagemSave).concat("com sucesso.") );
+			entradaProduto = null;
+			limparComponentes();
+			cancelar();
+		}
+		catch(ValidationException e){
+			LOGGER.error(e);
+		}
+		catch(Exception ex){
+			JOptionPane.showMessageDialog(null, "Falha ao ".concat(mensagemFail).concat(" ").concat(CLASS_NAME).concat(".") );
+			LOGGER.error(ex);
+		}
 	}
 
 }

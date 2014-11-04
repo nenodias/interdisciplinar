@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 
 import br.org.fgp.core.ApplicationContextConfig;
 import br.org.fgp.core.TelasUtils;
@@ -19,6 +20,7 @@ import br.org.fgp.model.enums.TipoUsuario;
 import br.org.fgp.view.core.ComponenteControlado;
 import br.org.fgp.view.core.Inicializavel;
 
+@Controller
 public class CadastroVenda extends JPanel implements Inicializavel {
 	
 	private Venda venda;
