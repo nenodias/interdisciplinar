@@ -113,24 +113,26 @@ public class TelasUtils {
 	}
 	
 	public static MaskFormatter getMascaraTelefone(){
-		MaskFormatter mascara = null;
-		try {
-			mascara = new MaskFormatter("(##) # ####-####");
-			mascara.setValueContainsLiteralCharacters(false);
-		} catch (ParseException e) {
-			LOGGER.error(e);
-		}
-		return mascara;
+		return getMascara("(##) # ####-####");
 	}
 	
 	public static MaskFormatter getMascaraCPF(){
+		return getMascara("###.###.###-##");
+	}
+
+	public static Object getMascaraData() {
+		return getMascara("##/##/####");
+	}
+	
+	private static MaskFormatter getMascara(String mask) {
 		MaskFormatter mascara = null;
 		try {
-			mascara = new MaskFormatter("###.###.###-##");
+			mascara = new MaskFormatter(mask);
 			mascara.setValueContainsLiteralCharacters(true);
 		} catch (ParseException e) {
 			LOGGER.error(e);
 		}
 		return mascara;
 	}
+
 }

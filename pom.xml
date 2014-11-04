@@ -45,6 +45,19 @@
 			<artifactId>commons-collections</artifactId>
 			<version>3.0</version>
 		</dependency>
+		<!-- XSTREAM -->
+		<dependency>
+			<groupId>com.thoughtworks.xstream</groupId>
+			<artifactId>xstream</artifactId>
+			<version>1.4.7</version>
+		</dependency>
+		
+		<!-- iReport -->
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports</artifactId>
+			<version>5.5.0</version>
+		</dependency>
 
 		<!-- LOGGER -->
 		<dependency>

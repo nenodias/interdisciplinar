@@ -159,14 +159,22 @@ public class CadastroProduto extends JPanel implements Inicializavel {
 				produto.setEstoqueMaximo( Integer.parseInt( txtEstoqueMaximo.getText() ) );
 			}
 			if(categoriaDao != null && StringUtils.isNotBlank(txtCategoria.getText() ) ){
-				int codigoCategoria = Integer.parseInt( txtCategoria.getText() );
-				Categoria categoria = categoriaDao.buscarPorId(codigoCategoria);
-				produto.setCategoria(categoria);
+				try{
+					int codigoCategoria = Integer.parseInt( txtCategoria.getText() );
+					Categoria categoria = categoriaDao.buscarPorId(codigoCategoria);
+					produto.setCategoria(categoria);
+				}catch (Exception e){
+					
+				}
 			}
 			if(marcaDao != null && StringUtils.isNotBlank(txtMarca.getText() ) ){
-				int codigoMarca = Integer.parseInt( txtMarca.getText() );
-				Marca marca = marcaDao.buscarPorId(codigoMarca);
-				produto.setMarca(marca);
+				try{
+					int codigoMarca = Integer.parseInt( txtMarca.getText() );
+					Marca marca = marcaDao.buscarPorId(codigoMarca);
+					produto.setMarca(marca);
+				}catch(Exception e){
+					
+				}
 			}
 			
 			Validador<Produto> validador = new Validador<Produto>();

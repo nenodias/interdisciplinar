@@ -63,8 +63,6 @@ public class CadastroEntradaProduto extends JPanel  implements Inicializavel{
 
 	private JButton btnCancelar;
 	
-	private JPanel painel;
-	
 	private JBusca<Produto, Integer> txtProduto;
 	private JFormattedTextField txtQuantidade;
 	private JFormattedTextField txtPrecoCusto;
@@ -91,7 +89,6 @@ public class CadastroEntradaProduto extends JPanel  implements Inicializavel{
 		txtFornecedor = new JBusca<Fornecedor, Integer>();
 		adicionarComponente(txtFornecedor, 8);
 		
-		painel = this;
 		splitPane = new JSplitPane();
 		adicionarComponente(splitPane, 28);
 		
@@ -245,7 +242,7 @@ public class CadastroEntradaProduto extends JPanel  implements Inicializavel{
 			}
 			entradaProduto.setUsuario(TelasUtils.getUsuarioLogado());
 			
-			entradaProdutoDao.salvar(entradaProduto);
+			entradaProdutoDao.salvarRegra(entradaProduto);
 			JOptionPane.showMessageDialog(null, CLASS_NAME.concat(mensagemSave).concat("com sucesso.") );
 			entradaProduto = null;
 			limparComponentes();
