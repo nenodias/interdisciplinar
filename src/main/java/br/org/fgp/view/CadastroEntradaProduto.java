@@ -203,9 +203,6 @@ public class CadastroEntradaProduto extends JPanel  implements Inicializavel{
 			Validador<EntradaProduto> validador = new Validador<EntradaProduto>();
 			validador.validacaoCampos(entradaProduto);
 			
-			if(entradaProduto.getData() == null){
-				entradaProduto.setData(new Date());
-			}
 			if( StringUtils.isNotBlank( txtFornecedor.getText() ) ){
 				try{
 					Integer idFornecedor = Integer.parseInt( txtFornecedor.getText() );
@@ -241,7 +238,9 @@ public class CadastroEntradaProduto extends JPanel  implements Inicializavel{
 				}
 			}
 			entradaProduto.setUsuario(TelasUtils.getUsuarioLogado());
-			
+			if(entradaProduto.getId() == null){
+				entradaProduto.setData(new Date());
+			}
 			entradaProdutoDao.salvarRegra(entradaProduto);
 			JOptionPane.showMessageDialog(null, CLASS_NAME.concat(mensagemSave).concat("com sucesso.") );
 			entradaProduto = null;

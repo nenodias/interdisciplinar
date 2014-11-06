@@ -7,7 +7,7 @@ import java.util.List;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 
-public class TesteXml {
+public class GerarXml {
 	
 	public static void main(String[] args) {
 		DadosXML dados = new DadosXML();

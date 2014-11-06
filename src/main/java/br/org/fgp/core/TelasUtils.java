@@ -23,6 +23,7 @@ import br.org.fgp.model.Marca;
 import br.org.fgp.model.Produto;
 import br.org.fgp.model.Setor;
 import br.org.fgp.model.Usuario;
+import br.org.fgp.model.Venda;
 import br.org.fgp.view.CadastroCategoria;
 import br.org.fgp.view.CadastroEntradaProduto;
 import br.org.fgp.view.CadastroFornecedor;
@@ -30,6 +31,7 @@ import br.org.fgp.view.CadastroMarca;
 import br.org.fgp.view.CadastroProduto;
 import br.org.fgp.view.CadastroSetor;
 import br.org.fgp.view.CadastroUsuario;
+import br.org.fgp.view.CadastroVenda;
 
 public class TelasUtils {
 
@@ -56,6 +58,7 @@ public class TelasUtils {
 		mapa.put(Produto.class, CadastroProduto.class);
 		mapa.put(Setor.class, CadastroSetor.class);
 		mapa.put(Usuario.class, CadastroUsuario.class);
+		mapa.put(Venda.class, CadastroVenda.class);
 		
 		return mapa.get(clazz);
 	}

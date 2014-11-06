@@ -426,10 +426,11 @@ public class CadastroUsuario extends JPanel implements Inicializavel {
 			tipoWorker.execute();
 			
 			listaTelefones = usuario.getListaTelefone();
-			atualizaDesenhoTabela();
 		}else{
 			usuario = new Usuario();
+			listaTelefones.clear();
 		}
+		atualizaDesenhoTabela();
 	}
 
 	public void init(Usuario usuario) {

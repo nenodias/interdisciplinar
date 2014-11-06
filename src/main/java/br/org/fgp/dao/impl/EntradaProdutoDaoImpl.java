@@ -1,8 +1,13 @@
 package br.org.fgp.dao.impl;
 
+import java.util.Date;
+import java.util.List;
+
+import javax.swing.JOptionPane;
 import javax.transaction.Transactional;
 import javax.validation.ValidationException;
 
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -32,10 +37,16 @@ public class EntradaProdutoDaoImpl extends GenericoDaoImpl<EntradaProduto, Integ
 		if( produto.getEstoqueMaximo().equals(ZERO) || estoqueAtual >= produto.getEstoqueMaximo() ){
 			produto.setEstoqueAtual(estoqueAtual);
 		}else{
+			JOptionPane.showMessageDialog(null, "Quantidade maior que estoque máximo");
 			throw new ValidationException("Quantidade maior que estoque máximo");
 		}
 		salvar(entity);
 		produtoDao.salvar(produto);
+	}
+	
+	@Override
+	public List<EntradaProduto> buscarPorFaixa(Date dataInicio, Date dataTermino){
+		return buscarPorCriteria(Restrictions.between("data", dataInicio, dataTermino));
 	}
 	
 }

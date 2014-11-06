@@ -2,7 +2,11 @@ package br.org.fgp.view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.JButton;
@@ -19,6 +23,7 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRXmlDataSource;
 import net.sf.jasperreports.engine.util.JRLoader;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,16 +32,24 @@ import br.org.fgp.core.ApplicationContextConfig;
 import br.org.fgp.core.TelasUtils;
 import br.org.fgp.dao.EntradaProdutoDao;
 import br.org.fgp.dao.VendaDao;
+import br.org.fgp.model.EntradaProduto;
+import br.org.fgp.model.Venda;
+import br.org.fgp.model.xml.DadosXML;
+import br.org.fgp.model.xml.MovimentacaoXML;
 import br.org.fgp.view.core.JCabecalhoLabel;
 
 @Controller
-public class TelaRelatórioGerencial extends JPanel {
+public class TelaRelatorioGerencial extends JPanel {
+
+	private static final String ZERO = "0";
+
+	private static final String DATA_INICIO_PADRAO = "01/01/1800";
 
 	private static final long serialVersionUID = -8316953380406660553L;
 	
-	private static final ClassLoader LOADER = TelaRelatórioGerencial.class.getClassLoader();
+	private static final ClassLoader LOADER = TelaRelatorioGerencial.class.getClassLoader();
 	
-	private static final Logger LOGGER = Logger.getLogger(TelaRelatórioGerencial.class);
+	private static final Logger LOGGER = Logger.getLogger(TelaRelatorioGerencial.class);
 
 	@Autowired
 	private VendaDao vendaDao;
@@ -54,10 +67,7 @@ public class TelaRelatórioGerencial extends JPanel {
 	
 	private JFormattedTextField txtDataTermino;
 
-	private JPanel painel;
-
-	public TelaRelatórioGerencial() {
-		painel = this;
+	public TelaRelatorioGerencial() {
 		
 		adicionarComponente(new JCabecalhoLabel("Relatório Gerencial"), 0);
 		
@@ -103,7 +113,7 @@ public class TelaRelatórioGerencial extends JPanel {
 	}
 
 	public void setVendaDao(VendaDao vendaDao) {
-		vendaDao = vendaDao;
+		this.vendaDao = vendaDao;
 	}
 
 	public EntradaProdutoDao getEntradaProdutoDao() {
@@ -125,11 +135,37 @@ public class TelaRelatórioGerencial extends JPanel {
 	}
 	
 	private void executar() {
-		String xml = "";
+		Date dataInicio = null;
+		Date dataTermino = null;
+		if(StringUtils.isNotBlank( txtDataInicio.getText() ) ){
+			dataInicio = converteData(txtDataInicio.getText() );
+			if(dataInicio == null){
+				dataInicio = converteData(DATA_INICIO_PADRAO);
+			}
+		}
+		if(StringUtils.isNotBlank( txtDataTermino.getText() ) ){
+			dataTermino = converteData(txtDataTermino.getText() );
+			if(dataTermino == null){
+				dataTermino = new Date();
+			}
+		}
 		try{
+			List<Venda> listaVenda = vendaDao.buscarPorFaixa(dataInicio, dataTermino);
+			List<EntradaProduto> listaEntrada = entradaProdutoDao.buscarPorFaixa(dataInicio, dataTermino);
+			String xml = gerarXml(listaVenda, listaEntrada);
 			gerarRelatorio(xml);
 		}catch (Exception e){
 		}
+	}
+
+	private String gerarXml(List<Venda> listaVenda,List<EntradaProduto> listaEntrada) {
+		DadosXML dados = new DadosXML();
+		dados.setLucroBruto(new BigDecimal(ZERO));
+		dados.setLucroLiquido(new BigDecimal(ZERO));
+		for (EntradaProduto entradaProduto : listaEntrada) {
+			MovimentacaoXML movimentacao = new MovimentacaoXML();
+		}
+		return null;
 	}
 
 	private void gerarRelatorio(String xml) throws JRException {
@@ -138,4 +174,16 @@ public class TelaRelatórioGerencial extends JPanel {
 		Map<String, Object> parametros = new HashMap<String, Object>();
 		Object impressao = JasperFillManager.fillReport(report, parametros, dataSource);
 	}
+	
+	private Date converteData(String dataTexto){
+		SimpleDateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");
+		Date data = null;
+		try{
+			data = formatador.parse(dataTexto);
+		}catch (Exception e){
+			LOGGER.warn(e);
+		}
+		return data;
+	}
+	
 }

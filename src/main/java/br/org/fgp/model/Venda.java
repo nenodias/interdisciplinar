@@ -92,4 +92,12 @@ public class Venda {
 		this.valorTotal = valorTotal;
 	}
 
+	public List<VendaItem> getListaItem() {
+		return listaItem;
+	}
+
+	public void setListaItem(List<VendaItem> listaItem) {
+		this.listaItem = listaItem;
+	}
+
 }
