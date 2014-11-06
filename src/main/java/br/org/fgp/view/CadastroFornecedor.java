@@ -52,6 +52,8 @@ import br.org.fgp.view.core.ButtonColumn;
 import br.org.fgp.view.core.ComponenteControlado;
 import br.org.fgp.view.core.Inicializavel;
 import br.org.fgp.view.core.JButtonAdicionar;
+import br.org.fgp.view.core.JButtonCancelar;
+import br.org.fgp.view.core.JButtonSalvar;
 import br.org.fgp.view.core.JCabecalhoLabel;
 import br.org.fgp.view.core.TableModelGenerico;
 import br.org.fgp.view.core.Validador;
@@ -222,13 +224,13 @@ public class CadastroFornecedor extends JPanel implements Inicializavel {
 		splitPane = new JSplitPane();
 		adicionarComponente(splitPane, 28);
 		
-		btnSalvar = new JButton("Salvar");
+		btnSalvar = new JButtonSalvar();
 		if(getRootPane() != null){
 			getRootPane().setDefaultButton(btnSalvar);
 		}
 		splitPane.setLeftComponent(btnSalvar);
 		
-		btnCancelar = new JButton("Cancelar");
+		btnCancelar = new JButtonCancelar();
 		splitPane.setRightComponent(btnCancelar);
 		splitPane.setDividerLocation(TelasUtils.DEFAULT_LARGURA_COMPONENTE/2);
 		splitPane.setEnabled(false);

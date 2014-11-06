@@ -32,6 +32,8 @@ import br.org.fgp.model.Telefone;
 import br.org.fgp.view.core.ButtonColumn;
 import br.org.fgp.view.core.JBusca;
 import br.org.fgp.view.core.JButtonAdicionar;
+import br.org.fgp.view.core.JButtonCancelar;
+import br.org.fgp.view.core.JButtonOk;
 import br.org.fgp.view.core.TableModelGenerico;
 
 public class CadastroContato extends JDialog{
@@ -98,10 +100,10 @@ public class CadastroContato extends JDialog{
 		painelTabela.setVisible(true);
 		
 		buttonPane.setBounds(0 , 220 , 300, TelasUtils.DEFAULT_ALTURA_COMPONENTE * 2);
-		JButton okButton = new JButton("OK");
+		JButton okButton = new JButtonOk();
 		buttonPane.add(okButton);
 		getRootPane().setDefaultButton(okButton);
-		JButton cancelButton = new JButton("Cancel");
+		JButton cancelButton = new JButtonCancelar();
 		buttonPane.add(cancelButton);
 
 		tabela.addMouseListener(new MouseAdapter() {

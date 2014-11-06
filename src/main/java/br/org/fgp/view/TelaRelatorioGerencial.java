@@ -36,6 +36,8 @@ import br.org.fgp.model.EntradaProduto;
 import br.org.fgp.model.Venda;
 import br.org.fgp.model.xml.DadosXML;
 import br.org.fgp.model.xml.MovimentacaoXML;
+import br.org.fgp.view.core.JButtonCancelar;
+import br.org.fgp.view.core.JButtonOk;
 import br.org.fgp.view.core.JCabecalhoLabel;
 
 @Controller
@@ -82,13 +84,14 @@ public class TelaRelatorioGerencial extends JPanel {
 		splitPane = new JSplitPane();
 		adicionarComponente(splitPane, 28);
 		
-		btnExecutar = new JButton("Visualizar");
+		btnExecutar = new JButtonOk();
+		btnExecutar.setText("Visualizar");
 		if(getRootPane() != null){
 			getRootPane().setDefaultButton(btnExecutar);
 		}
 		splitPane.setLeftComponent(btnExecutar);
 		
-		btnCancelar = new JButton("Cancelar");
+		btnCancelar = new JButtonCancelar();
 		splitPane.setRightComponent(btnCancelar);
 		splitPane.setDividerLocation(TelasUtils.DEFAULT_LARGURA_COMPONENTE/2);
 		splitPane.setEnabled(false);

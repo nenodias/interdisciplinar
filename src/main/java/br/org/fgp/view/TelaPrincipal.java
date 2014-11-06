@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -37,6 +38,24 @@ import br.org.fgp.view.core.JDialogBusca;
 @Controller
 public class TelaPrincipal extends JFrame {
 
+	private static final String IMAGENS_SETOR_PNG = "imagens/setor.png";
+
+	private static final String IMAGENS_MARCA_PNG = "imagens/marca.png";
+
+	private static final String IMAGENS_CATEGORIA_PNG = "imagens/categoria.png";
+
+	private static final String IMAGENS_USUARIO_PNG = "imagens/usuario.png";
+
+	private static final String IMAGENS_VENDA_PNG = "imagens/venda.png";
+
+	private static final String IMAGENS_FORNECEDOR_PNG = "imagens/fornecedor.png";
+
+	private static final String IMAGENS_ESTOQUE_PNG = "imagens/entradaprodutos.png";
+
+	private static final String IMAGENS_PRODUTO_PNG = "imagens/produto.png";
+
+	private static final ClassLoader LOADER = TelaPrincipal.class.getClassLoader();
+	
 	private static final long serialVersionUID = -7747890711976699854L;
 
 	private JPanel contentPane;
@@ -95,6 +114,7 @@ public class TelaPrincipal extends JFrame {
 				Alignment.LEADING).addGap(0, 484, Short.MAX_VALUE));
 		contentPane.setLayout(gl_contentPane);
 
+		mntmProdutos.setIcon(new ImageIcon(LOADER.getResource(IMAGENS_PRODUTO_PNG)));
 		mntmProdutos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				ProdutoDao produtoDao = ApplicationContextConfig.getContext().getBean(ProdutoDao.class);
@@ -103,6 +123,7 @@ public class TelaPrincipal extends JFrame {
 				dialogo.setVisible(true);
 			}
 		});
+		mntmEstoque.setIcon(new ImageIcon(LOADER.getResource(IMAGENS_ESTOQUE_PNG)));
 		mntmEstoque.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				EntradaProdutoDao entradaProdutoDaoDao = ApplicationContextConfig.getContext().getBean(EntradaProdutoDao.class);
@@ -111,6 +132,7 @@ public class TelaPrincipal extends JFrame {
 				dialogo.setVisible(true);
 			}
 		});
+		mntmFornecedor.setIcon(new ImageIcon(LOADER.getResource(IMAGENS_FORNECEDOR_PNG)));
 		mntmFornecedor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				FornecedorDao fornecedorDao = ApplicationContextConfig.getContext().getBean(FornecedorDao.class);
@@ -119,6 +141,7 @@ public class TelaPrincipal extends JFrame {
 				dialogo.setVisible(true);
 			}
 		});
+		mntmRealizarVenda.setIcon(new ImageIcon(LOADER.getResource(IMAGENS_VENDA_PNG)));
 		mntmRealizarVenda.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				VendaDao vendaDao = ApplicationContextConfig.getContext().getBean(VendaDao.class);
@@ -127,6 +150,7 @@ public class TelaPrincipal extends JFrame {
 				dialogo.setVisible(true);
 			}
 		});
+		mntmUsurio.setIcon(new ImageIcon(LOADER.getResource(IMAGENS_USUARIO_PNG)));
 		mntmUsurio.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				UsuarioDao usuarioDao = ApplicationContextConfig.getContext().getBean(UsuarioDao.class);
@@ -135,6 +159,7 @@ public class TelaPrincipal extends JFrame {
 				dialogo.setVisible(true);
 			}
 		});
+		mntmCategorias.setIcon(new ImageIcon(LOADER.getResource(IMAGENS_CATEGORIA_PNG)));
 		mntmCategorias.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				CategoriaDao categoriaDao = ApplicationContextConfig.getContext().getBean(CategoriaDao.class);
@@ -143,6 +168,7 @@ public class TelaPrincipal extends JFrame {
 				dialogo.setVisible(true);
 			}
 		});
+		mntmMarca.setIcon(new ImageIcon(LOADER.getResource(IMAGENS_MARCA_PNG)));
 		mntmMarca.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				MarcaDao marcaDao = ApplicationContextConfig.getContext().getBean(MarcaDao.class);
@@ -151,6 +177,7 @@ public class TelaPrincipal extends JFrame {
 				dialogo.setVisible(true);
 			}
 		});
+		mntmSetor.setIcon(new ImageIcon(LOADER.getResource(IMAGENS_SETOR_PNG)));
 		mntmSetor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				SetorDao setorDao = ApplicationContextConfig.getContext().getBean(SetorDao.class);

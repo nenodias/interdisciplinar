@@ -38,6 +38,8 @@ import br.org.fgp.view.core.ButtonColumn;
 import br.org.fgp.view.core.ComponenteControlado;
 import br.org.fgp.view.core.Inicializavel;
 import br.org.fgp.view.core.JButtonAdicionar;
+import br.org.fgp.view.core.JButtonCancelar;
+import br.org.fgp.view.core.JButtonSalvar;
 import br.org.fgp.view.core.JCabecalhoLabel;
 import br.org.fgp.view.core.TableModelGenerico;
 import br.org.fgp.view.core.Validador;
@@ -90,9 +92,9 @@ public class CadastroVenda extends JPanel implements Inicializavel {
 			listaItens = new ArrayList<VendaItem>();
 		}
 		modelGenerico = new TableModelGenerico<VendaItem>(listaItens, VendaItem.class);
-		JButton btnAdicionarTelefone = new JButtonAdicionar();
-		btnAdicionarTelefone.setBounds(TelasUtils.DEFAULT_X+ TelasUtils.DEFAULT_ESPACO , TelasUtils.DEFAULT_Y +(2 *TelasUtils.DEFAULT_ESPACO) , TelasUtils.DEFAULT_LARGURA_COMPONENTE /2, TelasUtils.DEFAULT_ALTURA_COMPONENTE);
-		add(btnAdicionarTelefone);
+		JButton btnAdicionarItem = new JButtonAdicionar();
+		btnAdicionarItem.setBounds(TelasUtils.DEFAULT_X+ TelasUtils.DEFAULT_ESPACO , TelasUtils.DEFAULT_Y +(2 *TelasUtils.DEFAULT_ESPACO) , TelasUtils.DEFAULT_LARGURA_COMPONENTE /2, TelasUtils.DEFAULT_ALTURA_COMPONENTE);
+		add(btnAdicionarItem);
 		tabela.setModel(modelGenerico);
 		tabela.setEnabled(true);
 		painelTabela.setViewportView(tabela);
@@ -104,12 +106,12 @@ public class CadastroVenda extends JPanel implements Inicializavel {
 		splitPane = new JSplitPane();
 		adicionarComponente(splitPane, 28);
 		
-		btnSalvar = new JButton("Salvar");
+		btnSalvar = new JButtonSalvar();
 		if(getRootPane() != null){
 			getRootPane().setDefaultButton(btnSalvar);
 		}
 		splitPane.setLeftComponent(btnSalvar);
-		btnCancelar = new JButton("Cancelar");
+		btnCancelar = new JButtonCancelar();
 		splitPane.setRightComponent(btnCancelar);
 		splitPane.setDividerLocation(TelasUtils.DEFAULT_LARGURA_COMPONENTE/2);
 		splitPane.setEnabled(false);
@@ -141,7 +143,7 @@ public class CadastroVenda extends JPanel implements Inicializavel {
 
 		});
 		
-		btnAdicionarTelefone.addActionListener(new ActionListener() {
+		btnAdicionarItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				adicionarVendaItem();
 			}

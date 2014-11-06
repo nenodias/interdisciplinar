@@ -18,6 +18,8 @@ import org.apache.commons.lang.StringUtils;
 import br.org.fgp.core.TelasUtils;
 import br.org.fgp.model.Telefone;
 import br.org.fgp.model.enums.TipoTelefone;
+import br.org.fgp.view.core.JButtonCancelar;
+import br.org.fgp.view.core.JButtonOk;
 
 public class CadastroTelefone extends JDialog {
 
@@ -55,10 +57,10 @@ public class CadastroTelefone extends JDialog {
 		adicionarComponente(cbbTipo,4);
 		
 		buttonPane.setBounds(0 , 220 , 300, TelasUtils.DEFAULT_ALTURA_COMPONENTE * 2);
-		JButton okButton = new JButton("OK");
+		JButton okButton = new JButtonOk();
 		buttonPane.add(okButton);
 		getRootPane().setDefaultButton(okButton);
-		JButton cancelButton = new JButton("Cancel");
+		JButton cancelButton = new JButtonCancelar();
 		buttonPane.add(cancelButton);
 
 		

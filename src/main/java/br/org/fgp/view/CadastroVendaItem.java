@@ -1,8 +1,11 @@
 package br.org.fgp.view;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFormattedTextField;
@@ -13,6 +16,8 @@ import br.org.fgp.core.TelasUtils;
 import br.org.fgp.model.Produto;
 import br.org.fgp.model.VendaItem;
 import br.org.fgp.view.core.JBusca;
+import br.org.fgp.view.core.JButtonCancelar;
+import br.org.fgp.view.core.JButtonOk;
 
 public class CadastroVendaItem extends JDialog {
 
@@ -52,6 +57,25 @@ public class CadastroVendaItem extends JDialog {
 		adicionarComponente(new JLabel("Preço Unitário:"), 6);
 		txtPrecoCusto = new JFormattedTextField(TelasUtils.getFormatadorDecimal());
 		adicionarComponente(txtPrecoCusto, 6);
+		
+		buttonPane.setBounds(0 , 220 , 300, TelasUtils.DEFAULT_ALTURA_COMPONENTE * 2);
+		JButton okButton = new JButtonOk();
+		buttonPane.add(okButton);
+		getRootPane().setDefaultButton(okButton);
+		JButton cancelButton = new JButtonCancelar();
+		buttonPane.add(cancelButton);
+		
+		cancelButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				fecharDialogo();
+			}
+		});
+		okButton.addActionListener(new ActionListener() {			
+			public void actionPerformed(ActionEvent e) {
+				novoVendaItem();
+			}
+
+		});
 	}
 	
 	private void novoVendaItem() {

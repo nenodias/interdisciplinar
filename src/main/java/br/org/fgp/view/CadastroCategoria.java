@@ -26,6 +26,8 @@ import br.org.fgp.model.Categoria;
 import br.org.fgp.model.Usuario;
 import br.org.fgp.view.core.ComponenteControlado;
 import br.org.fgp.view.core.Inicializavel;
+import br.org.fgp.view.core.JButtonCancelar;
+import br.org.fgp.view.core.JButtonSalvar;
 import br.org.fgp.view.core.JCabecalhoLabel;
 import br.org.fgp.view.core.Validador;
 
@@ -87,13 +89,13 @@ public class CadastroCategoria extends JDialog implements Inicializavel {
 		
 		adicionarComponente(splitPane, 8);
 		
-		btnSalvar = new JButton("Salvar");
+		btnSalvar = new JButtonSalvar();
 		if(getRootPane() != null){
 			getRootPane().setDefaultButton(btnSalvar);
 		}
 		splitPane.setLeftComponent(btnSalvar);
 		
-		btnCancelar = new JButton("Cancelar");
+		btnCancelar = new JButtonCancelar();
 		splitPane.setRightComponent(btnCancelar);
 		
 		splitPane.setDividerLocation( ( ( Double ) ( TelasUtils.DEFAULT_LARGURA_COMPONENTE * 0.22 ) ).intValue()  );

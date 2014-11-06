@@ -34,6 +34,8 @@ import br.org.fgp.model.enums.TipoUsuario;
 import br.org.fgp.view.core.ComponenteControlado;
 import br.org.fgp.view.core.Inicializavel;
 import br.org.fgp.view.core.JBusca;
+import br.org.fgp.view.core.JButtonCancelar;
+import br.org.fgp.view.core.JButtonSalvar;
 import br.org.fgp.view.core.JCabecalhoLabel;
 import br.org.fgp.view.core.Validador;
 
@@ -107,13 +109,13 @@ public class CadastroProduto extends JPanel implements Inicializavel {
 		splitPane = new JSplitPane();
 		adicionarComponente(splitPane, 18);
 		
-		btnSalvar = new JButton("Salvar");
+		btnSalvar = new JButtonSalvar();
 		if(getRootPane() != null){
 			getRootPane().setDefaultButton(btnSalvar);
 		}
 		splitPane.setLeftComponent(btnSalvar);
 		
-		btnCancelar = new JButton("Cancelar");
+		btnCancelar = new JButtonCancelar();
 		splitPane.setRightComponent(btnCancelar);
 		splitPane.setDividerLocation(TelasUtils.DEFAULT_LARGURA_COMPONENTE/2);
 		splitPane.setEnabled(false);

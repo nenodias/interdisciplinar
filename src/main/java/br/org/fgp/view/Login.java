@@ -28,9 +28,12 @@ import br.org.fgp.dao.UsuarioDao;
 import br.org.fgp.model.Usuario;
 import br.org.fgp.model.enums.TipoUsuario;
 import br.org.fgp.view.core.ComponenteControlado;
+import br.org.fgp.view.core.JButtonOk;
 import br.org.fgp.view.core.UILookAndFellManager;
 
 public class Login extends JFrame {
+
+	private static final String LOGIN = "Login";
 
 	private static final long serialVersionUID = -6161972191900709890L;
 
@@ -71,7 +74,7 @@ public class Login extends JFrame {
 		setBounds(100, 100, 450, 303);
 		setSize(300, 183);
 		contentPane = new JPanel();
-		contentPane.setBorder(new TitledBorder(null, "Login", TitledBorder.LEFT, TitledBorder.TOP, null, null));
+		contentPane.setBorder(new TitledBorder(null, LOGIN, TitledBorder.LEFT, TitledBorder.TOP, null, null));
 		setContentPane(contentPane);
 		setLocationRelativeTo(null);
 		GridBagLayout gbl_contentPane = new GridBagLayout();
@@ -121,7 +124,8 @@ public class Login extends JFrame {
 		gbc_lblMsg.gridy = 4;
 		contentPane.add(lblMsg, gbc_lblMsg);
 
-		btnLogar = new JButton("Entrar");	
+		btnLogar = new JButtonOk();	
+		btnLogar.setText(LOGIN);
 		//Definindo o enter dispara o BOTÃO para Logar
 		rootPane.setDefaultButton(btnLogar);
 		GridBagConstraints gbc_btnLogar = new GridBagConstraints();
