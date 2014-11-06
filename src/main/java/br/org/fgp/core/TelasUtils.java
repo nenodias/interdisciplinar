@@ -24,6 +24,7 @@ import br.org.fgp.model.Produto;
 import br.org.fgp.model.Setor;
 import br.org.fgp.model.Usuario;
 import br.org.fgp.model.Venda;
+import br.org.fgp.model.enums.TipoUsuario;
 import br.org.fgp.view.CadastroCategoria;
 import br.org.fgp.view.CadastroEntradaProduto;
 import br.org.fgp.view.CadastroFornecedor;
@@ -61,6 +62,18 @@ public class TelasUtils {
 		mapa.put(Venda.class, CadastroVenda.class);
 		
 		return mapa.get(clazz);
+	}
+	
+	public static boolean isPermision(Class<?> clazz, TipoUsuario tipo){
+		if(TipoUsuario.ADMINISTRADOR.equals( tipo ) ) {
+			return true;
+		}else if(clazz.equals( Fornecedor.class ) ){
+			return false;
+		}else if(clazz.equals( Setor.class ) ){
+			return false;
+		}
+		
+		return true;
 	}
 
 	public synchronized static Usuario getUsuarioLogado(){

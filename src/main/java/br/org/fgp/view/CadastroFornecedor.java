@@ -30,6 +30,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import br.org.fgp.annotations.Permissao;
 import br.org.fgp.core.ApplicationContextConfig;
 import br.org.fgp.core.TelasUtils;
 import br.org.fgp.dao.CidadeDao;
@@ -152,21 +153,25 @@ public class CadastroFornecedor extends JPanel implements Inicializavel {
 
 	private JPanel painel;
 	
+	@Permissao
 	private JButton btnSalvar;
 	private JButton btnCancelar;
 	private JSplitPane splitPane;
 
+	@Permissao
 	private JTextField txtCnpj;
+	@Permissao
 	private JTextField txtInscricaoEstadual;
+	@Permissao
 	private JTextField txtNomeFantasia;
+	@Permissao
 	private JTextField txtRazaoSocial;
-
+	@Permissao
 	private JTextField txtEndereco;
-
+	@Permissao
 	private JTextField txtNumero;
-
+	@Permissao
 	private JTextField txtBairro;
-
 	private JScrollPane painelTabela;
 
 	private JTable tabela;
@@ -180,6 +185,11 @@ public class CadastroFornecedor extends JPanel implements Inicializavel {
 
 	@SuppressWarnings("rawtypes")
 	private SwingWorker cidadeWorker;
+
+	@Permissao
+	private JButton btnAdicionarContato;
+
+	private ButtonColumnExcluir buttonColumnExcluir;
 
 	public CadastroFornecedor() {
 		painel = this;
@@ -244,7 +254,7 @@ public class CadastroFornecedor extends JPanel implements Inicializavel {
 			listaContato = new ArrayList<ContatoFornecedor>();
 		}
 		modelGenerico = new TableModelGenerico<ContatoFornecedor>(listaContato, ContatoFornecedor.class);
-		JButton btnAdicionarContato = new JButtonAdicionar();
+		btnAdicionarContato = new JButtonAdicionar();
 		btnAdicionarContato.setBounds(TelasUtils.DEFAULT_X+ TelasUtils.DEFAULT_ESPACO , TelasUtils.DEFAULT_Y +(20 *TelasUtils.DEFAULT_ESPACO) , TelasUtils.DEFAULT_LARGURA_COMPONENTE /2, TelasUtils.DEFAULT_ALTURA_COMPONENTE);
 		add(btnAdicionarContato);
 		tabela.setModel(modelGenerico);
@@ -472,7 +482,10 @@ public class CadastroFornecedor extends JPanel implements Inicializavel {
 	private void atualizaDesenhoTabela() {
 		if(listaContato.size() > 0){
 			new ButtonColumnEditar(tabela, null, modelGenerico.getCountadorColunas() );
-			new ButtonColumnExcluir(tabela, null, modelGenerico.getCountadorColunas() + 1 );
+			buttonColumnExcluir = new ButtonColumnExcluir(tabela, null, modelGenerico.getCountadorColunas() + 1 );
+			if( TelasUtils.getUsuarioLogado() != null && ! TelasUtils.isPermision(Fornecedor.class, TelasUtils.getUsuarioLogado().getTipo() )  ){
+				buttonColumnExcluir.setEnabled(false);
+			}
 		}
 		if(!modelGenerico.getLista().equals(listaContato)){
 			modelGenerico.getLista().clear();
@@ -498,7 +511,7 @@ public class CadastroFornecedor extends JPanel implements Inicializavel {
 			if(coluna == model.getCountadorColunas() ){
 				abrirModalContato(contatoFornecedor.getContato());
 				atualizaTabela = true;
-			} else if(coluna == model.getCountadorColunas() +1 ){
+			} else if(coluna == model.getCountadorColunas() +1 && ( TelasUtils.getUsuarioLogado() == null &&  TelasUtils.isPermision(Fornecedor.class, TelasUtils.getUsuarioLogado().getTipo() ) )  ){
 				int excluir = JOptionPane.showConfirmDialog(null, "Deseja excluir o registro: "+contatoFornecedor.getContatoNome() + " ?", "Excluir?", JOptionPane.YES_NO_OPTION);
 				if(excluir == JOptionPane.YES_OPTION){
 					int contador = 0;
@@ -518,4 +531,93 @@ public class CadastroFornecedor extends JPanel implements Inicializavel {
 			}
 		}
 	}
+
+	public JComboBox<Estado> getCbbEstado() {
+		return cbbEstado;
+	}
+
+	public void setCbbEstado(JComboBox<Estado> cbbEstado) {
+		this.cbbEstado = cbbEstado;
+	}
+
+	public JComboBox<Cidade> getCbbCidade() {
+		return cbbCidade;
+	}
+
+	public void setCbbCidade(JComboBox<Cidade> cbbCidade) {
+		this.cbbCidade = cbbCidade;
+	}
+
+	public JButton getBtnSalvar() {
+		return btnSalvar;
+	}
+
+	public void setBtnSalvar(JButton btnSalvar) {
+		this.btnSalvar = btnSalvar;
+	}
+
+	public JTextField getTxtCnpj() {
+		return txtCnpj;
+	}
+
+	public void setTxtCnpj(JTextField txtCnpj) {
+		this.txtCnpj = txtCnpj;
+	}
+
+	public JTextField getTxtInscricaoEstadual() {
+		return txtInscricaoEstadual;
+	}
+
+	public void setTxtInscricaoEstadual(JTextField txtInscricaoEstadual) {
+		this.txtInscricaoEstadual = txtInscricaoEstadual;
+	}
+
+	public JTextField getTxtNomeFantasia() {
+		return txtNomeFantasia;
+	}
+
+	public void setTxtNomeFantasia(JTextField txtNomeFantasia) {
+		this.txtNomeFantasia = txtNomeFantasia;
+	}
+
+	public JTextField getTxtRazaoSocial() {
+		return txtRazaoSocial;
+	}
+
+	public void setTxtRazaoSocial(JTextField txtRazaoSocial) {
+		this.txtRazaoSocial = txtRazaoSocial;
+	}
+
+	public JTextField getTxtEndereco() {
+		return txtEndereco;
+	}
+
+	public void setTxtEndereco(JTextField txtEndereco) {
+		this.txtEndereco = txtEndereco;
+	}
+
+	public JTextField getTxtNumero() {
+		return txtNumero;
+	}
+
+	public void setTxtNumero(JTextField txtNumero) {
+		this.txtNumero = txtNumero;
+	}
+
+	public JTextField getTxtBairro() {
+		return txtBairro;
+	}
+
+	public void setTxtBairro(JTextField txtBairro) {
+		this.txtBairro = txtBairro;
+	}
+
+	public JButton getBtnAdicionarContato() {
+		return btnAdicionarContato;
+	}
+
+	public void setBtnAdicionarContato(JButton btnAdicionarContato) {
+		this.btnAdicionarContato = btnAdicionarContato;
+	}
+	
 }

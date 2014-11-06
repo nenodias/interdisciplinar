@@ -241,4 +241,9 @@ public class ButtonColumn extends AbstractCellEditor
     protected JButton getButton() {
 		return new JButton();
 	}
+    
+    public void setEnabled(boolean b){
+    	this.editButton.setEnabled(b);
+    	this.renderButton.setEnabled(b);
+    }
 }

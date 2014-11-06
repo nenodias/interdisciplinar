@@ -11,9 +11,9 @@ import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JDialog;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 
 import net.sf.jasperreports.engine.JRDataSource;
@@ -41,7 +41,7 @@ import br.org.fgp.view.core.JButtonOk;
 import br.org.fgp.view.core.JCabecalhoLabel;
 
 @Controller
-public class TelaRelatorioGerencial extends JPanel {
+public class TelaRelatorioGerencial extends JDialog {
 
 	private static final String ZERO = "0";
 
@@ -70,7 +70,7 @@ public class TelaRelatorioGerencial extends JPanel {
 	private JFormattedTextField txtDataTermino;
 
 	public TelaRelatorioGerencial() {
-		
+		setLayout(null);
 		adicionarComponente(new JCabecalhoLabel("Relatório Gerencial"), 0);
 		
 		adicionarComponente(new JLabel("Data Inicial"), 2);

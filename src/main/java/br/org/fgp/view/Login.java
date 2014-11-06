@@ -157,6 +157,7 @@ public class Login extends JFrame {
 				public void run() {
 					try {
 						TelaPrincipal telaPrincipal = ApplicationContextConfig.getContext().getBean(TelaPrincipal.class);
+						telaPrincipal.load(null);
 						telaPrincipal.show();
 						telaPrincipal.setVisible(true);
 					} catch (Exception e) {

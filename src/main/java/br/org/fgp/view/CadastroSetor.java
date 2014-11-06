@@ -20,6 +20,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import br.org.fgp.annotations.Permissao;
 import br.org.fgp.core.TelasUtils;
 import br.org.fgp.dao.SetorDao;
 import br.org.fgp.model.Setor;
@@ -42,6 +43,7 @@ public class CadastroSetor extends JDialog implements Inicializavel {
 
 	private final JPanel contentPanel = new JPanel();
 	
+	@Permissao
 	private JTextField txtSetor;
 
 	@Autowired
@@ -51,6 +53,7 @@ public class CadastroSetor extends JDialog implements Inicializavel {
 
 	private JSplitPane splitPane;
 
+	@Permissao
 	private JButton btnSalvar;
 
 	private JButton btnCancelar;
@@ -158,4 +161,22 @@ public class CadastroSetor extends JDialog implements Inicializavel {
 		ComponenteControlado<CadastroSetor> controleAcesso = new ComponenteControlado<CadastroSetor>(this); 
 		controleAcesso.pronto(TelasUtils.getUsuarioLogado().getTipo());
 	}
+
+	public JTextField getTxtSetor() {
+		return txtSetor;
+	}
+
+	public void setTxtSetor(JTextField txtSetor) {
+		this.txtSetor = txtSetor;
+	}
+
+	public JButton getBtnSalvar() {
+		return btnSalvar;
+	}
+
+	public void setBtnSalvar(JButton btnSalvar) {
+		this.btnSalvar = btnSalvar;
+	}
+	
+	
 }

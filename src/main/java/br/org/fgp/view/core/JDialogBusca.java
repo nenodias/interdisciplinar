@@ -127,6 +127,10 @@ public class JDialogBusca<T, PK> extends JDialog {
 				chamarNovo();
 			}
 		});
+		if(TelasUtils.getUsuarioLogado() != null && !TelasUtils.isPermision(clazz, TelasUtils.getUsuarioLogado().getTipo() ) ){
+			btnNovo.setEnabled(false);
+		}
+				
 		
 	}
 	
@@ -147,10 +151,10 @@ public class JDialogBusca<T, PK> extends JDialog {
 			}
 			Integer id = Integer.parseInt( idString );
 			
-			if(coluna == model.getCountadorColunas() ){
+			if(coluna == model.getCountadorColunas()){
 				chamarEditar( id );
 				sair = abreOutraTela = true;
-			} else if(coluna == model.getCountadorColunas() +1 ){
+			} else if(coluna == model.getCountadorColunas() +1  && (TelasUtils.getUsuarioLogado() == null ||  TelasUtils.isPermision(clazz, TelasUtils.getUsuarioLogado().getTipo())  )){
 				
 				int excluir = JOptionPane.showConfirmDialog(tabela.getParent().getParent(), "Deseja excluir o registro: "+id + " ?", "Excluir?", JOptionPane.YES_NO_OPTION);
 				if(excluir == JOptionPane.YES_OPTION){
@@ -210,16 +214,19 @@ public class JDialogBusca<T, PK> extends JDialog {
 	
 	@SuppressWarnings({"unchecked","rawtypes"})
 	private void chamarNovo() {
-		Class classeDoObjeto = daoGenerico.getObjectClass();
-		Class classeTela = TelasUtils.getView(classeDoObjeto);
-		Object tela = ApplicationContextConfig.getContext().getBean(classeTela);
-		if(tela instanceof JPanel){
-			carregaPainel(tela);
+		if( TelasUtils.getUsuarioLogado() == null && TelasUtils.isPermision(clazz, TelasUtils.getUsuarioLogado().getTipo() )  ){
+			
+			Class classeDoObjeto = daoGenerico.getObjectClass();
+			Class classeTela = TelasUtils.getView(classeDoObjeto);
+			Object tela = ApplicationContextConfig.getContext().getBean(classeTela);
+			if(tela instanceof JPanel){
+				carregaPainel(tela);
+			}
+			inicializavel = (Inicializavel) tela; 
+			inicializavel.load(null);
+			inicializavel.setVisible(true);
+			dialogo.dispose();
 		}
-		inicializavel = (Inicializavel) tela; 
-		inicializavel.load(null);
-		inicializavel.setVisible(true);
-		dialogo.dispose();
 	}
 	
 	private void carregarTodosTabela() {
@@ -244,6 +251,9 @@ public class JDialogBusca<T, PK> extends JDialog {
 		contentPanel.add(btnNovo, gbc_btnNovo);
 		ButtonColumn botaoEditar = new ButtonColumnEditar(tabela, null, coluna);
 		ButtonColumn botaoExcluir = new ButtonColumnExcluir(tabela, null, coluna + 1 );
+		if( TelasUtils.getUsuarioLogado() != null && ! TelasUtils.isPermision(clazz, TelasUtils.getUsuarioLogado().getTipo() )  ){
+			botaoExcluir.setEnabled(false);
+		}
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
 		gbc_scrollPane.fill = GridBagConstraints.BOTH;
 		gbc_scrollPane.gridx = 1;
