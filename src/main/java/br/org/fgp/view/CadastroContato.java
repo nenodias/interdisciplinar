@@ -29,7 +29,8 @@ import br.org.fgp.model.Contato;
 import br.org.fgp.model.ContatoTelefone;
 import br.org.fgp.model.Setor;
 import br.org.fgp.model.Telefone;
-import br.org.fgp.view.core.ButtonColumn;
+import br.org.fgp.view.core.ButtonColumnEditar;
+import br.org.fgp.view.core.ButtonColumnExcluir;
 import br.org.fgp.view.core.JBusca;
 import br.org.fgp.view.core.JButtonAdicionar;
 import br.org.fgp.view.core.JButtonCancelar;
@@ -178,8 +179,8 @@ public class CadastroContato extends JDialog{
 	
 	private void atualizaDesenhoTabela() {
 		if(listaTelefones.size() > 0){
-			new ButtonColumn(tabela, null, modelGenerico.getCountadorColunas() );
-			new ButtonColumn(tabela, null, modelGenerico.getCountadorColunas() + 1 );
+			new ButtonColumnEditar(tabela, null, modelGenerico.getCountadorColunas() );
+			new ButtonColumnExcluir(tabela, null, modelGenerico.getCountadorColunas() + 1 );
 		}
 		if(!modelGenerico.getLista().equals(listaTelefones)){
 			modelGenerico.getLista().clear();

@@ -48,7 +48,8 @@ import br.org.fgp.model.Estado;
 import br.org.fgp.model.Fornecedor;
 import br.org.fgp.model.Usuario;
 import br.org.fgp.model.enums.TipoUsuario;
-import br.org.fgp.view.core.ButtonColumn;
+import br.org.fgp.view.core.ButtonColumnEditar;
+import br.org.fgp.view.core.ButtonColumnExcluir;
 import br.org.fgp.view.core.ComponenteControlado;
 import br.org.fgp.view.core.Inicializavel;
 import br.org.fgp.view.core.JButtonAdicionar;
@@ -470,8 +471,8 @@ public class CadastroFornecedor extends JPanel implements Inicializavel {
 
 	private void atualizaDesenhoTabela() {
 		if(listaContato.size() > 0){
-			new ButtonColumn(tabela, null, modelGenerico.getCountadorColunas() );
-			new ButtonColumn(tabela, null, modelGenerico.getCountadorColunas() + 1 );
+			new ButtonColumnEditar(tabela, null, modelGenerico.getCountadorColunas() );
+			new ButtonColumnExcluir(tabela, null, modelGenerico.getCountadorColunas() + 1 );
 		}
 		if(!modelGenerico.getLista().equals(listaContato)){
 			modelGenerico.getLista().clear();

@@ -47,7 +47,8 @@ import br.org.fgp.model.Telefone;
 import br.org.fgp.model.Usuario;
 import br.org.fgp.model.UsuarioTelefone;
 import br.org.fgp.model.enums.TipoUsuario;
-import br.org.fgp.view.core.ButtonColumn;
+import br.org.fgp.view.core.ButtonColumnEditar;
+import br.org.fgp.view.core.ButtonColumnExcluir;
 import br.org.fgp.view.core.ComponenteControlado;
 import br.org.fgp.view.core.Inicializavel;
 import br.org.fgp.view.core.JButtonAdicionar;
@@ -513,8 +514,8 @@ public class CadastroUsuario extends JPanel implements Inicializavel {
 
 	private void atualizaDesenhoTabela() {
 		if(listaTelefones.size() > 0){
-			new ButtonColumn(tabela, null, modelGenerico.getCountadorColunas() );
-			new ButtonColumn(tabela, null, modelGenerico.getCountadorColunas() + 1 );
+			new ButtonColumnEditar(tabela, null, modelGenerico.getCountadorColunas() );
+			new ButtonColumnExcluir(tabela, null, modelGenerico.getCountadorColunas() + 1 );
 		}
 		if(!modelGenerico.getLista().equals(listaTelefones)){
 			modelGenerico.getLista().clear();

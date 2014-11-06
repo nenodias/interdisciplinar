@@ -35,6 +35,8 @@ import br.org.fgp.model.Venda;
 import br.org.fgp.model.VendaItem;
 import br.org.fgp.model.enums.TipoUsuario;
 import br.org.fgp.view.core.ButtonColumn;
+import br.org.fgp.view.core.ButtonColumnEditar;
+import br.org.fgp.view.core.ButtonColumnExcluir;
 import br.org.fgp.view.core.ComponenteControlado;
 import br.org.fgp.view.core.Inicializavel;
 import br.org.fgp.view.core.JButtonAdicionar;
@@ -310,8 +312,8 @@ public class CadastroVenda extends JPanel implements Inicializavel {
 
 	private void atualizaDesenhoTabela() {
 		if(listaItens.size() > 0){
-			new ButtonColumn(tabela, null, modelGenerico.getCountadorColunas() );
-			new ButtonColumn(tabela, null, modelGenerico.getCountadorColunas() + 1 );
+			new ButtonColumnEditar(tabela, null, modelGenerico.getCountadorColunas() );
+			new ButtonColumnExcluir(tabela, null, modelGenerico.getCountadorColunas() + 1 );
 		}
 		if(!modelGenerico.getLista().equals(listaItens)){
 			modelGenerico.getLista().clear();

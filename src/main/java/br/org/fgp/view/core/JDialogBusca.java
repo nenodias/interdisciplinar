@@ -12,6 +12,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -32,9 +33,13 @@ import br.org.fgp.core.dao.GenericoDao;
 import br.org.fgp.view.TelaPrincipal;
 public class JDialogBusca<T, PK> extends JDialog {
 
+	private static final String IMAGENS_ADICIONAR_PNG = "imagens/adicionar.png";
+
 	private static final long serialVersionUID = 3237053657686708968L;
 	
 	private static final Logger LOGGER = Logger.getLogger(JDialogBusca.class);
+	
+	private static final ClassLoader LOADER = JDialogBusca.class.getClassLoader();
 
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txtFiltro;
@@ -115,7 +120,7 @@ public class JDialogBusca<T, PK> extends JDialog {
 			}
 
 		});
-		
+		btnNovo.setIcon(new ImageIcon(LOADER.getResource(IMAGENS_ADICIONAR_PNG)));
 		btnNovo.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -237,8 +242,8 @@ public class JDialogBusca<T, PK> extends JDialog {
 		gbc_btnNovo.gridx = 0;
 		gbc_btnNovo.gridy = 2;
 		contentPanel.add(btnNovo, gbc_btnNovo);
-		ButtonColumn botaoEditar = new ButtonColumn(tabela, null, coluna);
-		ButtonColumn botaoExcluir = new ButtonColumn(tabela, null, coluna + 1 );
+		ButtonColumn botaoEditar = new ButtonColumnEditar(tabela, null, coluna);
+		ButtonColumn botaoExcluir = new ButtonColumnExcluir(tabela, null, coluna + 1 );
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
 		gbc_scrollPane.fill = GridBagConstraints.BOTH;
 		gbc_scrollPane.gridx = 1;

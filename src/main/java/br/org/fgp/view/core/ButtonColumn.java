@@ -62,8 +62,8 @@ public class ButtonColumn extends AbstractCellEditor
 		this.table = table;
 		this.action = action;
 
-		renderButton = new JButton();
-		editButton = new JButton();
+		renderButton = getButton();
+		editButton = getButton();
 		editButton.setFocusPainted( false );
 		editButton.addActionListener( this );
 		originalBorder = editButton.getBorder();
@@ -237,4 +237,8 @@ public class ButtonColumn extends AbstractCellEditor
     public void mouseClicked(MouseEvent e) {}
 	public void mouseEntered(MouseEvent e) {}
     public void mouseExited(MouseEvent e) {}
+    
+    protected JButton getButton() {
+		return new JButton();
+	}
 }
