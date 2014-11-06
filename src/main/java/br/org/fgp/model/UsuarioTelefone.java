@@ -10,6 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.Valid;
 
+import br.org.fgp.model.enums.TipoTelefone;
 import br.org.fgp.view.annotations.Pesquisa;
 
 @Entity
@@ -40,6 +41,11 @@ public class UsuarioTelefone {
 	@Pesquisa(nome = "Telefone", posicao = 0)
 	public Telefone getTelefone() {
 		return telefone;
+	}
+	
+	@Pesquisa(nome = "Tipo", posicao = 2)
+	public TipoTelefone getTipo() {
+		return telefone.getTipo();
 	}
 
 	public void setTelefone(Telefone telefone) {

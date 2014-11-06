@@ -74,11 +74,8 @@ public class TelaPrincipal extends JFrame {
 		JMenu mnCadastrar = new JMenu("Consultar");
 		menuBar.add(mnCadastrar);
 
-		JMenu mnProdutos = new JMenu("Estoque");
-		mnCadastrar.add(mnProdutos);
-
 		JMenuItem mntmEstoque = new JMenuItem("Movimenta\u00E7\u00E3o");
-		mnProdutos.add(mntmEstoque);
+		mnCadastrar.add(mntmEstoque);
 
 		JMenuItem mntmProdutos = new JMenuItem("Produtos");
 		mnCadastrar.add(mntmProdutos);
