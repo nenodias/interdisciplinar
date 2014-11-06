@@ -214,8 +214,7 @@ public class JDialogBusca<T, PK> extends JDialog {
 	
 	@SuppressWarnings({"unchecked","rawtypes"})
 	private void chamarNovo() {
-		if( TelasUtils.getUsuarioLogado() == null && TelasUtils.isPermision(clazz, TelasUtils.getUsuarioLogado().getTipo() )  ){
-			
+		if(TelasUtils.getUsuarioLogado() != null && TelasUtils.isPermision(clazz, TelasUtils.getUsuarioLogado().getTipo() ) ){ 
 			Class classeDoObjeto = daoGenerico.getObjectClass();
 			Class classeTela = TelasUtils.getView(classeDoObjeto);
 			Object tela = ApplicationContextConfig.getContext().getBean(classeTela);

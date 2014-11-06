@@ -483,7 +483,7 @@ public class CadastroFornecedor extends JPanel implements Inicializavel {
 		if(listaContato.size() > 0){
 			new ButtonColumnEditar(tabela, null, modelGenerico.getCountadorColunas() );
 			buttonColumnExcluir = new ButtonColumnExcluir(tabela, null, modelGenerico.getCountadorColunas() + 1 );
-			if( TelasUtils.getUsuarioLogado() != null && ! TelasUtils.isPermision(Fornecedor.class, TelasUtils.getUsuarioLogado().getTipo() )  ){
+			if( TelasUtils.getUsuarioLogado() != null && TelasUtils.isPermision(Fornecedor.class, TelasUtils.getUsuarioLogado().getTipo() )  ){
 				buttonColumnExcluir.setEnabled(false);
 			}
 		}
@@ -511,7 +511,7 @@ public class CadastroFornecedor extends JPanel implements Inicializavel {
 			if(coluna == model.getCountadorColunas() ){
 				abrirModalContato(contatoFornecedor.getContato());
 				atualizaTabela = true;
-			} else if(coluna == model.getCountadorColunas() +1 && ( TelasUtils.getUsuarioLogado() == null &&  TelasUtils.isPermision(Fornecedor.class, TelasUtils.getUsuarioLogado().getTipo() ) )  ){
+			} else if(coluna == model.getCountadorColunas() +1 && ( TelasUtils.getUsuarioLogado() != null &&  TelasUtils.isPermision(Fornecedor.class, TelasUtils.getUsuarioLogado().getTipo() ) )  ){
 				int excluir = JOptionPane.showConfirmDialog(null, "Deseja excluir o registro: "+contatoFornecedor.getContatoNome() + " ?", "Excluir?", JOptionPane.YES_NO_OPTION);
 				if(excluir == JOptionPane.YES_OPTION){
 					int contador = 0;

@@ -491,7 +491,7 @@ public class CadastroUsuario extends JPanel implements Inicializavel {
 			if(coluna == model.getCountadorColunas() ){
 				abrirModalTelefone(usuarioTelefone.getTelefone());
 				atualizaTabela = true;
-			} else if(coluna == model.getCountadorColunas() +1 ){
+			} else if(coluna == model.getCountadorColunas() +1 &&  TelasUtils.getUsuarioLogado() != null && TelasUtils.isPermision(Usuario.class, TelasUtils.getUsuarioLogado().getTipo() )  ){
 				int excluir = JOptionPane.showConfirmDialog(null, "Deseja excluir o registro: "+usuarioTelefone.getTelefone() + " ?", "Excluir?", JOptionPane.YES_NO_OPTION);
 				if(excluir == JOptionPane.YES_OPTION){
 					int contador = 0;
@@ -515,7 +515,10 @@ public class CadastroUsuario extends JPanel implements Inicializavel {
 	private void atualizaDesenhoTabela() {
 		if(listaTelefones.size() > 0){
 			new ButtonColumnEditar(tabela, null, modelGenerico.getCountadorColunas() );
-			new ButtonColumnExcluir(tabela, null, modelGenerico.getCountadorColunas() + 1 );
+			ButtonColumnExcluir buttonColumnExcluir = new ButtonColumnExcluir(tabela, null, modelGenerico.getCountadorColunas() + 1 );
+			if( TelasUtils.getUsuarioLogado() != null && TelasUtils.isPermision(Usuario.class, TelasUtils.getUsuarioLogado().getTipo() )  ){
+				buttonColumnExcluir.setEnabled(false);
+			}
 		}
 		if(!modelGenerico.getLista().equals(listaTelefones)){
 			modelGenerico.getLista().clear();
