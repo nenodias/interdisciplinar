@@ -31,6 +31,7 @@ import br.org.fgp.model.Setor;
 import br.org.fgp.model.Telefone;
 import br.org.fgp.view.core.ButtonColumn;
 import br.org.fgp.view.core.JBusca;
+import br.org.fgp.view.core.JButtonAdicionar;
 import br.org.fgp.view.core.TableModelGenerico;
 
 public class CadastroContato extends JDialog{
@@ -85,7 +86,7 @@ public class CadastroContato extends JDialog{
 			listaTelefones = new ArrayList<ContatoTelefone>();
 		}
 		modelGenerico = new TableModelGenerico<ContatoTelefone>(listaTelefones, ContatoTelefone.class);
-		JButton btnAdicionarTelefone = new JButton("Adicionar");
+		JButton btnAdicionarTelefone = new JButtonAdicionar();
 		btnAdicionarTelefone.setBounds(TelasUtils.DEFAULT_X+ TelasUtils.DEFAULT_ESPACO , TelasUtils.DEFAULT_Y +(6 *TelasUtils.DEFAULT_ESPACO) , TelasUtils.DEFAULT_LARGURA_COMPONENTE /2, TelasUtils.DEFAULT_ALTURA_COMPONENTE);
 		add(btnAdicionarTelefone);
 		tabela.setModel(modelGenerico);

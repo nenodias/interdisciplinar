@@ -50,6 +50,7 @@ import br.org.fgp.model.enums.TipoUsuario;
 import br.org.fgp.view.core.ButtonColumn;
 import br.org.fgp.view.core.ComponenteControlado;
 import br.org.fgp.view.core.Inicializavel;
+import br.org.fgp.view.core.JButtonAdicionar;
 import br.org.fgp.view.core.JCabecalhoLabel;
 import br.org.fgp.view.core.TableModelGenerico;
 import br.org.fgp.view.core.Validador;
@@ -225,7 +226,7 @@ public class CadastroUsuario extends JPanel implements Inicializavel {
 			listaTelefones = new ArrayList<UsuarioTelefone>();
 		}
 		modelGenerico = new TableModelGenerico<UsuarioTelefone>(listaTelefones, UsuarioTelefone.class);
-		JButton btnAdicionarTelefone = new JButton("Adicionar");
+		JButton btnAdicionarTelefone = new JButtonAdicionar();
 		btnAdicionarTelefone.setBounds(TelasUtils.DEFAULT_X+ TelasUtils.DEFAULT_ESPACO , TelasUtils.DEFAULT_Y +(20 *TelasUtils.DEFAULT_ESPACO) , TelasUtils.DEFAULT_LARGURA_COMPONENTE /2, TelasUtils.DEFAULT_ALTURA_COMPONENTE);
 		add(btnAdicionarTelefone);
 		tabela.setModel(modelGenerico);
