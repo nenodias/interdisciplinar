@@ -189,6 +189,7 @@ public class TelaRelatorioGerencial extends JDialog {
 			gerarRelatorio(xml);
 		}catch (Exception e){
 			JOptionPane.showMessageDialog(null, "Falha ao gerar relatório" );
+			LOGGER.error(e.getMessage(), e);
 		}
 	}
 
