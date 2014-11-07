@@ -37,6 +37,7 @@ import br.org.fgp.view.core.JBusca;
 import br.org.fgp.view.core.JButtonCancelar;
 import br.org.fgp.view.core.JButtonSalvar;
 import br.org.fgp.view.core.JCabecalhoLabel;
+import br.org.fgp.view.core.JMoneyField;
 import br.org.fgp.view.core.Validador;
 
 @Controller
@@ -87,7 +88,7 @@ public class CadastroProduto extends JPanel implements Inicializavel {
 		adicionarComponente(txtDescricao, 4);
 		
 		adicionarComponente(new JLabel("Preço Venda"), 6);
-		txtPrecoUnitario = new JFormattedTextField(TelasUtils.getFormatadorDecimal());
+		txtPrecoUnitario = new JMoneyField();
 		adicionarComponente(txtPrecoUnitario, 6);
 		
 		adicionarComponente(new JLabel("Categoria"), 8);

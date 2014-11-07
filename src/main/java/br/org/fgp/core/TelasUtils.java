@@ -1,7 +1,7 @@
 package br.org.fgp.core;
 
 import java.awt.Container;
-import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.HashMap;
@@ -36,6 +36,7 @@ import br.org.fgp.view.CadastroVenda;
 
 public class TelasUtils {
 
+	private static final String PATTERN_MOEDA = "0.##";
 	private static final Logger LOGGER = Logger.getLogger(TelasUtils.class);
 	public static final int DEFAULT_ALTURA_COMPONENTE = 25;
 	public static final int DEFAULT_LARGURA_COMPONENTE = 300;
@@ -118,14 +119,13 @@ public class TelasUtils {
 	    return formatter;
 	}
 	
-	public static NumberFormatter getFormatadorDecimal(){
-		NumberFormat format = NumberFormat.getInstance();
-		format.setMinimumFractionDigits(2);
-	    NumberFormatter formatter = new NumberFormatter(format);
-	    formatter.setValueClass(BigDecimal.class);
-	    formatter.setMinimum(0);
-	    formatter.setCommitsOnValidEdit(true);
-	    return formatter;
+	public static DecimalFormat getFormatadorDecimal() {
+		DecimalFormat mascara = new DecimalFormat(PATTERN_MOEDA);
+		mascara.setDecimalSeparatorAlwaysShown(true);
+		mascara.setMaximumIntegerDigits(13);
+		mascara.setMaximumFractionDigits(2);
+		mascara.setMinimumFractionDigits(2);
+		return mascara;
 	}
 	
 	public static MaskFormatter getMascaraTelefone(){

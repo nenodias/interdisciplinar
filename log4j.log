@@ -1,0 +1,4 @@
+00:16:35,179 ERROR [CadastroEntradaProduto] javax.validation.ValidationException: O campo Produto não foi preenchido 
+O campo Quantidade não foi preenchido 
+O campo Fornecedor não foi preenchido 
+

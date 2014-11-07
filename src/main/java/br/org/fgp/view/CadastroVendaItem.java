@@ -12,12 +12,15 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import br.org.fgp.core.ApplicationContextConfig;
 import br.org.fgp.core.TelasUtils;
+import br.org.fgp.dao.ProdutoDao;
 import br.org.fgp.model.Produto;
 import br.org.fgp.model.VendaItem;
 import br.org.fgp.view.core.JBusca;
 import br.org.fgp.view.core.JButtonCancelar;
 import br.org.fgp.view.core.JButtonOk;
+import br.org.fgp.view.core.JMoneyField;
 
 public class CadastroVendaItem extends JDialog {
 
@@ -32,6 +35,8 @@ public class CadastroVendaItem extends JDialog {
 	private JFormattedTextField txtQuantidade;
 
 	private JFormattedTextField txtPrecoCusto;
+
+	private ProdutoDao produtoDao;
 
 	public CadastroVendaItem(VendaItem vendaItem) {
 		dialog = this;
@@ -48,6 +53,8 @@ public class CadastroVendaItem extends JDialog {
 		
 		adicionarComponente(new JLabel("Produto:"), 2);
 		txtProduto = new JBusca<Produto, Integer>();
+		produtoDao = ApplicationContextConfig.getContext().getBean(ProdutoDao.class);
+		txtProduto.setDaoGenerico(produtoDao);
 		adicionarComponente(txtProduto, 2);
 		
 		adicionarComponente(new JLabel("Quantidade:"), 4);
@@ -55,7 +62,7 @@ public class CadastroVendaItem extends JDialog {
 		adicionarComponente(txtQuantidade, 4);
 		
 		adicionarComponente(new JLabel("Preço Unitário:"), 6);
-		txtPrecoCusto = new JFormattedTextField(TelasUtils.getFormatadorDecimal());
+		txtPrecoCusto = new JMoneyField();
 		adicionarComponente(txtPrecoCusto, 6);
 		
 		buttonPane.setBounds(0 , 220 , 300, TelasUtils.DEFAULT_ALTURA_COMPONENTE * 2);

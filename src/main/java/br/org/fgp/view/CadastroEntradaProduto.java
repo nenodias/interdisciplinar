@@ -37,6 +37,7 @@ import br.org.fgp.view.core.JBusca;
 import br.org.fgp.view.core.JButtonCancelar;
 import br.org.fgp.view.core.JButtonSalvar;
 import br.org.fgp.view.core.JCabecalhoLabel;
+import br.org.fgp.view.core.JMoneyField;
 import br.org.fgp.view.core.Validador;
 
 @Controller
@@ -84,7 +85,7 @@ public class CadastroEntradaProduto extends JPanel  implements Inicializavel{
 		adicionarComponente(txtQuantidade, 4);
 		
 		adicionarComponente(new JLabel("Preço Unitário:"), 6);
-		txtPrecoCusto = new JFormattedTextField(TelasUtils.getFormatadorDecimal());
+		txtPrecoCusto = new JMoneyField();
 		adicionarComponente(txtPrecoCusto, 6);
 		
 		adicionarComponente(new JLabel("Fornecedor:"), 8);
@@ -201,10 +202,6 @@ public class CadastroEntradaProduto extends JPanel  implements Inicializavel{
 					mensagemFail = " salvar ";
 				}
 			}
-			
-			Validador<EntradaProduto> validador = new Validador<EntradaProduto>();
-			validador.validacaoCampos(entradaProduto);
-			
 			if( StringUtils.isNotBlank( txtFornecedor.getText() ) ){
 				try{
 					Integer idFornecedor = Integer.parseInt( txtFornecedor.getText() );
@@ -239,6 +236,10 @@ public class CadastroEntradaProduto extends JPanel  implements Inicializavel{
 					LOGGER.error(e);
 				}
 			}
+			
+			Validador<EntradaProduto> validador = new Validador<EntradaProduto>();
+			validador.validacaoCampos(entradaProduto);
+			
 			entradaProduto.setUsuario(TelasUtils.getUsuarioLogado());
 			if(entradaProduto.getId() == null){
 				entradaProduto.setData(new Date());

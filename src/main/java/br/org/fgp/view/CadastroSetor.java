@@ -86,7 +86,7 @@ public class CadastroSetor extends JDialog implements Inicializavel {
 		btnCancelar = new JButtonCancelar();
 		splitPane.setRightComponent(btnCancelar);
 		
-		splitPane.setDividerLocation( ( ( Double ) ( TelasUtils.DEFAULT_LARGURA_COMPONENTE * 0.22 ) ).intValue()  );
+		splitPane.setDividerLocation( ( ( Double ) ( TelasUtils.DEFAULT_LARGURA_COMPONENTE * 0.30 ) ).intValue()  );
 		
 		splitPane.setEnabled(false);
 
@@ -133,8 +133,8 @@ public class CadastroSetor extends JDialog implements Inicializavel {
 	}
 	private void adicionarComponente(JComponent componente, int valor){
 		Map<String, Integer> parametros = new HashMap<String, Integer>();
-		parametros.put(TelasUtils.PARAM_LARGURA_COMPONENTES, -140);
-		parametros.put(TelasUtils.PARAM_X, -40);
+		parametros.put(TelasUtils.PARAM_LARGURA_COMPONENTES, -100);
+		parametros.put(TelasUtils.PARAM_X, -120);
 		parametros.put(TelasUtils.PARAM_ESPACO, -5);
 		TelasUtils.adicionarComponente(componente, valor, contentPanel, parametros);
 	}
