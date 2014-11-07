@@ -18,11 +18,14 @@
 	<field name="preco" class="java.lang.String">
 		<fieldDescription><![CDATA[preco]]></fieldDescription>
 	</field>
-	<field name="total" class="java.math.BigDecimal">
+	<field name="total" class="java.lang.String">
 		<fieldDescription><![CDATA[total]]></fieldDescription>
 	</field>
+	<variable name="totalValor" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[new BigDecimal($F{total})]]></variableExpression>
+	</variable>
 	<variable name="totalTotal" class="java.math.BigDecimal" calculation="Sum">
-		<variableExpression><![CDATA[$F{total}]]></variableExpression>
+		<variableExpression><![CDATA[$V{totalValor}]]></variableExpression>
 	</variable>
 	<detail>
 		<band height="21" splitType="Stretch">
@@ -31,7 +34,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{preco}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField pattern="">
 				<reportElement x="444" y="0" width="111" height="20" uuid="353d62a6-3867-4bdc-b879-da038671b81e"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
@@ -50,7 +53,7 @@
 	</detail>
 	<columnFooter>
 		<band height="20">
-			<textField>
+			<textField pattern="">
 				<reportElement x="444" y="0" width="109" height="20" uuid="8a23bc00-3dc1-43f3-97d7-a5e5a81394d9"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$V{totalTotal}]]></textFieldExpression>

@@ -6,6 +6,7 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -53,6 +54,7 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
 
 public class TelaRelatorioGerencial extends JDialog {
 
+	private static final String COMPRA = "COMPRA";
 	private static final String PARAM_IMAGEM = "imagem";
 	private static final String IMAGEM_RELATORIO = "Relatorio/leaf_banner_green.png";
 	private static final String PARAM_SUBREPORT_DIR = "SUB_DIR";
@@ -206,7 +208,7 @@ public class TelaRelatorioGerencial extends JDialog {
 	}
 
 	private String gerarXml(List<Venda> listaVenda,
-			List<EntradaProduto> listaEntrada) {
+			List<EntradaProduto> listaEntrada) throws Exception {
 		DadosXML dados = new DadosXML();
 		BigDecimal lucroBruto = new BigDecimal(ZERO);
 		BigDecimal lucroLiquido = new BigDecimal(ZERO);
@@ -230,14 +232,14 @@ public class TelaRelatorioGerencial extends JDialog {
 			}
 			movimentacao.setMes(mes);
 			movimentacao.setData(TelasUtils.formataData(data));
-			movimentacao.setTipo(VENDA);
+			movimentacao.setTipo(COMPRA);
 			ProdutoXML produtoXml = new ProdutoXML();
 			produtoXml.setDescricao(entradaProduto.getProdutoTexto());
 			produtoXml.setPreco(entradaProduto.getProduto().getPrecoUnitario());
 			produtoXml.setQuantidade(entradaProduto.getQuantidade());
+			produtoXml.setTotal( produtoXml.getPreco().multiply( new BigDecimal( produtoXml.getQuantidade() ) ) );
 			movimentacao.getProdutos().add(produtoXml);
-			lucroLiquido = lucroBruto.subtract(produtoXml.getPreco().multiply(
-					new BigDecimal(produtoXml.getQuantidade())));
+			lucroLiquido = lucroBruto.subtract(produtoXml.getTotal() );
 		}
 		if(!movimentacao.getProdutos().isEmpty()){
 			dados.getMovimentacao().add(movimentacao);
@@ -267,10 +269,11 @@ public class TelaRelatorioGerencial extends JDialog {
 				produtoXml.setDescricao(vendaItem.getProdutoTexto());
 				produtoXml.setPreco(vendaItem.getProduto().getPrecoUnitario());
 				produtoXml.setQuantidade(vendaItem.getQuantidade());
+				produtoXml.setTotal(  produtoXml.getPreco().multiply( new BigDecimal( produtoXml.getQuantidade() ) ) );
 				movimentacao.getProdutos().add(produtoXml);
 
-				lucroBruto = lucroBruto.add(produtoXml.getPreco().multiply( new BigDecimal( produtoXml.getQuantidade() ) ) );
-				lucroLiquido = lucroBruto.add(produtoXml.getPreco().multiply( new BigDecimal( produtoXml.getQuantidade() ) ) );
+				lucroBruto = lucroBruto.add(produtoXml.getTotal() );
+				lucroLiquido = lucroBruto.add(produtoXml.getTotal() );
 			}
 		}
 		if(!movimentacao.getProdutos().isEmpty()){
@@ -293,6 +296,7 @@ public class TelaRelatorioGerencial extends JDialog {
 		JasperReport jasperReport = (JasperReport) JRLoader.loadObject(LOADER.getResourceAsStream(RELATORIO_ENTRADA_SAIDA_JASPER));
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parametros, dataSource);
 		JasperViewer.viewReport(jasperPrint, false);
+		dispose();
 	}
 
 	private Date converteData(String dataTexto) {
