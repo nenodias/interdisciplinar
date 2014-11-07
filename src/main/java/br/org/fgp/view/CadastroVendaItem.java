@@ -27,6 +27,7 @@ import br.org.fgp.view.core.JBusca;
 import br.org.fgp.view.core.JButtonCancelar;
 import br.org.fgp.view.core.JButtonOk;
 import br.org.fgp.view.core.JMoneyField;
+import br.org.fgp.view.core.Observador;
 import br.org.fgp.view.core.Validador;
 
 public class CadastroVendaItem extends JDialog {
@@ -104,6 +105,14 @@ public class CadastroVendaItem extends JDialog {
 				atualizaPrecoCusto();
 			}
 		});
+		Observador observer = new Observador();
+		observer.setListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				atualizaPrecoCusto();
+			}
+		});
+		txtProduto.getCodigoComponente().setObserver(observer);
 		txtQuantidade.addFocusListener(new FocusListener() {
 			
 			@Override

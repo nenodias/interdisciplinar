@@ -10,6 +10,8 @@
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["/home/hdias/workspace/interdisciplinar/src/main/resources/Relatorio/"]]></defaultValueExpression>
 	</parameter>
+	<parameter name="imagem" class="java.io.InputStream"/>
+	<parameter name="SUB_DIR" class="java.lang.String"/>
 	<queryString language="xPath">
 		<![CDATA[/dados]]>
 	</queryString>
@@ -32,7 +34,7 @@
 		<band height="70" splitType="Stretch">
 			<image>
 				<reportElement x="275" y="0" width="300" height="64" uuid="6aef4d1c-ae16-4321-aa81-b017c04c66b1"/>
-				<imageExpression><![CDATA["leaf_banner_green.png"]]></imageExpression>
+				<imageExpression><![CDATA[$P{imagem}]]></imageExpression>
 			</image>
 			<staticText>
 				<reportElement style="Title" x="0" y="13" width="263" height="33" uuid="10a2fd78-09f9-44b0-a8ce-c29cd3bafb87"/>
@@ -55,11 +57,11 @@
 		<band height="50" splitType="Stretch">
 			<subreport>
 				<reportElement x="2" y="0" width="553" height="50" uuid="a66fbd58-650f-4a6b-bd3c-83e472b01f0f"/>
-				<subreportParameter name="SUBREPORT_DIR">
-					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				<subreportParameter name="SUB_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUB_DIR}]]></subreportParameterExpression>
 				</subreportParameter>
 				<dataSourceExpression><![CDATA[((net.sf.jasperreports.engine.data.JRXmlDataSource)$P{REPORT_DATA_SOURCE}).subDataSource( "//movimentacao" )]]></dataSourceExpression>
-				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "SubRelatorioEntradaSaida.jasper"]]></subreportExpression>
+				<subreportExpression><![CDATA[$P{SUB_DIR} + "SubRelatorioEntradaSaida.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
 	</detail>

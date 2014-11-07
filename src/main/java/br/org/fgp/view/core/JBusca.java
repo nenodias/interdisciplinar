@@ -30,7 +30,7 @@ public class JBusca <T, PK> extends JPanel implements EventListener {
 	
 	private JTextField descricaoComponente;
 	
-	private JFormattedTextField codigoComponente;
+	private JCodigoComponente codigoComponente;
 	
 	private GenericoDao<T,PK> daoGenerico;
 
@@ -48,7 +48,7 @@ public class JBusca <T, PK> extends JPanel implements EventListener {
 		add(descricaoComponente);
 		descricaoComponente.setColumns(10);
 		
-		codigoComponente = new JFormattedTextField(TelasUtils.getFormatadorInteiro());
+		codigoComponente = new JCodigoComponente(TelasUtils.getFormatadorInteiro());
 		codigoComponente.addFocusListener(new FocusAdapter() {
 			
 			@Override
@@ -156,7 +156,7 @@ public class JBusca <T, PK> extends JPanel implements EventListener {
 		return descricaoComponente;
 	}
 
-	public JFormattedTextField getCodigoComponente() {
+	public JCodigoComponente getCodigoComponente() {
 		return codigoComponente;
 	}
 }

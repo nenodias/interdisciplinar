@@ -27,11 +27,42 @@ public class VendaDaoImpl extends GenericoDaoImpl<Venda, Integer> implements Ven
 	@Autowired
 	private VendaItemDao vendaItemDao;
 	
+	@Transactional
 	@Override
 	public List<Venda> buscarPorFaixa(Date dataInicio, Date dataTermino){
-		return buscarPorCriteriaOrder(Restrictions.between("data", dataInicio, dataTermino), Order.asc("data"));
+		List<Venda> lista = buscarPorCriteriaOrder(Restrictions.between("data", dataInicio, dataTermino), Order.asc("data"));
+		initialize(lista);
+		return lista;
 	}
 	
+	private void initialize(List<Venda> lista) {
+		for (Venda venda : lista) {
+			initialize(venda);
+		}
+	}
+
+	private void initialize(Venda venda) {
+		if(venda.getUsuario() != null ){
+			venda.getUsuario().getId();
+		}
+		if(venda.getListaItem() != null ){
+			for (VendaItem vendaItem : venda.getListaItem()) {
+				vendaItem.getId();
+				if(vendaItem.getProduto() != null){
+					vendaItem.getProduto().getId();
+				}
+			}
+		}
+	}
+	
+	@Override
+	@Transactional
+	public Venda buscarPorId(Integer id) {
+		Venda entidade = super.buscarPorId(id);
+		initialize(entidade);
+		return entidade;
+	}
+
 	@Transactional
 	@Override
 	public void salvarRegra(Venda entity)throws Exception{

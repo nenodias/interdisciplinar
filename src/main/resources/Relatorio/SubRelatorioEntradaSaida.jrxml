@@ -6,6 +6,7 @@
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["/home/hdias/workspace/interdisciplinar/src/main/resources/Relatorio/"]]></defaultValueExpression>
 	</parameter>
+	<parameter name="SUB_DIR" class="java.lang.String"/>
 	<queryString language="xPath">
 		<![CDATA[/dados/movimentacao]]>
 	</queryString>
@@ -89,7 +90,7 @@
 					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
 				</subreportParameter>
 				<dataSourceExpression><![CDATA[((net.sf.jasperreports.engine.data.JRXmlDataSource)$P{REPORT_DATA_SOURCE}).subDataSource( "//produto" )]]></dataSourceExpression>
-				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "SubRelatorio2EntradaSaida_subreport.jasper"]]></subreportExpression>
+				<subreportExpression><![CDATA[$P{SUB_DIR} + "SubRelatorio2EntradaSaida_subreport.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
 	</detail>

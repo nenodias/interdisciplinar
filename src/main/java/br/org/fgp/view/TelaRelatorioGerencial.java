@@ -2,7 +2,10 @@ package br.org.fgp.view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.math.BigDecimal;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -20,19 +23,18 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 
-import net.sf.jasperreports.engine.JRDataSource;
-import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRXmlDataSource;
 import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 
+import br.org.fgp.core.ApplicationContextConfig;
 import br.org.fgp.core.TelasUtils;
 import br.org.fgp.dao.EntradaProdutoDao;
 import br.org.fgp.dao.VendaDao;
@@ -49,10 +51,11 @@ import br.org.fgp.view.core.JCabecalhoLabel;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 
-@Controller
 public class TelaRelatorioGerencial extends JDialog {
 
-	private static final String PARAM_SUBREPORT_DIR = "SUBREPORT_DIR";
+	private static final String PARAM_IMAGEM = "imagem";
+	private static final String IMAGEM_RELATORIO = "Relatorio/leaf_banner_green.png";
+	private static final String PARAM_SUBREPORT_DIR = "SUB_DIR";
 	private static final String RELATORIO_ENTRADA_SAIDA_JASPER = "Relatorio/RelatorioEntradaSaida.jasper";
 	private static final String SUBREPORT_DIR = "Relatorio/";
 
@@ -65,25 +68,27 @@ public class TelaRelatorioGerencial extends JDialog {
 	private static final String DATA_INICIO_PADRAO = "01/01/1800";
 
 	private static final long serialVersionUID = -8316953380406660553L;
-	
-	private static final ClassLoader LOADER = TelaRelatorioGerencial.class.getClassLoader();
-	
-	private static final Logger LOGGER = Logger.getLogger(TelaRelatorioGerencial.class);
+
+	private static final ClassLoader LOADER = TelaRelatorioGerencial.class
+			.getClassLoader();
+
+	private static final Logger LOGGER = Logger
+			.getLogger(TelaRelatorioGerencial.class);
 
 	@Autowired
 	private VendaDao vendaDao;
-	
+
 	@Autowired
 	private EntradaProdutoDao entradaProdutoDao;
-	
+
 	private JSplitPane splitPane;
 
 	private JButton btnExecutar;
 
 	private JButton btnCancelar;
-	
+
 	private JFormattedTextField txtDataInicio;
-	
+
 	private JFormattedTextField txtDataTermino;
 
 	private JDialog dialog;
@@ -101,32 +106,37 @@ public class TelaRelatorioGerencial extends JDialog {
 		JPanel buttonPane = new JPanel();
 		getContentPane().setLayout(null);
 		getContentPane().add(buttonPane);
-		
+
 		adicionarComponente(new JCabecalhoLabel(CLASS_NAME), 0);
-		
+
 		adicionarComponente(new JLabel("Data Inicial"), 2);
 		txtDataInicio = new JFormattedTextField(TelasUtils.getMascaraData());
 		adicionarComponente(txtDataInicio, 2);
-		
+
 		adicionarComponente(new JLabel("Data Término"), 4);
 		txtDataTermino = new JFormattedTextField(TelasUtils.getMascaraData());
 		adicionarComponente(txtDataTermino, 4);
-		
+
 		splitPane = new JSplitPane();
 		adicionarComponente(splitPane, 10);
-		
+
 		btnExecutar = new JButtonOk();
 		btnExecutar.setText("Visualizar");
-		if(getRootPane() != null){
+		if (getRootPane() != null) {
 			getRootPane().setDefaultButton(btnExecutar);
 		}
 		splitPane.setLeftComponent(btnExecutar);
-		
+
 		btnCancelar = new JButtonCancelar();
 		splitPane.setRightComponent(btnCancelar);
-		splitPane.setDividerLocation(TelasUtils.DEFAULT_LARGURA_COMPONENTE/2);
+		splitPane.setDividerLocation(TelasUtils.DEFAULT_LARGURA_COMPONENTE / 2);
 		splitPane.setEnabled(false);
-		
+
+		vendaDao = ApplicationContextConfig.getContext()
+				.getBean(VendaDao.class);
+		entradaProdutoDao = ApplicationContextConfig.getContext().getBean(
+				EntradaProdutoDao.class);
+
 		btnCancelar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -139,7 +149,7 @@ public class TelaRelatorioGerencial extends JDialog {
 				executar();
 			}
 		});
-		
+
 	}
 
 	public VendaDao getVendaDao() {
@@ -158,123 +168,142 @@ public class TelaRelatorioGerencial extends JDialog {
 		this.entradaProdutoDao = entradaProdutoDao;
 	}
 
-	private void adicionarComponente(JComponent componente, int valor){
+	private void adicionarComponente(JComponent componente, int valor) {
 		Map<String, Integer> parametros = new HashMap<String, Integer>();
 		TelasUtils.adicionarComponente(componente, valor, this, parametros);
 	}
-	
+
 	private void cancelar() {
 		this.dispose();
 	}
-	
+
 	private void executar() {
-		try{
+		try {
 			Date dataInicio = null;
 			Date dataTermino = null;
-			if(StringUtils.isNotBlank( txtDataInicio.getText() ) ){
-				dataInicio = converteData(txtDataInicio.getText() );
-				if(dataInicio == null){
+			if (StringUtils.isNotBlank(txtDataInicio.getText())) {
+				dataInicio = converteData(txtDataInicio.getText());
+				if (dataInicio == null) {
 					dataInicio = converteData(DATA_INICIO_PADRAO);
 				}
 			}
-			if(StringUtils.isNotBlank( txtDataTermino.getText() ) ){
-				dataTermino = converteData(txtDataTermino.getText() );
-				if(dataTermino == null){
+			if (StringUtils.isNotBlank(txtDataTermino.getText())) {
+				dataTermino = converteData(txtDataTermino.getText());
+				if (dataTermino == null) {
 					dataTermino = new Date();
 				}
 			}
-			List<Venda> listaVenda = vendaDao.buscarPorFaixa(dataInicio, dataTermino);
-			List<EntradaProduto> listaEntrada = entradaProdutoDao.buscarPorFaixa(dataInicio, dataTermino);
+			List<Venda> listaVenda = vendaDao.buscarPorFaixa(dataInicio,
+					dataTermino);
+			List<EntradaProduto> listaEntrada = entradaProdutoDao
+					.buscarPorFaixa(dataInicio, dataTermino);
 			String xml = gerarXml(listaVenda, listaEntrada);
 			gerarRelatorio(xml);
-		}catch (Exception e){
-			JOptionPane.showMessageDialog(null, "Falha ao gerar relatório" );
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Falha ao gerar relatório");
 			LOGGER.error(e.getMessage(), e);
 		}
 	}
 
-	private String gerarXml(List<Venda> listaVenda,List<EntradaProduto> listaEntrada) {
+	private String gerarXml(List<Venda> listaVenda,
+			List<EntradaProduto> listaEntrada) {
 		DadosXML dados = new DadosXML();
 		BigDecimal lucroBruto = new BigDecimal(ZERO);
 		BigDecimal lucroLiquido = new BigDecimal(ZERO);
 		dados.setMovimentacao(new ArrayList<MovimentacaoXML>());
 		String mes = StringUtils.EMPTY;
 		MovimentacaoXML movimentacao = new MovimentacaoXML();
+		movimentacao.setProdutos(new ArrayList<ProdutoXML>());
 		for (EntradaProduto entradaProduto : listaEntrada) {
 			Date data = entradaProduto.getData();
 			Calendar dataCalendar = Calendar.getInstance();
 			dataCalendar.setTime(data);
-			String mes2 = TelasUtils.formataMes(dataCalendar.get(Calendar.MONTH) );
-			if(! mes.equals(mes2) ){
+			String mes2 = TelasUtils.formataMes(dataCalendar
+					.get(Calendar.MONTH));
+			if (!mes.equals(mes2)) {
 				mes = mes2;
-				dados.getMovimentacao().add(movimentacao);
+				if(!movimentacao.getProdutos().isEmpty()){
+					dados.getMovimentacao().add(movimentacao);
+				}
 				movimentacao = new MovimentacaoXML();
-				movimentacao.setProdutos( new ArrayList<ProdutoXML>() );
+				movimentacao.setProdutos(new ArrayList<ProdutoXML>());
 			}
-			movimentacao.setMes( mes );
-			movimentacao.setProdutos(new ArrayList<ProdutoXML>());
-			movimentacao.setData( TelasUtils.formataData(data) );
+			movimentacao.setMes(mes);
+			movimentacao.setData(TelasUtils.formataData(data));
 			movimentacao.setTipo(VENDA);
 			ProdutoXML produtoXml = new ProdutoXML();
-			produtoXml.setDescricao( entradaProduto.getProdutoTexto() );
-			produtoXml.setPreco( entradaProduto.getProduto().getPrecoUnitario() );
-			produtoXml.setQuantidade( entradaProduto.getQuantidade() );
-			movimentacao.getProdutos().add( produtoXml );
-			lucroLiquido = lucroBruto.subtract(  produtoXml.getPreco().multiply( new BigDecimal(produtoXml.getQuantidade() ) ) );
+			produtoXml.setDescricao(entradaProduto.getProdutoTexto());
+			produtoXml.setPreco(entradaProduto.getProduto().getPrecoUnitario());
+			produtoXml.setQuantidade(entradaProduto.getQuantidade());
+			movimentacao.getProdutos().add(produtoXml);
+			lucroLiquido = lucroBruto.subtract(produtoXml.getPreco().multiply(
+					new BigDecimal(produtoXml.getQuantidade())));
+		}
+		if(!movimentacao.getProdutos().isEmpty()){
+			dados.getMovimentacao().add(movimentacao);
 		}
 		mes = StringUtils.EMPTY;
 		movimentacao = new MovimentacaoXML();
+		movimentacao.setProdutos(new ArrayList<ProdutoXML>());
 		for (Venda venda : listaVenda) {
 			Date data = venda.getData();
 			Calendar dataCalendar = Calendar.getInstance();
 			dataCalendar.setTime(data);
-			String mes2 = TelasUtils.formataMes(dataCalendar.get(Calendar.MONTH) );
-			if(! mes.equals(mes2) ){
+			String mes2 = TelasUtils.formataMes(dataCalendar
+					.get(Calendar.MONTH));
+			if (!mes.equals(mes2)) {
 				mes = mes2;
-				dados.getMovimentacao().add(movimentacao);
+				if(!movimentacao.getProdutos().isEmpty()){
+					dados.getMovimentacao().add(movimentacao);
+				}
 				movimentacao = new MovimentacaoXML();
-				movimentacao.setProdutos( new ArrayList<ProdutoXML>() );
+				movimentacao.setProdutos(new ArrayList<ProdutoXML>());
 			}
-			movimentacao.setMes( mes );
-			movimentacao.setProdutos(new ArrayList<ProdutoXML>());
-			movimentacao.setData( TelasUtils.formataData(data) );
+			movimentacao.setMes(mes);
+			movimentacao.setData(TelasUtils.formataData(data));
 			movimentacao.setTipo(VENDA);
 			for (VendaItem vendaItem : venda.getListaItem()) {
 				ProdutoXML produtoXml = new ProdutoXML();
-				produtoXml.setDescricao( vendaItem.getProdutoTexto() );
-				produtoXml.setPreco( vendaItem.getProduto().getPrecoUnitario() );
-				produtoXml.setQuantidade( vendaItem.getQuantidade() );
-				movimentacao.getProdutos().add( produtoXml );
-				
-				lucroBruto = lucroBruto.add(  produtoXml.getPreco().multiply( new BigDecimal(produtoXml.getQuantidade() ) ) );
-				lucroLiquido = lucroBruto.add(  produtoXml.getPreco().multiply( new BigDecimal(produtoXml.getQuantidade() ) ) );
+				produtoXml.setDescricao(vendaItem.getProdutoTexto());
+				produtoXml.setPreco(vendaItem.getProduto().getPrecoUnitario());
+				produtoXml.setQuantidade(vendaItem.getQuantidade());
+				movimentacao.getProdutos().add(produtoXml);
+
+				lucroBruto = lucroBruto.add(produtoXml.getPreco().multiply( new BigDecimal( produtoXml.getQuantidade() ) ) );
+				lucroLiquido = lucroBruto.add(produtoXml.getPreco().multiply( new BigDecimal( produtoXml.getQuantidade() ) ) );
 			}
+		}
+		if(!movimentacao.getProdutos().isEmpty()){
+			dados.getMovimentacao().add(movimentacao);
 		}
 		dados.setLucroBruto(lucroBruto);
 		dados.setLucroLiquido(lucroLiquido);
-		
+
 		XStream xStream = new XStream(new DomDriver());
 		xStream.autodetectAnnotations(true);
 		return xStream.toXML(dados);
 	}
 
-	private void gerarRelatorio(String xml) throws JRException {
-		JRDataSource dataSource = new JRXmlDataSource(xml);
-		JasperReport report = (JasperReport) JRLoader.loadObject(LOADER.getResourceAsStream(RELATORIO_ENTRADA_SAIDA_JASPER));
+	private void gerarRelatorio(String xml) throws Exception {
+		InputStream stream = new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8));
+		JRXmlDataSource dataSource = new JRXmlDataSource(stream);
 		Map<String, Object> parametros = new HashMap<String, Object>();
-		parametros.put(PARAM_SUBREPORT_DIR, LOADER.getResourceAsStream(SUBREPORT_DIR));
-		JasperPrint impressao = JasperFillManager.fillReport(report, parametros, dataSource);
+		parametros.put(PARAM_SUBREPORT_DIR, LOADER.getResource(SUBREPORT_DIR).getPath() );
+		parametros.put(PARAM_IMAGEM, LOADER.getResourceAsStream(IMAGEM_RELATORIO));
+		JasperReport jasperReport = (JasperReport) JRLoader.loadObject(LOADER.getResourceAsStream(RELATORIO_ENTRADA_SAIDA_JASPER));
+		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parametros, dataSource);
+		JasperViewer.viewReport(jasperPrint, false);
 	}
-	
-	private Date converteData(String dataTexto){
+
+	private Date converteData(String dataTexto) {
 		SimpleDateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");
 		Date data = null;
-		try{
+		try {
 			data = formatador.parse(dataTexto);
-		}catch (Exception e){
+		} catch (Exception e) {
 			LOGGER.warn(e);
 		}
 		return data;
 	}
-	
+
 }

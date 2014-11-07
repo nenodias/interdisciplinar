@@ -46,9 +46,12 @@ public class EntradaProdutoDaoImpl extends GenericoDaoImpl<EntradaProduto, Integ
 		produtoDao.salvar(produto);
 	}
 	
+	@Transactional
 	@Override
 	public List<EntradaProduto> buscarPorFaixa(Date dataInicio, Date dataTermino){
-		return buscarPorCriteriaOrder(Restrictions.between("data", dataInicio, dataTermino), Order.asc("data"));
+		List<EntradaProduto> lista = buscarPorCriteriaOrder(Restrictions.between("data", dataInicio, dataTermino), Order.asc("data"));
+		initialize(lista);
+		return lista;
 	}
 	
 	@Override
@@ -60,5 +63,32 @@ public class EntradaProdutoDaoImpl extends GenericoDaoImpl<EntradaProduto, Integ
 		produtoDao.salvar(produto);
 		flush();
 		super.deletar(id);
+	}
+	
+	private void initialize(List<EntradaProduto> compra) {
+		for (EntradaProduto entradaProduto : compra) {
+			initialize(entradaProduto);
+		}
+	}
+	
+	
+	private void initialize(EntradaProduto compra) {
+		if(compra.getUsuario() != null ){
+			compra.getUsuario().getId();
+		}
+		if(compra.getProduto() != null){
+			compra.getProduto().getId();
+		}
+		if(compra.getFornecedor() != null){
+			compra.getFornecedor().getId();
+		}
+	}
+	
+	@Transactional
+	@Override
+	public EntradaProduto buscarPorId(Integer id) {
+		EntradaProduto entidade = super.buscarPorId(id);
+		initialize(entidade);
+		return entidade;
 	}
 }
