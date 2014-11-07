@@ -7,12 +7,14 @@ import java.awt.event.MouseListener;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.ImageIcon;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 
 import br.org.fgp.annotations.Permissao;
@@ -61,6 +63,8 @@ public class TelaPrincipal extends JFrame implements Inicializavel {
 	private static final String IMAGENS_PRODUTO_PNG = "imagens/produto.png";
 
 	private static final ClassLoader LOADER = TelaPrincipal.class.getClassLoader();
+	
+	private static final Logger LOGGER = Logger.getLogger(TelaPrincipal.class);
 	
 	private static final long serialVersionUID = -7747890711976699854L;
 
@@ -234,8 +238,19 @@ public class TelaPrincipal extends JFrame implements Inicializavel {
 	
 	protected void telaRelatorio() {
 		if(mnRelatorio.isEnabled()){
-			TelaRelatorioGerencial telaRelatorio = new TelaRelatorioGerencial();
-			telaRelatorio.setVisible(true);
+			Runnable runnable = new Runnable() {
+				public void run() {
+					try {
+						TelaRelatorioGerencial dialog = new TelaRelatorioGerencial();
+						dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+						dialog.setLocationRelativeTo(frmInterdisciplinar);
+						dialog.setVisible(true);
+					} catch (Exception e) {
+						LOGGER.error(e);
+					}
+				}
+			};
+			runnable.run();
 		}
 	}
 

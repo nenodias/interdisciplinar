@@ -38,32 +38,32 @@ public class EntradaProduto {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "IdEntradaProduto")
-	public Integer id;
+	private Integer id;
 
 	@NotNull(message = MessagemUtil.CAMPO + QUANTIDADE + MessagemUtil.NOT_BLANK)
 	@Column(name = QUANTIDADE)
-	public Integer quantidade;
+	private Integer quantidade;
 	
 	@Column(name = "Data")
-	public Date data;
+	private Date data;
 	
 	@Digits(integer = PRECO_INT, fraction = PRECO_FRACAO, message = MessagemUtil.CAMPO + PRECO + MessagemUtil.DIGITS + PRECO_MAX + MessagemUtil.INTEIROS + MessagemUtil.AND+PRECO_FRACAO + MessagemUtil.CASAS_DECIMAIS)
 	@Column(name = "PrecoCusto", scale = PRECO_FRACAO, precision = PRECO_MAX)
-	public BigDecimal precoCusto;
+	private BigDecimal precoCusto;
 	
 	@NotNull(message = MessagemUtil.CAMPO + FORNECEDOR + MessagemUtil.NOT_BLANK)
 	@ManyToOne
 	@JoinColumn(name = "IdFornecedor")
-	public Fornecedor fornecedor;
+	private Fornecedor fornecedor;
 	
 	@ManyToOne
 	@JoinColumn(name = "IdUsuario")
-	public Usuario usuario;
+	private Usuario usuario;
 	
 	@NotNull(message = MessagemUtil.CAMPO + PRODUTO + MessagemUtil.NOT_BLANK)
 	@ManyToOne
 	@JoinColumn(name = "IdProduto")
-	public Produto Produto;
+	private Produto Produto;
 
 	@Pesquisa(nome = "Código", posicao = 0)
 	public Integer getId() {

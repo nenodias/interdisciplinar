@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="SubRelatorio2EntradaSaida_subreport" language="groovy" pageWidth="553" pageHeight="555" orientation="Landscape" columnWidth="553" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="7af5d196-0846-48fc-bc2f-1daf7b5c4842">
-	<property name="ireport.zoom" value="1.0"/>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="SubRelatorio2EntradaSaida_subreport" pageWidth="553" pageHeight="555" orientation="Landscape" columnWidth="553" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="7af5d196-0846-48fc-bc2f-1daf7b5c4842">
+	<property name="ireport.zoom" value="1.6105100000000008"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<queryString language="xPath">
@@ -27,27 +27,22 @@
 	<detail>
 		<band height="21" splitType="Stretch">
 			<textField>
-				<reportElement uuid="4cddc576-d746-4ef0-9788-0f186a77de17" x="333" y="0" width="111" height="20"/>
+				<reportElement x="333" y="0" width="111" height="20" uuid="4cddc576-d746-4ef0-9788-0f186a77de17"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{preco}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="94c13c38-2aa6-4b9b-8857-f4c749c6ed32" x="222" y="0" width="111" height="20"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{percentual}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement uuid="353d62a6-3867-4bdc-b879-da038671b81e" x="444" y="0" width="111" height="20"/>
+				<reportElement x="444" y="0" width="111" height="20" uuid="353d62a6-3867-4bdc-b879-da038671b81e"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="29381ec9-ea58-4c4e-b506-b051c83b057e" x="0" y="0" width="110" height="20"/>
+				<reportElement x="0" y="0" width="222" height="20" uuid="29381ec9-ea58-4c4e-b506-b051c83b057e"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{descricao}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="9bafe200-d6d6-4488-b631-35d0d7df579d" x="111" y="0" width="111" height="20"/>
+				<reportElement x="222" y="1" width="111" height="20" uuid="9bafe200-d6d6-4488-b631-35d0d7df579d"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{quantidade}]]></textFieldExpression>
 			</textField>
@@ -56,7 +51,7 @@
 	<columnFooter>
 		<band height="20">
 			<textField>
-				<reportElement uuid="8a23bc00-3dc1-43f3-97d7-a5e5a81394d9" x="444" y="0" width="109" height="20"/>
+				<reportElement x="444" y="0" width="109" height="20" uuid="8a23bc00-3dc1-43f3-97d7-a5e5a81394d9"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$V{totalTotal}]]></textFieldExpression>
 			</textField>

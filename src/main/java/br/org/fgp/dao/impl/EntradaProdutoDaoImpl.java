@@ -7,6 +7,7 @@ import javax.swing.JOptionPane;
 import javax.transaction.Transactional;
 import javax.validation.ValidationException;
 
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -47,7 +48,7 @@ public class EntradaProdutoDaoImpl extends GenericoDaoImpl<EntradaProduto, Integ
 	
 	@Override
 	public List<EntradaProduto> buscarPorFaixa(Date dataInicio, Date dataTermino){
-		return buscarPorCriteria(Restrictions.between("data", dataInicio, dataTermino));
+		return buscarPorCriteriaOrder(Restrictions.between("data", dataInicio, dataTermino), Order.asc("data"));
 	}
 	
 	@Override

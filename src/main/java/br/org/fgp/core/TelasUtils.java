@@ -4,6 +4,8 @@ import java.awt.Container;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,6 +16,7 @@ import javax.swing.JTextField;
 import javax.swing.text.MaskFormatter;
 import javax.swing.text.NumberFormatter;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 import br.org.fgp.model.Categoria;
@@ -48,6 +51,7 @@ public class TelasUtils {
 	public static final String PARAM_LARGURA_COMPONENTES = "LARGURA_COMPONENTES";
 	public static final String PARAM_ALTURA_COMPONENTES = "ALTURA_COMPONENTES";
 	public static final String PARAM_ESPACO = "ESPACO";
+	private static final String PATTERN_DATA = "dd/MM/yyyy";
 	private static Usuario usuarioLogado;
 	
 	public static Class<?> getView(Class<?> clazz){
@@ -134,7 +138,7 @@ public class TelasUtils {
 		return getMascara("###.###.###-##");
 	}
 
-	public static Object getMascaraData() {
+	public static MaskFormatter getMascaraData() {
 		return getMascara("##/##/####");
 	}
 	
@@ -147,6 +151,47 @@ public class TelasUtils {
 			LOGGER.error(e);
 		}
 		return mascara;
+	}
+
+	public static String formataMes(Integer codigoMes) {
+		switch (codigoMes) {
+		case 0:
+			return "Janeiro";
+		case 1:
+			return "Fevereiro";
+		case 2:
+			return "Março";
+		case 3:
+			return "Abril";
+		case 4:
+			return "Maio";
+		case 5:
+			return "Junho";
+		case 6:
+			return "Julho";
+		case 7:
+			return "Agosto";
+		case 8:
+			return "Setembro";
+		case 9:
+			return "Outubro";
+		case 10:
+			return "Novembro";
+		case 11:
+			return "Dezembro";
+		}
+		return StringUtils.EMPTY;
+	}
+
+	public static String formataData(Date data) {
+		SimpleDateFormat formatador = new SimpleDateFormat(PATTERN_DATA);
+		String retorno = StringUtils.EMPTY;
+		try{
+			retorno = formatador.format(data);
+		}catch(Exception e){
+			LOGGER.warn(e.getMessage(), e);
+		}
+		return retorno;
 	}
 
 }

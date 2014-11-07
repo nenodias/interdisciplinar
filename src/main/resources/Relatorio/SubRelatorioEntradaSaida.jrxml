@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="SubRelatorioEntradaSaida" language="groovy" pageWidth="553" pageHeight="555" orientation="Landscape" columnWidth="553" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="e5288949-82ed-41a9-9203-8108d18da64a">
-	<property name="ireport.zoom" value="1.0"/>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="SubRelatorioEntradaSaida" pageWidth="553" pageHeight="555" orientation="Landscape" columnWidth="553" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="e5288949-82ed-41a9-9203-8108d18da64a">
+	<property name="ireport.zoom" value="1.771561000000001"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
-		<defaultValueExpression><![CDATA["C:\\Users\\130102757\\"]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA["/home/hdias/workspace/interdisciplinar/src/main/resources/Relatorio/"]]></defaultValueExpression>
 	</parameter>
 	<queryString language="xPath">
 		<![CDATA[/dados/movimentacao]]>
@@ -27,9 +27,9 @@
 	<detail>
 		<band height="45" splitType="Stretch">
 			<frame>
-				<reportElement uuid="a795a5bd-6e1f-43e0-a6be-c7a6561290dd" mode="Opaque" x="0" y="0" width="555" height="23" backcolor="#000000"/>
+				<reportElement mode="Opaque" x="0" y="0" width="555" height="23" backcolor="#000000" uuid="a795a5bd-6e1f-43e0-a6be-c7a6561290dd"/>
 				<textField>
-					<reportElement uuid="e0dba4e9-6fac-4d20-9f30-1f73ac9d07b2" mode="Transparent" x="100" y="0" width="100" height="20" forecolor="#FFFFFF" backcolor="#000000"/>
+					<reportElement mode="Transparent" x="100" y="0" width="100" height="20" forecolor="#FFFFFF" backcolor="#000000" uuid="e0dba4e9-6fac-4d20-9f30-1f73ac9d07b2"/>
 					<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
 						<pen lineStyle="Solid" lineColor="#000000"/>
 						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -43,7 +43,7 @@
 					<textFieldExpression><![CDATA[$F{tipo}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement uuid="d4ac7c83-275a-424b-8906-d4d9706ca246" mode="Transparent" x="0" y="0" width="100" height="20" forecolor="#FFFFFF" backcolor="#000000"/>
+					<reportElement mode="Transparent" x="0" y="0" width="100" height="20" forecolor="#FFFFFF" backcolor="#000000" uuid="d4ac7c83-275a-424b-8906-d4d9706ca246"/>
 					<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
 						<pen lineStyle="Solid" lineColor="#000000"/>
 						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -56,40 +56,38 @@
 				</textField>
 			</frame>
 			<frame>
-				<reportElement uuid="d22d9646-1c44-4106-b9a0-e5c298c0a926" x="0" y="23" width="553" height="20"/>
+				<reportElement x="0" y="23" width="553" height="20" uuid="d22d9646-1c44-4106-b9a0-e5c298c0a926"/>
 				<staticText>
-					<reportElement uuid="3dd989a5-307e-45ae-934e-8bcbb33db97b" x="0" y="0" width="112" height="20"/>
+					<reportElement x="0" y="0" width="221" height="20" uuid="3dd989a5-307e-45ae-934e-8bcbb33db97b"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle"/>
 					<text><![CDATA[DESCRIÇÃO]]></text>
 				</staticText>
 				<staticText>
-					<reportElement uuid="3dd989a5-307e-45ae-934e-8bcbb33db97b" x="112" y="0" width="111" height="20"/>
+					<reportElement x="221" y="0" width="111" height="20" uuid="3dd989a5-307e-45ae-934e-8bcbb33db97b"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle"/>
 					<text><![CDATA[QUANTIDADE]]></text>
 				</staticText>
 				<staticText>
-					<reportElement uuid="3dd989a5-307e-45ae-934e-8bcbb33db97b" x="223" y="0" width="110" height="20"/>
-					<textElement textAlignment="Center" verticalAlignment="Middle"/>
-					<text><![CDATA[PERCENTUAL]]></text>
-				</staticText>
-				<staticText>
-					<reportElement uuid="3dd989a5-307e-45ae-934e-8bcbb33db97b" x="443" y="0" width="110" height="20"/>
+					<reportElement x="443" y="0" width="110" height="20" uuid="3dd989a5-307e-45ae-934e-8bcbb33db97b"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle"/>
 					<text><![CDATA[TOTAL]]></text>
 				</staticText>
 				<staticText>
-					<reportElement uuid="3dd989a5-307e-45ae-934e-8bcbb33db97b" x="332" y="0" width="111" height="20"/>
+					<reportElement x="332" y="0" width="111" height="20" uuid="3dd989a5-307e-45ae-934e-8bcbb33db97b"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle"/>
 					<text><![CDATA[PREÇO]]></text>
 				</staticText>
 			</frame>
 			<line>
-				<reportElement uuid="796e4b58-cb43-4c04-8a6b-c526f2a583fa" x="1" y="44" width="554" height="1"/>
+				<reportElement x="1" y="44" width="554" height="1" uuid="796e4b58-cb43-4c04-8a6b-c526f2a583fa"/>
 			</line>
 		</band>
 		<band height="20">
 			<subreport>
-				<reportElement uuid="22bbc198-cd57-46dc-bc70-95d5645e9984" x="0" y="0" width="553" height="20"/>
+				<reportElement x="0" y="0" width="553" height="20" uuid="22bbc198-cd57-46dc-bc70-95d5645e9984"/>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
 				<dataSourceExpression><![CDATA[((net.sf.jasperreports.engine.data.JRXmlDataSource)$P{REPORT_DATA_SOURCE}).subDataSource( "//produto" )]]></dataSourceExpression>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "SubRelatorio2EntradaSaida_subreport.jasper"]]></subreportExpression>
 			</subreport>
