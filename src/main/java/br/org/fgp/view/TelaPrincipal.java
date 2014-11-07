@@ -124,7 +124,7 @@ public class TelaPrincipal extends JFrame implements Inicializavel {
 		mntmSetor = new JMenu("Setor");
 		menuBar.add(mntmSetor);
 
-		mntmVenda = new JMenu("Realizar Venda");
+		mntmVenda = new JMenu("Venda");
 		menuBar.add(mntmVenda);
 		
 		mnRelatorio = new JMenu("Relatório");
