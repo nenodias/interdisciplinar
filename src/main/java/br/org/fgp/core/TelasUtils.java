@@ -36,7 +36,7 @@ import br.org.fgp.view.CadastroVenda;
 
 public class TelasUtils {
 
-	private static final String PATTERN_MOEDA = "0.##";
+	private static final String PATTERN_MOEDA = "0,00";
 	private static final Logger LOGGER = Logger.getLogger(TelasUtils.class);
 	public static final int DEFAULT_ALTURA_COMPONENTE = 25;
 	public static final int DEFAULT_LARGURA_COMPONENTE = 300;
@@ -121,10 +121,8 @@ public class TelasUtils {
 	
 	public static DecimalFormat getFormatadorDecimal() {
 		DecimalFormat mascara = new DecimalFormat(PATTERN_MOEDA);
-		mascara.setDecimalSeparatorAlwaysShown(true);
 		mascara.setMaximumIntegerDigits(13);
 		mascara.setMaximumFractionDigits(2);
-		mascara.setMinimumFractionDigits(2);
 		return mascara;
 	}
 	

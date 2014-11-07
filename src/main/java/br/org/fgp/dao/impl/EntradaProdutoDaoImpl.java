@@ -49,4 +49,14 @@ public class EntradaProdutoDaoImpl extends GenericoDaoImpl<EntradaProduto, Integ
 		return buscarPorCriteria(Restrictions.between("data", dataInicio, dataTermino));
 	}
 	
+	@Override
+	public void deletar(Integer id) {
+		EntradaProduto entradaProduto = buscarPorId(id);
+		Produto produto = entradaProduto.getProduto();
+		int estoqueAtual = produto.getEstoqueAtual()-entradaProduto.getQuantidade();
+		produto.setEstoqueAtual(estoqueAtual);
+		produtoDao.salvar(produto);
+		flush();
+		super.deletar(id);
+	}
 }

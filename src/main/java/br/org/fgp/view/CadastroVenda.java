@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -34,7 +35,6 @@ import br.org.fgp.model.UsuarioTelefone;
 import br.org.fgp.model.Venda;
 import br.org.fgp.model.VendaItem;
 import br.org.fgp.model.enums.TipoUsuario;
-import br.org.fgp.view.core.ButtonColumn;
 import br.org.fgp.view.core.ButtonColumnEditar;
 import br.org.fgp.view.core.ButtonColumnExcluir;
 import br.org.fgp.view.core.ComponenteControlado;
@@ -49,6 +49,8 @@ import br.org.fgp.view.core.Validador;
 @Controller
 public class CadastroVenda extends JPanel implements Inicializavel {
 	
+	private static final String VALOR_TOTAL = "Valor Total:";
+
 	private static final long serialVersionUID = -3837350240175943970L;
 
 	private static final Logger LOGGER = Logger.getLogger(CadastroVenda.class);
@@ -80,6 +82,8 @@ public class CadastroVenda extends JPanel implements Inicializavel {
 	private TableModelGenerico<VendaItem> modelGenerico;
 
 	private JLabel txtValorTotal;
+
+	private BigDecimal total;
 
 	public CadastroVenda() {
 		painel = this;
@@ -118,7 +122,7 @@ public class CadastroVenda extends JPanel implements Inicializavel {
 		splitPane.setDividerLocation(TelasUtils.DEFAULT_LARGURA_COMPONENTE/2);
 		splitPane.setEnabled(false);
 		
-		txtValorTotal = new JCabecalhoLabel("Valor Total:");
+		txtValorTotal = new JCabecalhoLabel(VALOR_TOTAL);
 		adicionarComponente(txtValorTotal, 20);
 		
 		ComponenteControlado<CadastroVenda> controleAcesso = new ComponenteControlado<CadastroVenda>(this); 
@@ -254,14 +258,21 @@ public class CadastroVenda extends JPanel implements Inicializavel {
 	
 	private void adicionarVendaItem() {
 		final VendaItem vendaItem = new VendaItem();
-		abrirModalTelefone(vendaItem);
+		abrirModalVendaItem(vendaItem);
 		if(vendaItem.getProduto() != null && vendaItem.getValorUnitario() != null && vendaItem.getQuantidade() != null ){
 			listaItens.add(vendaItem);
 			atualizaDesenhoTabela();
+			if(listaItens != null){
+				total = BigDecimal.ZERO;
+				for (VendaItem vendaItemAux : listaItens) {
+					total = total.add(  vendaItemAux.getValorUnitario().multiply( new BigDecimal(vendaItemAux.getQuantidade() ) ) );
+				}
+				txtValorTotal.setText(VALOR_TOTAL+total);
+			}
 		}
 	}
 
-	private void abrirModalTelefone(final VendaItem vendaItem) {
+	private void abrirModalVendaItem(final VendaItem vendaItem) {
 		Runnable runnable = new Runnable() {
 			public void run() {
 				try {
@@ -287,7 +298,7 @@ public class CadastroVenda extends JPanel implements Inicializavel {
 			VendaItem vendaItem = listaItens.get(linha);
 			
 			if(coluna == model.getCountadorColunas() ){
-				abrirModalTelefone(vendaItem);
+				abrirModalVendaItem(vendaItem);
 				atualizaTabela = true;
 			} else if(coluna == model.getCountadorColunas() +1 ){
 				int excluir = JOptionPane.showConfirmDialog(null, "Deseja excluir o registro: "+vendaItem.getProdutoTexto() + " ?", "Excluir?", JOptionPane.YES_NO_OPTION);

@@ -221,7 +221,7 @@ public class CadastroEntradaProduto extends JPanel  implements Inicializavel{
 			}
 			if( StringUtils.isNotBlank( txtProduto.getText() ) ){
 				try{
-					Integer idProduto = Integer.parseInt(txtPrecoCusto.getText());
+					Integer idProduto = Integer.parseInt(txtProduto.getText());
 					Produto produto = produtoDao.buscarPorId(idProduto);
 					entradaProduto.setProduto(produto);
 				}catch(Exception e){

@@ -10,7 +10,6 @@ public class JMoneyField extends JFormattedTextField {
 
 	public JMoneyField() {
 		super(TelasUtils.getFormatadorDecimal());
-		setColumns(2);
 	}
 	
 	@Override

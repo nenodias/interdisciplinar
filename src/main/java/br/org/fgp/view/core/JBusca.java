@@ -6,6 +6,7 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.EventListener;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -21,7 +22,7 @@ import br.org.fgp.core.TelasUtils;
 import br.org.fgp.core.dao.GenericoDao;
 import br.org.fgp.view.annotations.LabelDescricao;
 
-public class JBusca <T, PK> extends JPanel {
+public class JBusca <T, PK> extends JPanel implements EventListener {
 	
 	private static final long serialVersionUID = -314039162074460134L;
 
@@ -108,6 +109,7 @@ public class JBusca <T, PK> extends JPanel {
 
 	public void setText(String text){
 		codigoComponente.setText(text);
+		descricaoComponente.setText(text);
 		eventoPerdeFoco();
 	}
 	
@@ -149,5 +151,12 @@ public class JBusca <T, PK> extends JPanel {
 	public void limpar(){
 		codigoComponente.setText(StringUtils.EMPTY);
 		descricaoComponente.setText(StringUtils.EMPTY);
+	}
+	public JTextField getDescricaoComponente() {
+		return descricaoComponente;
+	}
+
+	public JFormattedTextField getCodigoComponente() {
+		return codigoComponente;
 	}
 }
