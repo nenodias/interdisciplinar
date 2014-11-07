@@ -20,8 +20,6 @@ import br.org.fgp.model.VendaItem;
 @Repository
 public class VendaDaoImpl extends GenericoDaoImpl<Venda, Integer> implements VendaDao, Filtravel<Venda> {
 
-	private static final Integer ZERO = 0;
-
 	@Autowired
 	private ProdutoDao produtoDao;
 	
@@ -36,6 +34,9 @@ public class VendaDaoImpl extends GenericoDaoImpl<Venda, Integer> implements Ven
 	@Transactional
 	@Override
 	public void salvarRegra(Venda entity)throws Exception{
+		if(entity.getId() != null){
+			vendaItemDao.deletarPorIdVenda(entity.getId());
+		}
 		for (VendaItem vendaItem : entity.getListaItem()) {
 			produtoDao.removeItensEstoque(vendaItem);
 		}

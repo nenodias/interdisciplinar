@@ -1,3 +1,0 @@
-01:51:21,236 ERROR [SqlExceptionHelper  ] ERROR: update or delete on table "venda" violates foreign key constraint "fk_7sa728oah6ad15lvd4o4lh2mi" on table "venda_item"
-  Detalhe: Key (idvenda)=(2) is still referenced from table "venda_item".
-01:51:21,241 ERROR [JDialogBusca        ] org.springframework.dao.DataIntegrityViolationException: could not execute statement; SQL [n/a]; constraint [fk_7sa728oah6ad15lvd4o4lh2mi]; nested exception is org.hibernate.exception.ConstraintViolationException: could not execute statement

@@ -231,19 +231,10 @@ public class CadastroVenda extends JPanel implements Inicializavel {
 				total = BigDecimal.ZERO;
 				somaTotal();
 				venda.setValorTotal(total);
-				vendaDao.salvar(venda);
+				venda.setListaItem(listaItens);
+				vendaDao.salvarRegra(venda);
 			}else{
 				throw new Exception("Erro venda sem itens");
-			}
-			if(!listaItens.isEmpty()){
-				if(venda.getId() != null){
-					vendaItemDao.deletarPorIdVenda(venda.getId());
-				}
-				for (VendaItem vendaItem : listaItens) {
-					vendaItem.setId(null);
-					vendaItem.setVenda(venda);
-					vendaItemDao.salvar(vendaItem);
-				}
 			}
 			JOptionPane.showMessageDialog(null, CLASS_NAME.concat(mensagemSave).concat("com sucesso.") );
 			venda = null;
