@@ -21,6 +21,7 @@ import br.org.fgp.model.Produto;
 public class EntradaProdutoDaoImpl extends GenericoDaoImpl<EntradaProduto, Integer> implements EntradaProdutoDao {
 
 	private static final int ZERO = 0;
+	
 	@Autowired
 	private ProdutoDao produtoDao;
 	

@@ -228,6 +228,9 @@ public class CadastroVenda extends JPanel implements Inicializavel {
 			venda.setUsuario(TelasUtils.getUsuarioLogado());
 			if(!listaItens.isEmpty()){
 				venda.setData(new Date());
+				total = BigDecimal.ZERO;
+				somaTotal();
+				venda.setValorTotal(total);
 				vendaDao.salvar(venda);
 			}else{
 				throw new Exception("Erro venda sem itens");
@@ -264,11 +267,15 @@ public class CadastroVenda extends JPanel implements Inicializavel {
 			atualizaDesenhoTabela();
 			if(listaItens != null){
 				total = BigDecimal.ZERO;
-				for (VendaItem vendaItemAux : listaItens) {
-					total = total.add(  vendaItemAux.getValorUnitario().multiply( new BigDecimal(vendaItemAux.getQuantidade() ) ) );
-				}
+				somaTotal();
 				txtValorTotal.setText(VALOR_TOTAL+total);
 			}
+		}
+	}
+
+	private void somaTotal() {
+		for (VendaItem vendaItemAux : listaItens) {
+			total = total.add(  vendaItemAux.getValorUnitario().multiply( new BigDecimal(vendaItemAux.getQuantidade() ) ) );
 		}
 	}
 

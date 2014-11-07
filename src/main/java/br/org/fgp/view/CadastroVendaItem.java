@@ -180,6 +180,7 @@ public class CadastroVendaItem extends JDialog {
 		}
 		Validador<VendaItem> validador = new Validador<VendaItem>();
 		validador.validacaoCampos(vendaItem);
+		fecharDialogo();
 	}
 
 	private void fecharDialogo() {
