@@ -121,10 +121,8 @@ public class CadastroCategoria extends JDialog implements Inicializavel {
 		String mensagemFail = " atualizar ";
 		if(categoria == null){
 			categoria = new Categoria();
-			if(categoria.getId() != null){
-				mensagemSave = " salva ";
-				mensagemFail = " salvar ";
-			}
+			mensagemSave = " salva ";
+			mensagemFail = " salvar ";
 		}
 		try{
 			categoria.setDescricao(txtCategoria.getText());
