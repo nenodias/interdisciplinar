@@ -12,6 +12,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import br.org.fgp.core.dao.Filtravel;
 import br.org.fgp.core.dao.impl.GenericoDaoImpl;
 import br.org.fgp.dao.EntradaProdutoDao;
 import br.org.fgp.dao.ProdutoDao;
@@ -19,7 +20,7 @@ import br.org.fgp.model.EntradaProduto;
 import br.org.fgp.model.Produto;
 
 @Repository
-public class EntradaProdutoDaoImpl extends GenericoDaoImpl<EntradaProduto, Integer> implements EntradaProdutoDao {
+public class EntradaProdutoDaoImpl extends GenericoDaoImpl<EntradaProduto, Integer> implements EntradaProdutoDao, Filtravel<EntradaProduto> {
 
 	private static final int ZERO = 0;
 	
@@ -90,5 +91,10 @@ public class EntradaProdutoDaoImpl extends GenericoDaoImpl<EntradaProduto, Integ
 		EntradaProduto entidade = super.buscarPorId(id);
 		initialize(entidade);
 		return entidade;
+	}
+
+	@Override
+	public List<EntradaProduto> filtrarPorDescricao(String descricao) {
+		return getSessaoAtual().createCriteria(EntradaProduto.class, "t").createAlias("t.usuario", "u").add(Restrictions.like("u.nome", "%"+descricao+"%")).list();
 	}
 }
