@@ -272,7 +272,7 @@ public class TelaPrincipal extends JFrame implements Inicializavel {
 	private void telaEntradaProduto() {
 		if(mntmEntradaProduto.isEnabled()){
 			EntradaProdutoDao entradaProdutoDaoDao = ApplicationContextConfig.getContext().getBean(EntradaProdutoDao.class);
-			JDialogBusca<EntradaProduto, Integer> dialogo = new JDialogBusca<EntradaProduto, Integer>(entradaProdutoDaoDao, null, null);
+			JDialogBusca<EntradaProduto, Integer> dialogo = new JDialogBusca<EntradaProduto, Integer>(entradaProdutoDaoDao, null, null, this);
 			dialogo.setLocationRelativeTo(frmInterdisciplinar);
 			dialogo.setVisible(true);
 		}
@@ -281,7 +281,7 @@ public class TelaPrincipal extends JFrame implements Inicializavel {
 	private void telaFornecedor() {
 		if(mntmFornecedor.isEnabled()){
 			FornecedorDao fornecedorDao = ApplicationContextConfig.getContext().getBean(FornecedorDao.class);
-			JDialogBusca<Fornecedor, Integer> dialogo = new JDialogBusca<Fornecedor, Integer>(fornecedorDao, null, null);
+			JDialogBusca<Fornecedor, Integer> dialogo = new JDialogBusca<Fornecedor, Integer>(fornecedorDao, null, null, this);
 			dialogo.setLocationRelativeTo(frmInterdisciplinar);
 			dialogo.setVisible(true);
 		}
@@ -290,7 +290,7 @@ public class TelaPrincipal extends JFrame implements Inicializavel {
 	private void telaVenda() {
 		if(mntmVenda.isEnabled()){
 			VendaDao vendaDao = ApplicationContextConfig.getContext().getBean(VendaDao.class);
-			JDialogBusca<Venda, Integer> dialogo = new JDialogBusca<Venda, Integer>(vendaDao, null, null);
+			JDialogBusca<Venda, Integer> dialogo = new JDialogBusca<Venda, Integer>(vendaDao, null, null, this);
 			dialogo.setLocationRelativeTo(frmInterdisciplinar);
 			dialogo.setVisible(true);
 		}
@@ -299,7 +299,7 @@ public class TelaPrincipal extends JFrame implements Inicializavel {
 	private void telaUsuario() {
 		if(mntmUsurio.isEnabled()){
 			UsuarioDao usuarioDao = ApplicationContextConfig.getContext().getBean(UsuarioDao.class);
-			JDialogBusca<Usuario, Integer> dialogo = new JDialogBusca<Usuario, Integer>(usuarioDao, null, null);
+			JDialogBusca<Usuario, Integer> dialogo = new JDialogBusca<Usuario, Integer>(usuarioDao, null, null, this);
 			dialogo.setLocationRelativeTo(frmInterdisciplinar);
 			dialogo.setVisible(true);
 		}
@@ -308,7 +308,7 @@ public class TelaPrincipal extends JFrame implements Inicializavel {
 	private void telaCategoria() {
 		if(mntmCategorias.isEnabled()){
 			CategoriaDao categoriaDao = ApplicationContextConfig.getContext().getBean(CategoriaDao.class);
-			JDialogBusca<Categoria, Integer> dialogo = new JDialogBusca<Categoria, Integer>(categoriaDao, null, null);
+			JDialogBusca<Categoria, Integer> dialogo = new JDialogBusca<Categoria, Integer>(categoriaDao, null, null, this);
 			dialogo.setLocationRelativeTo(frmInterdisciplinar);
 			dialogo.setVisible(true);
 		}
@@ -317,7 +317,7 @@ public class TelaPrincipal extends JFrame implements Inicializavel {
 	private void telaMarca() {
 		if(mntmMarca.isEnabled()){
 			MarcaDao marcaDao = ApplicationContextConfig.getContext().getBean(MarcaDao.class);
-			JDialogBusca<Marca, Integer> dialogo = new JDialogBusca<Marca, Integer>(marcaDao, null, null);
+			JDialogBusca<Marca, Integer> dialogo = new JDialogBusca<Marca, Integer>(marcaDao, null, null, this);
 			dialogo.setLocationRelativeTo(frmInterdisciplinar);
 			dialogo.setVisible(true);
 		}
@@ -326,7 +326,7 @@ public class TelaPrincipal extends JFrame implements Inicializavel {
 	private void telaSetor() {
 		if(mntmSetor.isEnabled()){
 			SetorDao setorDao = ApplicationContextConfig.getContext().getBean(SetorDao.class);
-			JDialogBusca<Setor, Integer> dialogo = new JDialogBusca<Setor, Integer>(setorDao, null, null);
+			JDialogBusca<Setor, Integer> dialogo = new JDialogBusca<Setor, Integer>(setorDao, null, null, this);
 			dialogo.setLocationRelativeTo(frmInterdisciplinar);
 			dialogo.setVisible(true);
 		}
@@ -335,7 +335,7 @@ public class TelaPrincipal extends JFrame implements Inicializavel {
 	private void telaProduto() {
 		if(mntmProdutos.isEnabled()){
 			ProdutoDao produtoDao = ApplicationContextConfig.getContext().getBean(ProdutoDao.class);
-			JDialogBusca<Produto, Integer> dialogo = new JDialogBusca<Produto, Integer>(produtoDao, null, null);
+			JDialogBusca<Produto, Integer> dialogo = new JDialogBusca<Produto, Integer>(produtoDao, null, null, this);
 			dialogo.setLocationRelativeTo(frmInterdisciplinar);
 			dialogo.setVisible(true);
 		}

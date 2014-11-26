@@ -1,5 +1,8 @@
 package br.org.fgp.view.core;
 
+import java.awt.Component;
+import java.awt.Dialog;
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
@@ -10,7 +13,8 @@ import java.util.EventListener;
 import java.util.List;
 
 import javax.swing.JButton;
-import javax.swing.JFormattedTextField;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -142,8 +146,19 @@ public class JBusca <T, PK> extends JPanel implements EventListener {
 	}
 	private void eventoBotao() {
 		if(daoGenerico != null){
-			JDialogBusca<T, PK> dialogo = new JDialogBusca<T, PK>(daoGenerico, codigoComponente, descricaoComponente);
-			dialogo.setLocationRelativeTo(jBusca.getParent());
+			JDialogBusca<T, PK> dialogo = null;
+			Component component = jBusca.getParent();
+			while(! (component instanceof JFrame || component instanceof JDialog)){
+				component = component.getParent();
+			}
+			if(component instanceof Frame){
+				Frame frame = (Frame) component;
+				dialogo = new JDialogBusca<T, PK>(daoGenerico, codigoComponente, descricaoComponente, frame);
+			}else if(component instanceof Dialog){
+				Dialog dialog = (Dialog) component;
+				dialogo = new JDialogBusca<T, PK>(daoGenerico, codigoComponente, descricaoComponente, dialog);
+			}
+			dialogo.setLocationRelativeTo(component);
 			dialogo.setVisible(true);
 		}
 	}

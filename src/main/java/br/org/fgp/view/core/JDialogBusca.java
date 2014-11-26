@@ -1,6 +1,8 @@
 package br.org.fgp.view.core;
 
 import java.awt.BorderLayout;
+import java.awt.Dialog;
+import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -61,7 +63,19 @@ public class JDialogBusca<T, PK> extends JDialog {
 	 * @param descricaoComponente 
 	 * @param codigoComponente 
 	 */
-	public JDialogBusca(GenericoDao<T, PK> daoGenerico, final JTextField codigoComponente, final JTextField descricaoComponente){
+	public JDialogBusca(GenericoDao<T, PK> daoGenerico, final JTextField codigoComponente, final JTextField descricaoComponente, Frame parent){
+		super(parent);
+		init(daoGenerico, codigoComponente, descricaoComponente);
+	}
+	
+	public JDialogBusca(GenericoDao<T, PK> daoGenerico, final JTextField codigoComponente, final JTextField descricaoComponente, Dialog parent){
+		super(parent);
+		init(daoGenerico, codigoComponente, descricaoComponente);
+	}
+
+	private void init(GenericoDao<T, PK> daoGenerico,
+			final JTextField codigoComponente,
+			final JTextField descricaoComponente) {
 		dialogo = this;
 		this.daoGenerico = daoGenerico;
 		this.clazz = daoGenerico.getObjectClass(); 
@@ -130,8 +144,6 @@ public class JDialogBusca<T, PK> extends JDialog {
 		if(TelasUtils.getUsuarioLogado() != null && !TelasUtils.isPermision(clazz, TelasUtils.getUsuarioLogado().getTipo() ) ){
 			btnNovo.setEnabled(false);
 		}
-				
-		
 	}
 	
 	@SuppressWarnings("rawtypes")
