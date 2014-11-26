@@ -144,10 +144,8 @@ public class CadastroProduto extends JPanel implements Inicializavel {
 		try{
 			if(produto == null ){
 				produto = new  Produto();
-				if(produto.getId() != null){
-					mensagemSave = " salvo ";
-					mensagemFail = " salvar ";
-				}
+				mensagemSave = " salvo ";
+				mensagemFail = " salvar ";
 			}
 			
 			produto.setNome( txtNome.getText() );

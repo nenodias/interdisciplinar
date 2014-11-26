@@ -109,9 +109,8 @@ public class CadastroSetor extends JDialog implements Inicializavel {
 		String mensagemFail = " atualizar ";
 		if(setor == null){
 			setor = new Setor();
-			if(setor.getId() != null){
-				mensagemSave = " salvo ";
-			}
+			mensagemSave = " salvo ";
+			mensagemFail = " salvar ";
 		}
 		try{
 			setor.setSetor(txtSetor.getText());

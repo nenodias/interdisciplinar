@@ -305,10 +305,8 @@ public class CadastroUsuario extends JPanel implements Inicializavel {
 		try{
 			if(usuario == null ){
 				usuario = new  Usuario();
-				if(usuario.getId() != null){
-					mensagemSave = " salvo ";
-					mensagemFail = " salvar ";
-				}
+				mensagemSave = " salvo ";
+				mensagemFail = " salvar ";
 			}
 			
 			usuario.setNome(txtNome.getText() );

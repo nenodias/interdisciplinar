@@ -217,10 +217,8 @@ public class CadastroVenda extends JPanel implements Inicializavel {
 		try{
 			if(venda == null ){
 				venda = new Venda();
-				if(venda.getId() != null){
-					mensagemSave = " salvo ";
-					mensagemFail = " salvar ";
-				}
+				mensagemSave = " salvo ";
+				mensagemFail = " salvar ";
 			}
 			
 			Validador<Venda> validador = new Validador<Venda>();

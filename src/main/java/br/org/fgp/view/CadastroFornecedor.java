@@ -312,10 +312,8 @@ public class CadastroFornecedor extends JPanel implements Inicializavel {
 		try{
 			if(fornecedor == null ){
 				fornecedor = new  Fornecedor();
-				if(fornecedor.getId() != null){
-					mensagemSave = " salvo ";
-					mensagemFail = " salvar ";
-				}
+				mensagemSave = " salvo ";
+				mensagemFail = " salvar ";
 			}
 			fornecedor.setNomeFantasia( txtNomeFantasia.getText() );
 			fornecedor.setRazaoSocial( txtRazaoSocial.getText() );

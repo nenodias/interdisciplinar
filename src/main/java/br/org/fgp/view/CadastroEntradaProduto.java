@@ -197,10 +197,8 @@ public class CadastroEntradaProduto extends JPanel  implements Inicializavel{
 		try{
 			if(entradaProduto == null ){
 				entradaProduto = new  EntradaProduto();
-				if(entradaProduto.getId() != null){
-					mensagemSave = " salva ";
-					mensagemFail = " salvar ";
-				}
+				mensagemSave = " salva ";
+				mensagemFail = " salvar ";
 			}
 			if( StringUtils.isNotBlank( txtFornecedor.getText() ) ){
 				try{
