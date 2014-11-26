@@ -276,7 +276,8 @@ public class CadastroVenda extends JPanel implements Inicializavel {
 				try {
 					CadastroVendaItem dialog = new CadastroVendaItem(vendaItem);
 					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-					dialog.setLocationRelativeTo(painel);
+					TelaPrincipal telaPrincipal = ApplicationContextConfig.getContext().getBean(TelaPrincipal.class);
+					dialog.setLocationRelativeTo(telaPrincipal);
 					dialog.setVisible(true);
 				} catch (Exception e) {
 					LOGGER.error(e);
