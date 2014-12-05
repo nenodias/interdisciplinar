@@ -19,6 +19,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import br.org.fgp.core.ApplicationContextConfig;
@@ -154,6 +155,8 @@ public class Login extends JFrame {
 		String senhaCriptografada = SecurityUtils.encrypt( String.valueOf( txtSenha.getPassword() ) ) ;
 		if (usuario != null && usuario.getSenha().equals(senhaCriptografada) ) {
 			TelasUtils.setUsuarioLogado(usuario);
+			txtUsuario.setText(StringUtils.EMPTY);
+			txtSenha.setText(StringUtils.EMPTY);
 			EventQueue.invokeLater(new Runnable() {
 				public void run() {
 					try {
