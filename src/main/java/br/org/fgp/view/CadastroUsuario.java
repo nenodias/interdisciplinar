@@ -303,7 +303,7 @@ public class CadastroUsuario extends JPanel implements Inicializavel {
 		String mensagemSave = " atualizado ";
 		String mensagemFail = " atualizar ";
 		try{
-			if(usuario == null ){
+			if(usuario.getId() == null ){
 				usuario = new  Usuario();
 				mensagemSave = " salvo ";
 				mensagemFail = " salvar ";
@@ -431,6 +431,7 @@ public class CadastroUsuario extends JPanel implements Inicializavel {
 		}else{
 			usuario = new Usuario();
 			listaTelefones.clear();
+			limparComponentes();
 		}
 		atualizaDesenhoTabela();
 	}

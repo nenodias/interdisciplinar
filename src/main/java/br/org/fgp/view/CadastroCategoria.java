@@ -62,6 +62,7 @@ public class CadastroCategoria extends JDialog implements Inicializavel {
 			txtCategoria.setText(categoria.getDescricao());
 		}else{
 			categoria = new Categoria();
+			txtCategoria.setText(StringUtils.EMPTY);
 		}
 	}
 	
@@ -119,7 +120,7 @@ public class CadastroCategoria extends JDialog implements Inicializavel {
 	private void salvar() {
 		String mensagemSave = " atualizada ";
 		String mensagemFail = " atualizar ";
-		if(categoria == null){
+		if(categoria.getId() == null){
 			categoria = new Categoria();
 			mensagemSave = " salva ";
 			mensagemFail = " salvar ";

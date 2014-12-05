@@ -180,4 +180,9 @@ public abstract class GenericoDaoImpl<T, PK> implements GenericoDao<T, PK> {
     	return PKclazz;
     }
     
+    @Override
+    public void evict(Object objeto){
+    	getSessaoAtual().evict(objeto);
+    }
+    
 }

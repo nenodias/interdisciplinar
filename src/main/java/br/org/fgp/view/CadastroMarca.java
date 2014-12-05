@@ -116,13 +116,14 @@ public class CadastroMarca extends JDialog implements Inicializavel {
 			txtMarca.setText(marca.getMarca());
 		}else{
 			marca = new Marca();
+			txtMarca.setText(StringUtils.EMPTY);
 		}
 	}
 	
 	private void salvar(){
 		String mensagemSave = " atualizada ";
 		String mensagemFail = " atualizar ";
-		if(marca == null){
+		if(marca.getId() == null){
 			marca = new Marca();
 			mensagemSave = " salva ";
 			mensagemFail = " salvar ";

@@ -310,7 +310,7 @@ public class CadastroFornecedor extends JPanel implements Inicializavel {
 		String mensagemSave = " atualizado ";
 		String mensagemFail = " atualizar ";
 		try{
-			if(fornecedor == null ){
+			if(fornecedor.getId() == null ){
 				fornecedor = new  Fornecedor();
 				mensagemSave = " salvo ";
 				mensagemFail = " salvar ";
@@ -329,12 +329,18 @@ public class CadastroFornecedor extends JPanel implements Inicializavel {
 					contatoFornecedorDao.deletarPorIdUsuario(fornecedor.getId());
 				}
 				for (ContatoFornecedor contatoFornecedor : listaContato) {
+					contatoFornecedorDao.evict(contatoFornecedor);
 					contatoFornecedor.setId(null);
 					contatoFornecedor.setFornecedor(fornecedor);
 					contatoFornecedor.getContato().setId(null);
+					contatoFornecedorDao.evict(contatoFornecedor);
 					for (ContatoTelefone contatoTelefone : contatoFornecedor.getContato().getListaTelefone() ) {
 						contatoTelefone.setId(null);
+						contatoFornecedorDao.evict(contatoTelefone);
 						contatoTelefone.setContato(contatoFornecedor.getContato());
+						contatoTelefone.getTelefone().setId(null);
+						contatoFornecedorDao.evict(contatoTelefone.getTelefone());
+						contatoFornecedorDao.flush();
 						telefoneDao.salvar( contatoTelefone.getTelefone() );
 						contatoDao.salvar( contatoTelefone.getContato() );
 						contatoTelefoneDao.salvar(contatoTelefone);
@@ -426,6 +432,7 @@ public class CadastroFornecedor extends JPanel implements Inicializavel {
 		}else{
 			fornecedor = new Fornecedor();
 			listaContato.clear();
+			limparComponentes();
 		}
 		atualizaDesenhoTabela();
 	}

@@ -58,6 +58,7 @@ public class Login extends JFrame {
 			public void run() {
 				try {
 					frame.setVisible(true);
+					frame.setAlwaysOnTop(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

@@ -137,8 +137,8 @@ public class CadastroEntradaProduto extends JPanel  implements Inicializavel{
 			txtFornecedor.setText( entradaProduto.getFornecedor().getId().toString() );
 		}else{
 			entradaProduto = new EntradaProduto();
+			limparComponentes();
 		}
-		limparComponentes();
 	}
 
 	private void init(Usuario usuarioLogado) {
@@ -195,7 +195,7 @@ public class CadastroEntradaProduto extends JPanel  implements Inicializavel{
 		String mensagemSave = " atualizada ";
 		String mensagemFail = " atualizar ";
 		try{
-			if(entradaProduto == null ){
+			if(entradaProduto.getId() == null ){
 				entradaProduto = new  EntradaProduto();
 				mensagemSave = " salva ";
 				mensagemFail = " salvar ";

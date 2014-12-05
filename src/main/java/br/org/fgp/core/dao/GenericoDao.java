@@ -4,31 +4,31 @@ import java.util.List;
 
 import org.hibernate.criterion.Order;
 
+public abstract interface GenericoDao<T, PK> {
+	abstract Long count();
 
-public abstract interface GenericoDao<T, PK>
-{
-  abstract Long count();
+	abstract void salvar(T entity);
 
-  abstract void salvar(T entity);
+	abstract void deletar(PK id);
 
-  abstract void deletar(PK id);
-  
-  abstract void flush();
+	abstract void flush();
 
-  abstract void deletarTodos();
+	abstract void deletarTodos();
 
-  abstract T buscarPorId(PK paramPK);
+	abstract T buscarPorId(PK paramPK);
 
-  abstract List<T> buscarTodos();
-  
-  abstract List<T> buscarTodos(Order paramOrder);
+	abstract List<T> buscarTodos();
 
-  @SuppressWarnings( "rawtypes")
-  Class getPKClass();
+	abstract List<T> buscarTodos(Order paramOrder);
 
-  @SuppressWarnings( "rawtypes")
-  Class getObjectClass();
+	@SuppressWarnings("rawtypes")
+	Class getPKClass();
 
- void execute(String sql);
+	@SuppressWarnings("rawtypes")
+	Class getObjectClass();
+
+	void execute(String sql);
+
+	void evict(Object objeto);
 
 }

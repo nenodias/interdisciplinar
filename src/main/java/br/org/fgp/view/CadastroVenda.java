@@ -22,6 +22,7 @@ import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.validation.ValidationException;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -169,6 +170,7 @@ public class CadastroVenda extends JPanel implements Inicializavel {
 		}else{
 			venda = new Venda();
 			listaItens.clear();
+			limparComponentes();
 		}
 		atualizaDesenhoTabela();
 	}
@@ -208,6 +210,7 @@ public class CadastroVenda extends JPanel implements Inicializavel {
 	
 	private void limparComponentes() {
 		listaItens.clear();
+		txtValorTotal.setText(StringUtils.EMPTY);
 		atualizaDesenhoTabela();
 	}
 	
@@ -215,7 +218,7 @@ public class CadastroVenda extends JPanel implements Inicializavel {
 		String mensagemSave = " atualizado ";
 		String mensagemFail = " atualizar ";
 		try{
-			if(venda == null ){
+			if(venda.getId() == null ){
 				venda = new Venda();
 				mensagemSave = " salvo ";
 				mensagemFail = " salvar ";

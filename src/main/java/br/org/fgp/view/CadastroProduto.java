@@ -142,7 +142,7 @@ public class CadastroProduto extends JPanel implements Inicializavel {
 		String mensagemSave = " atualizado ";
 		String mensagemFail = " atualizar ";
 		try{
-			if(produto == null ){
+			if(produto.getId() == null ){
 				produto = new  Produto();
 				mensagemSave = " salvo ";
 				mensagemFail = " salvar ";
@@ -196,7 +196,7 @@ public class CadastroProduto extends JPanel implements Inicializavel {
 	}
 
 	private void limparComponentes() {
-		final JTextField[] componentes = {txtNome,txtDescricao,txtPrecoUnitario};
+		final JTextField[] componentes = {txtNome,txtDescricao,txtPrecoUnitario, txtEstoqueMaximo, txtEstoqueMinimo};
 		for (JTextField jComponent : componentes) {
 			jComponent.setText(StringUtils.EMPTY);
 		}
@@ -208,6 +208,8 @@ public class CadastroProduto extends JPanel implements Inicializavel {
 	public void load(Integer id) {
 		if(id != null){
 			produto = produtoDao.buscarPorId(id);
+		}else{
+			limparComponentes();
 		}
 		init(TelasUtils.getUsuarioLogado());
 		if(id != null){

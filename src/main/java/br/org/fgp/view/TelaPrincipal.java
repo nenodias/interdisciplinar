@@ -93,6 +93,8 @@ public class TelaPrincipal extends JFrame implements Inicializavel {
 	@Permissao
 	private JMenu mnRelatorio;
 
+	private JMenu mnSair;
+
 	public TelaPrincipal() {
 		frmInterdisciplinar = new JFrame();
 		frmInterdisciplinar.setTitle("ERP - Autoposto Pederbras");
@@ -129,6 +131,8 @@ public class TelaPrincipal extends JFrame implements Inicializavel {
 		
 		mnRelatorio = new JMenu("Relatório");
 		menuBar.add(mnRelatorio);
+		mnSair = new JMenu("Logout");
+		menuBar.add(mnSair);
 		
 		frmInterdisciplinar.getContentPane().setLayout(new BorderLayout(0, 0));
 		contentPane = new JPanel();
@@ -231,11 +235,23 @@ public class TelaPrincipal extends JFrame implements Inicializavel {
 				telaRelatorio();
 			}
 		});
-		
+		mnSair.addMouseListener(new MouseListener() {
+			public void mouseReleased(MouseEvent e) {}
+			public void mouseExited(MouseEvent e) {}
+			public void mouseEntered(MouseEvent e) {}
+			public void mouseClicked(MouseEvent e) {}
+			public void mousePressed(MouseEvent e) {
+				logout();
+			}
+		});
 		ComponenteControlado<TelaPrincipal> componenteControlado = new ComponenteControlado<TelaPrincipal>(this);
 		componenteControlado.pronto(TipoUsuario.ADMINISTRADOR);
 	}
 	
+	protected void logout() {
+		Login.main(null);
+	}
+
 	protected void telaRelatorio() {
 		if(mnRelatorio.isEnabled()){
 			Runnable runnable = new Runnable() {

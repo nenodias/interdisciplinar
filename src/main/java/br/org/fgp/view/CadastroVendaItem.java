@@ -179,7 +179,7 @@ public class CadastroVendaItem extends JDialog {
 				LOGGER.error(e);
 			}
 		}
-		if( StringUtils.isNotBlank( txtQuantidade.getText() ) ){
+		if( StringUtils.isNotBlank( txtQuantidade.getText() ) || Integer.parseInt(txtQuantidade.getText()) > 0 ){
 			try{
 				Integer quantidade = Integer.parseInt(txtQuantidade.getText());
 				vendaItem.setQuantidade(quantidade);
