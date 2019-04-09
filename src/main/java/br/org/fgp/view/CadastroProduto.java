@@ -142,7 +142,7 @@ public class CadastroProduto extends JPanel implements Inicializavel {
 		String mensagemSave = " atualizado ";
 		String mensagemFail = " atualizar ";
 		try{
-			if(produto.getId() == null ){
+			if(produto == null || (produto != null && produto.getId() == null) ){
 				produto = new  Produto();
 				mensagemSave = " salvo ";
 				mensagemFail = " salvar ";
