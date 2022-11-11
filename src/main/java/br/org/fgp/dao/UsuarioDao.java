@@ -5,5 +5,5 @@ import br.org.fgp.model.Usuario;
 
 public interface UsuarioDao extends GenericoDao<Usuario, Integer> {
 
-	Usuario buscarPorLogin(String login);
+    Usuario buscarPorLogin(String login);
 }

@@ -7,8 +7,8 @@ import br.org.fgp.model.VendaItem;
 
 public interface VendaItemDao extends GenericoDao<VendaItem, Integer> {
 
-	void deletarPorIdVenda(Integer id);
+    void deletarPorIdVenda(Integer id);
 
-	List<VendaItem> buscarPorIdVenda(Integer id);
+    List<VendaItem> buscarPorIdVenda(Integer id);
 
 }

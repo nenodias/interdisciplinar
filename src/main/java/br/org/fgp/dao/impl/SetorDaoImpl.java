@@ -13,9 +13,9 @@ import br.org.fgp.model.Setor;
 @Repository
 public class SetorDaoImpl extends GenericoDaoImpl<Setor, Integer> implements SetorDao, Filtravel<Setor> {
 
-	@Override
-	public List<Setor> filtrarPorDescricao(String descricao) {
-		return buscarPorCriteria(Restrictions.like("setor", descricao) );
-	}
+    @Override
+    public List<Setor> filtrarPorDescricao(String descricao) {
+        return buscarPorCriteria(Restrictions.like("setor", descricao));
+    }
 
 }

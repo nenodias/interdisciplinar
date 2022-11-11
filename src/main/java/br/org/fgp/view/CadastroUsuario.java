@@ -60,483 +60,483 @@ import br.org.fgp.view.core.Validador;
 
 @Controller
 public class CadastroUsuario extends JPanel implements Inicializavel {
-	
-	private static final long serialVersionUID = -2627759817945447945L;
-	
-	private static final String CLASS_NAME = "Usuário";
-	
-	private static final Logger LOGGER = Logger.getLogger(CadastroUsuario.class);
-	
-	private JTextField txtNome;
-	private JTextField txtLogin;
-	private JFormattedTextField txtCPF;
-	private JPasswordField txtSenha;
-	private JTextField txtEndereco;
-	private JTextField txtNumero;
-	private JTextField txtBairro;
-	private JComboBox<TipoUsuario> cbbTipo;
-	private JComboBox<Estado> cbbEstado;
-	private JComboBox<Cidade> cbbCidade;
-	private JLabel lblEndereo;
-	private JLabel lblNmero;
-	private JLabel lblBairro;
-	private JLabel lblEstado;
-	private JLabel lblCidade;
-	private JSplitPane splitPane;
-	private JButton btnSalvar;
-	private JButton btnCancelar;
-	private Usuario usuario;
-	
-	private JPanel painel; 
-	
-	@Autowired
-	private UsuarioDao usuarioDao;
-	
-	@Autowired
-	private CidadeDao cidadeDao;
-	
-	@Autowired
-	private EstadoDao estadoDao;
-	
-	@Autowired
-	private UsuarioTelefoneDao usuarioTelefoneDao;
-	
-	@Autowired
-	private TelefoneDao telefoneDao;
-	
-	public UsuarioTelefoneDao getUsuarioTelefoneDao(){
-		return usuarioTelefoneDao;
-	}
-	public void setUsuarioTelefoneDao(UsuarioTelefoneDao telefoneDao){
-		this.usuarioTelefoneDao = telefoneDao;
-	}
-	
-	public TelefoneDao getTelefoneDao(){
-		return telefoneDao;
-	}
-	public void setTelefoneDao(TelefoneDao telefoneDao){
-		this.telefoneDao = telefoneDao;
-	}
-	
-	public CidadeDao getCidadeDao() {
-		return cidadeDao;
-	}
 
-	public void setCidadeDao(CidadeDao cidadeDao) {
-		this.cidadeDao = cidadeDao;
-	}
-	
-	
-	private SwingWorker<Object, String> cidadeWorker;
+    private static final long serialVersionUID = -2627759817945447945L;
 
-	private List<UsuarioTelefone> listaTelefones;
+    private static final String CLASS_NAME = "Usuário";
 
-	private TableModelGenerico<UsuarioTelefone> modelGenerico;
+    private static final Logger LOGGER = Logger.getLogger(CadastroUsuario.class);
 
-	private JScrollPane painelTabela;
+    private JTextField txtNome;
+    private JTextField txtLogin;
+    private JFormattedTextField txtCPF;
+    private JPasswordField txtSenha;
+    private JTextField txtEndereco;
+    private JTextField txtNumero;
+    private JTextField txtBairro;
+    private JComboBox<TipoUsuario> cbbTipo;
+    private JComboBox<Estado> cbbEstado;
+    private JComboBox<Cidade> cbbCidade;
+    private JLabel lblEndereo;
+    private JLabel lblNmero;
+    private JLabel lblBairro;
+    private JLabel lblEstado;
+    private JLabel lblCidade;
+    private JSplitPane splitPane;
+    private JButton btnSalvar;
+    private JButton btnCancelar;
+    private Usuario usuario;
 
-	private JTable tabela;
+    private JPanel painel;
 
-	private SwingWorker<Object, String> estadoWorker;
+    @Autowired
+    private UsuarioDao usuarioDao;
 
-	public EstadoDao getEstadoDao() {
-		return estadoDao;
-	}
+    @Autowired
+    private CidadeDao cidadeDao;
 
-	public void setEstadoDao(EstadoDao estadoDao) {
-		this.estadoDao = estadoDao;
-	}
+    @Autowired
+    private EstadoDao estadoDao;
 
-	public UsuarioDao getUsuarioDao() {
-		return usuarioDao;
-	}
+    @Autowired
+    private UsuarioTelefoneDao usuarioTelefoneDao;
 
-	public void setUsuarioDao(UsuarioDao usuarioDao) {
-		this.usuarioDao = usuarioDao;
-	}
+    @Autowired
+    private TelefoneDao telefoneDao;
 
-	public CadastroUsuario() {
-		painel = this;
-		setLayout(null);
-		adicionarComponente(new JCabecalhoLabel("Usuário"),0);
-		JLabel lblNewLabel = new JLabel("Nome:");
-		adicionarComponente(lblNewLabel, 2);
-		txtNome = new JTextField();
-		adicionarComponente(txtNome, 2);
-		
-		JLabel lblLogin = new JLabel("Login:");
-		adicionarComponente(lblLogin, 4);
-		
-		txtLogin = new JTextField();
-		adicionarComponente(txtLogin, 4);
-		
-		JLabel lblSenha = new JLabel("Senha:");
-		adicionarComponente(lblSenha, 6);
-		
-		txtSenha = new JPasswordField();
-		adicionarComponente(txtSenha, 6);
-		
-		JLabel lblTipo = new JLabel("Tipo:");
-		adicionarComponente(lblTipo,8);
-		
-		cbbTipo = new JComboBox<TipoUsuario>();
-		cbbTipo.addItem(TipoUsuario.ADMINISTRADOR);
-		cbbTipo.addItem(TipoUsuario.BALCAO);
-		adicionarComponente(cbbTipo,8);
-		
-		JLabel label = new JLabel("CPF:");
-		adicionarComponente(label, 10);
-		
-		txtCPF = new JFormattedTextField(TelasUtils.getMascaraCPF());
-		adicionarComponente(txtCPF,10);
-		
-		
-		lblEndereo = new JLabel("Rua:");
-		adicionarComponente(lblEndereo, 12);
-		
-		txtEndereco = new JTextField();
-		adicionarComponente(txtEndereco, 12);
-		
-		lblNmero = new JLabel("Número:");
-		adicionarComponente(lblNmero, 14);
-		
-		txtNumero = new JTextField();
-		adicionarComponente(txtNumero, 14);
-		
-		lblBairro = new JLabel("Bairro:");
-		adicionarComponente(lblBairro,16 );
-		
-		txtBairro = new JTextField();
-		adicionarComponente(txtBairro, 16);
-		
-		lblEstado = new JLabel("Estado:");
-		adicionarComponente(lblEstado, 18);
-		
-		cbbEstado = new JComboBox<Estado>();
-		adicionarComponente(cbbEstado, 18);
-		
-		lblCidade = new JLabel("Cidade:");
-		adicionarComponente(lblCidade, 20);
-		
-		cbbCidade = new JComboBox<Cidade>();
-		adicionarComponente(cbbCidade, 20);
-		
-		painelTabela = new JScrollPane();
-		tabela = new JTable();
-		if(usuario != null && usuario.getListaTelefone() != null ){
-			listaTelefones = usuario.getListaTelefone();
-		}else{
-			listaTelefones = new ArrayList<UsuarioTelefone>();
-		}
-		modelGenerico = new TableModelGenerico<UsuarioTelefone>(listaTelefones, UsuarioTelefone.class);
-		JButton btnAdicionarTelefone = new JButtonAdicionar();
-		btnAdicionarTelefone.setBounds(TelasUtils.DEFAULT_X+ TelasUtils.DEFAULT_ESPACO , TelasUtils.DEFAULT_Y +(20 *TelasUtils.DEFAULT_ESPACO) , TelasUtils.DEFAULT_LARGURA_COMPONENTE /2, TelasUtils.DEFAULT_ALTURA_COMPONENTE);
-		add(btnAdicionarTelefone);
-		tabela.setModel(modelGenerico);
-		tabela.setEnabled(true);
-		painelTabela.setViewportView(tabela);
-		painelTabela.setEnabled(true);
-		painelTabela.setBounds(TelasUtils.DEFAULT_X+ TelasUtils.DEFAULT_ESPACO , TelasUtils.DEFAULT_Y +(22 *TelasUtils.DEFAULT_ESPACO) , TelasUtils.DEFAULT_LARGURA_COMPONENTE*2, TelasUtils.DEFAULT_ALTURA_COMPONENTE+TelasUtils.DEFAULT_ALTURA_COMPONENTE*2);
-		add(painelTabela);
-		painelTabela.setVisible(true);
+    public UsuarioTelefoneDao getUsuarioTelefoneDao() {
+        return usuarioTelefoneDao;
+    }
 
-		splitPane = new JSplitPane();
-		adicionarComponente(splitPane, 28);
-		
-		btnSalvar = new JButtonSalvar();
-		if(getRootPane() != null){
-			getRootPane().setDefaultButton(btnSalvar);
-		}
-		splitPane.setLeftComponent(btnSalvar);
-		
-		btnCancelar = new JButtonCancelar();
-		splitPane.setRightComponent(btnCancelar);
-		splitPane.setDividerLocation(TelasUtils.DEFAULT_LARGURA_COMPONENTE/2);
-		splitPane.setEnabled(false);
-		
-		ComponenteControlado<CadastroUsuario> controleAcesso = new ComponenteControlado<CadastroUsuario>(this); 
-		controleAcesso.pronto(TipoUsuario.ADMINISTRADOR);
-		
-		carregarEstado();
-		carregarCidade();
-		
-		tabela.addMouseListener(new MouseAdapter() {
+    public void setUsuarioTelefoneDao(UsuarioTelefoneDao telefoneDao) {
+        this.usuarioTelefoneDao = telefoneDao;
+    }
 
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				eventoCliqueTabela(e);
-			}
-		});
-		
-		cbbEstado.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent arg0) {
-				carregarCidade();
-			}
-		});
-		btnSalvar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				salvar();
-			}
+    public TelefoneDao getTelefoneDao() {
+        return telefoneDao;
+    }
 
-		});
-		
-		btnCancelar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				cancelar();
-			}
+    public void setTelefoneDao(TelefoneDao telefoneDao) {
+        this.telefoneDao = telefoneDao;
+    }
 
-		});
-		
-		btnAdicionarTelefone.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				adicionarTelefone();
-			}
-		});
-	}
-	
-	private void cancelar() {
-		TelaPrincipal telaPrincipal = ApplicationContextConfig.getContext().getBean(TelaPrincipal.class);
-		telaPrincipal.cancelar();
-	}
-	
-	private void salvar() {
-		String mensagemSave = " atualizado ";
-		String mensagemFail = " atualizar ";
-		try{
-			if(usuario.getId() == null ){
-				usuario = new  Usuario();
-				mensagemSave = " salvo ";
-				mensagemFail = " salvar ";
-			}
-			
-			usuario.setNome(txtNome.getText() );
-			usuario.setLogin(txtLogin.getText());
-			String password = String.valueOf( txtSenha.getPassword() );
-			if(StringUtils.isNotBlank(password)){
-				usuario.setSenha( SecurityUtils.encrypt( password ) );
-			}
-			usuario.setCpf( txtCPF.getText());
-			TipoUsuario tipoUsuario = (TipoUsuario)cbbTipo.getSelectedItem();
-			usuario.setTipo(tipoUsuario);
-			Cidade cidade = (Cidade) cbbCidade.getSelectedItem();
-			usuario.setEndereco(new Endereco(txtEndereco.getText(), txtNumero.getText(), txtBairro.getText(), cidade ));
-			Validador<Usuario> validador = new Validador<Usuario>();
-			validador.validacaoCampos(usuario);
-			usuarioDao.salvar(usuario);
-			if(!listaTelefones.isEmpty()){
-				if(usuario.getId() != null){
-					usuarioTelefoneDao.deletarPorIdUsuario(usuario.getId());
-				}
-				for (UsuarioTelefone usuarioTelefone : listaTelefones) {
-					usuarioTelefone.setId(null);
-					usuarioTelefone.setUsuario(usuario);
-					usuarioTelefone.getTelefone().setId(null);
-					telefoneDao.salvar( usuarioTelefone.getTelefone() );
-					usuarioTelefoneDao.salvar(usuarioTelefone);
-				}
-			}
-			JOptionPane.showMessageDialog(null, CLASS_NAME.concat(mensagemSave).concat("com sucesso.") );
-			usuario = null;
-			limparComponentes();
-			cancelar();
-		}
-		catch(ValidationException e){
-			LOGGER.error(e);
-		}
-		catch(Exception ex){
-			JOptionPane.showMessageDialog(null, "Falha ao ".concat(mensagemFail).concat(" ").concat(CLASS_NAME).concat(".") );
-			LOGGER.error(ex);
-		}
-	}
+    public CidadeDao getCidadeDao() {
+        return cidadeDao;
+    }
 
-	private void limparComponentes() {
-		final JTextField[] componentes = {txtNome,txtLogin,txtCPF,txtEndereco,txtNumero,txtBairro};
-		for (JTextField jComponent : componentes) {
-			jComponent.setText(StringUtils.EMPTY);
-		}
-		listaTelefones.clear();
-		atualizaDesenhoTabela();
-		txtSenha.setText(StringUtils.EMPTY);
-	}
+    public void setCidadeDao(CidadeDao cidadeDao) {
+        this.cidadeDao = cidadeDao;
+    }
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	private void carregarEstado(){
-		estadoWorker = new SwingWorker() {
 
-			@Override
-			protected Object doInBackground() throws Exception {
-				cbbEstado.removeAllItems();
-				for (Estado estado : estadoDao.buscarTodos()) {
-					cbbEstado.addItem(estado);
-					if(usuario != null &&  usuario.getEndereco() != null && estado.equals(usuario.getEndereco().getCidade().getEstado() ) ){
-						cbbEstado.setSelectedItem(estado);
-					}
-				}
-				return null;
-			}
-		};
-		estadoWorker.execute();
-	}
-	
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	private void carregarCidade(){
-		cidadeWorker = new SwingWorker() {
+    private SwingWorker<Object, String> cidadeWorker;
 
-			@Override
-			protected Object doInBackground() throws Exception {
-				Estado item = (Estado) cbbEstado.getSelectedItem();
-				cbbCidade.removeAllItems();
-				while (!estadoWorker.isDone()) {
-					
-				}
-				for (Cidade cidade : cidadeDao.buscaPorEstado(item.getId() ) ) {
-					cbbCidade.addItem(cidade);
-					if(usuario != null && usuario.getEndereco() != null && cidade.equals(usuario.getEndereco().getCidade() ) ){
-						cbbCidade.setSelectedItem(cidade);
-					}
-				}
-				return null;
-			}
-		};
-		cidadeWorker.execute();
-	}
+    private List<UsuarioTelefone> listaTelefones;
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@Override
-	public void load(Integer id) {
-		if(id != null){
-			usuario = usuarioDao.buscarPorId(id);
-		}
-		init(TelasUtils.getUsuarioLogado());
-		if(id != null){
-			
-			txtNome.setText( usuario.getNome() );
-			txtLogin.setText( usuario.getLogin() );
-			txtCPF.setText( usuario.getCpf() );
-			txtEndereco.setText( usuario.getEndereco().getRua() );
-			txtNumero.setText( usuario.getEndereco().getNumero() );
-			txtBairro.setText( usuario.getEndereco().getBairro() );
-			
-			SwingWorker<Object, String> tipoWorker = new SwingWorker() {
-	
-				@Override
-				protected Object doInBackground() throws Exception {
-					carregarTipoWorker();
-					return null;
-				}
-			};
-			tipoWorker.execute();
-			
-			listaTelefones = usuario.getListaTelefone();
-		}else{
-			usuario = new Usuario();
-			listaTelefones.clear();
-			limparComponentes();
-		}
-		atualizaDesenhoTabela();
-	}
+    private TableModelGenerico<UsuarioTelefone> modelGenerico;
 
-	public void init(Usuario usuario) {
-		ComponenteControlado<CadastroUsuario> controleAcesso = new ComponenteControlado<CadastroUsuario>(this);
-		controleAcesso.pronto(usuario.getTipo());
-		carregarEstado();
-		carregarCidade();
-		repaint();
-		revalidate();
-	}
-	
-	private void adicionarComponente(JComponent componente, int valor){
-		Map<String, Integer> parametros = new HashMap<String, Integer>();
-		TelasUtils.adicionarComponente(componente, valor, this, parametros);
-	}
+    private JScrollPane painelTabela;
 
-	private void adicionarTelefone() {
-		final Telefone telefone = new Telefone();
-		abrirModalTelefone(telefone);
-		if(StringUtils.isNotBlank( telefone.getTelefone() ) ){
-			UsuarioTelefone usuarioTelefone = new UsuarioTelefone();
-			usuarioTelefone.setTelefone(telefone);
-			usuarioTelefone.setUsuario(usuario);
-			listaTelefones.add(usuarioTelefone);
-			atualizaDesenhoTabela();
-		}
-	}
+    private JTable tabela;
 
-	private void abrirModalTelefone(final Telefone telefone) {
-		Runnable runnable = new Runnable() {
-			public void run() {
-				try {
-					CadastroTelefone dialog = new CadastroTelefone(telefone);
-					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-					dialog.setLocationRelativeTo(painel);
-					dialog.setVisible(true);
-				} catch (Exception e) {
-					LOGGER.error(e);
-				}
-			}
-		};
-		runnable.run();
-	}
-	
-	@SuppressWarnings("unchecked")
-	private void eventoCliqueTabela(MouseEvent e) {
-		if (e.getClickCount() == 2) {
-			TableModelGenerico<UsuarioTelefone> model = (TableModelGenerico<UsuarioTelefone>) tabela.getModel();
-			boolean atualizaTabela = false;
-			int linha = tabela.getSelectedRow();
-			int coluna = tabela.getSelectedColumn();
-			UsuarioTelefone usuarioTelefone = listaTelefones.get(linha);
-			
-			if(coluna == model.getCountadorColunas() ){
-				abrirModalTelefone(usuarioTelefone.getTelefone());
-				atualizaTabela = true;
-			} else if(coluna == model.getCountadorColunas() +1 &&  TelasUtils.getUsuarioLogado() != null && TelasUtils.isPermision(Usuario.class, TelasUtils.getUsuarioLogado().getTipo() )  ){
-				int excluir = JOptionPane.showConfirmDialog(null, "Deseja excluir o registro: "+usuarioTelefone.getTelefone() + " ?", "Excluir?", JOptionPane.YES_NO_OPTION);
-				if(excluir == JOptionPane.YES_OPTION){
-					int contador = 0;
-					while(true){
-						if(listaTelefones.get(contador).equals(usuarioTelefone) ){
-							UsuarioTelefone usuTelefone = listaTelefones.get(contador);
-							listaTelefones.remove( usuTelefone );
-							break;
-						}
-						contador++;
-					}
-				}
-				atualizaTabela = true;
-			}
-			if(atualizaTabela){
-				atualizaDesenhoTabela();
-			}
-		}
-	}
+    private SwingWorker<Object, String> estadoWorker;
 
-	private void atualizaDesenhoTabela() {
-		if(listaTelefones.size() > 0){
-			new ButtonColumnEditar(tabela, null, modelGenerico.getCountadorColunas() );
-			ButtonColumnExcluir buttonColumnExcluir = new ButtonColumnExcluir(tabela, null, modelGenerico.getCountadorColunas() + 1 );
-			if( TelasUtils.getUsuarioLogado() != null && TelasUtils.isPermision(Usuario.class, TelasUtils.getUsuarioLogado().getTipo() )  ){
-				buttonColumnExcluir.setEnabled(false);
-			}
-		}
-		if(!modelGenerico.getLista().equals(listaTelefones)){
-			modelGenerico.getLista().clear();
-			for (UsuarioTelefone usuarioTelefone : listaTelefones) {
-				modelGenerico.getLista().add(usuarioTelefone);
-			}
-			listaTelefones = (List<UsuarioTelefone>) modelGenerico.getLista();
-			
-		}
-		modelGenerico.fireTableDataChanged();
-		tabela.updateUI();
-	}
-	
-	private void carregarTipoWorker() {
-		for (int i = 0; i < cbbTipo.getItemCount(); i++) {
-			if(cbbTipo.getItemAt(i).equals( usuario.getTipo() )){
-				cbbTipo.setSelectedIndex(i);
-				break;
-			}
-		}
-	}
+    public EstadoDao getEstadoDao() {
+        return estadoDao;
+    }
+
+    public void setEstadoDao(EstadoDao estadoDao) {
+        this.estadoDao = estadoDao;
+    }
+
+    public UsuarioDao getUsuarioDao() {
+        return usuarioDao;
+    }
+
+    public void setUsuarioDao(UsuarioDao usuarioDao) {
+        this.usuarioDao = usuarioDao;
+    }
+
+    public CadastroUsuario() {
+        painel = this;
+        setLayout(null);
+        adicionarComponente(new JCabecalhoLabel("Usuário"), 0);
+        JLabel lblNewLabel = new JLabel("Nome:");
+        adicionarComponente(lblNewLabel, 2);
+        txtNome = new JTextField();
+        adicionarComponente(txtNome, 2);
+
+        JLabel lblLogin = new JLabel("Login:");
+        adicionarComponente(lblLogin, 4);
+
+        txtLogin = new JTextField();
+        adicionarComponente(txtLogin, 4);
+
+        JLabel lblSenha = new JLabel("Senha:");
+        adicionarComponente(lblSenha, 6);
+
+        txtSenha = new JPasswordField();
+        adicionarComponente(txtSenha, 6);
+
+        JLabel lblTipo = new JLabel("Tipo:");
+        adicionarComponente(lblTipo, 8);
+
+        cbbTipo = new JComboBox<TipoUsuario>();
+        cbbTipo.addItem(TipoUsuario.ADMINISTRADOR);
+        cbbTipo.addItem(TipoUsuario.BALCAO);
+        adicionarComponente(cbbTipo, 8);
+
+        JLabel label = new JLabel("CPF:");
+        adicionarComponente(label, 10);
+
+        txtCPF = new JFormattedTextField(TelasUtils.getMascaraCPF());
+        adicionarComponente(txtCPF, 10);
+
+
+        lblEndereo = new JLabel("Rua:");
+        adicionarComponente(lblEndereo, 12);
+
+        txtEndereco = new JTextField();
+        adicionarComponente(txtEndereco, 12);
+
+        lblNmero = new JLabel("Número:");
+        adicionarComponente(lblNmero, 14);
+
+        txtNumero = new JTextField();
+        adicionarComponente(txtNumero, 14);
+
+        lblBairro = new JLabel("Bairro:");
+        adicionarComponente(lblBairro, 16);
+
+        txtBairro = new JTextField();
+        adicionarComponente(txtBairro, 16);
+
+        lblEstado = new JLabel("Estado:");
+        adicionarComponente(lblEstado, 18);
+
+        cbbEstado = new JComboBox<Estado>();
+        adicionarComponente(cbbEstado, 18);
+
+        lblCidade = new JLabel("Cidade:");
+        adicionarComponente(lblCidade, 20);
+
+        cbbCidade = new JComboBox<Cidade>();
+        adicionarComponente(cbbCidade, 20);
+
+        painelTabela = new JScrollPane();
+        tabela = new JTable();
+        if (usuario != null && usuario.getListaTelefone() != null) {
+            listaTelefones = usuario.getListaTelefone();
+        } else {
+            listaTelefones = new ArrayList<UsuarioTelefone>();
+        }
+        modelGenerico = new TableModelGenerico<UsuarioTelefone>(listaTelefones, UsuarioTelefone.class, true);
+        JButton btnAdicionarTelefone = new JButtonAdicionar();
+        btnAdicionarTelefone.setBounds(TelasUtils.DEFAULT_X + TelasUtils.DEFAULT_ESPACO, TelasUtils.DEFAULT_Y + (20 * TelasUtils.DEFAULT_ESPACO), TelasUtils.DEFAULT_LARGURA_COMPONENTE / 2, TelasUtils.DEFAULT_ALTURA_COMPONENTE);
+        add(btnAdicionarTelefone);
+        tabela.setModel(modelGenerico);
+        tabela.setEnabled(true);
+        painelTabela.setViewportView(tabela);
+        painelTabela.setEnabled(true);
+        painelTabela.setBounds(TelasUtils.DEFAULT_X + TelasUtils.DEFAULT_ESPACO, TelasUtils.DEFAULT_Y + (22 * TelasUtils.DEFAULT_ESPACO), TelasUtils.DEFAULT_LARGURA_COMPONENTE * 2, TelasUtils.DEFAULT_ALTURA_COMPONENTE + TelasUtils.DEFAULT_ALTURA_COMPONENTE * 2);
+        add(painelTabela);
+        painelTabela.setVisible(true);
+
+        splitPane = new JSplitPane();
+        adicionarComponente(splitPane, 28);
+
+        btnSalvar = new JButtonSalvar();
+        if (getRootPane() != null) {
+            getRootPane().setDefaultButton(btnSalvar);
+        }
+        splitPane.setLeftComponent(btnSalvar);
+
+        btnCancelar = new JButtonCancelar();
+        splitPane.setRightComponent(btnCancelar);
+        splitPane.setDividerLocation(TelasUtils.DEFAULT_LARGURA_COMPONENTE / 2);
+        splitPane.setEnabled(false);
+
+        ComponenteControlado<CadastroUsuario> controleAcesso = new ComponenteControlado<CadastroUsuario>(this);
+        controleAcesso.pronto(TipoUsuario.ADMINISTRADOR);
+
+        carregarEstado();
+        carregarCidade();
+
+        tabela.addMouseListener(new MouseAdapter() {
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                eventoCliqueTabela(e);
+            }
+        });
+
+        cbbEstado.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent arg0) {
+                carregarCidade();
+            }
+        });
+        btnSalvar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                salvar();
+            }
+
+        });
+
+        btnCancelar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                cancelar();
+            }
+
+        });
+
+        btnAdicionarTelefone.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                adicionarTelefone();
+            }
+        });
+    }
+
+    private void cancelar() {
+        TelaPrincipal telaPrincipal = ApplicationContextConfig.getContext().getBean(TelaPrincipal.class);
+        telaPrincipal.cancelar();
+    }
+
+    private void salvar() {
+        String mensagemSave = " atualizado ";
+        String mensagemFail = " atualizar ";
+        try {
+            if (usuario.getId() == null) {
+                usuario = new Usuario();
+                mensagemSave = " salvo ";
+                mensagemFail = " salvar ";
+            }
+
+            usuario.setNome(txtNome.getText());
+            usuario.setLogin(txtLogin.getText());
+            String password = String.valueOf(txtSenha.getPassword());
+            if (StringUtils.isNotBlank(password)) {
+                usuario.setSenha(SecurityUtils.encrypt(password));
+            }
+            usuario.setCpf(txtCPF.getText());
+            TipoUsuario tipoUsuario = (TipoUsuario) cbbTipo.getSelectedItem();
+            usuario.setTipo(tipoUsuario);
+            Cidade cidade = (Cidade) cbbCidade.getSelectedItem();
+            usuario.setEndereco(new Endereco(txtEndereco.getText(), txtNumero.getText(), txtBairro.getText(), cidade));
+            Validador<Usuario> validador = new Validador<Usuario>();
+            validador.validacaoCampos(usuario);
+            usuarioDao.salvar(usuario);
+            if (!listaTelefones.isEmpty()) {
+                if (usuario.getId() != null) {
+                    usuarioTelefoneDao.deletarPorIdUsuario(usuario.getId());
+                }
+                for (UsuarioTelefone usuarioTelefone : listaTelefones) {
+                    usuarioTelefone.setId(null);
+                    usuarioTelefone.setUsuario(usuario);
+                    usuarioTelefone.getTelefone().setId(null);
+                    telefoneDao.salvar(usuarioTelefone.getTelefone());
+                    usuarioTelefoneDao.salvar(usuarioTelefone);
+                }
+            }
+            JOptionPane.showMessageDialog(null, CLASS_NAME.concat(mensagemSave).concat("com sucesso."));
+            usuario = null;
+            limparComponentes();
+            cancelar();
+        } catch (ValidationException e) {
+            LOGGER.error(e);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Falha ao ".concat(mensagemFail).concat(" ").concat(CLASS_NAME).concat("."));
+            LOGGER.error(ex);
+        }
+    }
+
+    private void limparComponentes() {
+        final JTextField[] componentes = {txtNome, txtLogin, txtCPF, txtEndereco, txtNumero, txtBairro};
+        for (JTextField jComponent : componentes) {
+            jComponent.setText(StringUtils.EMPTY);
+        }
+        listaTelefones.clear();
+        atualizaDesenhoTabela();
+        txtSenha.setText(StringUtils.EMPTY);
+    }
+
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    private void carregarEstado() {
+        estadoWorker = new SwingWorker() {
+
+            @Override
+            protected Object doInBackground() throws Exception {
+                cbbEstado.removeAllItems();
+                for (Estado estado : estadoDao.buscarTodos()) {
+                    cbbEstado.addItem(estado);
+                    if (usuario != null && usuario.getEndereco() != null && estado.equals(usuario.getEndereco().getCidade().getEstado())) {
+                        cbbEstado.setSelectedItem(estado);
+                    }
+                }
+                return null;
+            }
+        };
+        estadoWorker.execute();
+    }
+
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    private void carregarCidade() {
+        cidadeWorker = new SwingWorker() {
+
+            @Override
+            protected Object doInBackground() throws Exception {
+                Estado item = (Estado) cbbEstado.getSelectedItem();
+                cbbCidade.removeAllItems();
+                while (!estadoWorker.isDone()) {
+
+                }
+                for (Cidade cidade : cidadeDao.buscaPorEstado(item.getId())) {
+                    cbbCidade.addItem(cidade);
+                    if (usuario != null && usuario.getEndereco() != null && cidade.equals(usuario.getEndereco().getCidade())) {
+                        cbbCidade.setSelectedItem(cidade);
+                    }
+                }
+                return null;
+            }
+        };
+        cidadeWorker.execute();
+    }
+
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    @Override
+    public void load(Integer id) {
+        if (id != null) {
+            usuario = usuarioDao.buscarPorId(id);
+        }
+        init(TelasUtils.getUsuarioLogado());
+        if (id != null) {
+
+            txtNome.setText(usuario.getNome());
+            txtLogin.setText(usuario.getLogin());
+            txtCPF.setText(usuario.getCpf());
+            txtEndereco.setText(usuario.getEndereco().getRua());
+            txtNumero.setText(usuario.getEndereco().getNumero());
+            txtBairro.setText(usuario.getEndereco().getBairro());
+
+            SwingWorker<Object, String> tipoWorker = new SwingWorker() {
+
+                @Override
+                protected Object doInBackground() throws Exception {
+                    carregarTipoWorker();
+                    return null;
+                }
+            };
+            tipoWorker.execute();
+
+            listaTelefones = usuario.getListaTelefone();
+        } else {
+            usuario = new Usuario();
+            listaTelefones.clear();
+            limparComponentes();
+        }
+        atualizaDesenhoTabela();
+    }
+
+    public void init(Usuario usuario) {
+        ComponenteControlado<CadastroUsuario> controleAcesso = new ComponenteControlado<CadastroUsuario>(this);
+        controleAcesso.pronto(usuario.getTipo());
+        carregarEstado();
+        carregarCidade();
+        repaint();
+        revalidate();
+    }
+
+    private void adicionarComponente(JComponent componente, int valor) {
+        Map<String, Integer> parametros = new HashMap<String, Integer>();
+        TelasUtils.adicionarComponente(componente, valor, this, parametros);
+    }
+
+    private void adicionarTelefone() {
+        final Telefone telefone = new Telefone();
+        abrirModalTelefone(telefone);
+        if (StringUtils.isNotBlank(telefone.getTelefone())) {
+            UsuarioTelefone usuarioTelefone = new UsuarioTelefone();
+            usuarioTelefone.setTelefone(telefone);
+            usuarioTelefone.setUsuario(usuario);
+            listaTelefones.add(usuarioTelefone);
+            atualizaDesenhoTabela();
+        }
+    }
+
+    private void abrirModalTelefone(final Telefone telefone) {
+        Runnable runnable = new Runnable() {
+            public void run() {
+                try {
+                    CadastroTelefone dialog = new CadastroTelefone(telefone);
+                    dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+                    dialog.setLocationRelativeTo(painel);
+                    dialog.setVisible(true);
+                } catch (Exception e) {
+                    LOGGER.error(e);
+                }
+            }
+        };
+        runnable.run();
+    }
+
+    @SuppressWarnings("unchecked")
+    private void eventoCliqueTabela(MouseEvent e) {
+        if (e.getClickCount() == 2) {
+            TableModelGenerico<UsuarioTelefone> model = (TableModelGenerico<UsuarioTelefone>) tabela.getModel();
+            boolean atualizaTabela = false;
+            int linha = tabela.getSelectedRow();
+            int coluna = tabela.getSelectedColumn();
+            UsuarioTelefone usuarioTelefone = listaTelefones.get(linha);
+
+            if (coluna == model.getCountadorColunas()) {
+                abrirModalTelefone(usuarioTelefone.getTelefone());
+                atualizaTabela = true;
+            } else if (coluna == model.getCountadorColunas() + 1 && TelasUtils.getUsuarioLogado() != null && TelasUtils.isPermision(Usuario.class, TelasUtils.getUsuarioLogado().getTipo())) {
+                int excluir = JOptionPane.showConfirmDialog(null, "Deseja excluir o registro: " + usuarioTelefone.getTelefone() + " ?", "Excluir?", JOptionPane.YES_NO_OPTION);
+                if (excluir == JOptionPane.YES_OPTION) {
+                    int contador = 0;
+                    while (true) {
+                        if (listaTelefones.get(contador).equals(usuarioTelefone)) {
+                            UsuarioTelefone usuTelefone = listaTelefones.get(contador);
+                            listaTelefones.remove(usuTelefone);
+                            break;
+                        }
+                        contador++;
+                    }
+                }
+                atualizaTabela = true;
+            }
+            if (atualizaTabela) {
+                atualizaDesenhoTabela();
+            }
+        }
+    }
+
+    private void atualizaDesenhoTabela() {
+        if (listaTelefones.size() > 0) {
+            ButtonColumnEditar buttonColumnEditar = new ButtonColumnEditar(tabela, null, modelGenerico.getCountadorColunas());
+            ButtonColumnExcluir buttonColumnExcluir = new ButtonColumnExcluir(tabela, null, modelGenerico.getCountadorColunas() + 1);
+            if (TelasUtils.getUsuarioLogado() != null && TelasUtils.isPermision(Usuario.class, TelasUtils.getUsuarioLogado().getTipo())) {
+                buttonColumnExcluir.setEnabled(false);
+            }
+        }
+        if (!modelGenerico.getLista().equals(listaTelefones)) {
+            modelGenerico.getLista().clear();
+            for (UsuarioTelefone usuarioTelefone : listaTelefones) {
+                modelGenerico.getLista().add(usuarioTelefone);
+            }
+            listaTelefones = (List<UsuarioTelefone>) modelGenerico.getLista();
+
+        }
+        modelGenerico.fireTableDataChanged();
+        tabela.updateUI();
+    }
+
+    private void carregarTipoWorker() {
+        for (int i = 0; i < cbbTipo.getItemCount(); i++) {
+            if (cbbTipo.getItemAt(i).equals(usuario.getTipo())) {
+                cbbTipo.setSelectedIndex(i);
+                break;
+            }
+        }
+    }
 }

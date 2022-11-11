@@ -49,292 +49,290 @@ import br.org.fgp.view.core.Validador;
 
 @Controller
 public class CadastroVenda extends JPanel implements Inicializavel {
-	
-	private static final String VALOR_TOTAL = "Valor Total:";
 
-	private static final long serialVersionUID = -3837350240175943970L;
+    private static final String VALOR_TOTAL = "Valor Total:";
 
-	private static final Logger LOGGER = Logger.getLogger(CadastroVenda.class);
+    private static final long serialVersionUID = -3837350240175943970L;
 
-	private static final String CLASS_NAME = "Venda";
-	
-	private Venda venda;
-	
-	@Autowired
-	private VendaDao vendaDao;
-	
-	@Autowired
-	private VendaItemDao vendaItemDao;
+    private static final Logger LOGGER = Logger.getLogger(CadastroVenda.class);
 
-	private JSplitPane splitPane;
+    private static final String CLASS_NAME = "Venda";
 
-	private JButton btnSalvar;
+    private Venda venda;
 
-	private JButton btnCancelar;
-	
-	private JScrollPane painelTabela;
+    @Autowired
+    private VendaDao vendaDao;
 
-	private JTable tabela;
-	
-	private JPanel painel;
+    @Autowired
+    private VendaItemDao vendaItemDao;
 
-	private List<VendaItem> listaItens;
+    private JSplitPane splitPane;
 
-	private TableModelGenerico<VendaItem> modelGenerico;
+    private JButton btnSalvar;
 
-	private JLabel txtValorTotal;
+    private JButton btnCancelar;
 
-	private BigDecimal total;
+    private JScrollPane painelTabela;
 
-	public CadastroVenda() {
-		painel = this;
-		setLayout(null);
-		adicionarComponente(new JCabecalhoLabel("Vendas"), 0);
-		
-		painelTabela = new JScrollPane();
-		tabela = new JTable();
-		if(venda != null && venda.getListaItem() != null ){
-			listaItens = venda.getListaItem();
-		}else{
-			listaItens = new ArrayList<VendaItem>();
-		}
-		modelGenerico = new TableModelGenerico<VendaItem>(listaItens, VendaItem.class);
-		JButton btnAdicionarItem = new JButtonAdicionar();
-		btnAdicionarItem.setBounds(TelasUtils.DEFAULT_X+ TelasUtils.DEFAULT_ESPACO , TelasUtils.DEFAULT_Y +(2 *TelasUtils.DEFAULT_ESPACO) , TelasUtils.DEFAULT_LARGURA_COMPONENTE /2, TelasUtils.DEFAULT_ALTURA_COMPONENTE);
-		add(btnAdicionarItem);
-		tabela.setModel(modelGenerico);
-		tabela.setEnabled(true);
-		painelTabela.setViewportView(tabela);
-		painelTabela.setEnabled(true);
-		painelTabela.setBounds(TelasUtils.DEFAULT_X+ TelasUtils.DEFAULT_ESPACO , TelasUtils.DEFAULT_Y +(4 *TelasUtils.DEFAULT_ESPACO) , TelasUtils.DEFAULT_LARGURA_COMPONENTE*2, TelasUtils.DEFAULT_ALTURA_COMPONENTE+TelasUtils.DEFAULT_ALTURA_COMPONENTE*8);
-		add(painelTabela);
-		painelTabela.setVisible(true);
-		
-		splitPane = new JSplitPane();
-		adicionarComponente(splitPane, 28);
-		
-		btnSalvar = new JButtonSalvar();
-		if(getRootPane() != null){
-			getRootPane().setDefaultButton(btnSalvar);
-		}
-		splitPane.setLeftComponent(btnSalvar);
-		btnCancelar = new JButtonCancelar();
-		splitPane.setRightComponent(btnCancelar);
-		splitPane.setDividerLocation(TelasUtils.DEFAULT_LARGURA_COMPONENTE/2);
-		splitPane.setEnabled(false);
-		
-		txtValorTotal = new JCabecalhoLabel(VALOR_TOTAL);
-		adicionarComponente(txtValorTotal, 20);
-		
-		ComponenteControlado<CadastroVenda> controleAcesso = new ComponenteControlado<CadastroVenda>(this); 
-		controleAcesso.pronto(TipoUsuario.ADMINISTRADOR); 
-		
-		tabela.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				eventoCliqueTabela(e);
-			}
-		});
-		
-		btnSalvar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				salvar();
-			}
+    private JTable tabela;
 
-		});
-		
-		btnCancelar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				cancelar();
-			}
+    private JPanel painel;
 
-		});
-		
-		btnAdicionarItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				adicionarVendaItem();
-			}
-		});
-		
-	}
+    private List<VendaItem> listaItens;
 
-	@Override
-	public void load(Integer id) {
-		if(id != null){
-			venda = vendaDao.buscarPorId(id);
-			listaItens = venda.getListaItem();
-		}
-		init(TelasUtils.getUsuarioLogado());
-		if(id != null){
-			
-		}else{
-			venda = new Venda();
-			listaItens.clear();
-			limparComponentes();
-		}
-		atualizaDesenhoTabela();
-	}
+    private TableModelGenerico<VendaItem> modelGenerico;
 
-	private void init(Usuario usuarioLogado) {
-		ComponenteControlado<CadastroVenda> controleAcesso = new ComponenteControlado<CadastroVenda>(this);
-		controleAcesso.pronto(usuarioLogado.getTipo());
-		repaint();
-		revalidate();
-	}
+    private JLabel txtValorTotal;
 
-	public VendaItemDao getVendaItemDao() {
-		return vendaItemDao;
-	}
+    private BigDecimal total;
 
-	public void setVendaItemDao(VendaItemDao vendaItemDao) {
-		this.vendaItemDao = vendaItemDao;
-	}
+    public CadastroVenda() {
+        painel = this;
+        setLayout(null);
+        adicionarComponente(new JCabecalhoLabel("Vendas"), 0);
 
-	public VendaDao getVendaDao() {
-		return vendaDao;
-	}
+        painelTabela = new JScrollPane();
+        tabela = new JTable();
+        if (venda != null && venda.getListaItem() != null) {
+            listaItens = venda.getListaItem();
+        } else {
+            listaItens = new ArrayList<VendaItem>();
+        }
+        modelGenerico = new TableModelGenerico<VendaItem>(listaItens, VendaItem.class);
+        JButton btnAdicionarItem = new JButtonAdicionar();
+        btnAdicionarItem.setBounds(TelasUtils.DEFAULT_X + TelasUtils.DEFAULT_ESPACO, TelasUtils.DEFAULT_Y + (2 * TelasUtils.DEFAULT_ESPACO), TelasUtils.DEFAULT_LARGURA_COMPONENTE / 2, TelasUtils.DEFAULT_ALTURA_COMPONENTE);
+        add(btnAdicionarItem);
+        tabela.setModel(modelGenerico);
+        tabela.setEnabled(true);
+        painelTabela.setViewportView(tabela);
+        painelTabela.setEnabled(true);
+        painelTabela.setBounds(TelasUtils.DEFAULT_X + TelasUtils.DEFAULT_ESPACO, TelasUtils.DEFAULT_Y + (4 * TelasUtils.DEFAULT_ESPACO), TelasUtils.DEFAULT_LARGURA_COMPONENTE * 2, TelasUtils.DEFAULT_ALTURA_COMPONENTE + TelasUtils.DEFAULT_ALTURA_COMPONENTE * 8);
+        add(painelTabela);
+        painelTabela.setVisible(true);
 
-	public void setVendaDao(VendaDao vendaDao) {
-		this.vendaDao = vendaDao;
-	}
+        splitPane = new JSplitPane();
+        adicionarComponente(splitPane, 28);
 
-	private void adicionarComponente(JComponent componente, int valor){
-		Map<String, Integer> parametros = new HashMap<String, Integer>();
-		TelasUtils.adicionarComponente(componente, valor, this, parametros);
-	}
-	
-	private void cancelar() {
-		TelaPrincipal telaPrincipal = ApplicationContextConfig.getContext().getBean(TelaPrincipal.class);
-		telaPrincipal.cancelar();
-	}
-	
-	private void limparComponentes() {
-		listaItens.clear();
-		txtValorTotal.setText(StringUtils.EMPTY);
-		atualizaDesenhoTabela();
-	}
-	
-	private void salvar() {
-		String mensagemSave = " atualizado ";
-		String mensagemFail = " atualizar ";
-		try{
-			if(venda.getId() == null ){
-				venda = new Venda();
-				mensagemSave = " salvo ";
-				mensagemFail = " salvar ";
-			}
-			
-			Validador<Venda> validador = new Validador<Venda>();
-			validador.validacaoCampos(venda);
-			venda.setUsuario(TelasUtils.getUsuarioLogado());
-			if(!listaItens.isEmpty()){
-				venda.setData(new Date());
-				total = BigDecimal.ZERO;
-				somaTotal();
-				venda.setValorTotal(total);
-				venda.setListaItem(listaItens);
-				vendaDao.salvarRegra(venda);
-			}else{
-				throw new Exception("Erro venda sem itens");
-			}
-			JOptionPane.showMessageDialog(null, CLASS_NAME.concat(mensagemSave).concat("com sucesso.") );
-			venda = null;
-			limparComponentes();
-			cancelar();
-		}
-		catch(ValidationException e){
-			LOGGER.error(e);
-		}
-		catch(Exception ex){
-			JOptionPane.showMessageDialog(null, "Falha ao ".concat(mensagemFail).concat(" ").concat(CLASS_NAME).concat(".") );
-			LOGGER.error(ex);
-		}
-	}
-	
-	private void adicionarVendaItem() {
-		final VendaItem vendaItem = new VendaItem();
-		abrirModalVendaItem(vendaItem);
-		if(vendaItem.getProduto() != null && vendaItem.getValorUnitario() != null && vendaItem.getQuantidade() != null ){
-			listaItens.add(vendaItem);
-			atualizaDesenhoTabela();
-			if(listaItens != null){
-				total = BigDecimal.ZERO;
-				somaTotal();
-				txtValorTotal.setText(VALOR_TOTAL+total);
-			}
-		}
-	}
+        btnSalvar = new JButtonSalvar();
+        if (getRootPane() != null) {
+            getRootPane().setDefaultButton(btnSalvar);
+        }
+        splitPane.setLeftComponent(btnSalvar);
+        btnCancelar = new JButtonCancelar();
+        splitPane.setRightComponent(btnCancelar);
+        splitPane.setDividerLocation(TelasUtils.DEFAULT_LARGURA_COMPONENTE / 2);
+        splitPane.setEnabled(false);
 
-	private void somaTotal() {
-		for (VendaItem vendaItemAux : listaItens) {
-			total = total.add(  vendaItemAux.getValorUnitario().multiply( new BigDecimal(vendaItemAux.getQuantidade() ) ) );
-		}
-	}
+        txtValorTotal = new JCabecalhoLabel(VALOR_TOTAL);
+        adicionarComponente(txtValorTotal, 20);
 
-	private void abrirModalVendaItem(final VendaItem vendaItem) {
-		Runnable runnable = new Runnable() {
-			public void run() {
-				try {
-					CadastroVendaItem dialog = new CadastroVendaItem(vendaItem);
-					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-					TelaPrincipal telaPrincipal = ApplicationContextConfig.getContext().getBean(TelaPrincipal.class);
-					dialog.setLocationRelativeTo(telaPrincipal);
-					dialog.setVisible(true);
-				} catch (Exception e) {
-					LOGGER.error(e);
-				}
-			}
-		};
-		runnable.run();
-	}
-	
-	@SuppressWarnings("unchecked")
-	private void eventoCliqueTabela(MouseEvent e) {
-		if (e.getClickCount() == 2) {
-			TableModelGenerico<UsuarioTelefone> model = (TableModelGenerico<UsuarioTelefone>) tabela.getModel();
-			boolean atualizaTabela = false;
-			int linha = tabela.getSelectedRow();
-			int coluna = tabela.getSelectedColumn();
-			VendaItem vendaItem = listaItens.get(linha);
-			
-			if(coluna == model.getCountadorColunas() ){
-				abrirModalVendaItem(vendaItem);
-				atualizaTabela = true;
-			} else if(coluna == model.getCountadorColunas() +1 ){
-				int excluir = JOptionPane.showConfirmDialog(null, "Deseja excluir o registro: "+vendaItem.getProdutoTexto() + " ?", "Excluir?", JOptionPane.YES_NO_OPTION);
-				if(excluir == JOptionPane.YES_OPTION){
-					int contador = 0;
-					while(true){
-						if(listaItens.get(contador).equals(vendaItem) ){
-							VendaItem vendItem = listaItens.get(contador);
-							listaItens.remove( vendItem );
-							break;
-						}
-						contador++;
-					}
-				}
-				atualizaTabela = true;
-			}
-			if(atualizaTabela){
-				atualizaDesenhoTabela();
-			}
-		}
-	}
+        ComponenteControlado<CadastroVenda> controleAcesso = new ComponenteControlado<CadastroVenda>(this);
+        controleAcesso.pronto(TipoUsuario.ADMINISTRADOR);
 
-	private void atualizaDesenhoTabela() {
-		if(listaItens.size() > 0){
-			new ButtonColumnEditar(tabela, null, modelGenerico.getCountadorColunas() );
-			new ButtonColumnExcluir(tabela, null, modelGenerico.getCountadorColunas() + 1 );
-		}
-		if(!modelGenerico.getLista().equals(listaItens)){
-			modelGenerico.getLista().clear();
-			for (VendaItem vendaItem : listaItens) {
-				modelGenerico.getLista().add(vendaItem);
-			}
-			listaItens = (List<VendaItem>) modelGenerico.getLista();
-			
-		}
-		modelGenerico.fireTableDataChanged();
-		tabela.updateUI();
-	}
+        tabela.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                eventoCliqueTabela(e);
+            }
+        });
+
+        btnSalvar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                salvar();
+            }
+
+        });
+
+        btnCancelar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                cancelar();
+            }
+
+        });
+
+        btnAdicionarItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                adicionarVendaItem();
+            }
+        });
+
+    }
+
+    @Override
+    public void load(Integer id) {
+        if (id != null) {
+            venda = vendaDao.buscarPorId(id);
+            listaItens = venda.getListaItem();
+        }
+        init(TelasUtils.getUsuarioLogado());
+        if (id != null) {
+
+        } else {
+            venda = new Venda();
+            listaItens.clear();
+            limparComponentes();
+        }
+        atualizaDesenhoTabela();
+    }
+
+    private void init(Usuario usuarioLogado) {
+        ComponenteControlado<CadastroVenda> controleAcesso = new ComponenteControlado<CadastroVenda>(this);
+        controleAcesso.pronto(usuarioLogado.getTipo());
+        repaint();
+        revalidate();
+    }
+
+    public VendaItemDao getVendaItemDao() {
+        return vendaItemDao;
+    }
+
+    public void setVendaItemDao(VendaItemDao vendaItemDao) {
+        this.vendaItemDao = vendaItemDao;
+    }
+
+    public VendaDao getVendaDao() {
+        return vendaDao;
+    }
+
+    public void setVendaDao(VendaDao vendaDao) {
+        this.vendaDao = vendaDao;
+    }
+
+    private void adicionarComponente(JComponent componente, int valor) {
+        Map<String, Integer> parametros = new HashMap<String, Integer>();
+        TelasUtils.adicionarComponente(componente, valor, this, parametros);
+    }
+
+    private void cancelar() {
+        TelaPrincipal telaPrincipal = ApplicationContextConfig.getContext().getBean(TelaPrincipal.class);
+        telaPrincipal.cancelar();
+    }
+
+    private void limparComponentes() {
+        listaItens.clear();
+        txtValorTotal.setText(StringUtils.EMPTY);
+        atualizaDesenhoTabela();
+    }
+
+    private void salvar() {
+        String mensagemSave = " atualizado ";
+        String mensagemFail = " atualizar ";
+        try {
+            if (venda.getId() == null) {
+                venda = new Venda();
+                mensagemSave = " salvo ";
+                mensagemFail = " salvar ";
+            }
+
+            Validador<Venda> validador = new Validador<Venda>();
+            validador.validacaoCampos(venda);
+            venda.setUsuario(TelasUtils.getUsuarioLogado());
+            if (!listaItens.isEmpty()) {
+                venda.setData(new Date());
+                total = BigDecimal.ZERO;
+                somaTotal();
+                venda.setValorTotal(total);
+                venda.setListaItem(listaItens);
+                vendaDao.salvarRegra(venda);
+            } else {
+                throw new Exception("Erro venda sem itens");
+            }
+            JOptionPane.showMessageDialog(null, CLASS_NAME.concat(mensagemSave).concat("com sucesso."));
+            venda = null;
+            limparComponentes();
+            cancelar();
+        } catch (ValidationException e) {
+            LOGGER.error(e);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Falha ao ".concat(mensagemFail).concat(" ").concat(CLASS_NAME).concat("."));
+            LOGGER.error(ex);
+        }
+    }
+
+    private void adicionarVendaItem() {
+        final VendaItem vendaItem = new VendaItem();
+        abrirModalVendaItem(vendaItem);
+        if (vendaItem.getProduto() != null && vendaItem.getValorUnitario() != null && vendaItem.getQuantidade() != null) {
+            listaItens.add(vendaItem);
+            atualizaDesenhoTabela();
+            if (listaItens != null) {
+                total = BigDecimal.ZERO;
+                somaTotal();
+                txtValorTotal.setText(VALOR_TOTAL + total);
+            }
+        }
+    }
+
+    private void somaTotal() {
+        for (VendaItem vendaItemAux : listaItens) {
+            total = total.add(vendaItemAux.getValorUnitario().multiply(new BigDecimal(vendaItemAux.getQuantidade())));
+        }
+    }
+
+    private void abrirModalVendaItem(final VendaItem vendaItem) {
+        Runnable runnable = new Runnable() {
+            public void run() {
+                try {
+                    CadastroVendaItem dialog = new CadastroVendaItem(vendaItem);
+                    dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+                    TelaPrincipal telaPrincipal = ApplicationContextConfig.getContext().getBean(TelaPrincipal.class);
+                    dialog.setLocationRelativeTo(telaPrincipal);
+                    dialog.setVisible(true);
+                } catch (Exception e) {
+                    LOGGER.error(e);
+                }
+            }
+        };
+        runnable.run();
+    }
+
+    @SuppressWarnings("unchecked")
+    private void eventoCliqueTabela(MouseEvent e) {
+        if (e.getClickCount() == 2) {
+            TableModelGenerico<UsuarioTelefone> model = (TableModelGenerico<UsuarioTelefone>) tabela.getModel();
+            boolean atualizaTabela = false;
+            int linha = tabela.getSelectedRow();
+            int coluna = tabela.getSelectedColumn();
+            VendaItem vendaItem = listaItens.get(linha);
+
+            if (coluna == model.getCountadorColunas()) {
+                abrirModalVendaItem(vendaItem);
+                atualizaTabela = true;
+            } else if (coluna == model.getCountadorColunas() + 1) {
+                int excluir = JOptionPane.showConfirmDialog(null, "Deseja excluir o registro: " + vendaItem.getProdutoTexto() + " ?", "Excluir?", JOptionPane.YES_NO_OPTION);
+                if (excluir == JOptionPane.YES_OPTION) {
+                    int contador = 0;
+                    while (true) {
+                        if (listaItens.get(contador).equals(vendaItem)) {
+                            VendaItem vendItem = listaItens.get(contador);
+                            listaItens.remove(vendItem);
+                            break;
+                        }
+                        contador++;
+                    }
+                }
+                atualizaTabela = true;
+            }
+            if (atualizaTabela) {
+                atualizaDesenhoTabela();
+            }
+        }
+    }
+
+    private void atualizaDesenhoTabela() {
+        if (listaItens.size() > 0) {
+            new ButtonColumnEditar(tabela, null, modelGenerico.getCountadorColunas());
+            new ButtonColumnExcluir(tabela, null, modelGenerico.getCountadorColunas() + 1);
+        }
+        if (!modelGenerico.getLista().equals(listaItens)) {
+            modelGenerico.getLista().clear();
+            for (VendaItem vendaItem : listaItens) {
+                modelGenerico.getLista().add(vendaItem);
+            }
+            listaItens = (List<VendaItem>) modelGenerico.getLista();
+
+        }
+        modelGenerico.fireTableDataChanged();
+        tabela.updateUI();
+    }
 }

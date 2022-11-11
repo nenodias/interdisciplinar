@@ -26,35 +26,35 @@ public abstract class GenericoDaoImpl<T, PK> implements GenericoDao<T, PK> {
 
     @Autowired
     private SessionFactory sessionFactory;
-    
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-	private Class<T> clazz = (Class) ((java.lang.reflect.ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
-    
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    private Class<T> clazz = (Class) ((java.lang.reflect.ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+
+    @SuppressWarnings({"unchecked", "rawtypes"})
     private Class<PK> PKclazz = (Class) ((java.lang.reflect.ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[1];
 
     public void salvar(T entity) {
         getSessaoAtual().saveOrUpdate(entity);
     }
-    
+
     @Override
-    public void execute(String sql){
-    	SQLQuery sqlQuery = getSessaoAtual().createSQLQuery(sql);
-    	sqlQuery.executeUpdate();
+    public void execute(String sql) {
+        SQLQuery sqlQuery = getSessaoAtual().createSQLQuery(sql);
+        sqlQuery.executeUpdate();
     }
 
     public void deletar(PK id) {
-    	T entity = buscarPorId(id);
+        T entity = buscarPorId(id);
         getSessaoAtual().delete(entity);
     }
 
     @SuppressWarnings("unchecked")
-	public T buscarPorId(PK id) {
+    public T buscarPorId(PK id) {
         return (T) getSessaoAtual().createCriteria(this.clazz).add(Restrictions.eq("id", id)).uniqueResult();
     }
 
     @SuppressWarnings("unchecked")
-	public List<T> buscarTodos() {
+    public List<T> buscarTodos() {
         Criteria criteria = getSessaoAtual().createCriteria(this.clazz);
         return criteria.list();
     }
@@ -66,7 +66,7 @@ public abstract class GenericoDaoImpl<T, PK> implements GenericoDao<T, PK> {
     }
 
     @SuppressWarnings("unchecked")
-	public List<T> buscarTodos(Order order) {
+    public List<T> buscarTodos(Order order) {
         Criteria criteria = getSessaoAtual().createCriteria(this.clazz);
         criteria.addOrder(order);
         return criteria.list();
@@ -78,7 +78,7 @@ public abstract class GenericoDaoImpl<T, PK> implements GenericoDao<T, PK> {
     }
 
     @SuppressWarnings("unchecked")
-	protected List<T> buscarPorCriteria(Criterion criterion) {
+    protected List<T> buscarPorCriteria(Criterion criterion) {
         Criteria criteria = getSessaoAtual().createCriteria(this.clazz);
         if (criterion == null) {
             return null;
@@ -88,8 +88,8 @@ public abstract class GenericoDaoImpl<T, PK> implements GenericoDao<T, PK> {
         return criteria.list();
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-	protected List<T> selectHQL(String hql, Map<String, Object> params) {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    protected List<T> selectHQL(String hql, Map<String, Object> params) {
         Query query = getSessaoAtual().createQuery(hql);
 
         Set<String> str = params.keySet();
@@ -105,8 +105,8 @@ public abstract class GenericoDaoImpl<T, PK> implements GenericoDao<T, PK> {
         return query.list();
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-	protected T selectPrimeiroHQL(String hql, Map<String, Object> params) {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    protected T selectPrimeiroHQL(String hql, Map<String, Object> params) {
         Query query = getSessaoAtual().createQuery(hql);
         Set<String> str = params.keySet();
         for (String string : str) {
@@ -121,7 +121,7 @@ public abstract class GenericoDaoImpl<T, PK> implements GenericoDao<T, PK> {
     }
 
     @SuppressWarnings("unchecked")
-	protected List<T> buscarPorListaCriteriaOrder(List<Criterion> criterion, Order order) {
+    protected List<T> buscarPorListaCriteriaOrder(List<Criterion> criterion, Order order) {
         Criteria criteria = getSessaoAtual().createCriteria(this.clazz);
         if (criterion == null) {
             return null;
@@ -137,7 +137,7 @@ public abstract class GenericoDaoImpl<T, PK> implements GenericoDao<T, PK> {
     }
 
     @SuppressWarnings("unchecked")
-	protected List<T> buscarPorCriteriaOrder(Criterion criterion, Order order) {
+    protected List<T> buscarPorCriteriaOrder(Criterion criterion, Order order) {
         Criteria criteria = getSessaoAtual().createCriteria(this.clazz);
 
         if (criterion == null) {
@@ -152,7 +152,7 @@ public abstract class GenericoDaoImpl<T, PK> implements GenericoDao<T, PK> {
     }
 
     @SuppressWarnings("unchecked")
-	protected T buscarPorCriteriaPrimeiro(Criterion criterion) {
+    protected T buscarPorCriteriaPrimeiro(Criterion criterion) {
         Criteria criteria = getSessaoAtual().createCriteria(this.clazz);
         if (criterion == null) {
             return null;
@@ -164,25 +164,25 @@ public abstract class GenericoDaoImpl<T, PK> implements GenericoDao<T, PK> {
     protected Session getSessaoAtual() {
         return sessionFactory.getCurrentSession();
     }
-    
+
     @Override
     public void flush() {
-    	getSessaoAtual().flush();    	
+        getSessaoAtual().flush();
     }
-    
+
     @Override
-    public Class<T> getObjectClass(){
-    	return clazz;
+    public Class<T> getObjectClass() {
+        return clazz;
     }
-    
+
     @Override
-    public Class<PK> getPKClass(){
-    	return PKclazz;
+    public Class<PK> getPKClass() {
+        return PKclazz;
     }
-    
+
     @Override
-    public void evict(Object objeto){
-    	getSessaoAtual().evict(objeto);
+    public void evict(Object objeto) {
+        getSessaoAtual().evict(objeto);
     }
-    
+
 }

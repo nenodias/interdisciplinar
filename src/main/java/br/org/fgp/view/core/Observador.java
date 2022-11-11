@@ -5,20 +5,20 @@ import java.beans.PropertyChangeEvent;
 
 public class Observador {
 
-	private ActionListener listener;
-	
-	public void update(PropertyChangeEvent evt) {
-		if(listener != null){
-			listener.actionPerformed(null);
-		}
-	}
+    private ActionListener listener;
 
-	public ActionListener getListener() {
-		return listener;
-	}
+    public void update(PropertyChangeEvent evt) {
+        if (listener != null) {
+            listener.actionPerformed(null);
+        }
+    }
 
-	public void setListener(ActionListener listener) {
-		this.listener = listener;
-	}
+    public ActionListener getListener() {
+        return listener;
+    }
+
+    public void setListener(ActionListener listener) {
+        this.listener = listener;
+    }
 
 }

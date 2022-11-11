@@ -44,395 +44,475 @@ import br.org.fgp.view.core.JDialogBusca;
 @Controller
 public class TelaPrincipal extends JFrame implements Inicializavel {
 
-	private static final String IMAGENS_RELATORIO_PNG = "imagens/relatorio.png";
+    private static final String IMAGENS_RELATORIO_PNG = "imagens/relatorio.png";
 
-	private static final String IMAGENS_SETOR_PNG = "imagens/setor.png";
+    private static final String IMAGENS_SETOR_PNG = "imagens/setor.png";
 
-	private static final String IMAGENS_MARCA_PNG = "imagens/marca.png";
+    private static final String IMAGENS_MARCA_PNG = "imagens/marca.png";
 
-	private static final String IMAGENS_CATEGORIA_PNG = "imagens/categoria.png";
+    private static final String IMAGENS_CATEGORIA_PNG = "imagens/categoria.png";
 
-	private static final String IMAGENS_USUARIO_PNG = "imagens/usuario.png";
+    private static final String IMAGENS_USUARIO_PNG = "imagens/usuario.png";
 
-	private static final String IMAGENS_VENDA_PNG = "imagens/venda.png";
+    private static final String IMAGENS_VENDA_PNG = "imagens/venda.png";
 
-	private static final String IMAGENS_FORNECEDOR_PNG = "imagens/fornecedor.png";
+    private static final String IMAGENS_FORNECEDOR_PNG = "imagens/fornecedor.png";
 
-	private static final String IMAGENS_ESTOQUE_PNG = "imagens/entradaprodutos.png";
+    private static final String IMAGENS_ESTOQUE_PNG = "imagens/entradaprodutos.png";
 
-	private static final String IMAGENS_PRODUTO_PNG = "imagens/produto.png";
+    private static final String IMAGENS_PRODUTO_PNG = "imagens/produto.png";
 
-	private static final ClassLoader LOADER = TelaPrincipal.class.getClassLoader();
-	
-	private static final Logger LOGGER = Logger.getLogger(TelaPrincipal.class);
-	
-	private static final long serialVersionUID = -7747890711976699854L;
+    private static final ClassLoader LOADER = TelaPrincipal.class.getClassLoader();
 
-	private JPanel contentPane;
-	private JFrame frmInterdisciplinar;
+    private static final Logger LOGGER = Logger.getLogger(TelaPrincipal.class);
 
-	private JMenu mntmEntradaProduto;
+    private static final long serialVersionUID = -7747890711976699854L;
 
-	private JMenu mntmProdutos;
+    private JPanel contentPane;
+    private JFrame frmInterdisciplinar;
 
-	@Permissao
-	private JMenu mntmFornecedor;
+    private JMenu mntmEntradaProduto;
 
-	private JMenu mntmMarca;
+    private JMenu mntmProdutos;
 
-	private JMenu mntmCategorias;
+    @Permissao
+    private JMenu mntmFornecedor;
 
-	@Permissao
-	private JMenu mntmUsurio;
+    private JMenu mntmMarca;
 
-	@Permissao
-	private JMenu mntmSetor;
+    private JMenu mntmCategorias;
 
-	private JMenu mntmVenda;
+    @Permissao
+    private JMenu mntmUsurio;
 
-	@Permissao
-	private JMenu mnRelatorio;
+    @Permissao
+    private JMenu mntmSetor;
 
-	private JMenu mnSair;
+    private JMenu mntmVenda;
 
-	public TelaPrincipal() {
-		frmInterdisciplinar = new JFrame();
-		frmInterdisciplinar.setTitle("ERP - Autoposto Pederbras");
-		frmInterdisciplinar.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frmInterdisciplinar.setBounds(100, 100, 800, 600);
-		frmInterdisciplinar.setLocationRelativeTo(null);
+    @Permissao
+    private JMenu mnRelatorio;
 
-		JMenuBar menuBar = new JMenuBar();
-		frmInterdisciplinar.setJMenuBar(menuBar);
+    private JMenu mnSair;
 
-		mntmEntradaProduto = new JMenu("Compras");
-		menuBar.add(mntmEntradaProduto);
+    public TelaPrincipal() {
+        frmInterdisciplinar = new JFrame();
+        frmInterdisciplinar.setTitle("ERP - Autoposto Pederbras");
+        frmInterdisciplinar.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frmInterdisciplinar.setBounds(100, 100, 800, 600);
+        frmInterdisciplinar.setLocationRelativeTo(null);
 
-		mntmProdutos = new JMenu("Produtos");
-		menuBar.add(mntmProdutos);
+        JMenuBar menuBar = new JMenuBar();
+        frmInterdisciplinar.setJMenuBar(menuBar);
 
-		mntmFornecedor = new JMenu("Fornecedores");
-		menuBar.add(mntmFornecedor);
+        mntmEntradaProduto = new JMenu("Compras");
+        menuBar.add(mntmEntradaProduto);
 
-		mntmMarca = new JMenu("Marcas");
-		menuBar.add(mntmMarca);
+        mntmProdutos = new JMenu("Produtos");
+        menuBar.add(mntmProdutos);
 
-		mntmCategorias = new JMenu("Categorias");
-		menuBar.add(mntmCategorias);
+        mntmFornecedor = new JMenu("Fornecedores");
+        menuBar.add(mntmFornecedor);
 
-		mntmUsurio = new JMenu("Usu\u00E1rios");
-		menuBar.add(mntmUsurio);
+        mntmMarca = new JMenu("Marcas");
+        menuBar.add(mntmMarca);
 
-		mntmSetor = new JMenu("Setor");
-		menuBar.add(mntmSetor);
+        mntmCategorias = new JMenu("Categorias");
+        menuBar.add(mntmCategorias);
 
-		mntmVenda = new JMenu("Venda");
-		menuBar.add(mntmVenda);
-		
-		mnRelatorio = new JMenu("Relatório");
-		menuBar.add(mnRelatorio);
-		mnSair = new JMenu("Logout");
-		menuBar.add(mnSair);
-		
-		frmInterdisciplinar.getContentPane().setLayout(new BorderLayout(0, 0));
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		GroupLayout gl_contentPane = new GroupLayout(contentPane);
-		gl_contentPane.setHorizontalGroup(gl_contentPane.createParallelGroup(
-				Alignment.LEADING).addGap(0, 732, Short.MAX_VALUE));
-		gl_contentPane.setVerticalGroup(gl_contentPane.createParallelGroup(
-				Alignment.LEADING).addGap(0, 484, Short.MAX_VALUE));
-		contentPane.setLayout(gl_contentPane);
+        mntmUsurio = new JMenu("Usu\u00E1rios");
+        menuBar.add(mntmUsurio);
 
-		mntmProdutos.setIcon(new ImageIcon(LOADER.getResource(IMAGENS_PRODUTO_PNG)));
-		mntmProdutos.addMouseListener(new MouseListener() {
-			public void mouseReleased(MouseEvent e) {}
-			public void mouseExited(MouseEvent e) {}
-			public void mouseEntered(MouseEvent e) {}
-			public void mouseClicked(MouseEvent e) {}
-			public void mousePressed(MouseEvent e) {
-				telaProduto();
-			}
-		});
-		mntmEntradaProduto.setIcon(new ImageIcon(LOADER.getResource(IMAGENS_ESTOQUE_PNG)));
-		mntmEntradaProduto.addMouseListener(new MouseListener() {
-			public void mouseReleased(MouseEvent e) {}
-			public void mouseExited(MouseEvent e) {}
-			public void mouseEntered(MouseEvent e) {}
-			public void mouseClicked(MouseEvent e) {}
-			public void mousePressed(MouseEvent e) {
-				telaEntradaProduto();
-			}
-		});
-		mntmFornecedor.setIcon(new ImageIcon(LOADER.getResource(IMAGENS_FORNECEDOR_PNG)));
-		mntmFornecedor.addMouseListener(new MouseListener() {
-			public void mouseReleased(MouseEvent e) {}
-			public void mouseExited(MouseEvent e) {}
-			public void mouseEntered(MouseEvent e) {}
-			public void mouseClicked(MouseEvent e) {}
-			public void mousePressed(MouseEvent e) {
-				telaFornecedor();
-			}
-		});
-		mntmVenda.setIcon(new ImageIcon(LOADER.getResource(IMAGENS_VENDA_PNG)));
-		mntmVenda.addMouseListener(new MouseListener() {
-			public void mouseReleased(MouseEvent e) {}
-			public void mouseExited(MouseEvent e) {}
-			public void mouseEntered(MouseEvent e) {}
-			public void mouseClicked(MouseEvent e) {}
-			public void mousePressed(MouseEvent e) {
-				telaVenda();
-			}
-		});
-		mntmUsurio.setIcon(new ImageIcon(LOADER.getResource(IMAGENS_USUARIO_PNG)));
-		mntmUsurio.addMouseListener(new MouseListener() {
-			public void mouseReleased(MouseEvent e) {}
-			public void mouseExited(MouseEvent e) {}
-			public void mouseEntered(MouseEvent e) {}
-			public void mouseClicked(MouseEvent e) {}
-			public void mousePressed(MouseEvent e) {
-				telaUsuario();
-			}
-		});
-		mntmCategorias.setIcon(new ImageIcon(LOADER.getResource(IMAGENS_CATEGORIA_PNG)));
-		mntmCategorias.addMouseListener(new MouseListener() {
-			public void mouseReleased(MouseEvent e) {}
-			public void mouseExited(MouseEvent e) {}
-			public void mouseEntered(MouseEvent e) {}
-			public void mouseClicked(MouseEvent e) {}
-			public void mousePressed(MouseEvent e) {
-				telaCategoria();
-			}
-		});
-		mntmMarca.setIcon(new ImageIcon(LOADER.getResource(IMAGENS_MARCA_PNG)));
-		mntmMarca.addMouseListener(new MouseListener() {
-			public void mouseReleased(MouseEvent e) {}
-			public void mouseExited(MouseEvent e) {}
-			public void mouseEntered(MouseEvent e) {}
-			public void mouseClicked(MouseEvent e) {}
-			public void mousePressed(MouseEvent e) {
-				telaMarca();
-			}
-		});
-		mntmSetor.setIcon(new ImageIcon(LOADER.getResource(IMAGENS_SETOR_PNG)));
-		mntmSetor.addMouseListener(new MouseListener() {
-			public void mouseReleased(MouseEvent e) {}
-			public void mouseExited(MouseEvent e) {}
-			public void mouseEntered(MouseEvent e) {}
-			public void mouseClicked(MouseEvent e) {}
-			public void mousePressed(MouseEvent e) {
-				telaSetor();
-			}
-		});
-		mnRelatorio.setIcon(new ImageIcon(LOADER.getResource(IMAGENS_RELATORIO_PNG)));
-		mnRelatorio.addMouseListener(new MouseListener() {
-			public void mouseReleased(MouseEvent e) {}
-			public void mouseExited(MouseEvent e) {}
-			public void mouseEntered(MouseEvent e) {}
-			public void mouseClicked(MouseEvent e) {}
-			public void mousePressed(MouseEvent e) {
-				telaRelatorio();
-			}
-		});
-		mnSair.addMouseListener(new MouseListener() {
-			public void mouseReleased(MouseEvent e) {}
-			public void mouseExited(MouseEvent e) {}
-			public void mouseEntered(MouseEvent e) {}
-			public void mouseClicked(MouseEvent e) {}
-			public void mousePressed(MouseEvent e) {
-				logout();
-			}
-		});
-		ComponenteControlado<TelaPrincipal> componenteControlado = new ComponenteControlado<TelaPrincipal>(this);
-		componenteControlado.pronto(TipoUsuario.ADMINISTRADOR);
-	}
-	
-	protected void logout() {
-		Login.main(null);
-	}
+        mntmSetor = new JMenu("Setor");
+        menuBar.add(mntmSetor);
 
-	protected void telaRelatorio() {
-		if(mnRelatorio.isEnabled()){
-			Runnable runnable = new Runnable() {
-				public void run() {
-					try {
-						TelaRelatorioGerencial dialog = new TelaRelatorioGerencial();
-						dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-						dialog.setLocationRelativeTo(frmInterdisciplinar);
-						dialog.setVisible(true);
-					} catch (Exception e) {
-						LOGGER.error(e);
-					}
-				}
-			};
-			runnable.run();
-		}
-	}
+        mntmVenda = new JMenu("Venda");
+        menuBar.add(mntmVenda);
 
-	public void show() {
-		frmInterdisciplinar.setVisible(true);
-	}
-	
-	public JFrame getFrameCentral(){
-		return frmInterdisciplinar;
-	}
-	
-	public void cancelar() {
-		frmInterdisciplinar.getContentPane().removeAll();
-		JPanel panel = new JPanel();
-		frmInterdisciplinar.getContentPane().add(panel, BorderLayout.CENTER);
-		frmInterdisciplinar.getContentPane().revalidate();
-	}
+        mnRelatorio = new JMenu("Relatório");
+        menuBar.add(mnRelatorio);
+        mnSair = new JMenu("Logout");
+        menuBar.add(mnSair);
 
-	private void telaEntradaProduto() {
-		if(mntmEntradaProduto.isEnabled()){
-			EntradaProdutoDao entradaProdutoDaoDao = ApplicationContextConfig.getContext().getBean(EntradaProdutoDao.class);
-			JDialogBusca<EntradaProduto, Integer> dialogo = new JDialogBusca<EntradaProduto, Integer>(entradaProdutoDaoDao, null, null, this);
-			dialogo.setLocationRelativeTo(frmInterdisciplinar);
-			dialogo.setVisible(true);
-		}
-	}
+        frmInterdisciplinar.getContentPane().setLayout(new BorderLayout(0, 0));
+        contentPane = new JPanel();
+        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        setContentPane(contentPane);
+        GroupLayout gl_contentPane = new GroupLayout(contentPane);
+        gl_contentPane.setHorizontalGroup(gl_contentPane.createParallelGroup(
+                Alignment.LEADING).addGap(0, 732, Short.MAX_VALUE));
+        gl_contentPane.setVerticalGroup(gl_contentPane.createParallelGroup(
+                Alignment.LEADING).addGap(0, 484, Short.MAX_VALUE));
+        contentPane.setLayout(gl_contentPane);
 
-	private void telaFornecedor() {
-		if(mntmFornecedor.isEnabled()){
-			FornecedorDao fornecedorDao = ApplicationContextConfig.getContext().getBean(FornecedorDao.class);
-			JDialogBusca<Fornecedor, Integer> dialogo = new JDialogBusca<Fornecedor, Integer>(fornecedorDao, null, null, this);
-			dialogo.setLocationRelativeTo(frmInterdisciplinar);
-			dialogo.setVisible(true);
-		}
-	}
+        mntmProdutos.setIcon(new ImageIcon(LOADER.getResource(IMAGENS_PRODUTO_PNG)));
+        mntmProdutos.addMouseListener(new MouseListener() {
+            public void mouseReleased(MouseEvent e) {
+            }
 
-	private void telaVenda() {
-		if(mntmVenda.isEnabled()){
-			VendaDao vendaDao = ApplicationContextConfig.getContext().getBean(VendaDao.class);
-			JDialogBusca<Venda, Integer> dialogo = new JDialogBusca<Venda, Integer>(vendaDao, null, null, this);
-			dialogo.setLocationRelativeTo(frmInterdisciplinar);
-			dialogo.setVisible(true);
-		}
-	}
+            public void mouseExited(MouseEvent e) {
+            }
 
-	private void telaUsuario() {
-		if(mntmUsurio.isEnabled()){
-			UsuarioDao usuarioDao = ApplicationContextConfig.getContext().getBean(UsuarioDao.class);
-			JDialogBusca<Usuario, Integer> dialogo = new JDialogBusca<Usuario, Integer>(usuarioDao, null, null, this);
-			dialogo.setLocationRelativeTo(frmInterdisciplinar);
-			dialogo.setVisible(true);
-		}
-	}
+            public void mouseEntered(MouseEvent e) {
+            }
 
-	private void telaCategoria() {
-		if(mntmCategorias.isEnabled()){
-			CategoriaDao categoriaDao = ApplicationContextConfig.getContext().getBean(CategoriaDao.class);
-			JDialogBusca<Categoria, Integer> dialogo = new JDialogBusca<Categoria, Integer>(categoriaDao, null, null, this);
-			dialogo.setLocationRelativeTo(frmInterdisciplinar);
-			dialogo.setVisible(true);
-		}
-	}
+            public void mouseClicked(MouseEvent e) {
+            }
 
-	private void telaMarca() {
-		if(mntmMarca.isEnabled()){
-			MarcaDao marcaDao = ApplicationContextConfig.getContext().getBean(MarcaDao.class);
-			JDialogBusca<Marca, Integer> dialogo = new JDialogBusca<Marca, Integer>(marcaDao, null, null, this);
-			dialogo.setLocationRelativeTo(frmInterdisciplinar);
-			dialogo.setVisible(true);
-		}
-	}
+            public void mousePressed(MouseEvent e) {
+                telaProduto();
+            }
+        });
+        mntmEntradaProduto.setIcon(new ImageIcon(LOADER.getResource(IMAGENS_ESTOQUE_PNG)));
+        mntmEntradaProduto.addMouseListener(new MouseListener() {
+            public void mouseReleased(MouseEvent e) {
+            }
 
-	private void telaSetor() {
-		if(mntmSetor.isEnabled()){
-			SetorDao setorDao = ApplicationContextConfig.getContext().getBean(SetorDao.class);
-			JDialogBusca<Setor, Integer> dialogo = new JDialogBusca<Setor, Integer>(setorDao, null, null, this);
-			dialogo.setLocationRelativeTo(frmInterdisciplinar);
-			dialogo.setVisible(true);
-		}
-	}
+            public void mouseExited(MouseEvent e) {
+            }
 
-	private void telaProduto() {
-		if(mntmProdutos.isEnabled()){
-			ProdutoDao produtoDao = ApplicationContextConfig.getContext().getBean(ProdutoDao.class);
-			JDialogBusca<Produto, Integer> dialogo = new JDialogBusca<Produto, Integer>(produtoDao, null, null, this);
-			dialogo.setLocationRelativeTo(frmInterdisciplinar);
-			dialogo.setVisible(true);
-		}
-	}
+            public void mouseEntered(MouseEvent e) {
+            }
 
-	public JMenu getMntmEstoque() {
-		return mntmEntradaProduto;
-	}
+            public void mouseClicked(MouseEvent e) {
+            }
 
-	public void setMntmEstoque(JMenu mntmEstoque) {
-		this.mntmEntradaProduto = mntmEstoque;
-	}
+            public void mousePressed(MouseEvent e) {
+                telaEntradaProduto();
+            }
+        });
+        mntmFornecedor.setIcon(new ImageIcon(LOADER.getResource(IMAGENS_FORNECEDOR_PNG)));
+        mntmFornecedor.addMouseListener(new MouseListener() {
+            public void mouseReleased(MouseEvent e) {
+            }
 
-	public JMenu getMntmProdutos() {
-		return mntmProdutos;
-	}
+            public void mouseExited(MouseEvent e) {
+            }
 
-	public void setMntmProdutos(JMenu mntmProdutos) {
-		this.mntmProdutos = mntmProdutos;
-	}
+            public void mouseEntered(MouseEvent e) {
+            }
 
-	public JMenu getMntmFornecedor() {
-		return mntmFornecedor;
-	}
+            public void mouseClicked(MouseEvent e) {
+            }
 
-	public void setMntmFornecedor(JMenu mntmFornecedor) {
-		this.mntmFornecedor = mntmFornecedor;
-	}
+            public void mousePressed(MouseEvent e) {
+                telaFornecedor();
+            }
+        });
+        mntmVenda.setIcon(new ImageIcon(LOADER.getResource(IMAGENS_VENDA_PNG)));
+        mntmVenda.addMouseListener(new MouseListener() {
+            public void mouseReleased(MouseEvent e) {
+            }
 
-	public JMenu getMntmMarca() {
-		return mntmMarca;
-	}
+            public void mouseExited(MouseEvent e) {
+            }
 
-	public void setMntmMarca(JMenu mntmMarca) {
-		this.mntmMarca = mntmMarca;
-	}
+            public void mouseEntered(MouseEvent e) {
+            }
 
-	public JMenu getMntmCategorias() {
-		return mntmCategorias;
-	}
+            public void mouseClicked(MouseEvent e) {
+            }
 
-	public void setMntmCategorias(JMenu mntmCategorias) {
-		this.mntmCategorias = mntmCategorias;
-	}
+            public void mousePressed(MouseEvent e) {
+                telaVenda();
+            }
+        });
+        mntmUsurio.setIcon(new ImageIcon(LOADER.getResource(IMAGENS_USUARIO_PNG)));
+        mntmUsurio.addMouseListener(new MouseListener() {
+            public void mouseReleased(MouseEvent e) {
+            }
 
-	public JMenu getMntmUsurio() {
-		return mntmUsurio;
-	}
+            public void mouseExited(MouseEvent e) {
+            }
 
-	public void setMntmUsurio(JMenu mntmUsurio) {
-		this.mntmUsurio = mntmUsurio;
-	}
+            public void mouseEntered(MouseEvent e) {
+            }
 
-	public JMenu getMntmSetor() {
-		return mntmSetor;
-	}
+            public void mouseClicked(MouseEvent e) {
+            }
 
-	public void setMntmSetor(JMenu mntmSetor) {
-		this.mntmSetor = mntmSetor;
-	}
+            public void mousePressed(MouseEvent e) {
+                telaUsuario();
+            }
+        });
+        mntmCategorias.setIcon(new ImageIcon(LOADER.getResource(IMAGENS_CATEGORIA_PNG)));
+        mntmCategorias.addMouseListener(new MouseListener() {
+            public void mouseReleased(MouseEvent e) {
+            }
 
-	public JMenu getMntmRealizarVenda() {
-		return mntmVenda;
-	}
+            public void mouseExited(MouseEvent e) {
+            }
 
-	public void setMntmRealizarVenda(JMenu mntmRealizarVenda) {
-		this.mntmVenda = mntmRealizarVenda;
-	}
+            public void mouseEntered(MouseEvent e) {
+            }
 
-	public JMenu getMnRelatorio() {
-		return mnRelatorio;
-	}
+            public void mouseClicked(MouseEvent e) {
+            }
 
-	public void setMnRelatorio(JMenu mnRelatorio) {
-		this.mnRelatorio = mnRelatorio;
-	}
+            public void mousePressed(MouseEvent e) {
+                telaCategoria();
+            }
+        });
+        mntmMarca.setIcon(new ImageIcon(LOADER.getResource(IMAGENS_MARCA_PNG)));
+        mntmMarca.addMouseListener(new MouseListener() {
+            public void mouseReleased(MouseEvent e) {
+            }
 
-	@Override
-	public void load(Integer id) {
-		ComponenteControlado<TelaPrincipal> componenteControlado = new ComponenteControlado<TelaPrincipal>(this);
-		componenteControlado.pronto( TelasUtils.getUsuarioLogado().getTipo() );
-	}
-	
+            public void mouseExited(MouseEvent e) {
+            }
+
+            public void mouseEntered(MouseEvent e) {
+            }
+
+            public void mouseClicked(MouseEvent e) {
+            }
+
+            public void mousePressed(MouseEvent e) {
+                telaMarca();
+            }
+        });
+        mntmSetor.setIcon(new ImageIcon(LOADER.getResource(IMAGENS_SETOR_PNG)));
+        mntmSetor.addMouseListener(new MouseListener() {
+            public void mouseReleased(MouseEvent e) {
+            }
+
+            public void mouseExited(MouseEvent e) {
+            }
+
+            public void mouseEntered(MouseEvent e) {
+            }
+
+            public void mouseClicked(MouseEvent e) {
+            }
+
+            public void mousePressed(MouseEvent e) {
+                telaSetor();
+            }
+        });
+        mnRelatorio.setIcon(new ImageIcon(LOADER.getResource(IMAGENS_RELATORIO_PNG)));
+        mnRelatorio.addMouseListener(new MouseListener() {
+            public void mouseReleased(MouseEvent e) {
+            }
+
+            public void mouseExited(MouseEvent e) {
+            }
+
+            public void mouseEntered(MouseEvent e) {
+            }
+
+            public void mouseClicked(MouseEvent e) {
+            }
+
+            public void mousePressed(MouseEvent e) {
+                telaRelatorio();
+            }
+        });
+        mnSair.addMouseListener(new MouseListener() {
+            public void mouseReleased(MouseEvent e) {
+            }
+
+            public void mouseExited(MouseEvent e) {
+            }
+
+            public void mouseEntered(MouseEvent e) {
+            }
+
+            public void mouseClicked(MouseEvent e) {
+            }
+
+            public void mousePressed(MouseEvent e) {
+                logout();
+            }
+        });
+        ComponenteControlado<TelaPrincipal> componenteControlado = new ComponenteControlado<TelaPrincipal>(this);
+        componenteControlado.pronto(TipoUsuario.ADMINISTRADOR);
+    }
+
+    protected void logout() {
+        Login.main(null);
+    }
+
+    protected void telaRelatorio() {
+        if (mnRelatorio.isEnabled()) {
+            Runnable runnable = new Runnable() {
+                public void run() {
+                    try {
+                        TelaRelatorioGerencial dialog = new TelaRelatorioGerencial();
+                        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+                        dialog.setLocationRelativeTo(frmInterdisciplinar);
+                        dialog.setVisible(true);
+                    } catch (Exception e) {
+                        LOGGER.error(e);
+                    }
+                }
+            };
+            runnable.run();
+        }
+    }
+
+    public void show() {
+        frmInterdisciplinar.setVisible(true);
+    }
+
+    public JFrame getFrameCentral() {
+        return frmInterdisciplinar;
+    }
+
+    public void cancelar() {
+        frmInterdisciplinar.getContentPane().removeAll();
+        JPanel panel = new JPanel();
+        frmInterdisciplinar.getContentPane().add(panel, BorderLayout.CENTER);
+        frmInterdisciplinar.getContentPane().revalidate();
+    }
+
+    private void telaEntradaProduto() {
+        if (mntmEntradaProduto.isEnabled()) {
+            EntradaProdutoDao entradaProdutoDaoDao = ApplicationContextConfig.getContext().getBean(EntradaProdutoDao.class);
+            JDialogBusca<EntradaProduto, Integer> dialogo = new JDialogBusca<EntradaProduto, Integer>(entradaProdutoDaoDao, null, null, this);
+            dialogo.setLocationRelativeTo(frmInterdisciplinar);
+            dialogo.setVisible(true);
+        }
+    }
+
+    private void telaFornecedor() {
+        if (mntmFornecedor.isEnabled()) {
+            FornecedorDao fornecedorDao = ApplicationContextConfig.getContext().getBean(FornecedorDao.class);
+            JDialogBusca<Fornecedor, Integer> dialogo = new JDialogBusca<Fornecedor, Integer>(fornecedorDao, null, null, this);
+            dialogo.setLocationRelativeTo(frmInterdisciplinar);
+            dialogo.setVisible(true);
+        }
+    }
+
+    private void telaVenda() {
+        if (mntmVenda.isEnabled()) {
+            VendaDao vendaDao = ApplicationContextConfig.getContext().getBean(VendaDao.class);
+            JDialogBusca<Venda, Integer> dialogo = new JDialogBusca<Venda, Integer>(vendaDao, null, null, this);
+            dialogo.setLocationRelativeTo(frmInterdisciplinar);
+            dialogo.setVisible(true);
+        }
+    }
+
+    private void telaUsuario() {
+        if (mntmUsurio.isEnabled()) {
+            UsuarioDao usuarioDao = ApplicationContextConfig.getContext().getBean(UsuarioDao.class);
+            JDialogBusca<Usuario, Integer> dialogo = new JDialogBusca<Usuario, Integer>(usuarioDao, null, null, this);
+            dialogo.setLocationRelativeTo(frmInterdisciplinar);
+            dialogo.setVisible(true);
+        }
+    }
+
+    private void telaCategoria() {
+        if (mntmCategorias.isEnabled()) {
+            CategoriaDao categoriaDao = ApplicationContextConfig.getContext().getBean(CategoriaDao.class);
+            JDialogBusca<Categoria, Integer> dialogo = new JDialogBusca<Categoria, Integer>(categoriaDao, null, null, this);
+            dialogo.setLocationRelativeTo(frmInterdisciplinar);
+            dialogo.setVisible(true);
+        }
+    }
+
+    private void telaMarca() {
+        if (mntmMarca.isEnabled()) {
+            MarcaDao marcaDao = ApplicationContextConfig.getContext().getBean(MarcaDao.class);
+            JDialogBusca<Marca, Integer> dialogo = new JDialogBusca<Marca, Integer>(marcaDao, null, null, this);
+            dialogo.setLocationRelativeTo(frmInterdisciplinar);
+            dialogo.setVisible(true);
+        }
+    }
+
+    private void telaSetor() {
+        if (mntmSetor.isEnabled()) {
+            SetorDao setorDao = ApplicationContextConfig.getContext().getBean(SetorDao.class);
+            JDialogBusca<Setor, Integer> dialogo = new JDialogBusca<Setor, Integer>(setorDao, null, null, this);
+            dialogo.setLocationRelativeTo(frmInterdisciplinar);
+            dialogo.setVisible(true);
+        }
+    }
+
+    private void telaProduto() {
+        if (mntmProdutos.isEnabled()) {
+            ProdutoDao produtoDao = ApplicationContextConfig.getContext().getBean(ProdutoDao.class);
+            JDialogBusca<Produto, Integer> dialogo = new JDialogBusca<Produto, Integer>(produtoDao, null, null, this);
+            dialogo.setLocationRelativeTo(frmInterdisciplinar);
+            dialogo.setVisible(true);
+        }
+    }
+
+    public JMenu getMntmEstoque() {
+        return mntmEntradaProduto;
+    }
+
+    public void setMntmEstoque(JMenu mntmEstoque) {
+        this.mntmEntradaProduto = mntmEstoque;
+    }
+
+    public JMenu getMntmProdutos() {
+        return mntmProdutos;
+    }
+
+    public void setMntmProdutos(JMenu mntmProdutos) {
+        this.mntmProdutos = mntmProdutos;
+    }
+
+    public JMenu getMntmFornecedor() {
+        return mntmFornecedor;
+    }
+
+    public void setMntmFornecedor(JMenu mntmFornecedor) {
+        this.mntmFornecedor = mntmFornecedor;
+    }
+
+    public JMenu getMntmMarca() {
+        return mntmMarca;
+    }
+
+    public void setMntmMarca(JMenu mntmMarca) {
+        this.mntmMarca = mntmMarca;
+    }
+
+    public JMenu getMntmCategorias() {
+        return mntmCategorias;
+    }
+
+    public void setMntmCategorias(JMenu mntmCategorias) {
+        this.mntmCategorias = mntmCategorias;
+    }
+
+    public JMenu getMntmUsurio() {
+        return mntmUsurio;
+    }
+
+    public void setMntmUsurio(JMenu mntmUsurio) {
+        this.mntmUsurio = mntmUsurio;
+    }
+
+    public JMenu getMntmSetor() {
+        return mntmSetor;
+    }
+
+    public void setMntmSetor(JMenu mntmSetor) {
+        this.mntmSetor = mntmSetor;
+    }
+
+    public JMenu getMntmRealizarVenda() {
+        return mntmVenda;
+    }
+
+    public void setMntmRealizarVenda(JMenu mntmRealizarVenda) {
+        this.mntmVenda = mntmRealizarVenda;
+    }
+
+    public JMenu getMnRelatorio() {
+        return mnRelatorio;
+    }
+
+    public void setMnRelatorio(JMenu mnRelatorio) {
+        this.mnRelatorio = mnRelatorio;
+    }
+
+    @Override
+    public void load(Integer id) {
+        ComponenteControlado<TelaPrincipal> componenteControlado = new ComponenteControlado<TelaPrincipal>(this);
+        componenteControlado.pronto(TelasUtils.getUsuarioLogado().getTipo());
+    }
+
 }

@@ -15,68 +15,69 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.Valid;
 
 import br.org.fgp.view.annotations.Pesquisa;
+
 @Entity
-@Table(name = "CONTATO_FORNECEDOR", indexes = { @Index(columnList = "IdContato"), @Index(columnList = "IdFornecedor") }, uniqueConstraints = @UniqueConstraint(columnNames = {"IdContato", "IdFornecedor"}) )
+@Table(name = "CONTATO_FORNECEDOR", indexes = {@Index(columnList = "IdContato"), @Index(columnList = "IdFornecedor")}, uniqueConstraints = @UniqueConstraint(columnNames = {"IdContato", "IdFornecedor"}))
 public class ContatoFornecedor {
 
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
-	
-	@Valid
-	@ManyToOne
-	@JoinColumn(name = "IdContato",nullable = false)
-	public Contato contato;
-	
-	@ManyToOne
-	@JoinColumn(name = "IdFornecedor",nullable = false)
-	public Fornecedor fornecedor;
 
-	@Valid
-	@OneToMany(mappedBy = "contato")
-	public List<ContatoTelefone> listaTelefone;
-	
-	public Integer getId() {
-		return id;
-	}
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    @Valid
+    @ManyToOne
+    @JoinColumn(name = "IdContato", nullable = false)
+    public Contato contato;
 
-	public Contato getContato() {
-		return contato;
-	}
+    @ManyToOne
+    @JoinColumn(name = "IdFornecedor", nullable = false)
+    public Fornecedor fornecedor;
 
-	public void setContato(Contato contato) {
-		this.contato = contato;
-	}
+    @Valid
+    @OneToMany(mappedBy = "contato")
+    public List<ContatoTelefone> listaTelefone;
 
-	public Fornecedor getFornecedor() {
-		return fornecedor;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public void setFornecedor(Fornecedor fornecedor) {
-		this.fornecedor = fornecedor;
-	}
-	
-	@Pesquisa(nome = "Nome", posicao = 0)
-	public String getContatoNome(){
-		return this.contato.getNome();
-	}
-	
-	@Pesquisa(nome = "Email", posicao = 1)
-	public String getContatoEmail(){
-		return this.contato.getEmail();
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public List<ContatoTelefone> getListaTelefone() {
-		return listaTelefone;
-	}
+    public Contato getContato() {
+        return contato;
+    }
 
-	public void setListaTelefone(List<ContatoTelefone> listaTelefone) {
-		this.listaTelefone = listaTelefone;
-	}
+    public void setContato(Contato contato) {
+        this.contato = contato;
+    }
+
+    public Fornecedor getFornecedor() {
+        return fornecedor;
+    }
+
+    public void setFornecedor(Fornecedor fornecedor) {
+        this.fornecedor = fornecedor;
+    }
+
+    @Pesquisa(nome = "Nome", posicao = 0)
+    public String getContatoNome() {
+        return this.contato.getNome();
+    }
+
+    @Pesquisa(nome = "Email", posicao = 1)
+    public String getContatoEmail() {
+        return this.contato.getEmail();
+    }
+
+    public List<ContatoTelefone> getListaTelefone() {
+        return listaTelefone;
+    }
+
+    public void setListaTelefone(List<ContatoTelefone> listaTelefone) {
+        this.listaTelefone = listaTelefone;
+    }
 
 }

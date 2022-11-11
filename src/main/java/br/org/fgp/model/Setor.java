@@ -18,37 +18,37 @@ import br.org.fgp.view.annotations.Pesquisa;
 @Table(name = "SETOR")
 public class Setor {
 
-	private static final int SETOR_MAX = 30;
+    private static final int SETOR_MAX = 30;
 
-	private static final String SETOR = "Setor";
+    private static final String SETOR = "Setor";
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "IdSetor")
-	public Integer id;
-	
-	@NotBlank(message = MessagemUtil.CAMPO + SETOR + MessagemUtil.NOT_BLANK)
-	@Length(max = SETOR_MAX, message = MessagemUtil.CAMPO + SETOR + MessagemUtil.MAX +SETOR_MAX )
-	@Column(name = SETOR, length = SETOR_MAX)
-	@LabelDescricao
-	public String setor;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "IdSetor")
+    public Integer id;
 
-	@Pesquisa(nome = "Id", posicao = 0)
-	public Integer getId() {
-		return id;
-	}
+    @NotBlank(message = MessagemUtil.CAMPO + SETOR + MessagemUtil.NOT_BLANK)
+    @Length(max = SETOR_MAX, message = MessagemUtil.CAMPO + SETOR + MessagemUtil.MAX + SETOR_MAX)
+    @Column(name = SETOR, length = SETOR_MAX)
+    @LabelDescricao
+    public String setor;
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    @Pesquisa(nome = "Id", posicao = 0)
+    public Integer getId() {
+        return id;
+    }
 
-	@Pesquisa(nome = SETOR, posicao = 1)
-	public String getSetor() {
-		return setor;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public void setSetor(String setor) {
-		this.setor = setor;
-	}
+    @Pesquisa(nome = SETOR, posicao = 1)
+    public String getSetor() {
+        return setor;
+    }
+
+    public void setSetor(String setor) {
+        this.setor = setor;
+    }
 
 }

@@ -8,9 +8,9 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Pesquisa {
-	int posicao();
+    int posicao();
 
-	String nome();
+    String nome();
 
-	String pattern() default ("%s");
+    String pattern() default ("%s");
 }

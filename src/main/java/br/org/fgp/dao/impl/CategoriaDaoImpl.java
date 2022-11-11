@@ -12,11 +12,11 @@ import br.org.fgp.model.Categoria;
 
 @Repository
 public class CategoriaDaoImpl extends GenericoDaoImpl<Categoria, Integer>
-		implements CategoriaDao, Filtravel<Categoria> {
-	
-	@Override
-	public List<Categoria> filtrarPorDescricao(String descricao) {
-		return buscarPorCriteria(Restrictions.like("descricao","%"+descricao+"%") );
-	}
+        implements CategoriaDao, Filtravel<Categoria> {
+
+    @Override
+    public List<Categoria> filtrarPorDescricao(String descricao) {
+        return buscarPorCriteria(Restrictions.like("descricao", "%" + descricao + "%"));
+    }
 
 }

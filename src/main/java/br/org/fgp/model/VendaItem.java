@@ -18,88 +18,88 @@ import br.org.fgp.core.MessagemUtil;
 import br.org.fgp.view.annotations.Pesquisa;
 
 @Entity
-@Table(name = "VENDA_ITEM", indexes = { @Index(columnList = "IdProduto"), @Index(columnList = "IdVenda") } )
+@Table(name = "VENDA_ITEM", indexes = {@Index(columnList = "IdProduto"), @Index(columnList = "IdVenda")})
 public class VendaItem {
 
-	private static final int VALOR_MAX = 15;
+    private static final int VALOR_MAX = 15;
 
-	private static final String VALOR = "Valor Unitário";
+    private static final String VALOR = "Valor Unitário";
 
-	private static final int VALOR_FRACAO = 2;
+    private static final int VALOR_FRACAO = 2;
 
-	private static final int VALOR_INT = 13;
+    private static final int VALOR_INT = 13;
 
-	private static final String PRODUTO = "Produto";
+    private static final String PRODUTO = "Produto";
 
-	private static final String QUANTIDADE = "Quantidade";
+    private static final String QUANTIDADE = "Quantidade";
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "IdVendaItem")
-	public Integer id;
-	
-	@NotNull(message = MessagemUtil.CAMPO + QUANTIDADE + MessagemUtil.NOT_BLANK)
-	@Column(name = QUANTIDADE)
-	public Integer quantidade;
-	
-	@Digits(integer = VALOR_INT, fraction = VALOR_FRACAO, message = MessagemUtil.CAMPO + VALOR + MessagemUtil.DIGITS + VALOR_MAX + MessagemUtil.INTEIROS + MessagemUtil.AND+VALOR_FRACAO + MessagemUtil.CASAS_DECIMAIS)
-	@Column(name = "ValorUnitario", scale = VALOR_FRACAO, precision = VALOR_MAX)
-	public BigDecimal valorUnitario;
-	
-	@NotNull(message = MessagemUtil.CAMPO + PRODUTO + MessagemUtil.NOT_BLANK)
-	@ManyToOne
-	@JoinColumn(name = "IdProduto")
-	public Produto produto;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "IdVendaItem")
+    public Integer id;
 
-	@ManyToOne
-	@JoinColumn(name = "IdVenda")
-	public Venda venda;
+    @NotNull(message = MessagemUtil.CAMPO + QUANTIDADE + MessagemUtil.NOT_BLANK)
+    @Column(name = QUANTIDADE)
+    public Integer quantidade;
 
-	public Integer getId() {
-		return id;
-	}
+    @Digits(integer = VALOR_INT, fraction = VALOR_FRACAO, message = MessagemUtil.CAMPO + VALOR + MessagemUtil.DIGITS + VALOR_MAX + MessagemUtil.INTEIROS + MessagemUtil.AND + VALOR_FRACAO + MessagemUtil.CASAS_DECIMAIS)
+    @Column(name = "ValorUnitario", scale = VALOR_FRACAO, precision = VALOR_MAX)
+    public BigDecimal valorUnitario;
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    @NotNull(message = MessagemUtil.CAMPO + PRODUTO + MessagemUtil.NOT_BLANK)
+    @ManyToOne
+    @JoinColumn(name = "IdProduto")
+    public Produto produto;
 
-	@Pesquisa(nome = "Quantidade", posicao = 1)
-	public Integer getQuantidade() {
-		return quantidade;
-	}
+    @ManyToOne
+    @JoinColumn(name = "IdVenda")
+    public Venda venda;
 
-	public void setQuantidade(Integer quantidade) {
-		this.quantidade = quantidade;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	@Pesquisa(nome = "Valor Unitário", posicao = 2)
-	public BigDecimal getValorUnitario() {
-		return valorUnitario;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public void setValorUnitario(BigDecimal valorUnitario) {
-		this.valorUnitario = valorUnitario;
-	}
+    @Pesquisa(nome = "Quantidade", posicao = 1)
+    public Integer getQuantidade() {
+        return quantidade;
+    }
 
-	@Pesquisa(nome = "Produto", posicao = 0)
-	public String getProdutoTexto() {
-		return produto.getNome();
-	}
-	
-	public Produto getProduto() {
-		return produto;
-	}
+    public void setQuantidade(Integer quantidade) {
+        this.quantidade = quantidade;
+    }
 
-	public void setProduto(Produto produto) {
-		this.produto = produto;
-	}
+    @Pesquisa(nome = "Valor Unitário", posicao = 2)
+    public BigDecimal getValorUnitario() {
+        return valorUnitario;
+    }
 
-	public Venda getVenda() {
-		return venda;
-	}
+    public void setValorUnitario(BigDecimal valorUnitario) {
+        this.valorUnitario = valorUnitario;
+    }
 
-	public void setVenda(Venda venda) {
-		this.venda = venda;
-	}
+    @Pesquisa(nome = "Produto", posicao = 0)
+    public String getProdutoTexto() {
+        return produto.getNome();
+    }
+
+    public Produto getProduto() {
+        return produto;
+    }
+
+    public void setProduto(Produto produto) {
+        this.produto = produto;
+    }
+
+    public Venda getVenda() {
+        return venda;
+    }
+
+    public void setVenda(Venda venda) {
+        this.venda = venda;
+    }
 
 }

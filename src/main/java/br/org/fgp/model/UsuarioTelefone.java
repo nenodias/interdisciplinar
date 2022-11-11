@@ -14,49 +14,49 @@ import br.org.fgp.model.enums.TipoTelefone;
 import br.org.fgp.view.annotations.Pesquisa;
 
 @Entity
-@Table(name = "USUARIO_TELEFONE", indexes = { @Index(columnList = "IdUsuario" ), @Index(columnList = "IdTelefone" ) } )
+@Table(name = "USUARIO_TELEFONE", indexes = {@Index(columnList = "IdUsuario"), @Index(columnList = "IdTelefone")})
 public class UsuarioTelefone {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;	
-	
-	@ManyToOne
-	@JoinColumn(name = "IdUsuario", nullable = false)
-	public Usuario usuario;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-	@Valid
-	@ManyToOne
-	@JoinColumn(name = "IdTelefone", nullable = false)
-	public Telefone telefone;
+    @ManyToOne
+    @JoinColumn(name = "IdUsuario", nullable = false)
+    public Usuario usuario;
 
-	public Usuario getUsuario() {
-		return usuario;
-	}
+    @Valid
+    @ManyToOne
+    @JoinColumn(name = "IdTelefone", nullable = false)
+    public Telefone telefone;
 
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	}
+    public Usuario getUsuario() {
+        return usuario;
+    }
 
-	@Pesquisa(nome = "Telefone", posicao = 0)
-	public Telefone getTelefone() {
-		return telefone;
-	}
-	
-	@Pesquisa(nome = "Tipo", posicao = 2)
-	public TipoTelefone getTipo() {
-		return telefone.getTipo();
-	}
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
 
-	public void setTelefone(Telefone telefone) {
-		this.telefone = telefone;
-	}
+    @Pesquisa(nome = "Telefone", posicao = 0)
+    public Telefone getTelefone() {
+        return telefone;
+    }
 
-	public Integer getId() {
-		return id;
-	}
+    @Pesquisa(nome = "Tipo", posicao = 1)
+    public TipoTelefone getTipo() {
+        return telefone.getTipo();
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public void setTelefone(Telefone telefone) {
+        this.telefone = telefone;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 }

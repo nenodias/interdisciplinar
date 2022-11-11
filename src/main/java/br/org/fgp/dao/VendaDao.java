@@ -8,7 +8,7 @@ import br.org.fgp.model.EntradaProduto;
 import br.org.fgp.model.Venda;
 
 public interface VendaDao extends GenericoDao<Venda, Integer> {
-	List<Venda> buscarPorFaixa(Date dataInicio, Date dataTermino);
+    List<Venda> buscarPorFaixa(Date dataInicio, Date dataTermino);
 
-	void salvarRegra(Venda entity) throws Exception;
+    void salvarRegra(Venda entity) throws Exception;
 }

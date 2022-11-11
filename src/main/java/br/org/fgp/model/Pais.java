@@ -10,29 +10,29 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "PAIS")
 public class Pais {
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "IdPais")
-	public Integer id;
-	
-	@Column(name = "Pais", length = 30)
-	public String pais;
 
-	public Integer getId() {
-		return id;
-	}
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "IdPais")
+    public Integer id;
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    @Column(name = "Pais", length = 30)
+    public String pais;
 
-	public String getPais() {
-		return pais;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public void setPais(String pais) {
-		this.pais = pais;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getPais() {
+        return pais;
+    }
+
+    public void setPais(String pais) {
+        this.pais = pais;
+    }
 
 }

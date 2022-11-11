@@ -13,10 +13,10 @@ import br.org.fgp.model.Cidade;
 @Repository
 public class CidadeDaoImpl extends GenericoDaoImpl<Cidade, Integer> implements CidadeDao {
 
-	@Override
-	public List<Cidade> buscaPorEstado(Integer IdEstado) {
-		Map<String, Object> parametros = new HashMap<String, Object>();
-		parametros.put("IdEstado", IdEstado);
-		return selectHQL(" FROM Cidade c where c.estado.id = :IdEstado ORDER BY c.descricao ", parametros);
-	}	
+    @Override
+    public List<Cidade> buscaPorEstado(Integer IdEstado) {
+        Map<String, Object> parametros = new HashMap<String, Object>();
+        parametros.put("IdEstado", IdEstado);
+        return selectHQL(" FROM Cidade c where c.estado.id = :IdEstado ORDER BY c.descricao ", parametros);
+    }
 }

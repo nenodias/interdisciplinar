@@ -62,567 +62,565 @@ import br.org.fgp.view.core.Validador;
 
 @Controller
 public class CadastroFornecedor extends JPanel implements Inicializavel {
-	
-	private static final long serialVersionUID = 2174153481281619633L;
 
-	private static final String CLASS_NAME = "Fornecedor";
+    private static final long serialVersionUID = 2174153481281619633L;
 
-	private static final Logger LOGGER = Logger.getLogger(CadastroFornecedor.class);
-	
-	private Fornecedor fornecedor;
-	
-	@Autowired
-	private FornecedorDao fornecedorDao;
-	
-	@Autowired
-	private CidadeDao cidadeDao;
-	
-	@Autowired
-	private EstadoDao estadoDao;
-	
-	@Autowired
-	private ContatoDao contatoDao;
-	
-	@Autowired
-	private ContatoFornecedorDao contatoFornecedorDao;
-	
-	@Autowired
-	private ContatoTelefoneDao contatoTelefoneDao;
-	
-	@Autowired
-	private TelefoneDao telefoneDao;
-	
-	public ContatoTelefoneDao getContatoTelefoneDao() {
-		return contatoTelefoneDao;
-	}
+    private static final String CLASS_NAME = "Fornecedor";
 
-	public void setContatoTelefoneDao(ContatoTelefoneDao contatoTelefoneDao) {
-		this.contatoTelefoneDao = contatoTelefoneDao;
-	}
-	
-	public ContatoDao getContatoDao() {
-		return contatoDao;
-	}
-	
-	public void setContatoDao(ContatoDao contatoDao) {
-		this.contatoDao = contatoDao;
-	}
+    private static final Logger LOGGER = Logger.getLogger(CadastroFornecedor.class);
 
-	public ContatoFornecedorDao getContatoFornecedorDao() {
-		return contatoFornecedorDao;
-	}
+    private Fornecedor fornecedor;
 
-	public void setContatoFornecedorDao(ContatoFornecedorDao contatoFornecedorDao) {
-		this.contatoFornecedorDao = contatoFornecedorDao;
-	}
+    @Autowired
+    private FornecedorDao fornecedorDao;
 
-	public TelefoneDao getTelefoneDao() {
-		return telefoneDao;
-	}
+    @Autowired
+    private CidadeDao cidadeDao;
 
-	public void setTelefoneDao(TelefoneDao telefoneDao) {
-		this.telefoneDao = telefoneDao;
-	}
+    @Autowired
+    private EstadoDao estadoDao;
 
-	public CidadeDao getCidadeDao() {
-		return cidadeDao;
-	}
+    @Autowired
+    private ContatoDao contatoDao;
 
-	public void setCidadeDao(CidadeDao cidadeDao) {
-		this.cidadeDao = cidadeDao;
-	}
-	
-	public FornecedorDao getFornecedorDao() {
-		return fornecedorDao;
-	}
+    @Autowired
+    private ContatoFornecedorDao contatoFornecedorDao;
 
-	public void setFornecedorDao(FornecedorDao fornecedorDao) {
-		this.fornecedorDao = fornecedorDao;
-	}
-	
-	public EstadoDao getEstadoDao() {
-		return estadoDao;
-	}
+    @Autowired
+    private ContatoTelefoneDao contatoTelefoneDao;
 
-	public void setEstadoDao(EstadoDao estadoDao) {
-		this.estadoDao = estadoDao;
-	}
+    @Autowired
+    private TelefoneDao telefoneDao;
 
-	private JComboBox<Estado> cbbEstado;
-	private JComboBox<Cidade> cbbCidade;
+    public ContatoTelefoneDao getContatoTelefoneDao() {
+        return contatoTelefoneDao;
+    }
 
-	private JPanel painel;
-	
-	@Permissao
-	private JButton btnSalvar;
-	private JButton btnCancelar;
-	private JSplitPane splitPane;
+    public void setContatoTelefoneDao(ContatoTelefoneDao contatoTelefoneDao) {
+        this.contatoTelefoneDao = contatoTelefoneDao;
+    }
 
-	@Permissao
-	private JTextField txtCnpj;
-	@Permissao
-	private JTextField txtInscricaoEstadual;
-	@Permissao
-	private JTextField txtNomeFantasia;
-	@Permissao
-	private JTextField txtRazaoSocial;
-	@Permissao
-	private JTextField txtEndereco;
-	@Permissao
-	private JTextField txtNumero;
-	@Permissao
-	private JTextField txtBairro;
-	private JScrollPane painelTabela;
+    public ContatoDao getContatoDao() {
+        return contatoDao;
+    }
 
-	private JTable tabela;
+    public void setContatoDao(ContatoDao contatoDao) {
+        this.contatoDao = contatoDao;
+    }
 
-	private List<ContatoFornecedor> listaContato;
+    public ContatoFornecedorDao getContatoFornecedorDao() {
+        return contatoFornecedorDao;
+    }
 
-	private TableModelGenerico<ContatoFornecedor> modelGenerico;
+    public void setContatoFornecedorDao(ContatoFornecedorDao contatoFornecedorDao) {
+        this.contatoFornecedorDao = contatoFornecedorDao;
+    }
 
-	@SuppressWarnings("rawtypes")
-	private SwingWorker estadoWorker;
+    public TelefoneDao getTelefoneDao() {
+        return telefoneDao;
+    }
 
-	@SuppressWarnings("rawtypes")
-	private SwingWorker cidadeWorker;
+    public void setTelefoneDao(TelefoneDao telefoneDao) {
+        this.telefoneDao = telefoneDao;
+    }
 
-	@Permissao
-	private JButton btnAdicionarContato;
+    public CidadeDao getCidadeDao() {
+        return cidadeDao;
+    }
 
-	private ButtonColumnExcluir buttonColumnExcluir;
+    public void setCidadeDao(CidadeDao cidadeDao) {
+        this.cidadeDao = cidadeDao;
+    }
 
-	public CadastroFornecedor() {
-		painel = this;
-		setLayout(null);
-		adicionarComponente(new JCabecalhoLabel(CLASS_NAME), 0);
-		
-		adicionarComponente(new JLabel("Nome Fantasia:"), 2);
-		txtNomeFantasia = new JTextField();
-		adicionarComponente(txtNomeFantasia, 2);
-		
-		adicionarComponente(new JLabel("Razão Social:"), 4);
-		txtRazaoSocial = new JTextField();
-		adicionarComponente(txtRazaoSocial, 4);
-		
-		adicionarComponente(new JLabel("CNPJ:"), 6);
-		txtCnpj = new JTextField();
-		adicionarComponente(txtCnpj, 6);
-		
-		adicionarComponente(new JLabel("Inscrição Estadual:"), 8);
-		txtInscricaoEstadual = new JTextField();
-		adicionarComponente(txtInscricaoEstadual, 8);
-		
-		adicionarComponente(new JLabel("Rua:"), 10);
-		txtEndereco = new JTextField();
-		adicionarComponente(txtEndereco, 10);
-		
-		adicionarComponente(new JLabel("Número:"), 12);
-		txtNumero = new JTextField();
-		adicionarComponente(txtNumero, 12);
-		
-		adicionarComponente(new JLabel("Bairro:"),14 );
-		txtBairro = new JTextField();
-		adicionarComponente(txtBairro, 14);
-		
-		adicionarComponente(new JLabel("Estado:"), 16);
-		cbbEstado = new JComboBox<Estado>();
-		adicionarComponente(cbbEstado, 16);
+    public FornecedorDao getFornecedorDao() {
+        return fornecedorDao;
+    }
 
-		adicionarComponente(new JLabel("Cidade:"), 18);
-		cbbCidade = new JComboBox<Cidade>();
-		adicionarComponente(cbbCidade, 18);
-		
-		splitPane = new JSplitPane();
-		adicionarComponente(splitPane, 28);
-		
-		btnSalvar = new JButtonSalvar();
-		if(getRootPane() != null){
-			getRootPane().setDefaultButton(btnSalvar);
-		}
-		splitPane.setLeftComponent(btnSalvar);
-		
-		btnCancelar = new JButtonCancelar();
-		splitPane.setRightComponent(btnCancelar);
-		splitPane.setDividerLocation(TelasUtils.DEFAULT_LARGURA_COMPONENTE/2);
-		splitPane.setEnabled(false);
-		
-		painelTabela = new JScrollPane();
-		tabela = new JTable();
-		if(this.fornecedor != null && this.fornecedor.getListaContato() != null ){
-			listaContato = this.fornecedor.getListaContato();
-		}else{
-			listaContato = new ArrayList<ContatoFornecedor>();
-		}
-		modelGenerico = new TableModelGenerico<ContatoFornecedor>(listaContato, ContatoFornecedor.class);
-		btnAdicionarContato = new JButtonAdicionar();
-		btnAdicionarContato.setBounds(TelasUtils.DEFAULT_X+ TelasUtils.DEFAULT_ESPACO , TelasUtils.DEFAULT_Y +(20 *TelasUtils.DEFAULT_ESPACO) , TelasUtils.DEFAULT_LARGURA_COMPONENTE /2, TelasUtils.DEFAULT_ALTURA_COMPONENTE);
-		add(btnAdicionarContato);
-		tabela.setModel(modelGenerico);
-		tabela.setEnabled(true);
-		painelTabela.setViewportView(tabela);
-		painelTabela.setEnabled(true);
-		painelTabela.setBounds(TelasUtils.DEFAULT_X+ TelasUtils.DEFAULT_ESPACO , TelasUtils.DEFAULT_Y +(22 *TelasUtils.DEFAULT_ESPACO) , TelasUtils.DEFAULT_LARGURA_COMPONENTE*2, TelasUtils.DEFAULT_ALTURA_COMPONENTE+TelasUtils.DEFAULT_ALTURA_COMPONENTE*2);
-		add(painelTabela);
-		painelTabela.setVisible(true);
-		
-		ComponenteControlado<CadastroFornecedor> controleAcesso = new ComponenteControlado<CadastroFornecedor>(this); 
-		controleAcesso.pronto(TipoUsuario.ADMINISTRADOR);
-		
-		carregarEstado();
-		carregarCidade();
-		
-		tabela.addMouseListener(new MouseAdapter() {
+    public void setFornecedorDao(FornecedorDao fornecedorDao) {
+        this.fornecedorDao = fornecedorDao;
+    }
 
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				eventoCliqueTabela(e);
-			}
-		});
-		
-		cbbEstado.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent arg0) {
-				carregarCidade();
-			}
-		});
-		btnSalvar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				salvar();
-			}
+    public EstadoDao getEstadoDao() {
+        return estadoDao;
+    }
 
-		});
-		
-		btnCancelar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				cancelar();
-			}
+    public void setEstadoDao(EstadoDao estadoDao) {
+        this.estadoDao = estadoDao;
+    }
 
-		});
-		
-		btnAdicionarContato.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				adicionarContato();
-			}
+    private JComboBox<Estado> cbbEstado;
+    private JComboBox<Cidade> cbbCidade;
 
-		});
-	}
+    private JPanel painel;
 
-	private void salvar(){
-		String mensagemSave = " atualizado ";
-		String mensagemFail = " atualizar ";
-		try{
-			if(fornecedor.getId() == null ){
-				fornecedor = new  Fornecedor();
-				mensagemSave = " salvo ";
-				mensagemFail = " salvar ";
-			}
-			fornecedor.setNomeFantasia( txtNomeFantasia.getText() );
-			fornecedor.setRazaoSocial( txtRazaoSocial.getText() );
-			fornecedor.setCnpj(txtCnpj.getText());
-			fornecedor.setInscricaoEstadual(txtInscricaoEstadual.getText());
-			Cidade cidade = (Cidade) cbbCidade.getSelectedItem();
-			fornecedor.setEnderecoComercial(new Endereco(txtEndereco.getText(), txtNumero.getText(), txtBairro.getText(), cidade ));
-			Validador<Fornecedor> validador = new Validador<Fornecedor>();
-			validador.validacaoCampos(fornecedor);
-			fornecedorDao.salvar(fornecedor);
-			if(!listaContato.isEmpty()){
-				if(fornecedor.getId() != null){
-					contatoFornecedorDao.deletarPorIdUsuario(fornecedor.getId());
-				}
-				for (ContatoFornecedor contatoFornecedor : listaContato) {
-					contatoFornecedorDao.evict(contatoFornecedor);
-					contatoFornecedor.setId(null);
-					contatoFornecedor.setFornecedor(fornecedor);
-					contatoFornecedor.getContato().setId(null);
-					contatoFornecedorDao.evict(contatoFornecedor);
-					for (ContatoTelefone contatoTelefone : contatoFornecedor.getContato().getListaTelefone() ) {
-						contatoTelefone.setId(null);
-						contatoFornecedorDao.evict(contatoTelefone);
-						contatoTelefone.setContato(contatoFornecedor.getContato());
-						contatoTelefone.getTelefone().setId(null);
-						contatoFornecedorDao.evict(contatoTelefone.getTelefone());
-						contatoFornecedorDao.flush();
-						telefoneDao.salvar( contatoTelefone.getTelefone() );
-						contatoDao.salvar( contatoTelefone.getContato() );
-						contatoTelefoneDao.salvar(contatoTelefone);
-					}
-					contatoFornecedorDao.salvar(contatoFornecedor);
-				}
-			}
-			JOptionPane.showMessageDialog(null, CLASS_NAME.concat(mensagemFail).concat("com sucesso.") );
-			fornecedor = null;
-			limparComponentes();
-			cancelar();
-		}
-		catch(ValidationException e){
-			LOGGER.error(e);
-		}
-		catch(Exception ex){
-			JOptionPane.showMessageDialog(null, "Falha ao ".concat(mensagemSave).concat(" ").concat(CLASS_NAME).concat(".") );
-			LOGGER.error(ex);
-		}
-	}
+    @Permissao
+    private JButton btnSalvar;
+    private JButton btnCancelar;
+    private JSplitPane splitPane;
 
-	private void limparComponentes() {
-		final JTextField[] componentes = {txtNomeFantasia,txtRazaoSocial,txtCnpj, txtInscricaoEstadual,txtEndereco,txtNumero,txtBairro};
-		for (JTextField jComponent : componentes) {
-			jComponent.setText(StringUtils.EMPTY);
-		}
-		listaContato.clear();
-		atualizaDesenhoTabela();
-	}
+    @Permissao
+    private JTextField txtCnpj;
+    @Permissao
+    private JTextField txtInscricaoEstadual;
+    @Permissao
+    private JTextField txtNomeFantasia;
+    @Permissao
+    private JTextField txtRazaoSocial;
+    @Permissao
+    private JTextField txtEndereco;
+    @Permissao
+    private JTextField txtNumero;
+    @Permissao
+    private JTextField txtBairro;
+    private JScrollPane painelTabela;
 
-	@SuppressWarnings({ "rawtypes" })
-	private void carregarEstado(){
-		estadoWorker = new SwingWorker() {
+    private JTable tabela;
 
-			@Override
-			protected Object doInBackground() throws Exception {
-				cbbEstado.removeAllItems();
-				for (Estado estado : estadoDao.buscarTodos()) {
-					cbbEstado.addItem(estado);
-					if(fornecedor != null && fornecedor.getEnderecoComercial() != null && estado.equals(fornecedor.getEnderecoComercial().getCidade().getEstado() ) ){
-						cbbEstado.setSelectedItem(estado);
-					}
-				}
-				return null;
-			}
-		};
-		estadoWorker.execute();
-	}
-	
-	@SuppressWarnings({ "rawtypes" })
-	private void carregarCidade(){
-		cidadeWorker = new SwingWorker() {
+    private List<ContatoFornecedor> listaContato;
 
-			@Override
-			protected Object doInBackground() throws Exception {
-				Estado item = (Estado) cbbEstado.getSelectedItem();
-				cbbCidade.removeAllItems();
-				while (!estadoWorker.isDone()) {
-					
-				}
-				for (Cidade cidade : cidadeDao.buscaPorEstado(item.getId() ) ) {
-					cbbCidade.addItem(cidade);
-					if(fornecedor != null && fornecedor.getEnderecoComercial() != null && cidade.equals(fornecedor.getEnderecoComercial().getCidade() ) ){
-						cbbCidade.setSelectedItem(cidade);
-					}
-				}
-				return null;
-			}
-		};
-		cidadeWorker.execute();
-	}
+    private TableModelGenerico<ContatoFornecedor> modelGenerico;
 
-	@Override
-	public void load(Integer id) {
-		init(TelasUtils.getUsuarioLogado());
-		if(id != null){
-			fornecedor = fornecedorDao.buscarPorId(id);
-		}
-		if(id != null){
-			txtNomeFantasia.setText( fornecedor.getNomeFantasia() );
-			txtInscricaoEstadual.setText( fornecedor.getInscricaoEstadual() );
-			txtRazaoSocial.setText( fornecedor.getRazaoSocial() );
-			txtCnpj.setText( fornecedor.getCnpj() );
-			txtEndereco.setText( fornecedor.getEnderecoComercial().getRua() );
-			txtNumero.setText( fornecedor.getEnderecoComercial().getNumero() );
-			txtBairro.setText( fornecedor.getEnderecoComercial().getBairro() );
-			
-			listaContato = fornecedor.getListaContato();
-		}else{
-			fornecedor = new Fornecedor();
-			listaContato.clear();
-			limparComponentes();
-		}
-		atualizaDesenhoTabela();
-	}
+    @SuppressWarnings("rawtypes")
+    private SwingWorker estadoWorker;
 
-	private void init(Usuario usuarioLogado) {
-		ComponenteControlado<CadastroFornecedor> controleAcesso = new ComponenteControlado<CadastroFornecedor>(this);
-		controleAcesso.pronto(usuarioLogado.getTipo());
-		carregarEstado();
-		carregarCidade();
-		repaint();
-		revalidate();
-	}
-	
-	private void cancelar() {
-		TelaPrincipal telaPrincipal = ApplicationContextConfig.getContext().getBean(TelaPrincipal.class);
-		telaPrincipal.cancelar();
-	}
-	
-	private void adicionarComponente(JComponent componente, int valor){
-		Map<String, Integer> parametros = new HashMap<String, Integer>();
-		TelasUtils.adicionarComponente(componente, valor, this, parametros);
-	}
-	
-	private void adicionarContato() {
-		final Contato contato = new Contato();
-		abrirModalContato(contato);
-		if(StringUtils.isNotBlank( contato.getNome() ) && StringUtils.isNotBlank( contato.getEmail() ) ){
-			ContatoFornecedor contatoFornecedo = new ContatoFornecedor();
-			contatoFornecedo.setContato(contato);
-			contatoFornecedo.setFornecedor(fornecedor);
-			listaContato.add(contatoFornecedo);
-			atualizaDesenhoTabela();
-		}
-	}
-	
-	private void abrirModalContato(final Contato contato) {
-		Runnable runnable = new Runnable() {
-			public void run() {
-				try {
-					CadastroContato dialog = new CadastroContato(contato);
-					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-					dialog.setLocationRelativeTo(painel);
-					dialog.setVisible(true);
-				} catch (Exception e) {
-					LOGGER.error(e);
-				}
-			}
-		};
-		runnable.run();
-	}
+    @SuppressWarnings("rawtypes")
+    private SwingWorker cidadeWorker;
 
-	private void atualizaDesenhoTabela() {
-		if(listaContato.size() > 0){
-			new ButtonColumnEditar(tabela, null, modelGenerico.getCountadorColunas() );
-			buttonColumnExcluir = new ButtonColumnExcluir(tabela, null, modelGenerico.getCountadorColunas() + 1 );
-			if( TelasUtils.getUsuarioLogado() != null && TelasUtils.isPermision(Fornecedor.class, TelasUtils.getUsuarioLogado().getTipo() )  ){
-				buttonColumnExcluir.setEnabled(false);
-			}
-		}
-		if(!modelGenerico.getLista().equals(listaContato)){
-			modelGenerico.getLista().clear();
-			for (ContatoFornecedor usuarioTelefone : listaContato) {
-				modelGenerico.getLista().add(usuarioTelefone);
-			}
-			listaContato = (List<ContatoFornecedor>) modelGenerico.getLista();
-			
-		}
-		modelGenerico.fireTableDataChanged();
-		tabela.updateUI();
-	}
+    @Permissao
+    private JButton btnAdicionarContato;
 
-	@SuppressWarnings("unchecked")
-	protected void eventoCliqueTabela(MouseEvent e) {
-		if (e.getClickCount() == 2) {
-			TableModelGenerico<ContatoFornecedor> model = (TableModelGenerico<ContatoFornecedor>) tabela.getModel();
-			boolean atualizaTabela = false;
-			int linha = tabela.getSelectedRow();
-			int coluna = tabela.getSelectedColumn();
-			ContatoFornecedor contatoFornecedor = listaContato.get(linha);
-			
-			if(coluna == model.getCountadorColunas() ){
-				abrirModalContato(contatoFornecedor.getContato());
-				atualizaTabela = true;
-			} else if(coluna == model.getCountadorColunas() +1 && ( TelasUtils.getUsuarioLogado() != null &&  TelasUtils.isPermision(Fornecedor.class, TelasUtils.getUsuarioLogado().getTipo() ) )  ){
-				int excluir = JOptionPane.showConfirmDialog(null, "Deseja excluir o registro: "+contatoFornecedor.getContatoNome() + " ?", "Excluir?", JOptionPane.YES_NO_OPTION);
-				if(excluir == JOptionPane.YES_OPTION){
-					int contador = 0;
-					while(true){
-						if(listaContato.get(contador).equals(contatoFornecedor) ){
-							ContatoFornecedor contatoFor = listaContato.get(contador);
-							listaContato.remove( contatoFor );
-							break;
-						}
-						contador++;
-					}
-				}
-				atualizaTabela = true;
-			}
-			if(atualizaTabela){
-				atualizaDesenhoTabela();
-			}
-		}
-	}
+    private ButtonColumnExcluir buttonColumnExcluir;
 
-	public JComboBox<Estado> getCbbEstado() {
-		return cbbEstado;
-	}
+    public CadastroFornecedor() {
+        painel = this;
+        setLayout(null);
+        adicionarComponente(new JCabecalhoLabel(CLASS_NAME), 0);
 
-	public void setCbbEstado(JComboBox<Estado> cbbEstado) {
-		this.cbbEstado = cbbEstado;
-	}
+        adicionarComponente(new JLabel("Nome Fantasia:"), 2);
+        txtNomeFantasia = new JTextField();
+        adicionarComponente(txtNomeFantasia, 2);
 
-	public JComboBox<Cidade> getCbbCidade() {
-		return cbbCidade;
-	}
+        adicionarComponente(new JLabel("Razão Social:"), 4);
+        txtRazaoSocial = new JTextField();
+        adicionarComponente(txtRazaoSocial, 4);
 
-	public void setCbbCidade(JComboBox<Cidade> cbbCidade) {
-		this.cbbCidade = cbbCidade;
-	}
+        adicionarComponente(new JLabel("CNPJ:"), 6);
+        txtCnpj = new JTextField();
+        adicionarComponente(txtCnpj, 6);
 
-	public JButton getBtnSalvar() {
-		return btnSalvar;
-	}
+        adicionarComponente(new JLabel("Inscrição Estadual:"), 8);
+        txtInscricaoEstadual = new JTextField();
+        adicionarComponente(txtInscricaoEstadual, 8);
 
-	public void setBtnSalvar(JButton btnSalvar) {
-		this.btnSalvar = btnSalvar;
-	}
+        adicionarComponente(new JLabel("Rua:"), 10);
+        txtEndereco = new JTextField();
+        adicionarComponente(txtEndereco, 10);
 
-	public JTextField getTxtCnpj() {
-		return txtCnpj;
-	}
+        adicionarComponente(new JLabel("Número:"), 12);
+        txtNumero = new JTextField();
+        adicionarComponente(txtNumero, 12);
 
-	public void setTxtCnpj(JTextField txtCnpj) {
-		this.txtCnpj = txtCnpj;
-	}
+        adicionarComponente(new JLabel("Bairro:"), 14);
+        txtBairro = new JTextField();
+        adicionarComponente(txtBairro, 14);
 
-	public JTextField getTxtInscricaoEstadual() {
-		return txtInscricaoEstadual;
-	}
+        adicionarComponente(new JLabel("Estado:"), 16);
+        cbbEstado = new JComboBox<Estado>();
+        adicionarComponente(cbbEstado, 16);
 
-	public void setTxtInscricaoEstadual(JTextField txtInscricaoEstadual) {
-		this.txtInscricaoEstadual = txtInscricaoEstadual;
-	}
+        adicionarComponente(new JLabel("Cidade:"), 18);
+        cbbCidade = new JComboBox<Cidade>();
+        adicionarComponente(cbbCidade, 18);
 
-	public JTextField getTxtNomeFantasia() {
-		return txtNomeFantasia;
-	}
+        splitPane = new JSplitPane();
+        adicionarComponente(splitPane, 28);
 
-	public void setTxtNomeFantasia(JTextField txtNomeFantasia) {
-		this.txtNomeFantasia = txtNomeFantasia;
-	}
+        btnSalvar = new JButtonSalvar();
+        if (getRootPane() != null) {
+            getRootPane().setDefaultButton(btnSalvar);
+        }
+        splitPane.setLeftComponent(btnSalvar);
 
-	public JTextField getTxtRazaoSocial() {
-		return txtRazaoSocial;
-	}
+        btnCancelar = new JButtonCancelar();
+        splitPane.setRightComponent(btnCancelar);
+        splitPane.setDividerLocation(TelasUtils.DEFAULT_LARGURA_COMPONENTE / 2);
+        splitPane.setEnabled(false);
 
-	public void setTxtRazaoSocial(JTextField txtRazaoSocial) {
-		this.txtRazaoSocial = txtRazaoSocial;
-	}
+        painelTabela = new JScrollPane();
+        tabela = new JTable();
+        if (this.fornecedor != null && this.fornecedor.getListaContato() != null) {
+            listaContato = this.fornecedor.getListaContato();
+        } else {
+            listaContato = new ArrayList<ContatoFornecedor>();
+        }
+        modelGenerico = new TableModelGenerico<ContatoFornecedor>(listaContato, ContatoFornecedor.class);
+        btnAdicionarContato = new JButtonAdicionar();
+        btnAdicionarContato.setBounds(TelasUtils.DEFAULT_X + TelasUtils.DEFAULT_ESPACO, TelasUtils.DEFAULT_Y + (20 * TelasUtils.DEFAULT_ESPACO), TelasUtils.DEFAULT_LARGURA_COMPONENTE / 2, TelasUtils.DEFAULT_ALTURA_COMPONENTE);
+        add(btnAdicionarContato);
+        tabela.setModel(modelGenerico);
+        tabela.setEnabled(true);
+        painelTabela.setViewportView(tabela);
+        painelTabela.setEnabled(true);
+        painelTabela.setBounds(TelasUtils.DEFAULT_X + TelasUtils.DEFAULT_ESPACO, TelasUtils.DEFAULT_Y + (22 * TelasUtils.DEFAULT_ESPACO), TelasUtils.DEFAULT_LARGURA_COMPONENTE * 2, TelasUtils.DEFAULT_ALTURA_COMPONENTE + TelasUtils.DEFAULT_ALTURA_COMPONENTE * 2);
+        add(painelTabela);
+        painelTabela.setVisible(true);
 
-	public JTextField getTxtEndereco() {
-		return txtEndereco;
-	}
+        ComponenteControlado<CadastroFornecedor> controleAcesso = new ComponenteControlado<CadastroFornecedor>(this);
+        controleAcesso.pronto(TipoUsuario.ADMINISTRADOR);
 
-	public void setTxtEndereco(JTextField txtEndereco) {
-		this.txtEndereco = txtEndereco;
-	}
+        carregarEstado();
+        carregarCidade();
 
-	public JTextField getTxtNumero() {
-		return txtNumero;
-	}
+        tabela.addMouseListener(new MouseAdapter() {
 
-	public void setTxtNumero(JTextField txtNumero) {
-		this.txtNumero = txtNumero;
-	}
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                eventoCliqueTabela(e);
+            }
+        });
 
-	public JTextField getTxtBairro() {
-		return txtBairro;
-	}
+        cbbEstado.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent arg0) {
+                carregarCidade();
+            }
+        });
+        btnSalvar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                salvar();
+            }
 
-	public void setTxtBairro(JTextField txtBairro) {
-		this.txtBairro = txtBairro;
-	}
+        });
 
-	public JButton getBtnAdicionarContato() {
-		return btnAdicionarContato;
-	}
+        btnCancelar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                cancelar();
+            }
 
-	public void setBtnAdicionarContato(JButton btnAdicionarContato) {
-		this.btnAdicionarContato = btnAdicionarContato;
-	}
-	
+        });
+
+        btnAdicionarContato.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                adicionarContato();
+            }
+
+        });
+    }
+
+    private void salvar() {
+        String mensagemSave = " atualizado ";
+        String mensagemFail = " atualizar ";
+        try {
+            if (fornecedor.getId() == null) {
+                fornecedor = new Fornecedor();
+                mensagemSave = " salvo ";
+                mensagemFail = " salvar ";
+            }
+            fornecedor.setNomeFantasia(txtNomeFantasia.getText());
+            fornecedor.setRazaoSocial(txtRazaoSocial.getText());
+            fornecedor.setCnpj(txtCnpj.getText());
+            fornecedor.setInscricaoEstadual(txtInscricaoEstadual.getText());
+            Cidade cidade = (Cidade) cbbCidade.getSelectedItem();
+            fornecedor.setEnderecoComercial(new Endereco(txtEndereco.getText(), txtNumero.getText(), txtBairro.getText(), cidade));
+            Validador<Fornecedor> validador = new Validador<Fornecedor>();
+            validador.validacaoCampos(fornecedor);
+            fornecedorDao.salvar(fornecedor);
+            if (!listaContato.isEmpty()) {
+                if (fornecedor.getId() != null) {
+                    contatoFornecedorDao.deletarPorIdUsuario(fornecedor.getId());
+                }
+                for (ContatoFornecedor contatoFornecedor : listaContato) {
+                    contatoFornecedorDao.evict(contatoFornecedor);
+                    contatoFornecedor.setId(null);
+                    contatoFornecedor.setFornecedor(fornecedor);
+                    contatoFornecedor.getContato().setId(null);
+                    contatoFornecedorDao.evict(contatoFornecedor);
+                    for (ContatoTelefone contatoTelefone : contatoFornecedor.getContato().getListaTelefone()) {
+                        contatoTelefone.setId(null);
+                        contatoFornecedorDao.evict(contatoTelefone);
+                        contatoTelefone.setContato(contatoFornecedor.getContato());
+                        contatoTelefone.getTelefone().setId(null);
+                        contatoFornecedorDao.evict(contatoTelefone.getTelefone());
+                        contatoFornecedorDao.flush();
+                        telefoneDao.salvar(contatoTelefone.getTelefone());
+                        contatoDao.salvar(contatoTelefone.getContato());
+                        contatoTelefoneDao.salvar(contatoTelefone);
+                    }
+                    contatoFornecedorDao.salvar(contatoFornecedor);
+                }
+            }
+            JOptionPane.showMessageDialog(null, CLASS_NAME.concat(mensagemFail).concat("com sucesso."));
+            fornecedor = null;
+            limparComponentes();
+            cancelar();
+        } catch (ValidationException e) {
+            LOGGER.error(e);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Falha ao ".concat(mensagemSave).concat(" ").concat(CLASS_NAME).concat("."));
+            LOGGER.error(ex);
+        }
+    }
+
+    private void limparComponentes() {
+        final JTextField[] componentes = {txtNomeFantasia, txtRazaoSocial, txtCnpj, txtInscricaoEstadual, txtEndereco, txtNumero, txtBairro};
+        for (JTextField jComponent : componentes) {
+            jComponent.setText(StringUtils.EMPTY);
+        }
+        listaContato.clear();
+        atualizaDesenhoTabela();
+    }
+
+    @SuppressWarnings({"rawtypes"})
+    private void carregarEstado() {
+        estadoWorker = new SwingWorker() {
+
+            @Override
+            protected Object doInBackground() throws Exception {
+                cbbEstado.removeAllItems();
+                for (Estado estado : estadoDao.buscarTodos()) {
+                    cbbEstado.addItem(estado);
+                    if (fornecedor != null && fornecedor.getEnderecoComercial() != null && estado.equals(fornecedor.getEnderecoComercial().getCidade().getEstado())) {
+                        cbbEstado.setSelectedItem(estado);
+                    }
+                }
+                return null;
+            }
+        };
+        estadoWorker.execute();
+    }
+
+    @SuppressWarnings({"rawtypes"})
+    private void carregarCidade() {
+        cidadeWorker = new SwingWorker() {
+
+            @Override
+            protected Object doInBackground() throws Exception {
+                Estado item = (Estado) cbbEstado.getSelectedItem();
+                cbbCidade.removeAllItems();
+                while (!estadoWorker.isDone()) {
+
+                }
+                for (Cidade cidade : cidadeDao.buscaPorEstado(item.getId())) {
+                    cbbCidade.addItem(cidade);
+                    if (fornecedor != null && fornecedor.getEnderecoComercial() != null && cidade.equals(fornecedor.getEnderecoComercial().getCidade())) {
+                        cbbCidade.setSelectedItem(cidade);
+                    }
+                }
+                return null;
+            }
+        };
+        cidadeWorker.execute();
+    }
+
+    @Override
+    public void load(Integer id) {
+        init(TelasUtils.getUsuarioLogado());
+        if (id != null) {
+            fornecedor = fornecedorDao.buscarPorId(id);
+        }
+        if (id != null) {
+            txtNomeFantasia.setText(fornecedor.getNomeFantasia());
+            txtInscricaoEstadual.setText(fornecedor.getInscricaoEstadual());
+            txtRazaoSocial.setText(fornecedor.getRazaoSocial());
+            txtCnpj.setText(fornecedor.getCnpj());
+            txtEndereco.setText(fornecedor.getEnderecoComercial().getRua());
+            txtNumero.setText(fornecedor.getEnderecoComercial().getNumero());
+            txtBairro.setText(fornecedor.getEnderecoComercial().getBairro());
+
+            listaContato = fornecedor.getListaContato();
+        } else {
+            fornecedor = new Fornecedor();
+            listaContato.clear();
+            limparComponentes();
+        }
+        atualizaDesenhoTabela();
+    }
+
+    private void init(Usuario usuarioLogado) {
+        ComponenteControlado<CadastroFornecedor> controleAcesso = new ComponenteControlado<CadastroFornecedor>(this);
+        controleAcesso.pronto(usuarioLogado.getTipo());
+        carregarEstado();
+        carregarCidade();
+        repaint();
+        revalidate();
+    }
+
+    private void cancelar() {
+        TelaPrincipal telaPrincipal = ApplicationContextConfig.getContext().getBean(TelaPrincipal.class);
+        telaPrincipal.cancelar();
+    }
+
+    private void adicionarComponente(JComponent componente, int valor) {
+        Map<String, Integer> parametros = new HashMap<String, Integer>();
+        TelasUtils.adicionarComponente(componente, valor, this, parametros);
+    }
+
+    private void adicionarContato() {
+        final Contato contato = new Contato();
+        abrirModalContato(contato);
+        if (StringUtils.isNotBlank(contato.getNome()) && StringUtils.isNotBlank(contato.getEmail())) {
+            ContatoFornecedor contatoFornecedo = new ContatoFornecedor();
+            contatoFornecedo.setContato(contato);
+            contatoFornecedo.setFornecedor(fornecedor);
+            listaContato.add(contatoFornecedo);
+            atualizaDesenhoTabela();
+        }
+    }
+
+    private void abrirModalContato(final Contato contato) {
+        Runnable runnable = new Runnable() {
+            public void run() {
+                try {
+                    CadastroContato dialog = new CadastroContato(contato);
+                    dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+                    dialog.setLocationRelativeTo(painel);
+                    dialog.setVisible(true);
+                } catch (Exception e) {
+                    LOGGER.error(e);
+                }
+            }
+        };
+        runnable.run();
+    }
+
+    private void atualizaDesenhoTabela() {
+        if (listaContato.size() > 0) {
+            new ButtonColumnEditar(tabela, null, modelGenerico.getCountadorColunas());
+            buttonColumnExcluir = new ButtonColumnExcluir(tabela, null, modelGenerico.getCountadorColunas() + 1);
+            if (TelasUtils.getUsuarioLogado() != null && TelasUtils.isPermision(Fornecedor.class, TelasUtils.getUsuarioLogado().getTipo())) {
+                buttonColumnExcluir.setEnabled(false);
+            }
+        }
+        if (!modelGenerico.getLista().equals(listaContato)) {
+            modelGenerico.getLista().clear();
+            for (ContatoFornecedor usuarioTelefone : listaContato) {
+                modelGenerico.getLista().add(usuarioTelefone);
+            }
+            listaContato = (List<ContatoFornecedor>) modelGenerico.getLista();
+
+        }
+        modelGenerico.fireTableDataChanged();
+        tabela.updateUI();
+    }
+
+    @SuppressWarnings("unchecked")
+    protected void eventoCliqueTabela(MouseEvent e) {
+        if (e.getClickCount() == 2) {
+            TableModelGenerico<ContatoFornecedor> model = (TableModelGenerico<ContatoFornecedor>) tabela.getModel();
+            boolean atualizaTabela = false;
+            int linha = tabela.getSelectedRow();
+            int coluna = tabela.getSelectedColumn();
+            ContatoFornecedor contatoFornecedor = listaContato.get(linha);
+
+            if (coluna == model.getCountadorColunas()) {
+                abrirModalContato(contatoFornecedor.getContato());
+                atualizaTabela = true;
+            } else if (coluna == model.getCountadorColunas() + 1 && (TelasUtils.getUsuarioLogado() != null && TelasUtils.isPermision(Fornecedor.class, TelasUtils.getUsuarioLogado().getTipo()))) {
+                int excluir = JOptionPane.showConfirmDialog(null, "Deseja excluir o registro: " + contatoFornecedor.getContatoNome() + " ?", "Excluir?", JOptionPane.YES_NO_OPTION);
+                if (excluir == JOptionPane.YES_OPTION) {
+                    int contador = 0;
+                    while (true) {
+                        if (listaContato.get(contador).equals(contatoFornecedor)) {
+                            ContatoFornecedor contatoFor = listaContato.get(contador);
+                            listaContato.remove(contatoFor);
+                            break;
+                        }
+                        contador++;
+                    }
+                }
+                atualizaTabela = true;
+            }
+            if (atualizaTabela) {
+                atualizaDesenhoTabela();
+            }
+        }
+    }
+
+    public JComboBox<Estado> getCbbEstado() {
+        return cbbEstado;
+    }
+
+    public void setCbbEstado(JComboBox<Estado> cbbEstado) {
+        this.cbbEstado = cbbEstado;
+    }
+
+    public JComboBox<Cidade> getCbbCidade() {
+        return cbbCidade;
+    }
+
+    public void setCbbCidade(JComboBox<Cidade> cbbCidade) {
+        this.cbbCidade = cbbCidade;
+    }
+
+    public JButton getBtnSalvar() {
+        return btnSalvar;
+    }
+
+    public void setBtnSalvar(JButton btnSalvar) {
+        this.btnSalvar = btnSalvar;
+    }
+
+    public JTextField getTxtCnpj() {
+        return txtCnpj;
+    }
+
+    public void setTxtCnpj(JTextField txtCnpj) {
+        this.txtCnpj = txtCnpj;
+    }
+
+    public JTextField getTxtInscricaoEstadual() {
+        return txtInscricaoEstadual;
+    }
+
+    public void setTxtInscricaoEstadual(JTextField txtInscricaoEstadual) {
+        this.txtInscricaoEstadual = txtInscricaoEstadual;
+    }
+
+    public JTextField getTxtNomeFantasia() {
+        return txtNomeFantasia;
+    }
+
+    public void setTxtNomeFantasia(JTextField txtNomeFantasia) {
+        this.txtNomeFantasia = txtNomeFantasia;
+    }
+
+    public JTextField getTxtRazaoSocial() {
+        return txtRazaoSocial;
+    }
+
+    public void setTxtRazaoSocial(JTextField txtRazaoSocial) {
+        this.txtRazaoSocial = txtRazaoSocial;
+    }
+
+    public JTextField getTxtEndereco() {
+        return txtEndereco;
+    }
+
+    public void setTxtEndereco(JTextField txtEndereco) {
+        this.txtEndereco = txtEndereco;
+    }
+
+    public JTextField getTxtNumero() {
+        return txtNumero;
+    }
+
+    public void setTxtNumero(JTextField txtNumero) {
+        this.txtNumero = txtNumero;
+    }
+
+    public JTextField getTxtBairro() {
+        return txtBairro;
+    }
+
+    public void setTxtBairro(JTextField txtBairro) {
+        this.txtBairro = txtBairro;
+    }
+
+    public JButton getBtnAdicionarContato() {
+        return btnAdicionarContato;
+    }
+
+    public void setBtnAdicionarContato(JButton btnAdicionarContato) {
+        this.btnAdicionarContato = btnAdicionarContato;
+    }
+
 }

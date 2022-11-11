@@ -6,7 +6,8 @@ import br.org.fgp.model.VendaItem;
 
 public interface ProdutoDao extends GenericoDao<Produto, Integer> {
 
-	void adicionaItensEstoque(VendaItem vendaItem);
-	void removeItensEstoque(VendaItem vendaItem);
+    void adicionaItensEstoque(VendaItem vendaItem);
+
+    void removeItensEstoque(VendaItem vendaItem);
 
 }

@@ -17,61 +17,62 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 import br.org.fgp.view.annotations.Pesquisa;
 
 @Entity
-@Table(name = "CONTATO_TELEFONE", indexes = { @Index(columnList = "IdContato"), @Index(columnList = "IdTelefone") }, uniqueConstraints = @UniqueConstraint(columnNames = {"IdContato", "IdTelefone"}))
+@Table(name = "CONTATO_TELEFONE", indexes = {@Index(columnList = "IdContato"), @Index(columnList = "IdTelefone")}, uniqueConstraints = @UniqueConstraint(columnNames = {"IdContato", "IdTelefone"}))
 public class ContatoTelefone {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
-	
-	@ManyToOne
-	@JoinColumn(name = "IdContato", nullable = false)
-	public Contato contato;
-	
-	@Valid
-	@ManyToOne
-	@JoinColumn(name = "IdTelefone", nullable = false)
-	public Telefone telefone;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-	public Contato getContato() {
-		return contato;
-	}
+    @ManyToOne
+    @JoinColumn(name = "IdContato", nullable = false)
+    public Contato contato;
 
-	public void setContato(Contato contato) {
-		this.contato = contato;
-	}
+    @Valid
+    @ManyToOne
+    @JoinColumn(name = "IdTelefone", nullable = false)
+    public Telefone telefone;
 
-	@Pesquisa(nome = "Telefone", posicao = 0)
-	public Telefone getTelefone() {
-		return telefone;
-	}
+    public Contato getContato() {
+        return contato;
+    }
 
-	public void setTelefone(Telefone telefone) {
-		this.telefone = telefone;
-	}
-	
+    public void setContato(Contato contato) {
+        this.contato = contato;
+    }
 
-	public Integer getId() {
-		return id;
-	}
+    @Pesquisa(nome = "Telefone", posicao = 0)
+    public Telefone getTelefone() {
+        return telefone;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
-	
-	@Override
-	public int hashCode() {
-		HashCodeBuilder builder = new HashCodeBuilder().append(id).append(contato).append(telefone);
-		return builder.toHashCode();
-	}
-	@Override
-	public boolean equals(Object obj) {
-		if(obj != null && obj instanceof ContatoTelefone){
-			ContatoTelefone other = (ContatoTelefone)obj;
-			EqualsBuilder builder = new EqualsBuilder().append(this.id, other.id).append(this.contato, other.contato).append(this.telefone, other.telefone);
-			return builder.isEquals();
-		}
-		return false;
-	}
+    public void setTelefone(Telefone telefone) {
+        this.telefone = telefone;
+    }
+
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    @Override
+    public int hashCode() {
+        HashCodeBuilder builder = new HashCodeBuilder().append(id).append(contato).append(telefone);
+        return builder.toHashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj != null && obj instanceof ContatoTelefone) {
+            ContatoTelefone other = (ContatoTelefone) obj;
+            EqualsBuilder builder = new EqualsBuilder().append(this.id, other.id).append(this.contato, other.contato).append(this.telefone, other.telefone);
+            return builder.isEquals();
+        }
+        return false;
+    }
 
 }

@@ -7,42 +7,42 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 @XStreamAlias(value = "movimentacao")
 public class MovimentacaoXML {
 
-	private String tipo;
-	private String data;
-	private String mes;
-	
-	private List<ProdutoXML> produtos;
+    private String tipo;
+    private String data;
+    private String mes;
 
-	public String getTipo() {
-		return tipo;
-	}
+    private List<ProdutoXML> produtos;
 
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
-	}
+    public String getTipo() {
+        return tipo;
+    }
 
-	public String getData() {
-		return data;
-	}
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
 
-	public void setData(String data) {
-		this.data = data;
-	}
+    public String getData() {
+        return data;
+    }
 
-	public String getMes() {
-		return mes;
-	}
+    public void setData(String data) {
+        this.data = data;
+    }
 
-	public void setMes(String mes) {
-		this.mes = mes;
-	}
+    public String getMes() {
+        return mes;
+    }
 
-	public List<ProdutoXML> getProdutos() {
-		return produtos;
-	}
+    public void setMes(String mes) {
+        this.mes = mes;
+    }
 
-	public void setProdutos(List<ProdutoXML> produtos) {
-		this.produtos = produtos;
-	}
+    public List<ProdutoXML> getProdutos() {
+        return produtos;
+    }
+
+    public void setProdutos(List<ProdutoXML> produtos) {
+        this.produtos = produtos;
+    }
 
 }

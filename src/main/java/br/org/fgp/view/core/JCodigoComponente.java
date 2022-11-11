@@ -3,29 +3,29 @@ package br.org.fgp.view.core;
 import javax.swing.JFormattedTextField;
 import javax.swing.text.NumberFormatter;
 
-public class JCodigoComponente extends JFormattedTextField{
-	
-	private static final long serialVersionUID = 5006998437108640905L;
-	
-	private Observador observer;
+public class JCodigoComponente extends JFormattedTextField {
 
-	public JCodigoComponente(NumberFormatter numberFormatter) {
-		super(numberFormatter);
-	}
+    private static final long serialVersionUID = 5006998437108640905L;
 
-	public Observador getObserver() {
-		return observer;
-	}
+    private Observador observer;
 
-	public void setObserver(Observador observer) {
-		this.observer = observer;
-	}
+    public JCodigoComponente(NumberFormatter numberFormatter) {
+        super(numberFormatter);
+    }
 
-	@Override
-	public void setText(String t) {
-		super.setText(t);
-		if(observer != null){
-			observer.update(null);
-		}
-	}
+    public Observador getObserver() {
+        return observer;
+    }
+
+    public void setObserver(Observador observer) {
+        this.observer = observer;
+    }
+
+    @Override
+    public void setText(String t) {
+        super.setText(t);
+        if (observer != null) {
+            observer.update(null);
+        }
+    }
 }

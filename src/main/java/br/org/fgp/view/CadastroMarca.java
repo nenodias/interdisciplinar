@@ -34,129 +34,127 @@ import br.org.fgp.view.core.Validador;
 @Controller
 public class CadastroMarca extends JDialog implements Inicializavel {
 
-	private static final long serialVersionUID = 4699949600267605436L;
+    private static final long serialVersionUID = 4699949600267605436L;
 
-	private static final Logger LOGGER = Logger.getLogger(CadastroMarca.class);
+    private static final Logger LOGGER = Logger.getLogger(CadastroMarca.class);
 
-	private static final String CLASS_NAME = "Marca";   
+    private static final String CLASS_NAME = "Marca";
 
-	private final JPanel contentPanel = new JPanel();
-	
-	private JTextField txtMarca;
+    private final JPanel contentPanel = new JPanel();
 
-	@Autowired
-	private MarcaDao marcaDao;
-	
-	private Marca marca;
+    private JTextField txtMarca;
 
-	private JSplitPane splitPane;
+    @Autowired
+    private MarcaDao marcaDao;
 
-	private JButton btnSalvar;
+    private Marca marca;
 
-	private JButton btnCancelar;
+    private JSplitPane splitPane;
 
-	public CadastroMarca() {
-		this.setModal(true);
-		setBounds(100, 100, 450, 300);
-		setSize(300, 200);
-		setTitle(CLASS_NAME);
-		setLocationRelativeTo(null);
-		contentPanel.setVisible(true);
-		setContentPane(contentPanel);
-		getContentPane().setLayout(null);
-		
-		adicionarComponente(new JCabecalhoLabel(CLASS_NAME), 0);
-		
-		adicionarComponente(new JLabel("Marca:"), 4);
-		txtMarca = new JTextField();
-		adicionarComponente(txtMarca, 4);
-		splitPane = new JSplitPane();
-		
-		adicionarComponente(splitPane, 8);
-		
-		btnSalvar = new JButtonSalvar();
-		if(getRootPane() != null){
-			getRootPane().setDefaultButton(btnSalvar);
-		}
-		splitPane.setLeftComponent(btnSalvar);
-		
-		btnCancelar = new JButtonCancelar();
-		splitPane.setRightComponent(btnCancelar);
-		
-		splitPane.setDividerLocation( ( ( Double ) ( TelasUtils.DEFAULT_LARGURA_COMPONENTE * 0.30 ) ).intValue()  );
-		
-		splitPane.setEnabled(false);
+    private JButton btnSalvar;
 
-		btnSalvar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				salvar();
-			}
+    private JButton btnCancelar;
 
-		});
-		btnCancelar.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				dispose();
-			}
-		});
-	}
+    public CadastroMarca() {
+        this.setModal(true);
+        setBounds(100, 100, 450, 300);
+        setSize(300, 200);
+        setTitle(CLASS_NAME);
+        setLocationRelativeTo(null);
+        contentPanel.setVisible(true);
+        setContentPane(contentPanel);
+        getContentPane().setLayout(null);
 
-	public MarcaDao getMarcaDao() {
-		return marcaDao;
-	}
+        adicionarComponente(new JCabecalhoLabel(CLASS_NAME), 0);
 
-	public void setMarcaDao(MarcaDao marcaDao) {
-		this.marcaDao = marcaDao;
-	}
+        adicionarComponente(new JLabel("Marca:"), 4);
+        txtMarca = new JTextField();
+        adicionarComponente(txtMarca, 4);
+        splitPane = new JSplitPane();
 
-	public void load(Integer id) {
-		init( TelasUtils.getUsuarioLogado() );
-		if(id != null){
-			marca = marcaDao.buscarPorId(id);
-			txtMarca.setText(marca.getMarca());
-		}else{
-			marca = new Marca();
-			txtMarca.setText(StringUtils.EMPTY);
-		}
-	}
-	
-	private void salvar(){
-		String mensagemSave = " atualizada ";
-		String mensagemFail = " atualizar ";
-		if(marca.getId() == null){
-			marca = new Marca();
-			mensagemSave = " salva ";
-			mensagemFail = " salvar ";
-		}
-		try{
-			marca.setMarca(txtMarca.getText());
-			Validador<Marca> validador = new  Validador<Marca>();
-			validador.validacaoCampos(marca);
-			marcaDao.salvar(marca);
-			JOptionPane.showMessageDialog(null, CLASS_NAME.concat(mensagemSave).concat("com sucesso.") );
-			marca = null;
-			txtMarca.setText(StringUtils.EMPTY);	
-			dispose();
-		}
-		catch(ValidationException e){
-			LOGGER.error(e);
-		}
-		catch(Exception ex){
-			JOptionPane.showMessageDialog(null, "Falha ao ".concat(mensagemFail).concat(" ").concat(CLASS_NAME).concat(".") );
-			LOGGER.error(ex);
-		}
-	}
+        adicionarComponente(splitPane, 8);
 
-	public void init(Usuario usuario){
-		ComponenteControlado<CadastroMarca> controleAcesso = new ComponenteControlado<CadastroMarca>(this); 
-		controleAcesso.pronto(TelasUtils.getUsuarioLogado().getTipo());
-	}
-	
-	private void adicionarComponente(JComponent componente, int valor){
-		Map<String, Integer> parametros = new HashMap<String, Integer>();
-		parametros.put(TelasUtils.PARAM_LARGURA_COMPONENTES, -100);
-		parametros.put(TelasUtils.PARAM_X, -120);
-		parametros.put(TelasUtils.PARAM_ESPACO, -5);
-		TelasUtils.adicionarComponente(componente, valor, contentPanel, parametros);
-	}
+        btnSalvar = new JButtonSalvar();
+        if (getRootPane() != null) {
+            getRootPane().setDefaultButton(btnSalvar);
+        }
+        splitPane.setLeftComponent(btnSalvar);
+
+        btnCancelar = new JButtonCancelar();
+        splitPane.setRightComponent(btnCancelar);
+
+        splitPane.setDividerLocation(((Double) (TelasUtils.DEFAULT_LARGURA_COMPONENTE * 0.30)).intValue());
+
+        splitPane.setEnabled(false);
+
+        btnSalvar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+                salvar();
+            }
+
+        });
+        btnCancelar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+            }
+        });
+    }
+
+    public MarcaDao getMarcaDao() {
+        return marcaDao;
+    }
+
+    public void setMarcaDao(MarcaDao marcaDao) {
+        this.marcaDao = marcaDao;
+    }
+
+    public void load(Integer id) {
+        init(TelasUtils.getUsuarioLogado());
+        if (id != null) {
+            marca = marcaDao.buscarPorId(id);
+            txtMarca.setText(marca.getMarca());
+        } else {
+            marca = new Marca();
+            txtMarca.setText(StringUtils.EMPTY);
+        }
+    }
+
+    private void salvar() {
+        String mensagemSave = " atualizada ";
+        String mensagemFail = " atualizar ";
+        if (marca.getId() == null) {
+            marca = new Marca();
+            mensagemSave = " salva ";
+            mensagemFail = " salvar ";
+        }
+        try {
+            marca.setMarca(txtMarca.getText());
+            Validador<Marca> validador = new Validador<Marca>();
+            validador.validacaoCampos(marca);
+            marcaDao.salvar(marca);
+            JOptionPane.showMessageDialog(null, CLASS_NAME.concat(mensagemSave).concat("com sucesso."));
+            marca = null;
+            txtMarca.setText(StringUtils.EMPTY);
+            dispose();
+        } catch (ValidationException e) {
+            LOGGER.error(e);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Falha ao ".concat(mensagemFail).concat(" ").concat(CLASS_NAME).concat("."));
+            LOGGER.error(ex);
+        }
+    }
+
+    public void init(Usuario usuario) {
+        ComponenteControlado<CadastroMarca> controleAcesso = new ComponenteControlado<CadastroMarca>(this);
+        controleAcesso.pronto(TelasUtils.getUsuarioLogado().getTipo());
+    }
+
+    private void adicionarComponente(JComponent componente, int valor) {
+        Map<String, Integer> parametros = new HashMap<String, Integer>();
+        parametros.put(TelasUtils.PARAM_LARGURA_COMPONENTES, -100);
+        parametros.put(TelasUtils.PARAM_X, -120);
+        parametros.put(TelasUtils.PARAM_ESPACO, -5);
+        TelasUtils.adicionarComponente(componente, valor, contentPanel, parametros);
+    }
 }

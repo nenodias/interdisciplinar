@@ -8,35 +8,35 @@ import com.thoughtworks.xstream.annotations.XStreamImplicit;
 
 @XStreamAlias(value = "dados")
 public class DadosXML {
-	
-	@XStreamImplicit
-	private List<MovimentacaoXML> movimentacao;
-	
-	private BigDecimal lucroBruto;
-	private BigDecimal lucroLiquido;
 
-	public List<MovimentacaoXML> getMovimentacao() {
-		return movimentacao;
-	}
+    @XStreamImplicit
+    private List<MovimentacaoXML> movimentacao;
 
-	public void setMovimentacao(List<MovimentacaoXML> movimentacao) {
-		this.movimentacao = movimentacao;
-	}
+    private BigDecimal lucroBruto;
+    private BigDecimal lucroLiquido;
 
-	public BigDecimal getLucroBruto() {
-		return lucroBruto;
-	}
+    public List<MovimentacaoXML> getMovimentacao() {
+        return movimentacao;
+    }
 
-	public void setLucroBruto(BigDecimal lucroBruto) {
-		this.lucroBruto = lucroBruto;
-	}
+    public void setMovimentacao(List<MovimentacaoXML> movimentacao) {
+        this.movimentacao = movimentacao;
+    }
 
-	public BigDecimal getLucroLiquido() {
-		return lucroLiquido;
-	}
+    public BigDecimal getLucroBruto() {
+        return lucroBruto;
+    }
 
-	public void setLucroLiquido(BigDecimal lucroLiquido) {
-		this.lucroLiquido = lucroLiquido;
-	}
+    public void setLucroBruto(BigDecimal lucroBruto) {
+        this.lucroBruto = lucroBruto;
+    }
+
+    public BigDecimal getLucroLiquido() {
+        return lucroLiquido;
+    }
+
+    public void setLucroLiquido(BigDecimal lucroLiquido) {
+        this.lucroLiquido = lucroLiquido;
+    }
 
 }

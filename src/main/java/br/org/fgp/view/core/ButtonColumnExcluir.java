@@ -5,15 +5,15 @@ import javax.swing.JButton;
 import javax.swing.JTable;
 
 public class ButtonColumnExcluir extends ButtonColumn {
-	
-	public ButtonColumnExcluir(JTable table, Action action, int column) {
-		super(table, action, column);
-	}
 
-	private static final long serialVersionUID = -142864966177167939L;
+    public ButtonColumnExcluir(JTable table, Action action, int column) {
+        super(table, action, column);
+    }
 
-	@Override
-	protected JButton getButton() {
-		return new JButtonExcluir();
-	}
+    private static final long serialVersionUID = -142864966177167939L;
+
+    @Override
+    protected JButton getButton() {
+        return new JButtonExcluir();
+    }
 }

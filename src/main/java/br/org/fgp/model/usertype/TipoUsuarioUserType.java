@@ -5,25 +5,25 @@ import br.org.fgp.model.enums.TipoUsuario;
 
 public class TipoUsuarioUserType extends IntegerUserType<TipoUsuario> {
 
-	public static final String USER_TYPE = "br.org.fgp.model.usertype.TipoUsuarioUserType";
-	
-	@Override
-	public Class<TipoUsuario> returnedClass() {
-		return TipoUsuario.class;
-	}
+    public static final String USER_TYPE = "br.org.fgp.model.usertype.TipoUsuarioUserType";
 
-	@Override
-	protected TipoUsuario getValue(Integer codigo) {
-		return TipoUsuario.generate(codigo);
-	}
+    @Override
+    public Class<TipoUsuario> returnedClass() {
+        return TipoUsuario.class;
+    }
 
-	@Override
-	protected Integer getInteger(Object value) {
-		Integer retorno = null;
-		if(value instanceof TipoUsuario){
-			TipoUsuario tipo = (TipoUsuario) value;
-			retorno = tipo.getCodigo();
-		}
-		return retorno;
-	}
+    @Override
+    protected TipoUsuario getValue(Integer codigo) {
+        return TipoUsuario.generate(codigo);
+    }
+
+    @Override
+    protected Integer getInteger(Object value) {
+        Integer retorno = null;
+        if (value instanceof TipoUsuario) {
+            TipoUsuario tipo = (TipoUsuario) value;
+            retorno = tipo.getCodigo();
+        }
+        return retorno;
+    }
 }

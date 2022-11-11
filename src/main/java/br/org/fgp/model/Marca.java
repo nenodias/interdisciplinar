@@ -17,43 +17,43 @@ import br.org.fgp.view.annotations.Pesquisa;
 @Entity
 @Table(name = "MARCA")
 public class Marca {
-	
-	private static final int MARCA_MAX = 30;
 
-	private static final String MARCA = "Marca";
+    private static final int MARCA_MAX = 30;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "IdMarca")
-	public Integer id;
-	
-	@NotBlank(message = MessagemUtil.CAMPO + MARCA + MessagemUtil.NOT_BLANK)
-	@Length(max = MARCA_MAX, message = MessagemUtil.CAMPO + MARCA + MessagemUtil.MAX +MARCA_MAX )
-	@Column(name = MARCA, length = MARCA_MAX)
-	@LabelDescricao
-	public String marca;
+    private static final String MARCA = "Marca";
 
-	@Pesquisa(nome = "Id", posicao = 0)
-	public Integer getId() {
-		return id;
-	}
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "IdMarca")
+    public Integer id;
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    @NotBlank(message = MessagemUtil.CAMPO + MARCA + MessagemUtil.NOT_BLANK)
+    @Length(max = MARCA_MAX, message = MessagemUtil.CAMPO + MARCA + MessagemUtil.MAX + MARCA_MAX)
+    @Column(name = MARCA, length = MARCA_MAX)
+    @LabelDescricao
+    public String marca;
 
-	@Pesquisa(nome = MARCA, posicao = 1)
-	public String getMarca() {
-		return marca;
-	}
+    @Pesquisa(nome = "Id", posicao = 0)
+    public Integer getId() {
+        return id;
+    }
 
-	public void setMarca(String marca) {
-		this.marca = marca;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	@Override
-	public String toString() {
-		return marca;
-	}
-	
+    @Pesquisa(nome = MARCA, posicao = 1)
+    public String getMarca() {
+        return marca;
+    }
+
+    public void setMarca(String marca) {
+        this.marca = marca;
+    }
+
+    @Override
+    public String toString() {
+        return marca;
+    }
+
 }

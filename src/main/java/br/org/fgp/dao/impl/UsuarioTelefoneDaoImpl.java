@@ -15,24 +15,24 @@ import br.org.fgp.model.UsuarioTelefone;
 
 @Repository
 public class UsuarioTelefoneDaoImpl extends GenericoDaoImpl<UsuarioTelefone, Integer> implements UsuarioTelefoneDao {
-	
-	@Autowired
-	private TelefoneDao telefoneDao;
-	
-	public List<UsuarioTelefone> buscarPorIdUsuario(Integer id){
-		return buscarPorCriteria(Restrictions.eq("usuario.id", id));
-	}
 
-	@Transactional
-	@Override
-	public void deletarPorIdUsuario(Integer id) {
-		List<UsuarioTelefone> listaBD = buscarPorIdUsuario(id);
-		int contador = 0;
-		while(contador != listaBD.size()){
-			UsuarioTelefone usuarioTelefone = listaBD.get(contador);
-			deletar(usuarioTelefone.getId());
-			telefoneDao.deletar(usuarioTelefone.getTelefone().getId());
-			listaBD.remove(contador);
-		}
-	}
+    @Autowired
+    private TelefoneDao telefoneDao;
+
+    public List<UsuarioTelefone> buscarPorIdUsuario(Integer id) {
+        return buscarPorCriteria(Restrictions.eq("usuario.id", id));
+    }
+
+    @Transactional
+    @Override
+    public void deletarPorIdUsuario(Integer id) {
+        List<UsuarioTelefone> listaBD = buscarPorIdUsuario(id);
+        int contador = 0;
+        while (contador != listaBD.size()) {
+            UsuarioTelefone usuarioTelefone = listaBD.get(contador);
+            deletar(usuarioTelefone.getId());
+            telefoneDao.deletar(usuarioTelefone.getTelefone().getId());
+            listaBD.remove(contador);
+        }
+    }
 }

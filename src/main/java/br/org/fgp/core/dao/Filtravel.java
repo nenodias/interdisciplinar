@@ -4,5 +4,5 @@ import java.util.List;
 
 
 public interface Filtravel<T> {
-	List<T> filtrarPorDescricao(String descricao);
+    List<T> filtrarPorDescricao(String descricao);
 }

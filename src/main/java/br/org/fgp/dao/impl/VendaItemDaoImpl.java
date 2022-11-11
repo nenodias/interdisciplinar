@@ -16,27 +16,27 @@ import br.org.fgp.model.VendaItem;
 @Repository
 public class VendaItemDaoImpl extends GenericoDaoImpl<VendaItem, Integer> implements VendaItemDao {
 
-	@Autowired
-	private ProdutoDao produtoDao;
-	
-	
-	@Override
-	@Transactional
-	public void deletarPorIdVenda(Integer id) {
-		List<VendaItem> listaBD = buscarPorIdVenda(id);
-		int contador = 0;
-		while(contador != listaBD.size()){
-			VendaItem vendaItem = listaBD.get(contador);
-			produtoDao.adicionaItensEstoque(vendaItem);
-			deletar(vendaItem.getId());
-			listaBD.remove(contador);
-		}
-	}
-	
-	@Override
-	public List<VendaItem> buscarPorIdVenda(Integer id){
-		return buscarPorCriteria(Restrictions.eq("venda.id", id));
-	}
+    @Autowired
+    private ProdutoDao produtoDao;
+
+
+    @Override
+    @Transactional
+    public void deletarPorIdVenda(Integer id) {
+        List<VendaItem> listaBD = buscarPorIdVenda(id);
+        int contador = 0;
+        while (contador != listaBD.size()) {
+            VendaItem vendaItem = listaBD.get(contador);
+            produtoDao.adicionaItensEstoque(vendaItem);
+            deletar(vendaItem.getId());
+            listaBD.remove(contador);
+        }
+    }
+
+    @Override
+    public List<VendaItem> buscarPorIdVenda(Integer id) {
+        return buscarPorCriteria(Restrictions.eq("venda.id", id));
+    }
 
 
 }

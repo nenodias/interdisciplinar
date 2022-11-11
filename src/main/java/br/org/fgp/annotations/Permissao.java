@@ -11,5 +11,5 @@ import br.org.fgp.model.enums.TipoUsuario;
 @Target(FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Permissao {
-	TipoUsuario tipo() default TipoUsuario.ADMINISTRADOR;
+    TipoUsuario tipo() default TipoUsuario.ADMINISTRADOR;
 }
