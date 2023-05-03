@@ -5,120 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="896022f4-3fc8-48be-a001-82d0cf216c2b" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/br/org/fgp/App.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/logback.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.classpath" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__antlr_antlr_2_7_7.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_annotations_2_13_3.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_core_2_13_3.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_databind_2_13_3.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_dataformat_jackson_dataformat_xml_2_13_3.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_woodstox_woodstox_core_6_2_7.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_protobuf_protobuf_java_3_11_4.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_lowagie_itext_2_1_7_js10.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_thoughtworks_xstream_xstream_1_4_7.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__commons_beanutils_commons_beanutils_1_9_4.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__commons_collections_commons_collections_3_0.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__commons_dbcp_commons_dbcp_1_4.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__commons_digester_commons_digester_2_1.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__commons_lang_commons_lang_2_5.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__commons_logging_commons_logging_1_1_1.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__commons_pool_commons_pool_1_5_4.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__dom4j_dom4j_1_6_1.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__javax_validation_validation_api_1_0_0_GA.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__junit_junit_4_11.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__log4j_log4j_1_2_17.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__mysql_mysql_connector_java_8_0_26.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__net_sf_jasperreports_jasperreports_6_20_0.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_commons_commons_collections4_4_2.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_bouncycastle_bcprov_jdk15on_1_70.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_bouncycastle_bcutil_jdk15on_1_70.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_codehaus_woodstox_stax2_api_4_2_1.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jdt_ecj_3_21_0.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_hamcrest_hamcrest_core_1_3.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_hibernate_common_hibernate_commons_annotations_4_0_4_Final.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_hibernate_hibernate_core_4_3_0_Final.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_hibernate_hibernate_entitymanager_4_3_0_Final.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_hibernate_hibernate_validator_4_3_0_Final.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_hibernate_javax_persistence_hibernate_jpa_2_1_api_1_0_0_Final.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_javassist_javassist_3_18_1_GA.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_jboss_jandex_1_1_0_Final.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_jboss_logging_jboss_logging_3_1_3_GA.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_jboss_logging_jboss_logging_annotations_1_2_0_Beta1.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_jboss_spec_javax_transaction_jboss_transaction_api_1_2_spec_1_0_0_Final.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_jfree_jcommon_1_0_23.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_jfree_jfreechart_1_0_19.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_postgresql_postgresql_9_3_1100_jdbc41.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_aop_4_3_18_RELEASE.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_beans_4_3_18_RELEASE.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_context_4_3_18_RELEASE.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_core_4_3_18_RELEASE.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_expression_4_3_18_RELEASE.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_jdbc_4_3_18_RELEASE.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_orm_4_3_18_RELEASE.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_tx_4_3_18_RELEASE.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__xalan_serializer_2_7_2.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__xalan_xalan_2_7_2.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__xml_apis_xml_apis_1_3_04.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__xmlpull_xmlpull_1_1_3_1.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__xpp3_xpp3_min_1_1_4c.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.project" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/interdisciplinar.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/nb-configuration.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/nbactions.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/org/fgp/core/ApplicationContextConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/org/fgp/core/ApplicationContextConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/org/fgp/core/CriarTabelas.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/org/fgp/core/CriarTabelas.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/org/fgp/core/InterdisciplinarReflectionUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/org/fgp/core/InterdisciplinarReflectionUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/org/fgp/core/SecurityUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/org/fgp/core/SecurityUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/org/fgp/core/TelasUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/org/fgp/core/TelasUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/org/fgp/core/usertype/IntegerUserType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/org/fgp/core/usertype/IntegerUserType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/org/fgp/core/usertype/StringUserType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/org/fgp/core/usertype/StringUserType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/org/fgp/dao/impl/ContatoFornecedorDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/org/fgp/dao/impl/ContatoFornecedorDaoImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/org/fgp/dao/impl/EntradaProdutoDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/org/fgp/dao/impl/EntradaProdutoDaoImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/org/fgp/dao/impl/FornecedorDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/org/fgp/dao/impl/FornecedorDaoImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/org/fgp/dao/impl/ProdutoDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/org/fgp/dao/impl/ProdutoDaoImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/org/fgp/model/Categoria.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/org/fgp/model/Categoria.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/org/fgp/model/Contato.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/org/fgp/model/Contato.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/org/fgp/model/ContatoFornecedor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/org/fgp/model/ContatoFornecedor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/org/fgp/model/ContatoTelefone.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/org/fgp/model/ContatoTelefone.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/org/fgp/model/Endereco.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/org/fgp/model/Endereco.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/org/fgp/model/EntradaProduto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/org/fgp/model/EntradaProduto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/org/fgp/model/Fornecedor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/org/fgp/model/Fornecedor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/org/fgp/model/Marca.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/org/fgp/model/Marca.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/org/fgp/model/Produto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/org/fgp/model/Produto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/org/fgp/model/Setor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/org/fgp/model/Setor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/org/fgp/model/Telefone.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/org/fgp/model/Telefone.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/org/fgp/model/Usuario.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/org/fgp/model/Usuario.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/org/fgp/model/UsuarioTelefone.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/org/fgp/model/UsuarioTelefone.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/org/fgp/model/Venda.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/org/fgp/model/Venda.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/org/fgp/model/VendaItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/org/fgp/model/VendaItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/org/fgp/view/CadastroCategoria.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/org/fgp/view/CadastroCategoria.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/org/fgp/view/CadastroContato.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/org/fgp/view/CadastroContato.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/org/fgp/view/CadastroEntradaProduto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/org/fgp/view/CadastroEntradaProduto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/org/fgp/view/CadastroFornecedor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/org/fgp/view/CadastroFornecedor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/org/fgp/view/CadastroMarca.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/org/fgp/view/CadastroMarca.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/org/fgp/view/CadastroProduto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/org/fgp/view/CadastroProduto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/org/fgp/view/CadastroSetor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/org/fgp/view/CadastroSetor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/org/fgp/view/CadastroUsuario.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/org/fgp/view/CadastroUsuario.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/org/fgp/view/CadastroVenda.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/org/fgp/view/CadastroVenda.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/org/fgp/view/CadastroVendaItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/org/fgp/view/CadastroVendaItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/org/fgp/view/Login.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/org/fgp/view/Login.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/org/fgp/view/TelaPrincipal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/org/fgp/view/TelaPrincipal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/org/fgp/view/TelaRelatorioGerencial.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/org/fgp/view/TelaRelatorioGerencial.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/org/fgp/view/core/ComponenteControlado.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/org/fgp/view/core/ComponenteControlado.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/org/fgp/view/core/JBusca.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/org/fgp/view/core/JBusca.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/org/fgp/view/core/JDialogBusca.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/org/fgp/view/core/JDialogBusca.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/org/fgp/view/core/TableModelGenerico.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/org/fgp/view/core/TableModelGenerico.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/org/fgp/view/core/Validador.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/org/fgp/view/core/Validador.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/META-INF/spring-config.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/META-INF/spring-config.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/hibernate.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/hibernate.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/log4j.xml" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -325,19 +213,19 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "master",
-    "last_opened_file_path": "C:/workspace/interdisciplinar",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "MavenSettings"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/workspace/interdisciplinar&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;MavenSettings&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="Application.App">
     <configuration default="true" type="AndroidRunConfigurationType" factoryName="Android Application">
       <module name="" />
