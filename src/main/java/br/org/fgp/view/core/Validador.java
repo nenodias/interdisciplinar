@@ -3,19 +3,24 @@ package br.org.fgp.view.core;
 import java.util.Set;
 
 import javax.swing.JOptionPane;
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.ValidationException;
-import javax.validation.ValidatorFactory;
 
 import br.org.fgp.core.MessagemUtil;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
+import jakarta.validation.ValidatorFactory;
+import jakarta.validation.ValidationException;
+import org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator;
 
 public class Validador<T> {
 
     public void validacaoCampos(T objeto) {
-        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-        javax.validation.Validator myValidate = factory.getValidator();
-        Set<ConstraintViolation<T>> validacao = myValidate.validate(objeto);
+        ValidatorFactory validatorFactory = Validation.byDefaultProvider()
+                .configure()
+                .messageInterpolator(new ParameterMessageInterpolator())
+                .buildValidatorFactory();
+        Validator validator = validatorFactory.getValidator();
+        Set<ConstraintViolation<T>> validacao = validator.validate(objeto);
         StringBuilder mensagem = new StringBuilder();
         boolean erro = false;
         for (ConstraintViolation<T> constraintViolation : validacao) {

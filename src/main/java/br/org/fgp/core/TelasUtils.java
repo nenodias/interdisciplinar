@@ -17,7 +17,6 @@ import javax.swing.text.MaskFormatter;
 import javax.swing.text.NumberFormatter;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 
 import br.org.fgp.model.Categoria;
 import br.org.fgp.model.EntradaProduto;
@@ -36,11 +35,13 @@ import br.org.fgp.view.CadastroProduto;
 import br.org.fgp.view.CadastroSetor;
 import br.org.fgp.view.CadastroUsuario;
 import br.org.fgp.view.CadastroVenda;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class TelasUtils {
 
     private static final String PATTERN_MOEDA = "0,00";
-    private static final Logger LOGGER = Logger.getLogger(TelasUtils.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TelasUtils.class);
     public static final int DEFAULT_ALTURA_COMPONENTE = 25;
     public static final int DEFAULT_LARGURA_COMPONENTE = 300;
     public static final int DEFAULT_X = 0;
@@ -148,7 +149,7 @@ public class TelasUtils {
             mascara = new MaskFormatter(mask);
             mascara.setValueContainsLiteralCharacters(true);
         } catch (ParseException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage(), e);
         }
         return mascara;
     }

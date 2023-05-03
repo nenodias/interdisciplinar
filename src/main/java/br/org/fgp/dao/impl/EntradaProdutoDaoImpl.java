@@ -5,8 +5,8 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 import javax.transaction.Transactional;
-import javax.validation.ValidationException;
 
+import jakarta.validation.ValidationException;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;

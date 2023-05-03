@@ -4,8 +4,9 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
-import org.apache.log4j.Logger;
 import org.hibernate.criterion.Restrictions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -18,7 +19,7 @@ import br.org.fgp.model.ContatoTelefone;
 @Repository
 public class ContatoFornecedorDaoImpl extends GenericoDaoImpl<ContatoFornecedor, Integer> implements ContatoFornecedorDao {
 
-    private static final Logger LOGGER = Logger.getLogger(ContatoFornecedorDaoImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ContatoFornecedorDaoImpl.class);
 
     @Autowired
     private ContatoTelefoneDao contatoTelefoneDao;
@@ -42,7 +43,7 @@ public class ContatoFornecedorDaoImpl extends GenericoDaoImpl<ContatoFornecedor,
                 listaBD.remove(contador);
             }
         } catch (Exception e) {
-            LOGGER.info(e);
+            LOGGER.info("{}",e.getMessage(), e);
         }
     }
 

@@ -11,11 +11,11 @@ import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.Digits;
-import javax.validation.constraints.NotNull;
 
 import br.org.fgp.core.MessagemUtil;
 import br.org.fgp.view.annotations.Pesquisa;
+import jakarta.validation.constraints.Digits;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "VENDA_ITEM", indexes = {@Index(columnList = "IdProduto"), @Index(columnList = "IdVenda")})

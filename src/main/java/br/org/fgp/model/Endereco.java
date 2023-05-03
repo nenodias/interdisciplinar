@@ -7,8 +7,8 @@ import javax.persistence.Embeddable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotBlank;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 import br.org.fgp.core.MessagemUtil;
 
@@ -30,17 +30,17 @@ public class Endereco implements Serializable {
     private static final long serialVersionUID = 3771961905394408023L;
 
     @NotBlank(message = MessagemUtil.CAMPO + RUA + MessagemUtil.NOT_BLANK)
-    @Length(max = RUA_MAX, message = MessagemUtil.CAMPO + RUA + MessagemUtil.MAX + RUA_MAX)
+    @Size(max = RUA_MAX, message = MessagemUtil.CAMPO + RUA + MessagemUtil.MAX + RUA_MAX)
     @Column(name = RUA, length = RUA_MAX)
     public String rua;
 
     @NotBlank(message = MessagemUtil.CAMPO + NUMERO + MessagemUtil.NOT_BLANK)
-    @Length(max = NUMERO_MAX, message = MessagemUtil.CAMPO + NUMERO + MessagemUtil.MAX + NUMERO_MAX)
+    @Size(max = NUMERO_MAX, message = MessagemUtil.CAMPO + NUMERO + MessagemUtil.MAX + NUMERO_MAX)
     @Column(name = NUMERO, length = NUMERO_MAX)
     public String numero;
 
     @NotBlank(message = MessagemUtil.CAMPO + BAIRRO + MessagemUtil.NOT_BLANK)
-    @Length(max = BAIRRO_MAX, message = MessagemUtil.CAMPO + BAIRRO + MessagemUtil.MAX + BAIRRO_MAX)
+    @Size(max = BAIRRO_MAX, message = MessagemUtil.CAMPO + BAIRRO + MessagemUtil.MAX + BAIRRO_MAX)
     @Column(name = BAIRRO, length = BAIRRO_MAX)
     public String bairro;
 

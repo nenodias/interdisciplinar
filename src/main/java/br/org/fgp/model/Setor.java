@@ -7,12 +7,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotBlank;
 
 import br.org.fgp.core.MessagemUtil;
 import br.org.fgp.view.annotations.LabelDescricao;
 import br.org.fgp.view.annotations.Pesquisa;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "SETOR")
@@ -28,7 +28,7 @@ public class Setor {
     public Integer id;
 
     @NotBlank(message = MessagemUtil.CAMPO + SETOR + MessagemUtil.NOT_BLANK)
-    @Length(max = SETOR_MAX, message = MessagemUtil.CAMPO + SETOR + MessagemUtil.MAX + SETOR_MAX)
+    @Size(max = SETOR_MAX, message = MessagemUtil.CAMPO + SETOR + MessagemUtil.MAX + SETOR_MAX)
     @Column(name = SETOR, length = SETOR_MAX)
     @LabelDescricao
     public String setor;

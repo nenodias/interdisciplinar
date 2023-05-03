@@ -19,8 +19,5 @@
         <module name="interdisciplinar" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="interdisciplinar" target="1.8" />
-    </bytecodeTargetLevel>
   </component>
 </project>

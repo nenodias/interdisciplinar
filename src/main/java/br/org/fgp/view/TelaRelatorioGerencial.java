@@ -31,7 +31,8 @@ import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.view.JasperViewer;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import br.org.fgp.core.ApplicationContextConfig;
@@ -73,7 +74,7 @@ public class TelaRelatorioGerencial extends JDialog {
     private static final ClassLoader LOADER = TelaRelatorioGerencial.class
             .getClassLoader();
 
-    private static final Logger LOGGER = Logger
+    private static final Logger LOGGER = LoggerFactory
             .getLogger(TelaRelatorioGerencial.class);
 
     @Autowired
@@ -304,7 +305,7 @@ public class TelaRelatorioGerencial extends JDialog {
         try {
             data = formatador.parse(dataTexto);
         } catch (Exception e) {
-            LOGGER.warn(e);
+            LOGGER.warn("{}",e.getMessage(), e);
         }
         return data;
     }

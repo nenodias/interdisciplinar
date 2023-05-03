@@ -10,6 +10,9 @@ import java.awt.event.ActionListener;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+import java.util.function.Supplier;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -31,6 +34,8 @@ import br.org.fgp.model.enums.TipoUsuario;
 import br.org.fgp.view.core.ComponenteControlado;
 import br.org.fgp.view.core.JButtonOk;
 import br.org.fgp.view.core.UILookAndFellManager;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class Login extends JFrame {
 
@@ -42,34 +47,17 @@ public class Login extends JFrame {
 
     protected JTextField txtUsuario;
 
-    static Login frame = new Login();
-
     @Autowired
     private UsuarioDao usuarioDao;
 
     private JPasswordField txtSenha;
     private JButton btnLogar;
-    private static Future<?> threadLogin;
+    private final Supplier<Future<?>> threadLogin;
 
     JLabel lblMsg = new JLabel("");
 
-    public static void main(String[] args) {
-
-        Runnable run = new Runnable() {
-            public void run() {
-                try {
-                    frame.setVisible(true);
-                    frame.setAlwaysOnTop(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        };
-        ExecutorService executadorServico = Executors.newSingleThreadExecutor();
-        threadLogin = executadorServico.submit(run);
-    }
-
-    public Login() {
+    public Login(Supplier<Future<?>> threadLogin) {
+        this.threadLogin = threadLogin;
         UILookAndFellManager.init();
         setTitle("Bem vindo");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -169,8 +157,8 @@ public class Login extends JFrame {
                     }
                 }
             });
-            frame.dispose();
-            threadLogin.cancel(true);
+            dispose();
+            threadLogin.get().cancel(true);
         } else {
             lblMsg.setText("Usuário ou senha inválidos.");
         }

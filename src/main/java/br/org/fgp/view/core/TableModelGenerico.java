@@ -6,13 +6,14 @@ import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 
 import br.org.fgp.view.annotations.Pesquisa;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class TableModelGenerico<T> extends AbstractTableModel {
 
-    private static final Logger LOGGER = Logger.getLogger(TableModelGenerico.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TableModelGenerico.class);
     private static final String EXCLUIR_LABEL = "Excluir";
     private static final String EDITAR_LABEL = "Editar";
     private static final long serialVersionUID = -6777048973027518361L;

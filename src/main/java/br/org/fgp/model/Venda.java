@@ -14,11 +14,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.Valid;
-import javax.validation.constraints.Digits;
 
 import br.org.fgp.core.MessagemUtil;
 import br.org.fgp.view.annotations.Pesquisa;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Digits;
 
 @Entity
 @Table(name = "VENDA", indexes = @Index(columnList = "IdUsuario"))

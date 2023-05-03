@@ -3,8 +3,8 @@ package br.org.fgp.dao.impl;
 import java.util.List;
 
 import javax.swing.JOptionPane;
-import javax.validation.ValidationException;
 
+import jakarta.validation.ValidationException;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 

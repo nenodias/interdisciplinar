@@ -5,8 +5,9 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
-import org.apache.log4j.Logger;
 import org.hibernate.criterion.Restrictions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import br.org.fgp.core.dao.Filtravel;
@@ -19,7 +20,7 @@ import br.org.fgp.model.Fornecedor;
 @Repository
 public class FornecedorDaoImpl extends GenericoDaoImpl<Fornecedor, Integer> implements FornecedorDao, Filtravel<Fornecedor> {
 
-    private static final Logger LOGGER = Logger.getLogger(FornecedorDaoImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(FornecedorDaoImpl.class);
 
     @Override
     public List<Fornecedor> filtrarPorDescricao(String descricao) {
@@ -53,7 +54,7 @@ public class FornecedorDaoImpl extends GenericoDaoImpl<Fornecedor, Integer> impl
                 }
             }
         } catch (Exception e) {
-            LOGGER.info(e);
+            LOGGER.info(e.getMessage(), e);
             fornecedor.setListaContato(new ArrayList<ContatoFornecedor>());
         }
     }

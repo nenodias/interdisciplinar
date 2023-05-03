@@ -12,12 +12,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotBlank;
 
 import br.org.fgp.core.MessagemUtil;
 
@@ -40,12 +40,12 @@ public class Contato {
     public Integer id;
 
     @NotBlank(message = MessagemUtil.CAMPO + EMAIL + MessagemUtil.NOT_BLANK)
-    @Length(max = EMAIL_MAX, message = MessagemUtil.CAMPO + EMAIL + MessagemUtil.MAX + EMAIL_MAX)
+    @Size(max = EMAIL_MAX, message = MessagemUtil.CAMPO + EMAIL + MessagemUtil.MAX + EMAIL_MAX)
     @Column(name = EMAIL, length = EMAIL_MAX)
     public String email;
 
     @NotBlank(message = MessagemUtil.CAMPO + NOME + MessagemUtil.NOT_BLANK)
-    @Length(max = NOME_MAX, message = MessagemUtil.CAMPO + NOME + MessagemUtil.MAX + NOME_MAX)
+    @Size(max = NOME_MAX, message = MessagemUtil.CAMPO + NOME + MessagemUtil.MAX + NOME_MAX)
     @Column(name = NOME, length = NOME_MAX)
     public String nome;
 

@@ -16,7 +16,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 
 import br.org.fgp.core.ApplicationContextConfig;
 import br.org.fgp.core.TelasUtils;
@@ -29,12 +28,14 @@ import br.org.fgp.view.core.JButtonOk;
 import br.org.fgp.view.core.JMoneyField;
 import br.org.fgp.view.core.Observador;
 import br.org.fgp.view.core.Validador;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CadastroVendaItem extends JDialog {
 
     private static final long serialVersionUID = -2894768848965803045L;
 
-    private static final Logger LOGGER = Logger.getLogger(CadastroVendaItem.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CadastroVendaItem.class);
 
     private JDialog dialog;
 
@@ -167,7 +168,7 @@ public class CadastroVendaItem extends JDialog {
                 BigDecimal preco = new BigDecimal(txtPrecoCusto.getText());
                 vendaItem.setValorUnitario(preco);
             } catch (Exception e) {
-                LOGGER.error(e);
+                LOGGER.error(e.getMessage(), e);
             }
         }
         if (StringUtils.isNotBlank(txtProduto.getText())) {
@@ -176,7 +177,7 @@ public class CadastroVendaItem extends JDialog {
                 Produto produto = produtoDao.buscarPorId(idProduto);
                 vendaItem.setProduto(produto);
             } catch (Exception e) {
-                LOGGER.error(e);
+                LOGGER.error(e.getMessage(), e);
             }
         }
         if (StringUtils.isNotBlank(txtQuantidade.getText()) || Integer.parseInt(txtQuantidade.getText()) > 0) {
@@ -184,7 +185,7 @@ public class CadastroVendaItem extends JDialog {
                 Integer quantidade = Integer.parseInt(txtQuantidade.getText());
                 vendaItem.setQuantidade(quantidade);
             } catch (Exception e) {
-                LOGGER.error(e);
+                LOGGER.error(e.getMessage(), e);
             }
         }
         Validador<VendaItem> validador = new Validador<VendaItem>();

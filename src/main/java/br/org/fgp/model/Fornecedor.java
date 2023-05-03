@@ -11,10 +11,10 @@ import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.Valid;
 
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotBlank;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 import br.org.fgp.core.MessagemUtil;
 import br.org.fgp.view.annotations.LabelDescricao;
@@ -46,23 +46,23 @@ public class Fornecedor {
     public Integer id;
 
     @NotBlank(message = MessagemUtil.CAMPO + CNPJ + MessagemUtil.NOT_BLANK)
-    @Length(max = CNPJ_MAX, message = MessagemUtil.CAMPO + CNPJ + MessagemUtil.MAX + CNPJ_MAX)
+    @Size(max = CNPJ_MAX, message = MessagemUtil.CAMPO + CNPJ + MessagemUtil.MAX + CNPJ_MAX)
     @Column(name = CNPJ, length = CNPJ_MAX)
     public String cnpj;
 
     @NotBlank(message = MessagemUtil.CAMPO + INSCRICAO_ESTADUAL + MessagemUtil.NOT_BLANK)
-    @Length(max = INSCRICAO_ESTADUAL_MAX, message = MessagemUtil.CAMPO + INSCRICAO_ESTADUAL + MessagemUtil.MAX + INSCRICAO_ESTADUAL_MAX)
+    @Size(max = INSCRICAO_ESTADUAL_MAX, message = MessagemUtil.CAMPO + INSCRICAO_ESTADUAL + MessagemUtil.MAX + INSCRICAO_ESTADUAL_MAX)
     @Column(name = "IncricaoEstadual", length = INSCRICAO_ESTADUAL_MAX)
     public String inscricaoEstadual;
 
     @NotBlank(message = MessagemUtil.CAMPO + NOME_FANTASIA + MessagemUtil.NOT_BLANK)
-    @Length(max = NOME_FANTASIA_MAX, message = MessagemUtil.CAMPO + NOME_FANTASIA + MessagemUtil.MAX + NOME_FANTASIA_MAX)
+    @Size(max = NOME_FANTASIA_MAX, message = MessagemUtil.CAMPO + NOME_FANTASIA + MessagemUtil.MAX + NOME_FANTASIA_MAX)
     @Column(name = "NomeFantasia", length = NOME_FANTASIA_MAX)
     @LabelDescricao
     public String nomeFantasia;
 
     @NotBlank(message = MessagemUtil.CAMPO + RAZAO_SOCIAL + MessagemUtil.NOT_BLANK)
-    @Length(max = RAZAO_SOCIAL_MAX, message = MessagemUtil.CAMPO + RAZAO_SOCIAL + MessagemUtil.MAX + RAZAO_SOCIAL_MAX)
+    @Size(max = RAZAO_SOCIAL_MAX, message = MessagemUtil.CAMPO + RAZAO_SOCIAL + MessagemUtil.MAX + RAZAO_SOCIAL_MAX)
     @Column(name = "RazaoSocial", length = RAZAO_SOCIAL_MAX)
     public String razaoSocial;
 

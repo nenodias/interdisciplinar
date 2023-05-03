@@ -7,10 +7,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotBlank;
 
 import br.org.fgp.core.MessagemUtil;
 import br.org.fgp.view.annotations.LabelDescricao;
@@ -30,7 +30,7 @@ public class Categoria {
     public Integer id;
 
     @NotBlank(message = MessagemUtil.CAMPO + CATEGORIA + MessagemUtil.NOT_BLANK)
-    @Length(max = CATEGORIA_MAX, message = MessagemUtil.CAMPO + CATEGORIA + MessagemUtil.MAX + CATEGORIA_MAX)
+    @Size(max = CATEGORIA_MAX, message = MessagemUtil.CAMPO + CATEGORIA + MessagemUtil.MAX + CATEGORIA_MAX)
     @Column(name = CATEGORIA, length = CATEGORIA_MAX)
     @LabelDescricao
     public String descricao;

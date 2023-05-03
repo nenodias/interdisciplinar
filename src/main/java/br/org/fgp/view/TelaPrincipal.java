@@ -14,7 +14,9 @@ import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import org.apache.log4j.Logger;
+import br.org.fgp.App;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 
 import br.org.fgp.annotations.Permissao;
@@ -64,7 +66,7 @@ public class TelaPrincipal extends JFrame implements Inicializavel {
 
     private static final ClassLoader LOADER = TelaPrincipal.class.getClassLoader();
 
-    private static final Logger LOGGER = Logger.getLogger(TelaPrincipal.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TelaPrincipal.class);
 
     private static final long serialVersionUID = -7747890711976699854L;
 
@@ -329,7 +331,7 @@ public class TelaPrincipal extends JFrame implements Inicializavel {
     }
 
     protected void logout() {
-        Login.main(null);
+        App.main(null);
     }
 
     protected void telaRelatorio() {
@@ -342,7 +344,7 @@ public class TelaPrincipal extends JFrame implements Inicializavel {
                         dialog.setLocationRelativeTo(frmInterdisciplinar);
                         dialog.setVisible(true);
                     } catch (Exception e) {
-                        LOGGER.error(e);
+                        LOGGER.error(e.getMessage(), e);
                     }
                 }
             };

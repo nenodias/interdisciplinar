@@ -4,11 +4,12 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.UUID;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public final class SecurityUtils {
 
-    private static final Logger LOGGER = Logger.getLogger(SecurityUtils.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SecurityUtils.class);
 
     private SecurityUtils() {
     }

@@ -13,10 +13,10 @@ http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
     <tx:annotation-driven/>
 
-    <context:component-scan base-package="br.org.fgp"/>
+    <context:component-scan base-package="br.org.fgp" />
 
     <bean id="propertyConfigurer"
-          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer ">
         <property name="locations">
             <list>
                 <value>classpath:hibernate.properties</value>
@@ -33,7 +33,7 @@ http://www.springframework.org/schema/context/spring-context-3.0.xsd">
     </bean>
 
     <!-- Criando o SessionFactory a partir do dataSource -->
-    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
         <property name="hibernateProperties">
             <props>
@@ -48,7 +48,7 @@ http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
     <!-- Criando o Gerente de Transação que irá fazer o controle da sessão com o Banco -->
     <bean id="transactionManager"
-          class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+          class="org.springframework.orm.hibernate5.HibernateTransactionManager">
         <property name="dataSource" ref="dataSource"/>
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>

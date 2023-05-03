@@ -14,10 +14,11 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
-import javax.validation.ValidationException;
 
+import jakarta.validation.ValidationException;
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -47,7 +48,7 @@ public class CadastroProduto extends JPanel implements Inicializavel {
 
     private static final String CLASS_NAME = "Produto";
 
-    private static final Logger LOGGER = Logger.getLogger(CadastroProduto.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CadastroProduto.class);
 
     @Autowired
     private MarcaDao marcaDao;
@@ -186,10 +187,10 @@ public class CadastroProduto extends JPanel implements Inicializavel {
             limparComponentes();
             cancelar();
         } catch (ValidationException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage(), e);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Falha ao ".concat(mensagemFail).concat(" ").concat(CLASS_NAME).concat("."));
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage(), ex);
         }
     }
 
@@ -253,6 +254,10 @@ public class CadastroProduto extends JPanel implements Inicializavel {
 
     public void setCategoriaDao(CategoriaDao categoriaDao) {
         this.categoriaDao = categoriaDao;
+    }
+
+    public void setProdutoDao(ProdutoDao produtoDao){
+        this.produtoDao = produtoDao;
     }
 
 

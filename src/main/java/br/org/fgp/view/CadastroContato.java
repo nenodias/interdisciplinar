@@ -20,7 +20,6 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 
 import br.org.fgp.core.ApplicationContextConfig;
 import br.org.fgp.core.TelasUtils;
@@ -37,12 +36,14 @@ import br.org.fgp.view.core.JButtonAdicionar;
 import br.org.fgp.view.core.JButtonCancelar;
 import br.org.fgp.view.core.JButtonOk;
 import br.org.fgp.view.core.TableModelGenerico;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CadastroContato extends JDialog {
 
     private static final long serialVersionUID = 908511701739184294L;
 
-    private static final Logger LOGGER = Logger.getLogger(CadastroContato.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CadastroContato.class);
 
     private Contato contato;
     private JDialog painel;
@@ -209,7 +210,7 @@ public class CadastroContato extends JDialog {
                     dialog.setLocationRelativeTo(painel);
                     dialog.setVisible(true);
                 } catch (Exception e) {
-                    LOGGER.error(e);
+                    LOGGER.error(e.getMessage(), e);
                 }
             }
         };

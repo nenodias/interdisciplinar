@@ -11,15 +11,15 @@ import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.Digits;
-import javax.validation.constraints.NotNull;
 
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotBlank;
+import jakarta.validation.constraints.Digits;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import br.org.fgp.core.MessagemUtil;
 import br.org.fgp.view.annotations.LabelDescricao;
 import br.org.fgp.view.annotations.Pesquisa;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "PRODUTO", indexes = {@Index(columnList = "IdCategoria"), @Index(columnList = "IdMarca")})
@@ -55,13 +55,13 @@ public class Produto {
     public Integer id;
 
     @NotBlank(message = MessagemUtil.CAMPO + NOME + MessagemUtil.NOT_BLANK)
-    @Length(max = NOME_MAX, message = MessagemUtil.CAMPO + NOME + MessagemUtil.MAX + NOME_MAX)
+    @Size(max = NOME_MAX, message = MessagemUtil.CAMPO + NOME + MessagemUtil.MAX + NOME_MAX)
     @Column(name = NOME, length = NOME_MAX)
     @LabelDescricao
     public String nome;
 
     @NotBlank(message = MessagemUtil.CAMPO + DESCRICAO + MessagemUtil.NOT_BLANK)
-    @Length(max = DESCRICAO_MAX, message = MessagemUtil.CAMPO + DESCRICAO + MessagemUtil.MAX + DESCRICAO_MAX)
+    @Size(max = DESCRICAO_MAX, message = MessagemUtil.CAMPO + DESCRICAO + MessagemUtil.MAX + DESCRICAO_MAX)
     @Column(name = "Descricao", length = DESCRICAO_MAX)
     public String descricao;
 

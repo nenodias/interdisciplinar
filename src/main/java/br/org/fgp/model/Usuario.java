@@ -12,11 +12,11 @@ import javax.persistence.Index;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
-import javax.validation.Valid;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import org.hibernate.annotations.Type;
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotBlank;
 
 import br.org.fgp.core.MessagemUtil;
 import br.org.fgp.model.enums.TipoUsuario;
@@ -43,12 +43,12 @@ public class Usuario {
     private Integer id;
 
     @NotBlank(message = MessagemUtil.CAMPO + LOGIN + MessagemUtil.NOT_BLANK)
-    @Length(max = LOGIN_MAX, message = MessagemUtil.CAMPO + LOGIN + MessagemUtil.MAX + LOGIN_MAX)
+    @Size(max = LOGIN_MAX, message = MessagemUtil.CAMPO + LOGIN + MessagemUtil.MAX + LOGIN_MAX)
     @Column(name = LOGIN, length = LOGIN_MAX)
     private String login;
 
     @NotBlank(message = MessagemUtil.CAMPO + SENHA + MessagemUtil.NOT_BLANK)
-    @Length(max = SENHA_MAX, message = MessagemUtil.CAMPO + SENHA + MessagemUtil.MAX + SENHA_MAX)
+    @Size(max = SENHA_MAX, message = MessagemUtil.CAMPO + SENHA + MessagemUtil.MAX + SENHA_MAX)
     @Column(name = SENHA, length = SENHA_MAX)
     private String senha;
 
@@ -57,14 +57,13 @@ public class Usuario {
     private TipoUsuario tipo;
 
     @NotBlank(message = MessagemUtil.CAMPO + NOME + MessagemUtil.NOT_BLANK)
-    @Length(max = NOME_MAX, message = MessagemUtil.CAMPO + NOME + MessagemUtil.MAX + NOME_MAX)
+    @Size(max = NOME_MAX, message = MessagemUtil.CAMPO + NOME + MessagemUtil.MAX + NOME_MAX)
     @Column(name = NOME, length = NOME_MAX)
     public String nome;
 
     @NotBlank(message = MessagemUtil.CAMPO + CPF + MessagemUtil.NOT_BLANK)
-    @Length(max = CPF_MAX, message = MessagemUtil.CAMPO + CPF + MessagemUtil.MAX + CPF_MAX)
+    @Size(max = CPF_MAX, message = MessagemUtil.CAMPO + CPF + MessagemUtil.MAX + CPF_MAX)
     @Column(name = CPF, length = CPF_MAX)
-    @org.hibernate.validator.constraints.br.CPF(message = MessagemUtil.CAMPO + CPF + MessagemUtil.INVALIDO)
     public String cpf;
 
     @Valid

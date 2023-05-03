@@ -6,7 +6,8 @@ import java.util.List;
 
 import javax.swing.JComponent;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 
@@ -26,7 +27,7 @@ import br.org.fgp.model.enums.TipoUsuario;
  */
 public class ComponenteControlado<T> {
 
-    private static final Logger LOGGER = Logger.getLogger(ComponenteControlado.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ComponenteControlado.class);
 
     private final Class<?> clazz;
 
@@ -43,16 +44,18 @@ public class ComponenteControlado<T> {
     }
 
     private void verificaInjecao(Class<?> clazz) {
-        List<Field> atributoComAnotacao = InterdisciplinarReflectionUtil.getAtributoComAnotacao(clazz, Autowired.class);
-        for (Field campo : atributoComAnotacao) {
-            ApplicationContext context = ApplicationContextConfig.getContext();
-            Method metodoSetter = InterdisciplinarReflectionUtil.getMetodoSet(clazz, campo);
-            try {
-                if (metodoSetter != null) {
-                    metodoSetter.invoke(frame, context.getBean(campo.getType()));
+        ApplicationContext context = ApplicationContextConfig.getContext();
+        if(context != null) {
+            List<Field> atributoComAnotacao = InterdisciplinarReflectionUtil.getAtributoComAnotacao(clazz, Autowired.class);
+            for (Field campo : atributoComAnotacao) {
+                Method metodoSetter = InterdisciplinarReflectionUtil.getMetodoSet(clazz, campo);
+                try {
+                    if (metodoSetter != null) {
+                        metodoSetter.invoke(frame, context.getBean(campo.getType()));
+                    }
+                } catch (Exception e) {
+                    LOGGER.info(e.getMessage(), e);
                 }
-            } catch (Exception e) {
-                LOGGER.info(e.getMessage(), e);
             }
         }
     }

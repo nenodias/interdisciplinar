@@ -12,9 +12,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
-import javax.validation.Valid;
 
 import br.org.fgp.view.annotations.Pesquisa;
+import jakarta.validation.Valid;
 
 @Entity
 @Table(name = "CONTATO_FORNECEDOR", indexes = {@Index(columnList = "IdContato"), @Index(columnList = "IdFornecedor")}, uniqueConstraints = @UniqueConstraint(columnNames = {"IdContato", "IdFornecedor"}))

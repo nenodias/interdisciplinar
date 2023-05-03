@@ -8,10 +8,10 @@ import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.Valid;
 
 import br.org.fgp.model.enums.TipoTelefone;
 import br.org.fgp.view.annotations.Pesquisa;
+import jakarta.validation.Valid;
 
 @Entity
 @Table(name = "USUARIO_TELEFONE", indexes = {@Index(columnList = "IdUsuario"), @Index(columnList = "IdTelefone")})

@@ -26,13 +26,14 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 
-import org.apache.log4j.Logger;
 
 import br.org.fgp.core.ApplicationContextConfig;
 import br.org.fgp.core.TelasUtils;
 import br.org.fgp.core.dao.Filtravel;
 import br.org.fgp.core.dao.GenericoDao;
 import br.org.fgp.view.TelaPrincipal;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class JDialogBusca<T, PK> extends JDialog {
 
@@ -40,7 +41,7 @@ public class JDialogBusca<T, PK> extends JDialog {
 
     private static final long serialVersionUID = 3237053657686708968L;
 
-    private static final Logger LOGGER = Logger.getLogger(JDialogBusca.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(JDialogBusca.class);
 
     private static final ClassLoader LOADER = JDialogBusca.class.getClassLoader();
 
@@ -200,7 +201,7 @@ public class JDialogBusca<T, PK> extends JDialog {
         try {
             daoGenerico.deletar((PK) id);
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("{}", e.getMessage(), e);
         }
         carregarTodosTabela();
     }
@@ -282,7 +283,7 @@ public class JDialogBusca<T, PK> extends JDialog {
             List<T> filtrarPorDescricao = filtravelDao.filtrarPorDescricao(txtFiltro.getText());
             carregarTabela(filtrarPorDescricao);
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("{}", e.getMessage(), e);
         }
     }
 

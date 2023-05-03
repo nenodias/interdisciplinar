@@ -19,18 +19,19 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 
 import br.org.fgp.core.InterdisciplinarReflectionUtil;
 import br.org.fgp.core.TelasUtils;
 import br.org.fgp.core.dao.GenericoDao;
 import br.org.fgp.view.annotations.LabelDescricao;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class JBusca<T, PK> extends JPanel implements EventListener {
 
     private static final long serialVersionUID = -314039162074460134L;
 
-    private static final Logger LOGGER = Logger.getLogger(JBusca.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(JBusca.class);
 
     private JTextField descricaoComponente;
 

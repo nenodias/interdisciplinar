@@ -1,18 +1,12 @@
 package br.org.fgp.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-import org.hibernate.annotations.Type;
-import org.hibernate.validator.constraints.Length;
-
 import br.org.fgp.core.MessagemUtil;
 import br.org.fgp.model.enums.TipoTelefone;
 import br.org.fgp.model.usertype.TipoTelefoneUserType;
+import jakarta.validation.constraints.Size;
+import org.hibernate.annotations.Type;
+
+import javax.persistence.*;
 
 
 @Entity
@@ -28,7 +22,7 @@ public class Telefone {
     @Column(name = "IdTelefone")
     private Integer id;
 
-    @Length(max = TELEFONE_MAX, message = MessagemUtil.CAMPO + TELEFONE + MessagemUtil.MAX + TELEFONE_MAX)
+    @Size(max = TELEFONE_MAX, message = MessagemUtil.CAMPO + TELEFONE + MessagemUtil.MAX + TELEFONE_MAX)
     @Column(name = TELEFONE, length = TELEFONE_MAX)
     public String telefone;
 

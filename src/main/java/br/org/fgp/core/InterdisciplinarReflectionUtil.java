@@ -1,15 +1,16 @@
 package br.org.fgp.core;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
-
 public class InterdisciplinarReflectionUtil {
 
-    private static final Logger LOGGER = Logger.getLogger(InterdisciplinarReflectionUtil.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(InterdisciplinarReflectionUtil.class);
     private static final String LITERAL_GET = "get";
     private static final String LITERAL_SET = "set";
 
